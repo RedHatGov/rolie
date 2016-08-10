@@ -15,6 +15,6 @@ public class test {
 	@Path("test")
 	public String add() 
 	{
-		return "Hello World!";
+		return "Hello World!!";
 	}
 }
