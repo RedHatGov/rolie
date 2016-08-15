@@ -1,11 +1,7 @@
-package gov.nist.rolie.polie.core;
-import java.io.BufferedInputStream;
+package gov.nist.rolie.polie.core.utils;
 import java.io.IOException;
 import java.io.InputStream;
-
 import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
@@ -20,13 +16,17 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 public class RolieModelValidator {
+	
+	//Instantiation Protector
+	private RolieModelValidator(){};
+	
 	private static final Logger log = LogManager.getLogger(RolieModelValidator.class);
 	
-	public static boolean isValid(Document document) throws ParserConfigurationException, IOException, SAXException
+	public static boolean validate(Document document) throws ParserConfigurationException, IOException, SAXException
 	{
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		
-		InputStream is = RolieModelValidator.class.getClassLoader().getResourceAsStream("test.xsd");
+		InputStream is = RolieModelValidator.class.getClassLoader().getResourceAsStream("atomSynd.xsd");
 		Source schemaFile = new StreamSource(is);
 		Schema schema = factory.newSchema(schemaFile); 
 
@@ -40,13 +40,5 @@ public class RolieModelValidator {
 			retval = false;
 		}
 		return retval;
-	}
-
-	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		dbFactory.setNamespaceAware(true);
-		DocumentBuilder parser = dbFactory.newDocumentBuilder();
-		Document document = parser.parse(RolieModelValidator.class.getClassLoader().getResourceAsStream("testEntry.xml"));
-		isValid(document);
 	}
 }

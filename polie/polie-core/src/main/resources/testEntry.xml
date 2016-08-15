@@ -1,3 +1,13 @@
-<?xml version="1.0"?>
-<test xmlns="urn:blah" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:blah test.xsd">
- </test>
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns="http://www.w3.org/2005/Atom">
+	<id>http://www.example.org/provider/vulns/123456</id>
+	<title>Sample Incident</title>
+	<published>2012-08-04T18:13:51.0Z</published>
+	<updated>2012-08-05T18:13:51.0Z</updated>
+	<category scheme="urn:ietf:params:rolie:information-type"
+		term="incident" />
+	<summary>A short description of this incident resource</summary>
+	<content type="application/xml"
+		src="http://www.example.org/provider/vulns/123456/data">
+	</content>
+</entry>  
