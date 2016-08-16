@@ -63,10 +63,6 @@
 			<groupId>org.eclipse.rdf4j</groupId>
 			<artifactId>rdf4j-sail-nativerdf</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty</artifactId>
-		</dependency>
 	</dependencies>
 	<build>
 		<finalName>polie-core</finalName>

@@ -10,8 +10,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 import gov.nist.rolie.polie.core.event.Delete;
 import gov.nist.rolie.polie.core.event.Get;
@@ -24,6 +24,9 @@ import gov.nist.rolie.polie.core.event.RESTEventVisitor;
 //All requests should match this Path as long as they start with the context path.
 @Path("{uri : .+}")
 public class IncomingEvents {
+	
+	// /rolie/collections/{feed-id}
+	// /rolie/entries/{entry-id}
 	
 	@Produces({"text/plain","application/xml","application/atom+xml"})
 	@GET
@@ -64,7 +67,7 @@ public class IncomingEvents {
 		VisitorManager vm = new VisitorManager();
 		Response response = null;
 		RESTEvent event = new Put(headers,x,uri);
-		vm.addVisitor(new RESTEventTestVisitor());
+		vm.addVisitor(new RESTEventValidationVisitor());
 		for (RESTEventVisitor visitor : vm.build()) 
 		{
 			response = event.accept(visitor);

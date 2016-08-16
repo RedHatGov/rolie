@@ -29,13 +29,12 @@ public class RESTEventTestVisitor implements RESTEventVisitor {
 	{
 		Response.ResponseBuilder rb = Response.status(200);
 		String uri = get.getURI();
-		String body = get.getBody();
 		String headers = ROLIEHttpUtils.parseHeaders(get.getHeaders());
 		rb.entity("This is the test visitor."
 				+ "\nThis was a Get request."
 				+ "\nThe URI passed is " + uri 
-				+ "\nThe body of the request is " + body
 				+ "\nThe headers of the request are " + headers);
+		//Runtime.addShutdownHook(); TODO
 		return rb.build();
 	}
 
