@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package gov.nist.rolie.polie.core.utils;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,13 +18,30 @@ import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RolieModelValidator.
+ */
 public class RolieModelValidator {
 	
+	/**
+	 * Instantiates a new rolie model validator.
+	 */
 	//Instantiation Protector
 	private RolieModelValidator(){};
 	
+	/** The Constant log. */
 	private static final Logger log = LogManager.getLogger(RolieModelValidator.class);
 	
+	/**
+	 * Validate.
+	 *
+	 * @param document the document
+	 * @return true, if successful
+	 * @throws ParserConfigurationException the parser configuration exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws SAXException the SAX exception
+	 */
 	public static boolean validate(Document document) throws ParserConfigurationException, IOException, SAXException
 	{
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
