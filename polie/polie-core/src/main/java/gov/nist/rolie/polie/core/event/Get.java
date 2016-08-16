@@ -1,24 +1,21 @@
 package gov.nist.rolie.polie.core.event;
 
+import java.util.Map;
+
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+
+import gov.nist.rolie.polie.core.visitors.RESTEventVisitor;
 
 public class Get extends AbstractRESTEvent implements RESTEvent {
 	
-	private String body;
-	
-	public Get(HttpHeaders headers,String body,String uri)
+	public Get(HttpHeaders headers,String uri)
 	{
 		super(uri,headers);
-
 	}
 	
 	@Override
-	public Response accept(RESTEventVisitor RESTEventVisitor) {
-		return RESTEventVisitor.visit(this);
+	public boolean accept(RESTEventVisitor RESTEventVisitor, ResponseBuilder rb, Map<String,Object> data) {
+		return RESTEventVisitor.visit(this, rb, data);
 	}
-
-//	/rolie/servicedocument
-//	/rolie/{feed-name}
-//	/rolie/{feed-name}/{entry}
 }

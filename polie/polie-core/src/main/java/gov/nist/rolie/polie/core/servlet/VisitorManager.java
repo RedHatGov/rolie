@@ -2,8 +2,14 @@ package gov.nist.rolie.polie.core.servlet;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-import gov.nist.rolie.polie.core.event.RESTEventVisitor;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
+
+import gov.nist.rolie.polie.core.event.RESTEvent;
+import gov.nist.rolie.polie.core.visitors.RESTEventVisitor;
 
 public class VisitorManager {
 
@@ -19,8 +25,18 @@ public class VisitorManager {
 		visitors.add(index, visitor);
 	}
 	
-	public List<RESTEventVisitor> build()
+	public Response execute(RESTEvent event, Map<String, Object> data)
 	{
-		return this.visitors;
+		ResponseBuilder rb = Response.status(Status.SERVICE_UNAVAILABLE);
+		for (RESTEventVisitor visitor : this.visitors) 
+		{
+			boolean processNext = event.accept(visitor, rb, data);
+			if (!processNext) 
+			{
+				break;
+			}
+		}
+		return rb.build();
 	}
+
 }
