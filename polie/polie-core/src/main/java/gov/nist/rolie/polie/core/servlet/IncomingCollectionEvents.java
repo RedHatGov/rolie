@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package gov.nist.rolie.polie.core.servlet;
 
 import java.util.HashMap;
@@ -25,15 +28,21 @@ import gov.nist.rolie.polie.core.visitors.DebugVisitor;
 import gov.nist.rolie.polie.core.visitors.RequestValidatorVisitor;
 import gov.nist.rolie.polie.core.visitors.UnimplementedVisitor;
 
+// TODO: Auto-generated Javadoc
 //This Path escapes all slashes in order to get all text that follows the context path.
+/**
+ * The Class IncomingCollectionEvents.
+ */
 //All requests should match this Path as long as they start with the context path.
 @Path("collections/{curi}")
 public class IncomingCollectionEvents {
+	
 	/**
-	 * 
-	 * @param curi         
-	 * @param headers
-	 * @return
+	 * Gets the.
+	 *
+	 * @param curi the curi
+	 * @param headers the headers
+	 * @return the response
 	 */
 	@Produces({"text/plain","application/xml","application/atom+xml"})
 	@GET
@@ -51,6 +60,14 @@ public class IncomingCollectionEvents {
 		
 	}
 
+	/**
+	 * Post.
+	 *
+	 * @param uri the uri
+	 * @param x the x
+	 * @param headers the headers
+	 * @return the response
+	 */
 	@Consumes({"application/xml","application/atom+xml"})
 	@Produces("application/xml")
 	@POST
@@ -66,6 +83,14 @@ public class IncomingCollectionEvents {
 		return vm.execute(post,data);
 	}
 	
+	/**
+	 * Put.
+	 *
+	 * @param uri the uri
+	 * @param x the x
+	 * @param headers the headers
+	 * @return the response
+	 */
 	@Consumes({"text/plain","application/xml"})
 	@Produces("text/plain")
 	@PUT
@@ -80,6 +105,14 @@ public class IncomingCollectionEvents {
 		return vm.execute(put,data);
 	}
 	
+	/**
+	 * Delete.
+	 *
+	 * @param uri the uri
+	 * @param x the x
+	 * @param headers the headers
+	 * @return the response
+	 */
 	@Consumes("text/plain")
 	@Produces("text/plain")
 	@DELETE

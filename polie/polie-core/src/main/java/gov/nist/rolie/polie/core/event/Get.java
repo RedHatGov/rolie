@@ -7,6 +7,10 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import gov.nist.rolie.polie.core.visitors.RESTEventVisitor;
 
+/**
+ * @author sab3
+ *
+ */
 public class Get extends AbstractRESTEvent implements RESTEvent {
 	
 	public Get(HttpHeaders headers,String uri)

@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package gov.nist.rolie.polie.core.servlet;
 
 import java.util.HashMap;
@@ -24,11 +27,22 @@ import gov.nist.rolie.polie.core.visitors.CollectionRetrivalVisitor;
 import gov.nist.rolie.polie.core.visitors.RequestValidatorVisitor;
 import gov.nist.rolie.polie.core.visitors.UnimplementedVisitor;
 
+// TODO: Auto-generated Javadoc
 //This Path escapes all slashes in order to get all text that follows the context path.
+/**
+ * The Class IncomingEntryEvents.
+ */
 //All requests should match this Path as long as they start with the context path.
 @Path("entries/{euri}")
 public class IncomingEntryEvents {
 	
+	/**
+	 * Gets the.
+	 *
+	 * @param uri the uri
+	 * @param headers the headers
+	 * @return the response
+	 */
 	@Produces({"text/plain","application/xml","application/atom+xml"})
 	@GET
 	public static Response get(@PathParam("euri") String uri, @Context HttpHeaders headers)
@@ -45,6 +59,14 @@ public class IncomingEntryEvents {
 		
 	}
 
+	/**
+	 * Post.
+	 *
+	 * @param uri the uri
+	 * @param x the x
+	 * @param headers the headers
+	 * @return the response
+	 */
 	@Consumes({"application/xml","application/atom+xml"})
 	@Produces("application/xml")
 	@POST
@@ -60,6 +82,14 @@ public class IncomingEntryEvents {
 		return vm.execute(post,data);
 	}
 	
+	/**
+	 * Put.
+	 *
+	 * @param uri the uri
+	 * @param x the x
+	 * @param headers the headers
+	 * @return the response
+	 */
 	@Consumes({"text/plain","application/xml"})
 	@Produces("text/plain")
 	@PUT
@@ -74,6 +104,14 @@ public class IncomingEntryEvents {
 		return vm.execute(put,data);
 	}
 	
+	/**
+	 * Delete.
+	 *
+	 * @param uri the uri
+	 * @param x the x
+	 * @param headers the headers
+	 * @return the response
+	 */
 	@Consumes("text/plain")
 	@Produces("text/plain")
 	@DELETE

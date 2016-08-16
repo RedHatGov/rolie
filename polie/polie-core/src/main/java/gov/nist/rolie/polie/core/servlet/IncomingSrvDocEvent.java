@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package gov.nist.rolie.polie.core.servlet;
 
 import java.util.HashMap;
@@ -15,10 +18,21 @@ import gov.nist.rolie.polie.core.event.Get;
 import gov.nist.rolie.polie.core.event.RESTEvent;
 import gov.nist.rolie.polie.core.visitors.UnimplementedVisitor;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class IncomingSrvDocEvent.
+ */
 @Path("rolie/servicedocument")
 public class IncomingSrvDocEvent 
 {
 	
+	/**
+	 * Gets the.
+	 *
+	 * @param curi the curi
+	 * @param headers the headers
+	 * @return the response
+	 */
 	@Produces({"text/plain","application/xml","application/atom+xml"})
 	@GET
 	public static Response get(@PathParam("euri") String curi, @Context HttpHeaders headers)

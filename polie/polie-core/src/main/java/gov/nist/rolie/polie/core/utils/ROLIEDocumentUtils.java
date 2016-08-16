@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package gov.nist.rolie.polie.core.utils;
 
 import java.io.File;
@@ -12,11 +15,27 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ROLIEDocumentUtils.
+ */
 public class ROLIEDocumentUtils {
 	
+	/**
+	 * Instantiates a new ROLIE document utils.
+	 */
 	//Instantiation Protector
 	private ROLIEDocumentUtils(){};
 	
+	/**
+	 * Builds the doc from text.
+	 *
+	 * @param raw the raw
+	 * @return the document
+	 * @throws ParserConfigurationException the parser configuration exception
+	 * @throws SAXException the SAX exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public static Document buildDocFromText(String raw) throws ParserConfigurationException, SAXException, IOException
 	{
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -26,6 +45,15 @@ public class ROLIEDocumentUtils {
 		return document;
 	}
 	
+	/**
+	 * Builds the doc from file path.
+	 *
+	 * @param path the path
+	 * @return the document
+	 * @throws ParserConfigurationException the parser configuration exception
+	 * @throws SAXException the SAX exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public static Document buildDocFromFilePath(String path) throws ParserConfigurationException, SAXException, IOException
 	{
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -36,6 +64,15 @@ public class ROLIEDocumentUtils {
 		return document;
 	}
 	
+	/**
+	 * Builds the doc from file.
+	 *
+	 * @param file the file
+	 * @return the document
+	 * @throws ParserConfigurationException the parser configuration exception
+	 * @throws SAXException the SAX exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public static Document buildDocFromFile(File file) throws ParserConfigurationException, SAXException, IOException
 	{
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
