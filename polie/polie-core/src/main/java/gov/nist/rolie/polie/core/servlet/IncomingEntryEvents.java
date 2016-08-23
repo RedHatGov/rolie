@@ -24,7 +24,9 @@ import gov.nist.rolie.polie.core.event.Post;
 import gov.nist.rolie.polie.core.event.Put;
 import gov.nist.rolie.polie.core.event.RESTEvent;
 import gov.nist.rolie.polie.core.visitors.CollectionRetrivalVisitor;
+import gov.nist.rolie.polie.core.visitors.EntryRetrivalVisitor;
 import gov.nist.rolie.polie.core.visitors.RequestValidatorVisitor;
+import gov.nist.rolie.polie.core.visitors.ResponseBuilderVisitor;
 import gov.nist.rolie.polie.core.visitors.UnimplementedVisitor;
 
 // TODO: Auto-generated Javadoc
@@ -51,9 +53,14 @@ public class IncomingEntryEvents {
 		RESTEvent get = new Get(headers,uri);
 		
 		VisitorManager vm = new VisitorManager();
-		vm.addVisitor(new UnimplementedVisitor());
+		vm.addVisitor(new RequestValidatorVisitor());
+		vm.addVisitor(new EntryRetrivalVisitor());
+		vm.addVisitor(new ResponseBuilderVisitor());
+		//vm.addVisitor(new DebugVisitor());
 		
 		Map<String,Object> data = new HashMap<>();
+		data.put("uri", uri);
+		data.put("headers", headers.getRequestHeaders());
 		
 		return vm.execute(get,data);
 		

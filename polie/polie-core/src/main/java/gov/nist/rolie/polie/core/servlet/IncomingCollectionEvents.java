@@ -26,6 +26,7 @@ import gov.nist.rolie.polie.core.event.RESTEvent;
 import gov.nist.rolie.polie.core.visitors.CollectionRetrivalVisitor;
 import gov.nist.rolie.polie.core.visitors.DebugVisitor;
 import gov.nist.rolie.polie.core.visitors.RequestValidatorVisitor;
+import gov.nist.rolie.polie.core.visitors.ResponseBuilderVisitor;
 import gov.nist.rolie.polie.core.visitors.UnimplementedVisitor;
 
 // TODO: Auto-generated Javadoc
@@ -46,15 +47,20 @@ public class IncomingCollectionEvents {
 	 */
 	@Produces({"text/plain","application/xml","application/atom+xml"})
 	@GET
-	public static Response get(@PathParam("curi") String curi, @Context HttpHeaders headers)
+	public static Response get(@PathParam("curi") String uri, @Context HttpHeaders headers)
 	{
 		
-		RESTEvent get = new Get(headers,curi);
+		RESTEvent get = new Get(headers,uri);
 		
 		VisitorManager vm = new VisitorManager();
-		vm.addVisitor(new DebugVisitor());
+		vm.addVisitor(new RequestValidatorVisitor());
+		vm.addVisitor(new CollectionRetrivalVisitor());
+		vm.addVisitor(new ResponseBuilderVisitor());
+		//vm.addVisitor(new DebugVisitor());
 		
 		Map<String,Object> data = new HashMap<>();
+		data.put("uri", uri);
+		data.put("headers", headers.getRequestHeaders());
 		
 		return vm.execute(get,data);
 		

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import gov.nist.rolie.polie.core.database.DatabaseAPI;
 import gov.nist.rolie.polie.core.event.Delete;
 import gov.nist.rolie.polie.core.event.Get;
 import gov.nist.rolie.polie.core.event.Post;
@@ -23,8 +24,11 @@ public class CollectionRetrivalVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-		// TODO Auto-generated method stub
-		return false;
+		String uri = (String)data.get("uri");
+		String collection = DatabaseAPI.retrieveCollection(uri);
+		data.put("body", collection);
+		rb.status(200);
+		return true;
 	}
 
 	/* (non-Javadoc)

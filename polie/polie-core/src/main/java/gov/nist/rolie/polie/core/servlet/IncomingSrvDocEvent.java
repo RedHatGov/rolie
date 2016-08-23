@@ -16,6 +16,10 @@ import javax.ws.rs.core.Response;
 
 import gov.nist.rolie.polie.core.event.Get;
 import gov.nist.rolie.polie.core.event.RESTEvent;
+import gov.nist.rolie.polie.core.visitors.CollectionRetrivalVisitor;
+import gov.nist.rolie.polie.core.visitors.RequestValidatorVisitor;
+import gov.nist.rolie.polie.core.visitors.ResponseBuilderVisitor;
+import gov.nist.rolie.polie.core.visitors.ServiceDocumentRetrivalVisitor;
 import gov.nist.rolie.polie.core.visitors.UnimplementedVisitor;
 
 // TODO: Auto-generated Javadoc
@@ -35,15 +39,20 @@ public class IncomingSrvDocEvent
 	 */
 	@Produces({"text/plain","application/xml","application/atom+xml"})
 	@GET
-	public static Response get(@PathParam("euri") String curi, @Context HttpHeaders headers)
+	public static Response get(@Context HttpHeaders headers)
 	{
 		
-		RESTEvent get = new Get(headers,curi);
+		RESTEvent get = new Get(headers,"");
 		
 		VisitorManager vm = new VisitorManager();
-		vm.addVisitor(new UnimplementedVisitor());
+		vm.addVisitor(new RequestValidatorVisitor());
+		vm.addVisitor(new ServiceDocumentRetrivalVisitor());
+		vm.addVisitor(new ResponseBuilderVisitor());
+		//vm.addVisitor(new DebugVisitor());
 		
 		Map<String,Object> data = new HashMap<>();
+		data.put("uri", "");
+		data.put("headers", headers.getRequestHeaders());
 		
 		return vm.execute(get,data);
 		

@@ -24,9 +24,15 @@ public class DebugVisitor implements RESTEventVisitor {
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
 		rb=rb.status(200);
-		rb=rb.entity("This is the debug responder."
+		String debugString = "This is the debug responder."
 				+ "\nThis is a GET request."
-				+ "\nData Dump: \n " + data.toString());
+				+ "\nData dump follows:\n";
+		
+		for (Map.Entry<String,Object> entry : data.entrySet())
+		{
+			debugString+="\n" + entry.getKey() + " : " + entry.getValue().toString();
+		}
+		rb=rb.entity(debugString);
 		return false;
 	}
 
@@ -35,10 +41,16 @@ public class DebugVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
-		rb.status(200);
-		rb.entity("This is the debug responder."
+		rb=rb.status(200);
+		String debugString = "This is the debug responder."
 				+ "\nThis is a POST request."
-				+ "\nData Dump: \n\n " + data.toString());
+				+ "\nData dump follows:\n";
+		
+		for (Map.Entry<String,Object> entry : data.entrySet())
+		{
+			debugString+="\n" + entry.getKey() + " : " + entry.getValue().toString();
+		}
+		rb=rb.entity(debugString);
 		return false;
 	}
 
@@ -47,10 +59,16 @@ public class DebugVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-		rb.status(200);
-		rb.entity("This is the debug responder."
+		rb=rb.status(200);
+		String debugString = "This is the debug responder."
 				+ "\nThis is a PUT request."
-				+ "\nData Dump: \n " + data.toString());
+				+ "\nData dump follows:\n";
+		
+		for (Map.Entry<String,Object> entry : data.entrySet())
+		{
+			debugString+="\n" + entry.getKey() + " : " + entry.getValue().toString();
+		}
+		rb=rb.entity(debugString);
 		return false;
 	}
 
@@ -59,11 +77,17 @@ public class DebugVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
-		rb.status(200);
-		rb.entity("This is the debug responder."
+		rb=rb.status(200);
+		String debugString = "This is the debug responder."
 				+ "\nThis is a DELETE request."
-				+ "\nData Dump: \n " + data.toString());
-		return false; 
+				+ "\nData dump follows:\n";
+		
+		for (Map.Entry<String,Object> entry : data.entrySet())
+		{
+			debugString+="\n" + entry.getKey() + " : " + entry.getValue().toString();
+		}
+		rb=rb.entity(debugString);
+		return false;
 	}
 
 }
