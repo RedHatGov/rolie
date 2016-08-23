@@ -12,21 +12,46 @@ public class DatabaseAPI {
 	/**
 	 * Store.
 	 */
-	public static void store()
+	public static boolean createCollection(String uri,String data)
 	{
-		
+		return textPersist.put(uri,data);
 	}
 	
-	
-	/**
-	 * Retrieve.
-	 *
-	 * @param uri the uri
-	 * @return the string
-	 */
-	public static String retrieve(String uri)
+	public static boolean createEntry(String uri,String data)
 	{
-		return "<entry><entry>";
+		return textPersist.put(uri,data);
 	}
 	
+	public static boolean updateCollection(String uri,String data)
+	{
+		return textPersist.put(uri,data);
+	}
+	
+	public static boolean updateEntry(String uri,String data)
+	{
+		return textPersist.put(uri,data);
+	}
+
+	public static boolean deleteCollection(String uri)
+	{
+		return textPersist.delete(uri);
+	}
+	
+	public static boolean deleteEntry(String uri)
+	{
+		return textPersist.delete(uri);
+	}
+	
+	public static String retrieveCollection(String uri)
+	{
+		return textPersist.get("collections/"+uri);
+	}
+	public static String retrieveEntry(String uri)
+	{
+		return textPersist.get("entries/"+uri);
+	}
+	public static String retrieveServiceDocument()
+	{
+		return textPersist.get("rolie/servicedocument");
+	}
 }

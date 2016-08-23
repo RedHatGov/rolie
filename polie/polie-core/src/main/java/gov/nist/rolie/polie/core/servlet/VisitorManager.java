@@ -20,11 +20,11 @@ import gov.nist.rolie.polie.core.visitors.RESTEventVisitor;
  */
 public class VisitorManager {
 
-	/** The visitors. */
+	/** The list of  */
 	private List<RESTEventVisitor> visitors = new LinkedList<>();
 	
 	/**
-	 * Adds the visitor.
+	 * 
 	 *
 	 * @param visitor the visitor
 	 */

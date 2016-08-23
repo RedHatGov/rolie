@@ -24,7 +24,7 @@ public class RequestValidatorVisitor implements RESTEventVisitor {
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	/* (non-Javadoc)
