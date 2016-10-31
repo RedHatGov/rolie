@@ -20,13 +20,13 @@ import gov.nist.rolie.polie.core.visitors.RESTEventVisitor;
  */
 public class VisitorManager {
 
-	/** The list of  */
+	/** The list of visitors for this manager. Note that the order matters.*/
 	private List<RESTEventVisitor> visitors = new LinkedList<>();
 	
 	/**
-	 * 
+	 * Adds a visitor to the end of the visitor list
 	 *
-	 * @param visitor the visitor
+	 * @param visitor Visitor object to add to the list
 	 */
 	public void addVisitor(RESTEventVisitor visitor)
 	{
@@ -34,10 +34,10 @@ public class VisitorManager {
 	}
 	
 	/**
-	 * Adds the visitor.
+	 * Adds a visitor to the visitor list at the specified index
 	 *
-	 * @param index the index
-	 * @param visitor the visitor
+	 * @param visitor Visitor object to add to the list
+	 * @param index integer index at which the visitor is added.
 	 */
 	public void addVisitor(int index, RESTEventVisitor visitor)
 	{
@@ -45,7 +45,10 @@ public class VisitorManager {
 	}
 	
 	/**
-	 * Execute.
+	 * Visitor Execution loop. All visitors that are currently in the visitor list are executed in order.
+	 *  data and rb are passed by reference and used to pass information from visitor to visitor and to 
+	 *  incrementally build the response, respectively. A visitor may cease the execution chain at any time
+	 *  if an error occurs. Later visitors may overwrite response characteristics.
 	 *
 	 * @param event the event
 	 * @param data the data

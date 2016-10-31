@@ -25,25 +25,41 @@ import gov.nist.rolie.polie.core.event.Put;
 import gov.nist.rolie.polie.core.event.RESTEvent;
 import gov.nist.rolie.polie.core.visitors.CollectionRetrivalVisitor;
 import gov.nist.rolie.polie.core.visitors.DebugVisitor;
+import gov.nist.rolie.polie.core.visitors.RESTEventVisitor;
 import gov.nist.rolie.polie.core.visitors.RequestValidatorVisitor;
 import gov.nist.rolie.polie.core.visitors.ResponseBuilderVisitor;
 import gov.nist.rolie.polie.core.visitors.UnimplementedVisitor;
 
-// TODO: Auto-generated Javadoc
-//This Path escapes all slashes in order to get all text that follows the context path.
 /**
  * The Class IncomingCollectionEvents.
+ * 
+ * Handles all incoming HTTP requests on collections. In this implementation the URIs for collections all start
+ * with collections/. The PathParam curi is the resource URI of the collection. 
  */
-//All requests should match this Path as long as they start with the context path.
 @Path("collections/{curi}")
 public class IncomingCollectionEvents {
 	
+	//Visitors
+	private static final RESTEventVisitor REQUEST_VALIDATOR_VISITOR = new RequestValidatorVisitor();
+	
+
+	// visitor managers
+	private static final VisitorManager GET_COLLECTION_VM;
+	
+	static {
+		DefaultVisitorManager obj = new VisitorManagerImpl();
+		obj.addVisitor(visitor);
+		GET_COLLECTION_VM = obj;
+	}
+	
+	
 	/**
-	 * Gets the.
+	 * GET request handler on the collection URIs
 	 *
-	 * @param curi the curi
-	 * @param headers the headers
-	 * @return the response
+	 * @param curi The URI of the collection, generated from the PathParam from the request
+	 * @param headers The headers of the request
+	 * @return The built HTTP response. Note that the returned response is automatically sent to the requesting agent
+	 * 			right after completion of the method.
 	 */
 	@Produces({"text/plain","application/xml","application/atom+xml"})
 	@GET
@@ -53,36 +69,36 @@ public class IncomingCollectionEvents {
 		RESTEvent get = new Get(headers,uri);
 		
 		VisitorManager vm = new VisitorManager();
-		vm.addVisitor(new RequestValidatorVisitor());
+//		vm.addVisitor(REQUEST_VALIDATOR_VISITOR);
 		vm.addVisitor(new CollectionRetrivalVisitor());
-		vm.addVisitor(new ResponseBuilderVisitor());
 		//vm.addVisitor(new DebugVisitor());
 		
 		Map<String,Object> data = new HashMap<>();
 		data.put("uri", uri);
 		data.put("headers", headers.getRequestHeaders());
 		
-		return vm.execute(get,data);
+		return GET_COLLECTION_VM.execute(get,data);
 		
 	}
 
 	/**
-	 * Post.
+	 * POST request handler on the collection URIs
 	 *
-	 * @param uri the uri
-	 * @param x the x
-	 * @param headers the headers
-	 * @return the response
+	 * @param curi The URI of the collection, generated from the PathParam from the request
+	 * @param x JAVARS automatically generates this parameter with the body of the request
+	 * @param headers The headers of the request
+	 * @return The built HTTP response. Note that the returned response is automatically sent to the requesting agent
+	 * 			right after completion of the method.
 	 */
 	@Consumes({"application/xml","application/atom+xml"})
 	@Produces("application/xml")
 	@POST
-	public static Response post(@PathParam("curi") String uri, String x, @Context HttpHeaders headers)
+	public static Response post(@PathParam("curi") String uri, String body, @Context HttpHeaders headers)
 	{
 		
-		RESTEvent post = new Post(headers,x,uri);
+		RESTEvent post = new Post(headers,body,uri);
 		VisitorManager vm = new VisitorManager();
-		vm.addVisitor(new UnimplementedVisitor());
+		vm.addVisitor(new DebugVisitor());
 		
 		Map<String,Object> data = new HashMap<>();
 		
@@ -90,12 +106,13 @@ public class IncomingCollectionEvents {
 	}
 	
 	/**
-	 * Put.
+	 * PUT request handler on the collection URIs
 	 *
-	 * @param uri the uri
-	 * @param x the x
-	 * @param headers the headers
-	 * @return the response
+	 * @param curi The URI of the collection, generated from the PathParam from the request
+	 * @param x JAVARS automatically generates this parameter with the body of the request
+	 * @param headers The headers of the request
+	 * @return The built HTTP response. Note that the returned response is automatically sent to the requesting agent
+	 * 			right after completion of the method.
 	 */
 	@Consumes({"text/plain","application/xml"})
 	@Produces("text/plain")
@@ -104,7 +121,12 @@ public class IncomingCollectionEvents {
 	{
 		RESTEvent put = new Put(headers,x,uri);
 		VisitorManager vm = new VisitorManager();
+//		vm.addVisitor(new RequestValidatorVisitor());
+//		vm.addVisitor(new CollectionUpdateVisitor());
+//		vm.addVisitor(new ResponseBuilderVisitor());
 		vm.addVisitor(new UnimplementedVisitor());
+		
+		
 		
 		Map<String,Object> data = new HashMap<>();
 		
@@ -112,12 +134,13 @@ public class IncomingCollectionEvents {
 	}
 	
 	/**
-	 * Delete.
+	 * DELETE request handler on the collection URIs
 	 *
-	 * @param uri the uri
-	 * @param x the x
-	 * @param headers the headers
-	 * @return the response
+	 * @param curi The URI of the collection, generated from the PathParam from the request
+	 * @param x JAVARS automatically generates this parameter with the body of the request
+	 * @param headers The headers of the request
+	 * @return The built HTTP response. Note that the returned response is automatically sent to the requesting agent
+	 * 			right after completion of the method.
 	 */
 	@Consumes("text/plain")
 	@Produces("text/plain")

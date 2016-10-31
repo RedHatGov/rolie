@@ -13,49 +13,21 @@ import gov.nist.rolie.polie.core.event.Get;
 import gov.nist.rolie.polie.core.event.Post;
 import gov.nist.rolie.polie.core.event.Put;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface RESTEventVisitor.
+ * 
+ * All visitors MUST implement this interface and MUST adhere to this contract:
+ * 
+ * 1.The visitor must only return false if there is an unrecoverable error during execution. In this
+ * 		case the visitor must set rb to the default error response with a suitable status code.
  */
 public interface RESTEventVisitor {
 	
-	/**
-	 * Visit.
-	 *
-	 * @param get the get
-	 * @param rb the rb
-	 * @param data the data
-	 * @return true, if successful
-	 */
 	public boolean visit(Get get, ResponseBuilder rb, Map<String,Object> data);
-	
-	/**
-	 * Visit.
-	 *
-	 * @param post the post
-	 * @param rb the rb
-	 * @param data the data
-	 * @return true, if successful
-	 */
+
 	public boolean visit(Post post, ResponseBuilder rb, Map<String,Object> data);
-	
-	/**
-	 * Visit.
-	 *
-	 * @param put the put
-	 * @param rb the rb
-	 * @param data the data
-	 * @return true, if successful
-	 */
+
 	public boolean visit(Put put, ResponseBuilder rb, Map<String,Object> data);
 	
-	/**
-	 * Visit.
-	 *
-	 * @param delete the delete
-	 * @param rb the rb
-	 * @param data the data
-	 * @return true, if successful
-	 */
 	public boolean visit(Delete delete, ResponseBuilder rb, Map<String,Object> data);
 }
