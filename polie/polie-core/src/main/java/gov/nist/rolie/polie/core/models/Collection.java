@@ -8,4 +8,9 @@ package gov.nist.rolie.polie.core.models;
  */
 public class Collection {
 
+	String Id;
+	
+	String getId() {
+		return Id;
+	}
 }

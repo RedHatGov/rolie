@@ -23,6 +23,8 @@ import gov.nist.rolie.polie.core.event.Put;
  */
 public interface RESTEventVisitor {
 	
+
+	
 	public boolean visit(Get get, ResponseBuilder rb, Map<String,Object> data);
 
 	public boolean visit(Post post, ResponseBuilder rb, Map<String,Object> data);

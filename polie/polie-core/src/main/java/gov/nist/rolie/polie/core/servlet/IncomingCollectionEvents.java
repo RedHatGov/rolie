@@ -17,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import gov.nist.rolie.polie.core.event.Delete;
 import gov.nist.rolie.polie.core.event.Get;
@@ -36,22 +37,25 @@ import gov.nist.rolie.polie.core.visitors.UnimplementedVisitor;
  * Handles all incoming HTTP requests on collections. In this implementation the URIs for collections all start
  * with collections/. The PathParam curi is the resource URI of the collection. 
  */
-@Path("collections/{curi}")
+@Path("collections/{path: .*}")
 public class IncomingCollectionEvents {
 	
 	//Visitors
 	private static final RESTEventVisitor REQUEST_VALIDATOR_VISITOR = new RequestValidatorVisitor();
-	
+	private static final RESTEventVisitor COLLECTION_RETRIVIAL_VISITOR = new CollectionRetrivalVisitor();
+	private static final RESTEventVisitor DEBUG_VISITOR = new DebugVisitor();
+	private static final RESTEventVisitor RESPONSE_BUILDER_VISITOR = new ResponseBuilderVisitor();
+
 
 	// visitor managers
-	private static final VisitorManager GET_COLLECTION_VM;
+	private static final VisitorManager vm;
 	
 	static {
-		DefaultVisitorManager obj = new VisitorManagerImpl();
-		obj.addVisitor(visitor);
-		GET_COLLECTION_VM = obj;
+		vm = new DefaultVisitorManager();
 	}
 	
+	@Context
+	private UriInfo uriInfo;
 	
 	/**
 	 * GET request handler on the collection URIs
@@ -61,23 +65,24 @@ public class IncomingCollectionEvents {
 	 * @return The built HTTP response. Note that the returned response is automatically sent to the requesting agent
 	 * 			right after completion of the method.
 	 */
-	@Produces({"text/plain","application/xml","application/atom+xml"})
+	@Produces({"application/atom+xml"})
 	@GET
-	public static Response get(@PathParam("curi") String uri, @Context HttpHeaders headers)
+	public static Response get(@Context HttpHeaders headers, @Context UriInfo uriInfo)
 	{
 		
-		RESTEvent get = new Get(headers,uri);
+		RESTEvent get = new Get(headers,uriInfo.getAbsolutePath().toString());
 		
-		VisitorManager vm = new VisitorManager();
-//		vm.addVisitor(REQUEST_VALIDATOR_VISITOR);
-		vm.addVisitor(new CollectionRetrivalVisitor());
-		//vm.addVisitor(new DebugVisitor());
+		vm.addVisitor(REQUEST_VALIDATOR_VISITOR);
+		vm.addVisitor(COLLECTION_RETRIVIAL_VISITOR);
+		//vm.addVisitor(DEBUG_VISITOR);
+		vm.addVisitor(RESPONSE_BUILDER_VISITOR);
 		
 		Map<String,Object> data = new HashMap<>();
-		data.put("uri", uri);
+		data.put("path", uriInfo.getPath());
+		data.put("IRI", uriInfo.getAbsolutePath());
 		data.put("headers", headers.getRequestHeaders());
 		
-		return GET_COLLECTION_VM.execute(get,data);
+		return vm.execute(get,data);
 		
 	}
 
@@ -97,7 +102,7 @@ public class IncomingCollectionEvents {
 	{
 		
 		RESTEvent post = new Post(headers,body,uri);
-		VisitorManager vm = new VisitorManager();
+		DefaultVisitorManager vm = new DefaultVisitorManager();
 		vm.addVisitor(new DebugVisitor());
 		
 		Map<String,Object> data = new HashMap<>();
@@ -120,7 +125,7 @@ public class IncomingCollectionEvents {
 	public static Response put(@PathParam("curi") String uri, String x, @Context HttpHeaders headers)
 	{
 		RESTEvent put = new Put(headers,x,uri);
-		VisitorManager vm = new VisitorManager();
+		DefaultVisitorManager vm = new DefaultVisitorManager();
 //		vm.addVisitor(new RequestValidatorVisitor());
 //		vm.addVisitor(new CollectionUpdateVisitor());
 //		vm.addVisitor(new ResponseBuilderVisitor());
@@ -148,7 +153,7 @@ public class IncomingCollectionEvents {
 	public static Response delete(@PathParam("curi") String uri, String x, @Context HttpHeaders headers)
 	{
 		RESTEvent delete = new Delete(headers,x,uri);
-		VisitorManager vm = new VisitorManager();
+		DefaultVisitorManager vm = new DefaultVisitorManager();
 		vm.addVisitor(new UnimplementedVisitor());
 		
 		Map<String,Object> data = new HashMap<>();

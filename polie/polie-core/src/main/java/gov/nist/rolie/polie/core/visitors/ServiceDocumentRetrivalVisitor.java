@@ -4,18 +4,23 @@ import java.util.Map;
 
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import gov.nist.rolie.polie.core.database.DatabaseAPI;
+import gov.nist.rolie.polie.core.database.PersistenceMethod;
+import gov.nist.rolie.polie.core.database.TextPersist;
 import gov.nist.rolie.polie.core.event.Delete;
 import gov.nist.rolie.polie.core.event.Get;
 import gov.nist.rolie.polie.core.event.Post;
 import gov.nist.rolie.polie.core.event.Put;
+import gov.nist.rolie.polie.core.models.ServiceDocument;
 
 public class ServiceDocumentRetrivalVisitor implements RESTEventVisitor {
 
+	static PersistenceMethod database = new TextPersist();
+	
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-		String SrvDoc = DatabaseAPI.retrieveServiceDocument();
-		data.put("body", SrvDoc);
+		String path = (String)data.get("path");
+		//Collection collection = (database.loadCollection(path));
+		data.put("body", database.loadServiceDocument(path));
 		rb.status(200);
 		return true;
 	}

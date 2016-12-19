@@ -27,7 +27,12 @@ public class DebugVisitor implements RESTEventVisitor {
 		String debugString = "This is the debug responder."
 				+ "\nThis is a GET request."
 				+ "\nData dump follows:\n";
-		
+		if (data.isEmpty())
+		{
+			debugString+="PICNIC";
+			rb=rb.entity(debugString);
+			return false;
+		}
 		for (Map.Entry<String,Object> entry : data.entrySet())
 		{
 			debugString+="\n" + entry.getKey() + " : " + entry.getValue().toString();
@@ -48,7 +53,8 @@ public class DebugVisitor implements RESTEventVisitor {
 		
 		for (Map.Entry<String,Object> entry : data.entrySet())
 		{
-			debugString+="\n" + entry.getKey() + " : " + entry.getValue().toString();
+			debugString+="\n";
+			debugString+=entry.getKey() + " : " + entry.getValue().toString();
 		}
 		rb=rb.entity(debugString);
 		return false;

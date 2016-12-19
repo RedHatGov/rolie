@@ -6,7 +6,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class textPersist {
+import gov.nist.rolie.polie.core.models.CategoryDocument;
+import gov.nist.rolie.polie.core.models.Collection;
+import gov.nist.rolie.polie.core.models.Entry;
+import gov.nist.rolie.polie.core.models.Feed;
+import gov.nist.rolie.polie.core.models.ServiceDocument;
+import gov.nist.rolie.polie.core.models.Workspace;
+
+public class TextPersist implements PersistenceMethod{
 
 	static String root = "C:\\Users\\sab3\\Textdatabase\\";
 	
@@ -27,14 +34,76 @@ public class textPersist {
 		return result;
 	}
 
-	public static boolean put(String uri, String data) {
+	@Override
+	public Entry saveEntry(Entry entry) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
-	public static boolean delete(String uri) {
+	@Override
+	public Entry loadEntry(String id) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
+	}
+
+	@Override
+	public Collection saveCollection(Collection collection) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection loadCollection(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Feed saveFeed(Feed feed) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Feed loadFeed(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Workspace saveWorkspace(Workspace workspace) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Workspace loadWorkspace(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ServiceDocument saveServiceDocument(ServiceDocument servicedocument) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ServiceDocument loadServiceDocument(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CategoryDocument saveCategoryDocument(CategoryDocument categorydocument) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CategoryDocument loadCategoryDocument(String id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

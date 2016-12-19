@@ -52,7 +52,7 @@ public class IncomingEntryEvents {
 		
 		RESTEvent get = new Get(headers,uri);
 		
-		VisitorManager vm = new VisitorManager();
+		DefaultVisitorManager vm = new DefaultVisitorManager();
 		vm.addVisitor(new RequestValidatorVisitor());
 		vm.addVisitor(new EntryRetrivalVisitor());
 		vm.addVisitor(new ResponseBuilderVisitor());
@@ -81,7 +81,7 @@ public class IncomingEntryEvents {
 	{
 		
 		RESTEvent post = new Post(headers,x,uri);
-		VisitorManager vm = new VisitorManager();
+		DefaultVisitorManager vm = new DefaultVisitorManager();
 		vm.addVisitor(new UnimplementedVisitor());
 		
 		Map<String,Object> data = new HashMap<>();
@@ -103,7 +103,7 @@ public class IncomingEntryEvents {
 	public static Response put(@PathParam("euri") String uri, String x, @Context HttpHeaders headers)
 	{
 		RESTEvent put = new Put(headers,x,uri);
-		VisitorManager vm = new VisitorManager();
+		DefaultVisitorManager vm = new DefaultVisitorManager();
 		vm.addVisitor(new UnimplementedVisitor());
 		
 		Map<String,Object> data = new HashMap<>();
@@ -125,7 +125,7 @@ public class IncomingEntryEvents {
 	public static Response delete(@PathParam("euri") String uri, String x, @Context HttpHeaders headers)
 	{
 		RESTEvent delete = new Delete(headers,x,uri);
-		VisitorManager vm = new VisitorManager();
+		DefaultVisitorManager vm = new DefaultVisitorManager();
 		vm.addVisitor(new UnimplementedVisitor());
 		
 		Map<String,Object> data = new HashMap<>();

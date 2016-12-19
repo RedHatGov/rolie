@@ -31,27 +31,26 @@ public class IncomingSrvDocEvent
 {
 	
 	/**
-	 * Gets the.
+	 * Gets the Service Document.
 	 *
 	 * @param curi the curi
 	 * @param headers the headers
 	 * @return the response
 	 */
-	@Produces({"text/plain","application/xml","application/atom+xml"})
+	@Produces({"application/atom+xml"})
 	@GET
 	public static Response get(@Context HttpHeaders headers)
 	{
 		
 		RESTEvent get = new Get(headers,"");
 		
-		VisitorManager vm = new VisitorManager();
-		vm.addVisitor(new RequestValidatorVisitor());
+		DefaultVisitorManager vm = new DefaultVisitorManager();
 		vm.addVisitor(new ServiceDocumentRetrivalVisitor());
 		vm.addVisitor(new ResponseBuilderVisitor());
 		//vm.addVisitor(new DebugVisitor());
 		
 		Map<String,Object> data = new HashMap<>();
-		data.put("uri", "");
+		data.put("uri", "rolie/servicedocument");
 		data.put("headers", headers.getRequestHeaders());
 		
 		return vm.execute(get,data);
