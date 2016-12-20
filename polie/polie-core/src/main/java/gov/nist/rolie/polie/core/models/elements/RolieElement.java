@@ -1,5 +1,5 @@
 package gov.nist.rolie.polie.core.models.elements;
 
-public class RolieProperty implements RolieElement{
+public interface RolieElement extends AtomElement{
 
 }

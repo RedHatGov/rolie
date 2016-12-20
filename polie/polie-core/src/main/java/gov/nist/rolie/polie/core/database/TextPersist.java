@@ -6,12 +6,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import gov.nist.rolie.polie.core.models.CategoryDocument;
-import gov.nist.rolie.polie.core.models.Collection;
-import gov.nist.rolie.polie.core.models.Entry;
-import gov.nist.rolie.polie.core.models.Feed;
-import gov.nist.rolie.polie.core.models.ServiceDocument;
-import gov.nist.rolie.polie.core.models.Workspace;
+import gov.nist.rolie.polie.core.models.AtomCategoryDocument;
+import gov.nist.rolie.polie.core.models.AtomCollection;
+import gov.nist.rolie.polie.core.models.AtomEntry;
+import gov.nist.rolie.polie.core.models.AtomFeed;
+import gov.nist.rolie.polie.core.models.AtomServiceDocument;
+import gov.nist.rolie.polie.core.models.AtomWorkspace;
 
 public class TextPersist implements PersistenceMethod{
 
@@ -35,73 +35,73 @@ public class TextPersist implements PersistenceMethod{
 	}
 
 	@Override
-	public Entry saveEntry(Entry entry) {
+	public AtomEntry saveEntry(AtomEntry entry) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Entry loadEntry(String id) {
+	public AtomEntry loadEntry(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Collection saveCollection(Collection collection) {
+	public AtomCollection saveCollection(AtomCollection collection) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Collection loadCollection(String id) {
+	public AtomCollection loadCollection(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Feed saveFeed(Feed feed) {
+	public AtomFeed saveFeed(AtomFeed feed) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Feed loadFeed(String id) {
+	public AtomFeed loadFeed(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Workspace saveWorkspace(Workspace workspace) {
+	public AtomWorkspace saveWorkspace(AtomWorkspace workspace) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Workspace loadWorkspace(String id) {
+	public AtomWorkspace loadWorkspace(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ServiceDocument saveServiceDocument(ServiceDocument servicedocument) {
+	public AtomServiceDocument saveServiceDocument(AtomServiceDocument servicedocument) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ServiceDocument loadServiceDocument(String id) {
+	public AtomServiceDocument loadServiceDocument(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public CategoryDocument saveCategoryDocument(CategoryDocument categorydocument) {
+	public AtomCategoryDocument saveCategoryDocument(AtomCategoryDocument categorydocument) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public CategoryDocument loadCategoryDocument(String id) {
+	public AtomCategoryDocument loadCategoryDocument(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

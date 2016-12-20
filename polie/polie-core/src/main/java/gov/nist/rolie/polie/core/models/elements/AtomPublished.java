@@ -1,5 +1,20 @@
 package gov.nist.rolie.polie.core.models.elements;
 
-public class AtomPublished {
+import gov.nist.rolie.polie.core.models.constructs.AtomDate;
 
+/*
+ * 4.2.9.  The "atom:published" Element
+
+   The "atom:published" element is a Date construct indicating an
+   instant in time associated with an event early in the life cycle of
+   the entry.
+
+   atomPublished = element atom:published { atomDateConstruct }
+
+   Typically, atom:published will be associated with the initial
+   creation or first availability of the resource.
+ */
+public class AtomPublished implements AtomElement{
+
+	private AtomDate date;
 }

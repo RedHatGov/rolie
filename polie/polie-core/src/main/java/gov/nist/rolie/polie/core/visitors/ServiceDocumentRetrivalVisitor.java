@@ -10,7 +10,7 @@ import gov.nist.rolie.polie.core.event.Delete;
 import gov.nist.rolie.polie.core.event.Get;
 import gov.nist.rolie.polie.core.event.Post;
 import gov.nist.rolie.polie.core.event.Put;
-import gov.nist.rolie.polie.core.models.ServiceDocument;
+import gov.nist.rolie.polie.core.models.AtomServiceDocument;
 
 public class ServiceDocumentRetrivalVisitor implements RESTEventVisitor {
 

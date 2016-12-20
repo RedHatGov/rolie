@@ -1,5 +1,5 @@
 package gov.nist.rolie.polie.core.models;
 
-public class ServiceDocument {
+public interface AtomDocument {
 
 }

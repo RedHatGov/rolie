@@ -3,21 +3,21 @@ package gov.nist.rolie.polie.core.database;
 import gov.nist.rolie.polie.core.models.*;
 
 public interface PersistenceMethod {
-	Entry saveEntry(Entry entry);
-	Entry loadEntry(String id);
+	AtomEntry saveEntry(AtomEntry entry);
+	AtomEntry loadEntry(String id);
 	
-	Collection saveCollection(Collection collection);
-	Collection loadCollection(String id);
+	AtomCollection saveCollection(AtomCollection collection);
+	AtomCollection loadCollection(String id);
 	
-	Feed saveFeed(Feed feed);
-	Feed loadFeed(String id);
+	AtomFeed saveFeed(AtomFeed feed);
+	AtomFeed loadFeed(String id);
 	
-	Workspace saveWorkspace(Workspace workspace);
-	Workspace loadWorkspace(String id);
+	AtomWorkspace saveWorkspace(AtomWorkspace workspace);
+	AtomWorkspace loadWorkspace(String id);
 	
-	ServiceDocument saveServiceDocument(ServiceDocument servicedocument);
-	ServiceDocument loadServiceDocument(String id);
+	AtomServiceDocument saveServiceDocument(AtomServiceDocument servicedocument);
+	AtomServiceDocument loadServiceDocument(String id);
 	
-	CategoryDocument saveCategoryDocument(CategoryDocument categorydocument);
-	CategoryDocument loadCategoryDocument(String id);
+	AtomCategoryDocument saveCategoryDocument(AtomCategoryDocument categorydocument);
+	AtomCategoryDocument loadCategoryDocument(String id);
 }

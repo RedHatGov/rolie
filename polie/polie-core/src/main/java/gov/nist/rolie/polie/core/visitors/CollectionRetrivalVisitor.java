@@ -13,7 +13,7 @@ import gov.nist.rolie.polie.core.event.Delete;
 import gov.nist.rolie.polie.core.event.Get;
 import gov.nist.rolie.polie.core.event.Post;
 import gov.nist.rolie.polie.core.event.Put;
-import gov.nist.rolie.polie.core.models.Collection;
+import gov.nist.rolie.polie.core.models.AtomCollection;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -30,7 +30,7 @@ public class CollectionRetrivalVisitor implements RESTEventVisitor {
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
 		String path = (String)data.get("path");
-		Collection collection = (database.loadCollection(path));
+		AtomCollection collection = (database.loadCollection(path));
 		data.put("body", collection);
 		rb.status(200);
 		return true;
