@@ -43,10 +43,10 @@ public class AtomCollection implements AtomDocument {
 	 */
 	private AtomURI href;
 	
-
+	//TODO
 	private AtomTitle title;
 	private AtomPPCategories categories;
 	
-	/*
+
 	private AtomPPAccept accept;
 }

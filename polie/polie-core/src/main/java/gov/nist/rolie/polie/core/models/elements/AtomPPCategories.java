@@ -35,13 +35,7 @@ package gov.nist.rolie.polie.core.models.elements;
        }
 	<p>
    appCategories = appInlineCategories | appOutOfLineCategories
- * 
- * 
- * 
- * 
- * 
- * 
- * 
+
  * @author sab3
  * 
  */
