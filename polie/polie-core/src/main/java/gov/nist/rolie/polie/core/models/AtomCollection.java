@@ -48,5 +48,5 @@ public class AtomCollection implements AtomDocument {
 	private AtomPPCategories categories;
 	
 
-	private AtomPPAccept accept;
+	//private AtomPPAccept accept;
 }
