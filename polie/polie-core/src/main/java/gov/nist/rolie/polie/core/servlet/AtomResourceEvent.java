@@ -91,6 +91,26 @@ public class AtomResourceEvent {
 		vm = new DefaultVisitorManager();
 	}
 	
+	/**
+	 * Provides a map for storing data to be transfered between visitors. There are no requirements
+	 * or static definitions for keys and values. Each visitor should document what values it uses and which
+	 * it places in the map.
+	 * 
+	 * As of this version, here are some used keys:
+	 * 
+	 * "IRI" - a string of the absolute IRI.
+	 * "path" - a string of the relative IRI.
+	 * "headers" - the map of headers from the request.
+	 * "body" - the body content from the request.
+	 * "RetrievedResource" - a resource loaded from persistence
+	 * "CreatedResource" - representation of a resource in persistence after creation
+	 * "UpdatedResource" - representation of a resource in persistence after update
+	 * 
+	 * These are examples and pose no requirements or limitations, but investigate before
+	 * overwritting them.
+	 * 
+	 */
+	private static Map<String,Object> data;
 	
 
 	/**
@@ -116,8 +136,9 @@ public class AtomResourceEvent {
 		vm.addVisitor(RESPONSE_BUILDER_VISITOR);
 		
 		//Creates and populates the data package for this request. This data map will
-		//be passed from visitor to visitor and relies on contracts to define keys and values. 
-		Map<String,Object> data = new HashMap<>();
+		//be passed from visitor to visitor and relies on contracts (i.e. there are no base requirements
+		// imposed on this map) to define keys and values. 
+		data = new HashMap<>();
 		data.put("path", uriInfo.getPath());
 		data.put("IRI", uriInfo.getAbsolutePath());
 		data.put("headers", headers.getRequestHeaders());
@@ -151,7 +172,7 @@ public class AtomResourceEvent {
 		vm.addVisitor(RESOURCE_EVENT_VISITOR);
 		vm.addVisitor(RESPONSE_BUILDER_VISITOR);
 		
-		Map<String,Object> data = new HashMap<>();
+		data = new HashMap<>();
 		data.put("path", uriInfo.getPath());
 		data.put("IRI", uriInfo.getAbsolutePath());
 		data.put("headers", headers.getRequestHeaders());
@@ -182,7 +203,7 @@ public class AtomResourceEvent {
 		vm.addVisitor(RESOURCE_EVENT_VISITOR);
 		vm.addVisitor(RESPONSE_BUILDER_VISITOR);
 		
-		Map<String,Object> data = new HashMap<>();
+		data = new HashMap<>();
 		data.put("path", uriInfo.getPath());
 		data.put("IRI", uriInfo.getAbsolutePath());
 		data.put("headers", headers.getRequestHeaders());
@@ -209,7 +230,7 @@ public class AtomResourceEvent {
 		vm.addVisitor(RESOURCE_EVENT_VISITOR);
 		vm.addVisitor(RESPONSE_BUILDER_VISITOR);
 		
-		Map<String,Object> data = new HashMap<>();
+		data = new HashMap<>();
 		data.put("path", uriInfo.getPath());
 		data.put("IRI", uriInfo.getAbsolutePath());
 		data.put("headers", headers.getRequestHeaders());

@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import gov.nist.rolie.polie.core.models.AtomCategoryDocument;
-import gov.nist.rolie.polie.core.models.AtomEntry;
 import gov.nist.rolie.polie.core.models.AtomResource;
 import gov.nist.rolie.polie.core.models.AtomServiceDocument;
 

@@ -18,19 +18,17 @@ import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class RolieModelValidator.
+ *  The default implementation of the ROLIEValidator.
  */
 public class DefaultROLIEValidator implements ROLIEValidator{
 	
 	/**
-	 * Instantiates a new rolie model validator.
+	 * This class cannot be instantiated
 	 */
-	//Instantiation Protector
 	public DefaultROLIEValidator(){};
 	
-	/** The Constant log. */
+	/** Provides logging. TODO */
 	private static final Logger log = LogManager.getLogger(DefaultROLIEValidator.class);
 	
 	/**

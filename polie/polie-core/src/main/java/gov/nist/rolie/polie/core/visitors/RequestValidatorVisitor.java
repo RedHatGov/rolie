@@ -12,45 +12,85 @@ import gov.nist.rolie.polie.core.event.Get;
 import gov.nist.rolie.polie.core.event.Post;
 import gov.nist.rolie.polie.core.event.Put;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class RequestValidatorVisitor.
+ * Handles incoming request validation. Should be placed first or very early in the execution list. Most of the request
+ * validation is handled automatically by the server. This is for extra validation logic.
  */
 public class RequestValidatorVisitor implements RESTEventVisitor {
 
-	/* (non-Javadoc)
-	 * @see gov.nist.rolie.polie.core.visitors.RESTEventVisitor#visit(gov.nist.rolie.polie.core.event.Get, javax.ws.rs.core.Response.ResponseBuilder, java.util.Map)
+	/** 
+	 * Handles GET request validation.
+	 * 
+	 * DATA MAP CONTRACT: 
+	 * BEFORE: 
+	 * 		NONE
+	 * AFTER:
+	 * 		NONE
+	 * 
+	 * @param get The event type.
+	 * @param rb The passed response builder
+	 * @param data The passed data map
+	 * @returns Boolean value indicating whether or not execution should continue.
 	 */
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nist.rolie.polie.core.visitors.RESTEventVisitor#visit(gov.nist.rolie.polie.core.event.Post, javax.ws.rs.core.Response.ResponseBuilder, java.util.Map)
+	/** 
+	 * Handles POST request validation.
+	 * 
+	 * DATA MAP CONTRACT: 
+	 * BEFORE: 
+	 * 		NONE
+	 * AFTER:
+	 * 		NONE
+	 * 
+	 * @param post The event type.
+	 * @param rb The passed response builder
+	 * @param data The passed data map
+	 * @returns Boolean value indicating whether or not execution should continue.
 	 */
 	@Override
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
-
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nist.rolie.polie.core.visitors.RESTEventVisitor#visit(gov.nist.rolie.polie.core.event.Put, javax.ws.rs.core.Response.ResponseBuilder, java.util.Map)
+	/** 
+	 * Handles PUT request validation.
+	 * 
+	 * DATA MAP CONTRACT: 
+	 * BEFORE: 
+	 * 		NONE
+	 * AFTER:
+	 * 		NONE
+	 * 
+	 * @param put The event type.
+	 * @param rb The passed response builder
+	 * @param data The passed data map
+	 * @returns Boolean value indicating whether or not execution should continue.
 	 */
 	@Override
 	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nist.rolie.polie.core.visitors.RESTEventVisitor#visit(gov.nist.rolie.polie.core.event.Delete, javax.ws.rs.core.Response.ResponseBuilder, java.util.Map)
+	/** 
+	 * Handles DELETE request validation.
+	 * 
+	 * DATA MAP CONTRACT: 
+	 * BEFORE: 
+	 * 		NONE
+	 * AFTER:
+	 * 		NONE
+	 * 
+	 * @param delete The event type.
+	 * @param rb The passed response builder
+	 * @param data The passed data map
+	 * @returns Boolean value indicating whether or not execution should continue.
 	 */
 	@Override
 	public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

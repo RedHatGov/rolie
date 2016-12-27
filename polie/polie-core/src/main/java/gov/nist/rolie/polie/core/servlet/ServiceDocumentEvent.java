@@ -13,7 +13,6 @@ import javax.ws.rs.core.UriInfo;
 
 import gov.nist.rolie.polie.core.event.Get;
 import gov.nist.rolie.polie.core.event.RESTEvent;
-import gov.nist.rolie.polie.core.visitors.CategoryDocumentRetrivalVisitor;
 
 import gov.nist.rolie.polie.core.visitors.RESTEventVisitor;
 import gov.nist.rolie.polie.core.visitors.RequestValidatorVisitor;
