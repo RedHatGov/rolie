@@ -1,23 +1,24 @@
 package gov.nist.rolie.polie.core.database;
 
+import java.net.URI;
+
 import gov.nist.rolie.polie.core.models.*;
 
-public interface PersistenceMethod {
-	AtomEntry saveEntry(AtomEntry entry);
-	AtomEntry loadEntry(String id);
-	
-	AtomCollection saveCollection(AtomCollection collection);
-	AtomCollection loadCollection(String id);
-	
-	AtomFeed saveFeed(AtomFeed feed);
-	AtomFeed loadFeed(String id);
-	
-	AtomWorkspace saveWorkspace(AtomWorkspace workspace);
-	AtomWorkspace loadWorkspace(String id);
-	
+public interface PersistenceMethod 
+{
 	AtomServiceDocument saveServiceDocument(AtomServiceDocument servicedocument);
-	AtomServiceDocument loadServiceDocument(String id);
+	AtomServiceDocument loadServiceDocument(URI iri);
 	
 	AtomCategoryDocument saveCategoryDocument(AtomCategoryDocument categorydocument);
-	AtomCategoryDocument loadCategoryDocument(String id);
+	AtomCategoryDocument loadCategoryDocument(URI iri);
+	
+	AtomResource loadResource(String id);
+	AtomResource loadResource(URI iri);
+	AtomResource createResource(AtomResource resource, URI uri);
+	AtomResource updateResource(AtomResource resource, URI uri);
+	AtomResource deleteResource(URI uri);
+	AtomResource deleteResource(String id);
+	
+	
+	
 }

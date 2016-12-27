@@ -1,22 +1,23 @@
 package gov.nist.rolie.polie.core.event;
 
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.UriInfo;
 
 public abstract class AbstractRESTEvent implements RESTEvent {
 	
 
-	private String uri;
+	private UriInfo uriInfo;
 	private HttpHeaders headers;
 	
-	public AbstractRESTEvent(String uri, HttpHeaders headers) 
+	public AbstractRESTEvent(HttpHeaders headers, UriInfo uriInfo) 
 	{
-		this.uri = uri;
+		this.uriInfo = uriInfo;
 		this.headers = headers;
 	}
 
-	public String getURI()
+	public UriInfo getURI()
 	{
-		return this.uri;
+		return this.uriInfo;
 	}
 	
 	public HttpHeaders getHeaders() {

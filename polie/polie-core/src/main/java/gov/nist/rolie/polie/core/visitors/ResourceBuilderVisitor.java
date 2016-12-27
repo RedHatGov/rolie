@@ -8,30 +8,35 @@ import gov.nist.rolie.polie.core.event.Delete;
 import gov.nist.rolie.polie.core.event.Get;
 import gov.nist.rolie.polie.core.event.Post;
 import gov.nist.rolie.polie.core.event.Put;
+import gov.nist.rolie.polie.core.models.AtomResource;
+import gov.nist.rolie.polie.core.models.elements.AtomCollection;
+import gov.nist.rolie.polie.core.utils.ResourceBuilder;
 
-public class ResponseBuilderVisitor implements RESTEventVisitor {
+public class ResourceBuilderVisitor implements RESTEventVisitor {
 
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-		rb.entity(data.get("RetrivedResource"));
-		return true;
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
-		rb.entity(data.get("CreatedResource").toString());
+		data.put("resource", ResourceBuilder.buildFromText((String)data.get("body")));
 		return true;
 	}
 
 	@Override
 	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-		rb.entity(data.get("UpdatedResource"));
+		data.put("resource", ResourceBuilder.buildFromText((String)data.get("body")));
 		return true;
 	}
 
 	@Override
 	public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
+		data.put("resource", ResourceBuilder.buildFromText((String)data.get("body")));
 		return true;
 	}
 
+	
 }

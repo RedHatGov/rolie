@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import gov.nist.rolie.polie.core.visitors.RESTEventVisitor;
 
@@ -11,10 +12,9 @@ public class Post extends AbstractRESTEvent implements RESTEvent {
 	
 	private String body;
 	
-	
-	public Post(HttpHeaders headers,String body,String uri)
+	public Post(HttpHeaders headers,UriInfo uriInfo,String body)
 	{
-		super(uri,headers);
+		super(headers,uriInfo);
 		this.body=body;
 	}
 	

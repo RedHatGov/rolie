@@ -1,4 +1,5 @@
-package gov.nist.rolie.polie.core.models;
+package gov.nist.rolie.polie.core.models.elements;
+
 /*
  * 8.3.2.  The "app:workspace" Element
 
@@ -16,6 +17,6 @@ package gov.nist.rolie.polie.core.models;
 
    atomTitle = element atom:title { atomTextConstruct }
  */
-public class AtomWorkspace implements AtomDocument{
+public class AtomWorkspace implements AtomElement{
 
 }

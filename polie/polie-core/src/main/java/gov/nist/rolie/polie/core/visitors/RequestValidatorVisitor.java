@@ -32,8 +32,8 @@ public class RequestValidatorVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
-		// TODO Auto-generated method stub
-		return false;
+
+		return true;
 	}
 
 	/* (non-Javadoc)
@@ -42,7 +42,7 @@ public class RequestValidatorVisitor implements RESTEventVisitor {
 	@Override
 	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	/* (non-Javadoc)
@@ -51,7 +51,7 @@ public class RequestValidatorVisitor implements RESTEventVisitor {
 	@Override
 	public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }
