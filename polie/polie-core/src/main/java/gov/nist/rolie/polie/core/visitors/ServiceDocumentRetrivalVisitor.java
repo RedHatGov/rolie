@@ -1,5 +1,6 @@
 package gov.nist.rolie.polie.core.visitors;
 
+import java.net.URI;
 import java.util.Map;
 
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -12,19 +13,21 @@ import gov.nist.rolie.polie.core.event.Post;
 import gov.nist.rolie.polie.core.event.Put;
 import gov.nist.rolie.polie.core.models.AtomServiceDocument;
 
+
 public class ServiceDocumentRetrivalVisitor implements RESTEventVisitor {
 
 	static PersistenceMethod database = new TextPersist();
 	
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-		String path = (String)data.get("path");
-		//Collection collection = (database.loadCollection(path));
-		data.put("body", database.loadServiceDocument(path));
+		AtomServiceDocument serviceDocument = (database.loadServiceDocument((URI)data.get("IRI")));
+		data.put("RetrivedResource", serviceDocument);
 		rb.status(200);
 		return true;
 	}
 
+	//--------------------------------------------------------------------------------------------------
+	//Unreachable block
 	@Override
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
 		// TODO Auto-generated method stub
@@ -42,5 +45,5 @@ public class ServiceDocumentRetrivalVisitor implements RESTEventVisitor {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	//-----------------------------------------------------------------------------------------------------
 }

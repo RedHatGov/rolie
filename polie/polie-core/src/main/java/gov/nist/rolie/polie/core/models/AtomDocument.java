@@ -1,5 +1,5 @@
 package gov.nist.rolie.polie.core.models;
 
-public interface AtomDocument {
+public interface AtomDocument extends AtomResource{
 
 }

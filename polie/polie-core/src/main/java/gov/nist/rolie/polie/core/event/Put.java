@@ -3,6 +3,7 @@ package gov.nist.rolie.polie.core.event;
 import java.util.Map;
 
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import gov.nist.rolie.polie.core.visitors.RESTEventVisitor;
@@ -11,10 +12,9 @@ public class Put extends AbstractRESTEvent implements RESTEvent {
 	
 	private String body;
 	
-	
-	public Put(HttpHeaders headers,String body,String uri)
+	public Put(HttpHeaders headers,UriInfo uriInfo,String body)
 	{
-		super(uri,headers);
+		super(headers,uriInfo);
 		this.body=body;
 	}
 	

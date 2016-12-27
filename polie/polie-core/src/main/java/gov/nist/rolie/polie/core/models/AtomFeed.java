@@ -100,7 +100,7 @@ RFC 4287                      Atom Format                  December 2005
    One typical behavior would be to display only the entry with the
    latest atom:updated timestamp.
  */
-public class AtomFeed implements AtomDocument{
+public class AtomFeed implements AtomResource{
 
 	private AtomCommonAttributes comattr;
 	

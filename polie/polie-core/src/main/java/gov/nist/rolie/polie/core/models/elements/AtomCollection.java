@@ -1,12 +1,10 @@
-package gov.nist.rolie.polie.core.models;
+package gov.nist.rolie.polie.core.models.elements;
 
 import java.util.ArrayList;
 
+import gov.nist.rolie.polie.core.models.AtomResource;
 import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
 import gov.nist.rolie.polie.core.models.constructs.AtomURI;
-import gov.nist.rolie.polie.core.models.elements.AtomCategory;
-import gov.nist.rolie.polie.core.models.elements.AtomPPCategories;
-import gov.nist.rolie.polie.core.models.elements.AtomTitle;
 
 /**
 8.3.3.  The "app:collection" Element
@@ -31,7 +29,7 @@ import gov.nist.rolie.polie.core.models.elements.AtomTitle;
            & extensionSansTitleElement* )
       }
  */
-public class AtomCollection implements AtomDocument {
+public class AtomCollection implements AtomResource,AtomElement {
 
 	private AtomCommonAttributes commonAttributes;
 	
@@ -49,4 +47,14 @@ public class AtomCollection implements AtomDocument {
 	
 
 	//private AtomPPAccept accept;
+	
+	
+	public AtomURI getHref()
+	{
+		return href;
+	}
+	public void setHref(AtomURI uri)
+	{
+		href=uri;
+	}
 }

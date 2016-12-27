@@ -13,26 +13,25 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
 
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-		rb.entity(data.get("body"));
+		rb.entity(data.get("RetrivedResource"));
 		return true;
 	}
 
 	@Override
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
-		// TODO Auto-generated method stub
-		return false;
+		rb.entity(data.get("CreatedResource").toString());
+		return true;
 	}
 
 	@Override
 	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-		// TODO Auto-generated method stub
-		return false;
+		rb.entity(data.get("UpdatedResource"));
+		return true;
 	}
 
 	@Override
 	public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

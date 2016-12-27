@@ -18,47 +18,53 @@ import gov.nist.rolie.polie.core.visitors.CategoryDocumentRetrivalVisitor;
 import gov.nist.rolie.polie.core.visitors.RESTEventVisitor;
 import gov.nist.rolie.polie.core.visitors.RequestValidatorVisitor;
 import gov.nist.rolie.polie.core.visitors.ResponseBuilderVisitor;
-import gov.nist.rolie.polie.core.visitors.ServiceDocumentRetrivalVisitor;
 
 //import gov.nist.rolie.polie.core.visitors.DebugVisitor;
 
-@Path("rolie/servicedocument")
-public class ServiceDocumentEvent {
-
-	// Visitors are declared here by their intended purpose. If a new visitor is
-	// written it can be swapped here
-	// to apply to all requests.
-
+/**
+ * One of three entry point Classes for the webapp. This class handles ALL resource requests 
+ * that are category documents. That is, any request sent to rolie/categorydocument is handled here.
+ * Note that this specific path overrides the general expression in AtomResourceEvent.
+ * 
+ * Note that any request that is not GET will fail at this URI.
+ * 
+ * @author sab3
+ *
+ */
+@Path("rolie/categorydocument")
+public class CategoryDocumentEvent {
+	
+	//Visitors are declared here by their intended purpose. If a new visitor is written it can be swapped here
+	//to apply to all requests.
+	
 	/**
 	 * Provides debug functions. DISABLED.
 	 */
-	// private static final RESTEventVisitor DEBUG_VISITOR = new DebugVisitor();
-
+	//private static final RESTEventVisitor DEBUG_VISITOR = new DebugVisitor();
+	
 	/**
-	 * Validates the request itself. Most of this is handled by the server, but
-	 * extra logic may be included as needed.
-	 */
+	* Validates the request itself. Most of this is handled by the server,
+	* but extra logic may be included as needed.
+	*/
 	private static final RESTEventVisitor REQUEST_VALIDATOR_VISITOR = new RequestValidatorVisitor();
-
+	
 	/**
-	 * Handles the retrival of the category document. Primarily fires off
-	 * persistence method requests for the data.
+	 * Handles the retrival of the category document. Primarily fires off persistence method requests for the data.
 	 */
-	private static final RESTEventVisitor SERVICE_DOCUMENT_RETRIVIAL_VISITOR = new ServiceDocumentRetrivalVisitor();
+	private static final RESTEventVisitor CATEGORY_DOCUMENT_RETRIVIAL_VISITOR = new CategoryDocumentRetrivalVisitor();
 
 	/**
 	 * Handles the final steps of response construction, including header fields
 	 */
 	private static final RESTEventVisitor RESPONSE_BUILDER_VISITOR = new ResponseBuilderVisitor();
 
-	
 	/**
 	 * TODO
-	 * Provides a single location that points to the actual service document location
+	 * Provides a single location that points to the actual category document location
 	 * Use this is the server wants to use a different location for the document
 	 * but doesn't want to redirect. DISABLED
 	 */
-	//private static final String REAL_SERVICE_DOCUMENT_LOCATION = "rolie/servicedocument";
+	//private static final String REAL_CATEGORY_DOCUMENT_LOCATION = "rolie/categorydocument";
 
 	/**The visitor manager is declared here. If a new visitor manager is written is can be swapped out here
 	*To apply to all requests.
@@ -67,7 +73,6 @@ public class ServiceDocumentEvent {
 	static {
 		vm = new DefaultVisitorManager();
 	}
-
 	
 	
 	/**
@@ -78,22 +83,23 @@ public class ServiceDocumentEvent {
 	 * @return Returns the completed Response that is passed off to the server to be sent back to the requester.
 	 * 			At this point, the response is completed and is handled all by the webapp.
 	 */
-	@Produces({ "application/atom+xml" })
+	@Produces({"application/atom+xml"})
 	@GET
-	public static Response get(@Context HttpHeaders headers, @Context UriInfo uriInfo) {
-
-		RESTEvent get = new Get(headers, uriInfo);
-
+	public static Response get(@Context HttpHeaders headers, @Context UriInfo uriInfo)
+	{
+		
+		RESTEvent get = new Get(headers,uriInfo);
+		
 		vm.addVisitor(REQUEST_VALIDATOR_VISITOR);
-		vm.addVisitor(SERVICE_DOCUMENT_RETRIVIAL_VISITOR);
+		vm.addVisitor(CATEGORY_DOCUMENT_RETRIVIAL_VISITOR);
 		vm.addVisitor(RESPONSE_BUILDER_VISITOR);
-
-		Map<String, Object> data = new HashMap<>();
+		
+		Map<String,Object> data = new HashMap<>();
 		data.put("path", uriInfo.getPath());
 		data.put("IRI", uriInfo.getAbsolutePath());
 		data.put("headers", headers.getRequestHeaders());
 
-		return vm.execute(get, data);
-
+		return vm.execute(get,data);
+		
 	}
 }

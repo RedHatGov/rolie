@@ -4,23 +4,16 @@ import java.util.Map;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import gov.nist.rolie.polie.core.visitors.RESTEventVisitor;
 
 public class Delete extends AbstractRESTEvent implements RESTEvent {
 	
-	private String body;
-	
-	
-	public Delete(HttpHeaders headers,String body,String uri)
+
+	public Delete(HttpHeaders headers,UriInfo uriInfo)
 	{
-		super(uri,headers);
-		this.body=body;
-	}
-	
-	public String getBody()
-	{
-		return this.body;
+		super(headers,uriInfo);
 	}
 	
 	@Override

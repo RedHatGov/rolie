@@ -22,16 +22,16 @@ import org.xml.sax.SAXException;
 /**
  * The Class RolieModelValidator.
  */
-public class RolieModelValidator {
+public class DefaultROLIEValidator implements ROLIEValidator{
 	
 	/**
 	 * Instantiates a new rolie model validator.
 	 */
 	//Instantiation Protector
-	private RolieModelValidator(){};
+	public DefaultROLIEValidator(){};
 	
 	/** The Constant log. */
-	private static final Logger log = LogManager.getLogger(RolieModelValidator.class);
+	private static final Logger log = LogManager.getLogger(DefaultROLIEValidator.class);
 	
 	/**
 	 * Validate.
@@ -46,7 +46,7 @@ public class RolieModelValidator {
 	{
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		
-		InputStream is = RolieModelValidator.class.getClassLoader().getResourceAsStream("atomSynd.xsd");
+		InputStream is = DefaultROLIEValidator.class.getClassLoader().getResourceAsStream("atomSynd.xsd");
 		Source schemaFile = new StreamSource(is);
 		Schema schema = factory.newSchema(schemaFile); 
 
@@ -60,5 +60,12 @@ public class RolieModelValidator {
 			retval = false;
 		}
 		return retval;
+	}
+
+	@Override
+	public Boolean validate(String content) throws ParserConfigurationException, SAXException, IOException 
+	{
+		Document contentDoc = ROLIEDocumentUtils.buildDocFromText(content);
+		return validate(contentDoc);
 	}
 }
