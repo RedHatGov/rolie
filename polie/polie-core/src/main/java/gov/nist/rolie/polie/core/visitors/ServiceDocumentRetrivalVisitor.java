@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import gov.nist.rolie.polie.core.database.DummyPersist;
 import gov.nist.rolie.polie.core.database.PersistenceMethod;
 import gov.nist.rolie.polie.core.database.TextPersist;
 import gov.nist.rolie.polie.core.event.Delete;
@@ -25,7 +26,7 @@ public class ServiceDocumentRetrivalVisitor implements RESTEventVisitor {
 	/**The persistence method is declared here. If a new persistence method is written it can be swapped out here
 	*To apply to all requests.
 	*/
-	static PersistenceMethod database = new TextPersist();
+	static PersistenceMethod database = new DummyPersist();
 	
 	/** 
 	 * When executed by the visitor manager, this visitor loads the service document from the given

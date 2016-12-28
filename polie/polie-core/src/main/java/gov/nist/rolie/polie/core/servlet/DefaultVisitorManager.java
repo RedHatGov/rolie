@@ -36,6 +36,11 @@ public class DefaultVisitorManager implements VisitorManager{
 		return visitors;
 	}
 	
+	public void clearVisitors()
+	{
+		visitors.clear();
+	}
+	
 	public Response execute(RESTEvent event, Map<String, Object> data)
 	{
 		//If something goes wrong, set the default Response to a service unavailable response.
@@ -54,6 +59,9 @@ public class DefaultVisitorManager implements VisitorManager{
 		
 		//The response builder has incrementally gathered information, this constructs a single response
 		//with that information and returns it.
+		clearVisitors();
+		data.clear();
+		data=null;
 		return rb.build();
 	}
 

@@ -36,6 +36,9 @@ public class APPServiceDocument implements APPResource,AtomElement {
 		this.APPCommonAttributes = APPCommonAttributes;
 		this.workspaces = workspaces;
 	}
+	public APPServiceDocument() {
+		// TODO Auto-generated constructor stub
+	}
 	/**
 	 * @return the aPPCommonAttributes
 	 */

@@ -22,6 +22,11 @@ public class AtomTitle implements AtomElement{
 		this.title = title;
 	}
 
+	public AtomTitle(String title) {
+		super();
+		this.title = new AtomTextConstruct(title);
+	}
+	
 	/**
 	 * @return the title
 	 */

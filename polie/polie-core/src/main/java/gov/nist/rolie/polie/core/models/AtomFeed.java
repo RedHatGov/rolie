@@ -153,6 +153,11 @@ public class AtomFeed implements APPResource,AtomElement{
 	}
 	
 	
+	public AtomFeed() {
+		// TODO Auto-generated constructor stub
+	}
+
+
 	/**
 	 * @return the icon
 	 */
@@ -316,6 +321,18 @@ public class AtomFeed implements APPResource,AtomElement{
 	 */
 	public void setUpdated(AtomUpdated updated) {
 		this.updated = updated;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "AtomFeed [comattr=" + comattr + ", authors=" + authors + ", categories=" + categories
+				+ ", contributors=" + contributors + ", generator=" + generator + ", id=" + id + ", links=" + links
+				+ ", rights=" + rights + ", title=" + title + ", subtitle=" + subtitle + ", updated=" + updated
+				+ ", icon=" + icon + ", logo=" + logo + "]";
 	}
 	
 }

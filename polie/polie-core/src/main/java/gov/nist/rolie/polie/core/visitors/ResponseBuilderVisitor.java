@@ -37,7 +37,7 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-		rb.entity(data.get("RetrivedResource"));
+		rb.entity(data.get("RetrivedResource").toString());
 		return true;
 	}
 	/** 

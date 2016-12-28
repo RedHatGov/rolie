@@ -36,6 +36,9 @@ public class APPWorkspace implements APPElement{
 		this.title = title;
 		this.collections = collections;
 	}
+	public APPWorkspace() {
+		// TODO Auto-generated constructor stub
+	}
 	/**
 	 * @return the aPPCommonAttributes
 	 */

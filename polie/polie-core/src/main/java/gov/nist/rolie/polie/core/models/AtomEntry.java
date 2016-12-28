@@ -135,6 +135,10 @@ public class AtomEntry implements AtomElement,APPResource{
 		this.property = property;
 	}
 	
+	public AtomEntry() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @return the comattr
 	 */
@@ -302,6 +306,17 @@ public class AtomEntry implements AtomElement,APPResource{
 	 */
 	public void setProperty(RolieProperty property) {
 		this.property = property;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "AtomEntry [comattr=" + comattr + ", authors=" + authors + ", categories=" + categories
+				+ ", contributors=" + contributors + ", id=" + id + ", links=" + links + ", published=" + published
+				+ ", rights=" + rights + ", source=" + source + ", summary=" + summary + ", title=" + title
+				+ ", updated=" + updated + ", format=" + format + ", property=" + property + "]";
 	}
 	
 	

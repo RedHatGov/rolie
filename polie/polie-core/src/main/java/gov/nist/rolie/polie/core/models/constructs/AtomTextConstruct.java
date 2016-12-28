@@ -14,4 +14,10 @@ package gov.nist.rolie.polie.core.models.constructs;
  */
 public class AtomTextConstruct {
 
+	String content;
+	
+	public AtomTextConstruct(String content) {
+		this.content = content;
+	}
+
 }

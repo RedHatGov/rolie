@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import gov.nist.rolie.polie.core.models.APPCategoryDocument;
 import gov.nist.rolie.polie.core.models.APPResource;
 import gov.nist.rolie.polie.core.models.APPServiceDocument;
+import gov.nist.rolie.polie.core.models.elements.APPCollection;
 
 
 public class TextPersist implements PersistenceMethod{
@@ -90,5 +91,12 @@ public class TextPersist implements PersistenceMethod{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public APPResource copyResource(APPResource resource) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

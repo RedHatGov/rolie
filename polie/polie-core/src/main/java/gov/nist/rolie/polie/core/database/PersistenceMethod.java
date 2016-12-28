@@ -3,6 +3,7 @@ package gov.nist.rolie.polie.core.database;
 import java.net.URI;
 
 import gov.nist.rolie.polie.core.models.*;
+import gov.nist.rolie.polie.core.models.elements.APPCollection;
 
 public interface PersistenceMethod 
 {
@@ -18,6 +19,8 @@ public interface PersistenceMethod
 	APPResource updateResource(APPResource resource, URI uri);
 	APPResource deleteResource(URI uri);
 	APPResource deleteResource(String id);
+	
+	APPResource copyResource(APPResource resource);
 	
 	
 	

@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import gov.nist.rolie.polie.core.database.DummyPersist;
 import gov.nist.rolie.polie.core.database.PersistenceMethod;
 import gov.nist.rolie.polie.core.database.TextPersist;
 import gov.nist.rolie.polie.core.event.Delete;
@@ -23,7 +24,7 @@ import gov.nist.rolie.polie.core.models.APPResource;
  */
 public class ResourceEventVisitor implements RESTEventVisitor {
 
-	static PersistenceMethod database = new TextPersist();
+	static PersistenceMethod database = new DummyPersist();
 	
 	/** 
 	 * When this visitor encounters a get request, the resource at the given IRI can be loaded.
