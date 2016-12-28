@@ -9,18 +9,18 @@ import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
 import gov.nist.rolie.polie.core.models.elements.AtomAuthor;
 import gov.nist.rolie.polie.core.models.elements.AtomCategory;
 import gov.nist.rolie.polie.core.models.elements.AtomContributor;
+import gov.nist.rolie.polie.core.models.elements.AtomElement;
 import gov.nist.rolie.polie.core.models.elements.AtomGenerator;
+import gov.nist.rolie.polie.core.models.elements.AtomIcon;
 import gov.nist.rolie.polie.core.models.elements.AtomId;
 import gov.nist.rolie.polie.core.models.elements.AtomLink;
-import gov.nist.rolie.polie.core.models.elements.AtomPublished;
+import gov.nist.rolie.polie.core.models.elements.AtomLogo;
 import gov.nist.rolie.polie.core.models.elements.AtomRights;
-import gov.nist.rolie.polie.core.models.elements.AtomSource;
+
 import gov.nist.rolie.polie.core.models.elements.AtomSubTitle;
-import gov.nist.rolie.polie.core.models.elements.AtomSummary;
+
 import gov.nist.rolie.polie.core.models.elements.AtomTitle;
 import gov.nist.rolie.polie.core.models.elements.AtomUpdated;
-import gov.nist.rolie.polie.core.models.elements.RolieFormat;
-import gov.nist.rolie.polie.core.models.elements.RolieProperty;
 
 /**
 4.1.1.  The "atom:feed" Element
@@ -100,10 +100,9 @@ RFC 4287                      Atom Format                  December 2005
    One typical behavior would be to display only the entry with the
    latest atom:updated timestamp.
  */
-public class AtomFeed implements AtomResource{
+public class AtomFeed implements APPResource,AtomElement{
 
 	private AtomCommonAttributes comattr;
-	
 	private ArrayList<AtomAuthor> authors;
 	private ArrayList<AtomCategory> categories;
 	private ArrayList<AtomContributor> contributors;
@@ -114,5 +113,209 @@ public class AtomFeed implements AtomResource{
 	private AtomTitle title;
 	private AtomSubTitle subtitle;
 	private AtomUpdated updated;
+	private AtomIcon icon;
+	private AtomLogo logo;
+	
+
+	/**
+	 * @param comattr
+	 * @param authors
+	 * @param categories
+	 * @param contributors
+	 * @param generator
+	 * @param id
+	 * @param links
+	 * @param rights
+	 * @param title
+	 * @param subtitle
+	 * @param updated
+	 * @param icon
+	 * @param logo
+	 */
+	public AtomFeed(AtomCommonAttributes comattr, ArrayList<AtomAuthor> authors, ArrayList<AtomCategory> categories,
+			ArrayList<AtomContributor> contributors, AtomGenerator generator, AtomId id, ArrayList<AtomLink> links,
+			AtomRights rights, AtomTitle title, AtomSubTitle subtitle, AtomUpdated updated, AtomIcon icon,
+			AtomLogo logo) {
+		super();
+		this.comattr = comattr;
+		this.authors = authors;
+		this.categories = categories;
+		this.contributors = contributors;
+		this.generator = generator;
+		this.id = id;
+		this.links = links;
+		this.rights = rights;
+		this.title = title;
+		this.subtitle = subtitle;
+		this.updated = updated;
+		this.icon = icon;
+		this.logo = logo;
+	}
+	
+	
+	/**
+	 * @return the icon
+	 */
+	public AtomIcon getIcon() {
+		return icon;
+	}
+
+
+	/**
+	 * @return the logo
+	 */
+	public AtomLogo getLogo() {
+		return logo;
+	}
+
+
+	/**
+	 * @param icon the icon to set
+	 */
+	public void setIcon(AtomIcon icon) {
+		this.icon = icon;
+	}
+
+
+	/**
+	 * @param logo the logo to set
+	 */
+	public void setLogo(AtomLogo logo) {
+		this.logo = logo;
+	}
+
+
+	/**
+	 * @return the comattr
+	 */
+	public AtomCommonAttributes getComattr() {
+		return comattr;
+	}
+	/**
+	 * @return the authors
+	 */
+	public ArrayList<AtomAuthor> getAuthors() {
+		return authors;
+	}
+	/**
+	 * @return the categories
+	 */
+	public ArrayList<AtomCategory> getCategories() {
+		return categories;
+	}
+	/**
+	 * @return the contributors
+	 */
+	public ArrayList<AtomContributor> getContributors() {
+		return contributors;
+	}
+	/**
+	 * @return the generator
+	 */
+	public AtomGenerator getGenerator() {
+		return generator;
+	}
+	/**
+	 * @return the id
+	 */
+	public AtomId getId() {
+		return id;
+	}
+	/**
+	 * @return the links
+	 */
+	public ArrayList<AtomLink> getLinks() {
+		return links;
+	}
+	/**
+	 * @return the rights
+	 */
+	public AtomRights getRights() {
+		return rights;
+	}
+	/**
+	 * @return the title
+	 */
+	public AtomTitle getTitle() {
+		return title;
+	}
+	/**
+	 * @return the subtitle
+	 */
+	public AtomSubTitle getSubtitle() {
+		return subtitle;
+	}
+	/**
+	 * @return the updated
+	 */
+	public AtomUpdated getUpdated() {
+		return updated;
+	}
+	/**
+	 * @param comattr the comattr to set
+	 */
+	public void setComattr(AtomCommonAttributes comattr) {
+		this.comattr = comattr;
+	}
+	/**
+	 * @param authors the authors to set
+	 */
+	public void setAuthors(ArrayList<AtomAuthor> authors) {
+		this.authors = authors;
+	}
+	/**
+	 * @param categories the categories to set
+	 */
+	public void setCategories(ArrayList<AtomCategory> categories) {
+		this.categories = categories;
+	}
+	/**
+	 * @param contributors the contributors to set
+	 */
+	public void setContributors(ArrayList<AtomContributor> contributors) {
+		this.contributors = contributors;
+	}
+	/**
+	 * @param generator the generator to set
+	 */
+	public void setGenerator(AtomGenerator generator) {
+		this.generator = generator;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(AtomId id) {
+		this.id = id;
+	}
+	/**
+	 * @param links the links to set
+	 */
+	public void setLinks(ArrayList<AtomLink> links) {
+		this.links = links;
+	}
+	/**
+	 * @param rights the rights to set
+	 */
+	public void setRights(AtomRights rights) {
+		this.rights = rights;
+	}
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(AtomTitle title) {
+		this.title = title;
+	}
+	/**
+	 * @param subtitle the subtitle to set
+	 */
+	public void setSubtitle(AtomSubTitle subtitle) {
+		this.subtitle = subtitle;
+	}
+	/**
+	 * @param updated the updated to set
+	 */
+	public void setUpdated(AtomUpdated updated) {
+		this.updated = updated;
+	}
 	
 }

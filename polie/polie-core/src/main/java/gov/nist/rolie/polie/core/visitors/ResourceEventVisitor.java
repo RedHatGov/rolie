@@ -12,7 +12,7 @@ import gov.nist.rolie.polie.core.event.Delete;
 import gov.nist.rolie.polie.core.event.Get;
 import gov.nist.rolie.polie.core.event.Post;
 import gov.nist.rolie.polie.core.event.Put;
-import gov.nist.rolie.polie.core.models.AtomResource;
+import gov.nist.rolie.polie.core.models.APPResource;
 
 /**
  * Primary driver of resource requests in POLIE. Consolidated in one visitor because the request type implies
@@ -35,7 +35,7 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 	 * BEFORE: 
 	 * 		"IRI" is an absolute path to the resource.
 	 * AFTER:
-	 * 		"resource" holds the AtomResource at the IRI.
+	 * 		"resource" holds the APPResource at the IRI.
 	 * 
 	 * @param get The event type.
 	 * @param rb The passed response builder
@@ -44,7 +44,7 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-		AtomResource resource = database.loadResource((URI)data.get("IRI"));
+		APPResource resource = database.loadResource((URI)data.get("IRI"));
 		data.put("RetrivedResource", resource);
 		return true;
 	}
@@ -59,7 +59,7 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 	 * DATA MAP CONTRACT: 
 	 * BEFORE: 
 	 * 		"IRI" is an absolute path to the collection that the resource will be under.
-	 * 		"resource" holds a valid AtomResource to be posted to a collection.
+	 * 		"resource" holds a valid APPResource to be posted to a collection.
 	 * AFTER:
 	 * 		"CreatedResourceLocationIRI" holds the actual location the resource was created at. 
 	 * 				NOTE: This MUST be set by the createResource() method.
@@ -72,8 +72,8 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
-		AtomResource resource = (AtomResource)data.get("resource");
-		AtomResource createdResource = database.createResource(resource,(URI)data.get("IRI"));
+		APPResource resource = (APPResource)data.get("resource");
+		APPResource createdResource = database.createResource(resource,(URI)data.get("IRI"));
 		rb=rb.status(Status.CREATED);
 		data.put("CreatedResourceLocationIRI", (URI)data.get("IRI")); //TODO FIX THIS
 		rb=rb.header("Location", (URI)data.get("CreatedResourceLocationIRI"));
@@ -91,7 +91,7 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 	 * DATA MAP CONTRACT: 
 	 * BEFORE: 
 	 * 		"IRI" is an absolute path to the resource to be updated
-	 * 		"resource" holds a valid AtomResource that will overwrite the target
+	 * 		"resource" holds a valid APPResource that will overwrite the target
 	 * AFTER:
 	 * 		"UpdatedResource" holds the actual updated representation of the resource.
 	 * 
@@ -102,8 +102,8 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-		AtomResource resource = (AtomResource)data.get("resource");
-		AtomResource updatedResource = database.updateResource(resource,(URI)data.get("IRI"));
+		APPResource resource = (APPResource)data.get("resource");
+		APPResource updatedResource = database.updateResource(resource,(URI)data.get("IRI"));
 		rb=rb.status(Status.OK);
 		data.put("updatedResource",updatedResource);
 		return true;

@@ -30,7 +30,7 @@ public class ResourceBuilderVisitor implements RESTEventVisitor {
 	 * BEFORE: 
 	 * 		"body" holds the content of the request. It is also assumed that the body is ROLIE valid XML
 	 * AFTER:
-	 * 		"resource" holds the constructed AtomResource.
+	 * 		"resource" holds the constructed APPResource.
 	 * 
 	 * @param POST The event type.
 	 * @param rb The passed response builder
@@ -52,7 +52,7 @@ public class ResourceBuilderVisitor implements RESTEventVisitor {
 	 * BEFORE: 
 	 * 		"body" holds the content of the request. It is also assumed that the body is ROLIE valid XML
 	 * AFTER:
-	 * 		"resource" holds the constructed AtomResource.
+	 * 		"resource" holds the constructed APPResource.
 	 * 
 	 * @param PUT The event type.
 	 * @param rb The passed response builder

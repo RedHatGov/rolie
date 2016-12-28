@@ -12,4 +12,24 @@ public class AtomEmailAddress implements AtomElement{
 	//atomEmailAddress = xsd:string { pattern = ".+@.+" }
 	private String address;
 
+	public AtomEmailAddress(String address)
+	{
+		this.address = address;
+	}
+
+	/**
+	 * @return the address
+	 */
+	public String getAddress() {
+		return address;
+	}
+
+	/**
+	 * @param address the address to set
+	 */
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	
 }

@@ -37,4 +37,61 @@ public class AtomCategory implements AtomElement{
 	 */
 	private AtomURI scheme;
 
+	/**
+	 * @param term
+	 * @param label
+	 * @param scheme
+	 */
+	public AtomCategory(String term, String label, AtomURI scheme) {
+		super();
+		this.term = term;
+		this.label = label;
+		this.scheme = scheme;
+	}
+
+	/**
+	 * @return the term
+	 */
+	public String getTerm() {
+		return term;
+	}
+
+	/**
+	 * @return the label
+	 */
+	public String getLabel() {
+		return label;
+	}
+
+	/**
+	 * @return the scheme
+	 */
+	public AtomURI getScheme() {
+		return scheme;
+	}
+
+	/**
+	 * @param term the term to set
+	 */
+	public void setTerm(String term) {
+		this.term = term;
+	}
+
+	/**
+	 * @param label the label to set
+	 */
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	/**
+	 * @param scheme the scheme to set
+	 */
+	public void setScheme(AtomURI scheme) {
+		this.scheme = scheme;
+	}
+
+	
+	
+	
 }

@@ -11,7 +11,7 @@ import gov.nist.rolie.polie.core.event.Delete;
 import gov.nist.rolie.polie.core.event.Get;
 import gov.nist.rolie.polie.core.event.Post;
 import gov.nist.rolie.polie.core.event.Put;
-import gov.nist.rolie.polie.core.models.AtomServiceDocument;
+import gov.nist.rolie.polie.core.models.APPServiceDocument;
 
 /**
  * 
@@ -37,7 +37,7 @@ public class ServiceDocumentRetrivalVisitor implements RESTEventVisitor {
 	 * BEFORE: 
 	 * 		"IRI" is an absolute path to the service document.
 	 * AFTER:
-	 * 		"RetrievedResource" holds the AtomServiceDocument for the repo.
+	 * 		"RetrievedResource" holds the APPServiceDocument for the repo.
 	 * 
 	 * @param get The event type.
 	 * @param rb The passed response builder
@@ -46,7 +46,7 @@ public class ServiceDocumentRetrivalVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-		AtomServiceDocument serviceDocument = (database.loadServiceDocument((URI)data.get("IRI")));
+		APPServiceDocument serviceDocument = (database.loadServiceDocument((URI)data.get("IRI")));
 		data.put("RetrivedResource", serviceDocument);
 		rb.status(200);
 		return true;

@@ -6,18 +6,18 @@ import gov.nist.rolie.polie.core.models.*;
 
 public interface PersistenceMethod 
 {
-	AtomServiceDocument saveServiceDocument(AtomServiceDocument servicedocument);
-	AtomServiceDocument loadServiceDocument(URI iri);
+	APPServiceDocument saveServiceDocument(APPServiceDocument servicedocument);
+	APPServiceDocument loadServiceDocument(URI iri);
 	
-	AtomCategoryDocument saveCategoryDocument(AtomCategoryDocument categorydocument);
-	AtomCategoryDocument loadCategoryDocument(URI iri);
+	APPCategoryDocument saveCategoryDocument(APPCategoryDocument categorydocument);
+	APPCategoryDocument loadCategoryDocument(URI iri);
 	
-	AtomResource loadResource(String id);
-	AtomResource loadResource(URI iri);
-	AtomResource createResource(AtomResource resource, URI uri);
-	AtomResource updateResource(AtomResource resource, URI uri);
-	AtomResource deleteResource(URI uri);
-	AtomResource deleteResource(String id);
+	APPResource loadResource(String id);
+	APPResource loadResource(URI iri);
+	APPResource createResource(APPResource resource, URI uri);
+	APPResource updateResource(APPResource resource, URI uri);
+	APPResource deleteResource(URI uri);
+	APPResource deleteResource(String id);
 	
 	
 	

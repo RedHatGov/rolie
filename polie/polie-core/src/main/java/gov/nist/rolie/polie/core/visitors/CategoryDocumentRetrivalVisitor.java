@@ -11,7 +11,7 @@ import gov.nist.rolie.polie.core.event.Delete;
 import gov.nist.rolie.polie.core.event.Get;
 import gov.nist.rolie.polie.core.event.Post;
 import gov.nist.rolie.polie.core.event.Put;
-import gov.nist.rolie.polie.core.models.AtomCategoryDocument;
+import gov.nist.rolie.polie.core.models.APPCategoryDocument;
 
 /**
  * 
@@ -38,7 +38,7 @@ public class CategoryDocumentRetrivalVisitor implements RESTEventVisitor {
 	 * BEFORE: 
 	 * 		"IRI" is an absolute path to the category document.
 	 * AFTER:
-	 * 		"RetrievedResource" holds the AtomCategoryDocument for the repo.
+	 * 		"RetrievedResource" holds the APPCategoryDocument for the repo.
 	 * 
 	 * @param get The event type.
 	 * @param rb The passed response builder
@@ -48,7 +48,7 @@ public class CategoryDocumentRetrivalVisitor implements RESTEventVisitor {
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) 
 	{
-		AtomCategoryDocument categoryDocument = (database.loadCategoryDocument((URI)data.get("IRI")));
+		APPCategoryDocument categoryDocument = (database.loadCategoryDocument((URI)data.get("IRI")));
 		data.put("RetrievedResource", categoryDocument);
 		rb=rb.status(200);
 		return true;

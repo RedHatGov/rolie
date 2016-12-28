@@ -18,5 +18,29 @@ import gov.nist.rolie.polie.core.models.constructs.AtomDate;
 public class AtomUpdated implements AtomElement{
 
 	private AtomDate date;
+
+	/**
+	 * @param date
+	 */
+	public AtomUpdated(AtomDate date) {
+		super();
+		this.date = date;
+	}
+
+	/**
+	 * @return the date
+	 */
+	public AtomDate getDate() {
+		return date;
+	}
+
+	/**
+	 * @param date the date to set
+	 */
+	public void setDate(AtomDate date) {
+		this.date = date;
+	}
+	
+	
 	
 }

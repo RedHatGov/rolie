@@ -26,7 +26,7 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
 	 * 
 	 * DATA MAP CONTRACT: 
 	 * BEFORE: 
-	 * 		"RetrivedResource" is an AtomResource
+	 * 		"RetrivedResource" is an APPResource
 	 * AFTER:
 	 * 		NONE
 	 * 
@@ -46,7 +46,7 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
 	 * 
 	 * DATA MAP CONTRACT: 
 	 * BEFORE: 
-	 * 		"CreatedResource" is an AtomResource
+	 * 		"CreatedResource" is an APPResource
 	 * AFTER:
 	 * 		NONE
 	 * 
@@ -67,7 +67,7 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
 	 * 
 	 * DATA MAP CONTRACT: 
 	 * BEFORE: 
-	 * 		"UpdatedResource" is an AtomResource
+	 * 		"UpdatedResource" is an APPResource
 	 * AFTER:
 	 * 		NONE
 	 * 

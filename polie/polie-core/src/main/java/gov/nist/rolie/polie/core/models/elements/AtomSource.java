@@ -57,5 +57,168 @@ public class AtomSource implements AtomElement{
 	private AtomTitle title;
 	private AtomSubTitle subtitle;
 	private AtomUpdated updated;
+	/**
+	 * @param comattr
+	 * @param authors
+	 * @param categories
+	 * @param contributors
+	 * @param generator
+	 * @param id
+	 * @param links
+	 * @param rights
+	 * @param title
+	 * @param subtitle
+	 * @param updated
+	 */
+	public AtomSource(AtomCommonAttributes comattr, ArrayList<AtomAuthor> authors, ArrayList<AtomCategory> categories,
+			ArrayList<AtomContributor> contributors, AtomGenerator generator, AtomId id, ArrayList<AtomLink> links,
+			AtomRights rights, AtomTitle title, AtomSubTitle subtitle, AtomUpdated updated) {
+		super();
+		this.comattr = comattr;
+		this.authors = authors;
+		this.categories = categories;
+		this.contributors = contributors;
+		this.generator = generator;
+		this.id = id;
+		this.links = links;
+		this.rights = rights;
+		this.title = title;
+		this.subtitle = subtitle;
+		this.updated = updated;
+	}
+	/**
+	 * @return the comattr
+	 */
+	public AtomCommonAttributes getComattr() {
+		return comattr;
+	}
+	/**
+	 * @return the authors
+	 */
+	public ArrayList<AtomAuthor> getAuthors() {
+		return authors;
+	}
+	/**
+	 * @return the categories
+	 */
+	public ArrayList<AtomCategory> getCategories() {
+		return categories;
+	}
+	/**
+	 * @return the contributors
+	 */
+	public ArrayList<AtomContributor> getContributors() {
+		return contributors;
+	}
+	/**
+	 * @return the generator
+	 */
+	public AtomGenerator getGenerator() {
+		return generator;
+	}
+	/**
+	 * @return the id
+	 */
+	public AtomId getId() {
+		return id;
+	}
+	/**
+	 * @return the links
+	 */
+	public ArrayList<AtomLink> getLinks() {
+		return links;
+	}
+	/**
+	 * @return the rights
+	 */
+	public AtomRights getRights() {
+		return rights;
+	}
+	/**
+	 * @return the title
+	 */
+	public AtomTitle getTitle() {
+		return title;
+	}
+	/**
+	 * @return the subtitle
+	 */
+	public AtomSubTitle getSubtitle() {
+		return subtitle;
+	}
+	/**
+	 * @return the updated
+	 */
+	public AtomUpdated getUpdated() {
+		return updated;
+	}
+	/**
+	 * @param comattr the comattr to set
+	 */
+	public void setComattr(AtomCommonAttributes comattr) {
+		this.comattr = comattr;
+	}
+	/**
+	 * @param authors the authors to set
+	 */
+	public void setAuthors(ArrayList<AtomAuthor> authors) {
+		this.authors = authors;
+	}
+	/**
+	 * @param categories the categories to set
+	 */
+	public void setCategories(ArrayList<AtomCategory> categories) {
+		this.categories = categories;
+	}
+	/**
+	 * @param contributors the contributors to set
+	 */
+	public void setContributors(ArrayList<AtomContributor> contributors) {
+		this.contributors = contributors;
+	}
+	/**
+	 * @param generator the generator to set
+	 */
+	public void setGenerator(AtomGenerator generator) {
+		this.generator = generator;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(AtomId id) {
+		this.id = id;
+	}
+	/**
+	 * @param links the links to set
+	 */
+	public void setLinks(ArrayList<AtomLink> links) {
+		this.links = links;
+	}
+	/**
+	 * @param rights the rights to set
+	 */
+	public void setRights(AtomRights rights) {
+		this.rights = rights;
+	}
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(AtomTitle title) {
+		this.title = title;
+	}
+	/**
+	 * @param subtitle the subtitle to set
+	 */
+	public void setSubtitle(AtomSubTitle subtitle) {
+		this.subtitle = subtitle;
+	}
+	/**
+	 * @param updated the updated to set
+	 */
+	public void setUpdated(AtomUpdated updated) {
+		this.updated = updated;
+	}
+	
+	
 	
 }

@@ -3,17 +3,17 @@ package gov.nist.rolie.polie.core.utils;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import gov.nist.rolie.polie.core.models.AtomResource;
+import gov.nist.rolie.polie.core.models.APPResource;
 import gov.nist.rolie.polie.core.models.constructs.AtomURI;
-import gov.nist.rolie.polie.core.models.elements.AtomCollection;
+import gov.nist.rolie.polie.core.models.elements.APPCollection;
 
 public class ResourceBuilder {
 
-	public static AtomResource buildFromText(String content) 
+	public static APPResource buildFromText(String content) 
 	{
-		AtomResource resource = new AtomCollection();
+		APPResource resource = new APPCollection();
 		try {
-			((AtomCollection)resource).setHref(new AtomURI(new URI("www.google.com")));
+			((APPCollection)resource).setHref(new AtomURI(new URI("www.google.com")));
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

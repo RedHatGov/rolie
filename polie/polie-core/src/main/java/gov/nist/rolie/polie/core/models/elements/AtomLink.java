@@ -131,5 +131,127 @@ public class AtomLink implements AtomElement{
    attribute.
 	 */
 	private String length;
+
+	/**
+	 * @param commonAttributes
+	 * @param href
+	 * @param rel
+	 * @param type
+	 * @param hrefLang
+	 * @param title
+	 * @param length
+	 */
+	public AtomLink(AtomCommonAttributes commonAttributes, AtomURI href, AtomURI rel, AtomMediaType type,
+			AtomLanguageTag hrefLang, String title, String length) {
+		super();
+		this.commonAttributes = commonAttributes;
+		this.href = href;
+		this.rel = rel;
+		this.type = type;
+		this.hrefLang = hrefLang;
+		this.title = title;
+		this.length = length;
+	}
+
+	/**
+	 * @return the commonAttributes
+	 */
+	public AtomCommonAttributes getCommonAttributes() {
+		return commonAttributes;
+	}
+
+	/**
+	 * @return the href
+	 */
+	public AtomURI getHref() {
+		return href;
+	}
+
+	/**
+	 * @return the rel
+	 */
+	public AtomURI getRel() {
+		return rel;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public AtomMediaType getType() {
+		return type;
+	}
+
+	/**
+	 * @return the hrefLang
+	 */
+	public AtomLanguageTag getHrefLang() {
+		return hrefLang;
+	}
+
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+	/**
+	 * @return the length
+	 */
+	public String getLength() {
+		return length;
+	}
+
+	/**
+	 * @param commonAttributes the commonAttributes to set
+	 */
+	public void setCommonAttributes(AtomCommonAttributes commonAttributes) {
+		this.commonAttributes = commonAttributes;
+	}
+
+	/**
+	 * @param href the href to set
+	 */
+	public void setHref(AtomURI href) {
+		this.href = href;
+	}
+
+	/**
+	 * @param rel the rel to set
+	 */
+	public void setRel(AtomURI rel) {
+		this.rel = rel;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(AtomMediaType type) {
+		this.type = type;
+	}
+
+	/**
+	 * @param hrefLang the hrefLang to set
+	 */
+	public void setHrefLang(AtomLanguageTag hrefLang) {
+		this.hrefLang = hrefLang;
+	}
+
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	/**
+	 * @param length the length to set
+	 */
+	public void setLength(String length) {
+		this.length = length;
+	}
+	
+	
+	
 	
 }

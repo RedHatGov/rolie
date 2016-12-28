@@ -82,6 +82,39 @@ public class AtomId implements AtomElement{
 
 	private AtomCommonAttributes commonattributes;
 	private AtomURI uri;
+	/**
+	 * @param commonattributes
+	 * @param uri
+	 */
+	public AtomId(AtomCommonAttributes commonattributes, AtomURI uri) {
+		super();
+		this.commonattributes = commonattributes;
+		this.uri = uri;
+	}
+	/**
+	 * @return the commonattributes
+	 */
+	public AtomCommonAttributes getCommonattributes() {
+		return commonattributes;
+	}
+	/**
+	 * @return the uri
+	 */
+	public AtomURI getUri() {
+		return uri;
+	}
+	/**
+	 * @param commonattributes the commonattributes to set
+	 */
+	public void setCommonattributes(AtomCommonAttributes commonattributes) {
+		this.commonattributes = commonattributes;
+	}
+	/**
+	 * @param uri the uri to set
+	 */
+	public void setUri(AtomURI uri) {
+		this.uri = uri;
+	}
 	
 
 	

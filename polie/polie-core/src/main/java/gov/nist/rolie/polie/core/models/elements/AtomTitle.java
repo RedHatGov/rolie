@@ -13,4 +13,28 @@ import gov.nist.rolie.polie.core.models.constructs.AtomTextConstruct;
 public class AtomTitle implements AtomElement{
 
 	private AtomTextConstruct title;
+
+	/**
+	 * @param title
+	 */
+	public AtomTitle(AtomTextConstruct title) {
+		super();
+		this.title = title;
+	}
+
+	/**
+	 * @return the title
+	 */
+	public AtomTextConstruct getTitle() {
+		return title;
+	}
+
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(AtomTextConstruct title) {
+		this.title = title;
+	}
+	
+	
 }

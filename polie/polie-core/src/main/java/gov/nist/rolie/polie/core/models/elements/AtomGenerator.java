@@ -34,4 +34,53 @@ public class AtomGenerator {
 	private AtomCommonAttributes commonAttributes;
 	private AtomURI uri;
 	private String version;
+	/**
+	 * @param commonAttributes
+	 * @param uri
+	 * @param version
+	 */
+	public AtomGenerator(AtomCommonAttributes commonAttributes, AtomURI uri, String version) {
+		super();
+		this.commonAttributes = commonAttributes;
+		this.uri = uri;
+		this.version = version;
+	}
+	/**
+	 * @return the commonAttributes
+	 */
+	public AtomCommonAttributes getCommonAttributes() {
+		return commonAttributes;
+	}
+	/**
+	 * @return the uri
+	 */
+	public AtomURI getUri() {
+		return uri;
+	}
+	/**
+	 * @return the version
+	 */
+	public String getVersion() {
+		return version;
+	}
+	/**
+	 * @param commonAttributes the commonAttributes to set
+	 */
+	public void setCommonAttributes(AtomCommonAttributes commonAttributes) {
+		this.commonAttributes = commonAttributes;
+	}
+	/**
+	 * @param uri the uri to set
+	 */
+	public void setUri(AtomURI uri) {
+		this.uri = uri;
+	}
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(String version) {
+		this.version = version;
+	}
+	
+	
 }

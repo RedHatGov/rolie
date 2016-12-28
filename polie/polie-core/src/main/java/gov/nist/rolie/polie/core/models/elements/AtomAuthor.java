@@ -19,7 +19,21 @@ public class AtomAuthor implements AtomElement {
 	
 	public AtomAuthor()
 	{
-		this.person = new AtomPerson();
+		this.setPerson(new AtomPerson());
+	}
+
+	/**
+	 * @return the person
+	 */
+	public AtomPerson getPerson() {
+		return person;
+	}
+
+	/**
+	 * @param person the person to set
+	 */
+	public void setPerson(AtomPerson person) {
+		this.person = person;
 	}
 	
 }

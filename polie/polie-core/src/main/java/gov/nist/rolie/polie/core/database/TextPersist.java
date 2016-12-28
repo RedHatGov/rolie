@@ -7,9 +7,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import gov.nist.rolie.polie.core.models.AtomCategoryDocument;
-import gov.nist.rolie.polie.core.models.AtomResource;
-import gov.nist.rolie.polie.core.models.AtomServiceDocument;
+import gov.nist.rolie.polie.core.models.APPCategoryDocument;
+import gov.nist.rolie.polie.core.models.APPResource;
+import gov.nist.rolie.polie.core.models.APPServiceDocument;
 
 
 public class TextPersist implements PersistenceMethod{
@@ -34,59 +34,59 @@ public class TextPersist implements PersistenceMethod{
 	}
 
 	@Override
-	public AtomServiceDocument saveServiceDocument(AtomServiceDocument servicedocument) {
+	public APPServiceDocument saveServiceDocument(APPServiceDocument servicedocument) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public AtomServiceDocument loadServiceDocument(URI iri) {
+	public APPServiceDocument loadServiceDocument(URI iri) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public AtomCategoryDocument saveCategoryDocument(AtomCategoryDocument categorydocument) {
+	public APPCategoryDocument saveCategoryDocument(APPCategoryDocument categorydocument) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public AtomCategoryDocument loadCategoryDocument(URI iri) {
+	public APPCategoryDocument loadCategoryDocument(URI iri) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public AtomResource loadResource(String id) {
+	public APPResource loadResource(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public AtomResource loadResource(URI iri) {
+	public APPResource loadResource(URI iri) {
 		return null;
 	}
 
 	@Override
-	public AtomResource createResource(AtomResource resource, URI uri) {
+	public APPResource createResource(APPResource resource, URI uri) {
 		return resource;
 	}
 
 	@Override
-	public AtomResource updateResource(AtomResource resource, URI uri) {
+	public APPResource updateResource(APPResource resource, URI uri) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public AtomResource deleteResource(URI uri) {
+	public APPResource deleteResource(URI uri) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public AtomResource deleteResource(String id) {
+	public APPResource deleteResource(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -50,6 +50,54 @@ public class AtomContent implements AtomElement{
 	private AtomCommonAttributes commonAttributes;
 	private AtomMediaType type;
 	private AtomURI uri;
+	/**
+	 * @param commonAttributes
+	 * @param type
+	 * @param uri
+	 */
+	public AtomContent(AtomCommonAttributes commonAttributes, AtomMediaType type, AtomURI uri) {
+		super();
+		this.commonAttributes = commonAttributes;
+		this.type = type;
+		this.uri = uri;
+	}
+	/**
+	 * @return the commonAttributes
+	 */
+	public AtomCommonAttributes getCommonAttributes() {
+		return commonAttributes;
+	}
+	/**
+	 * @return the type
+	 */
+	public AtomMediaType getType() {
+		return type;
+	}
+	/**
+	 * @return the uri
+	 */
+	public AtomURI getUri() {
+		return uri;
+	}
+	/**
+	 * @param commonAttributes the commonAttributes to set
+	 */
+	public void setCommonAttributes(AtomCommonAttributes commonAttributes) {
+		this.commonAttributes = commonAttributes;
+	}
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(AtomMediaType type) {
+		this.type = type;
+	}
+	/**
+	 * @param uri the uri to set
+	 */
+	public void setUri(AtomURI uri) {
+		this.uri = uri;
+	}
+	
 	
 	
 }

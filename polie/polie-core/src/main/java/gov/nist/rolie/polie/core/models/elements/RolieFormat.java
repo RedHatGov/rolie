@@ -51,5 +51,83 @@ public class RolieFormat implements RolieElement{
 	private String version;
 	private AtomURI schemalocation;
 	private AtomMediaType type;
+	/**
+	 * @param commonattributes
+	 * @param ns
+	 * @param version
+	 * @param schemalocation
+	 * @param type
+	 */
+	public RolieFormat(AtomCommonAttributes commonattributes, AtomURI ns, String version, AtomURI schemalocation,
+			AtomMediaType type) {
+		super();
+		this.commonattributes = commonattributes;
+		this.ns = ns;
+		this.version = version;
+		this.schemalocation = schemalocation;
+		this.type = type;
+	}
+	/**
+	 * @return the commonattributes
+	 */
+	public AtomCommonAttributes getCommonattributes() {
+		return commonattributes;
+	}
+	/**
+	 * @return the ns
+	 */
+	public AtomURI getNs() {
+		return ns;
+	}
+	/**
+	 * @return the version
+	 */
+	public String getVersion() {
+		return version;
+	}
+	/**
+	 * @return the schemalocation
+	 */
+	public AtomURI getSchemalocation() {
+		return schemalocation;
+	}
+	/**
+	 * @return the type
+	 */
+	public AtomMediaType getType() {
+		return type;
+	}
+	/**
+	 * @param commonattributes the commonattributes to set
+	 */
+	public void setCommonattributes(AtomCommonAttributes commonattributes) {
+		this.commonattributes = commonattributes;
+	}
+	/**
+	 * @param ns the ns to set
+	 */
+	public void setNs(AtomURI ns) {
+		this.ns = ns;
+	}
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(String version) {
+		this.version = version;
+	}
+	/**
+	 * @param schemalocation the schemalocation to set
+	 */
+	public void setSchemalocation(AtomURI schemalocation) {
+		this.schemalocation = schemalocation;
+	}
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(AtomMediaType type) {
+		this.type = type;
+	}
+	
+	
 	
 }

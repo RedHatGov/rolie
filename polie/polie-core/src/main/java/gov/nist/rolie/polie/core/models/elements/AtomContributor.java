@@ -14,5 +14,41 @@ public class AtomContributor implements AtomElement{
 	
 	private AtomCommonAttributes commonattributes;
 	private AtomPerson person;
+	/**
+	 * @param commonattributes
+	 * @param person
+	 */
+	public AtomContributor(AtomCommonAttributes commonattributes, AtomPerson person) {
+		super();
+		this.commonattributes = commonattributes;
+		this.person = person;
+	}
+	/**
+	 * @return the commonattributes
+	 */
+	public AtomCommonAttributes getCommonattributes() {
+		return commonattributes;
+	}
+	/**
+	 * @return the person
+	 */
+	public AtomPerson getPerson() {
+		return person;
+	}
+	/**
+	 * @param commonattributes the commonattributes to set
+	 */
+	public void setCommonattributes(AtomCommonAttributes commonattributes) {
+		this.commonattributes = commonattributes;
+	}
+	/**
+	 * @param person the person to set
+	 */
+	public void setPerson(AtomPerson person) {
+		this.person = person;
+	}
+	
+	
+	
 	
 }

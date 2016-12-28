@@ -21,5 +21,40 @@ public class AtomLogo  implements AtomElement{
 
 	private AtomCommonAttributes commonattributes;
 	private AtomURI iri;
+	/**
+	 * @param commonattributes
+	 * @param iri
+	 */
+	public AtomLogo(AtomCommonAttributes commonattributes, AtomURI iri) {
+		super();
+		this.commonattributes = commonattributes;
+		this.iri = iri;
+	}
+	/**
+	 * @return the commonattributes
+	 */
+	public AtomCommonAttributes getCommonattributes() {
+		return commonattributes;
+	}
+	/**
+	 * @return the iri
+	 */
+	public AtomURI getIri() {
+		return iri;
+	}
+	/**
+	 * @param commonattributes the commonattributes to set
+	 */
+	public void setCommonattributes(AtomCommonAttributes commonattributes) {
+		this.commonattributes = commonattributes;
+	}
+	/**
+	 * @param iri the iri to set
+	 */
+	public void setIri(AtomURI iri) {
+		this.iri = iri;
+	}
+	
+	
 	
 }

@@ -21,4 +21,39 @@ import gov.nist.rolie.polie.core.models.constructs.AtomURI;
 public class AtomIcon implements AtomElement{
 	private AtomCommonAttributes commonAttributes;
 	private AtomURI iri;
+	/**
+	 * @param commonAttributes
+	 * @param iri
+	 */
+	public AtomIcon(AtomCommonAttributes commonAttributes, AtomURI iri) {
+		super();
+		this.commonAttributes = commonAttributes;
+		this.iri = iri;
+	}
+	/**
+	 * @return the commonAttributes
+	 */
+	public AtomCommonAttributes getCommonAttributes() {
+		return commonAttributes;
+	}
+	/**
+	 * @return the iri
+	 */
+	public AtomURI getIri() {
+		return iri;
+	}
+	/**
+	 * @param commonAttributes the commonAttributes to set
+	 */
+	public void setCommonAttributes(AtomCommonAttributes commonAttributes) {
+		this.commonAttributes = commonAttributes;
+	}
+	/**
+	 * @param iri the iri to set
+	 */
+	public void setIri(AtomURI iri) {
+		this.iri = iri;
+	}
+	
+	
 }

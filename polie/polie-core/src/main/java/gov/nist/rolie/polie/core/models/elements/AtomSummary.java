@@ -17,5 +17,28 @@ import gov.nist.rolie.polie.core.models.constructs.AtomTextConstruct;
 public class AtomSummary implements AtomElement{
 
 	private AtomTextConstruct summary;
+
+	/**
+	 * @param summary
+	 */
+	public AtomSummary(AtomTextConstruct summary) {
+		super();
+		this.summary = summary;
+	}
+
+	/**
+	 * @return the summary
+	 */
+	public AtomTextConstruct getSummary() {
+		return summary;
+	}
+
+	/**
+	 * @param summary the summary to set
+	 */
+	public void setSummary(AtomTextConstruct summary) {
+		this.summary = summary;
+	}
+	
 	
 }

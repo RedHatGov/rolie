@@ -20,5 +20,29 @@ import gov.nist.rolie.polie.core.models.constructs.AtomTextConstruct;
 public class AtomRights implements AtomElement{
 	
 	private AtomTextConstruct text;
+
+	/**
+	 * @param text
+	 */
+	public AtomRights(AtomTextConstruct text) {
+		super();
+		this.text = text;
+	}
+
+	/**
+	 * @return the text
+	 */
+	public AtomTextConstruct getText() {
+		return text;
+	}
+
+	/**
+	 * @param text the text to set
+	 */
+	public void setText(AtomTextConstruct text) {
+		this.text = text;
+	}
+	
+	
 	
 }

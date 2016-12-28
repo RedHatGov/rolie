@@ -13,5 +13,29 @@ import gov.nist.rolie.polie.core.models.constructs.AtomTextConstruct;
 public class AtomSubTitle {
 
 	private AtomTextConstruct subtitle;
+
+	/**
+	 * @param subtitle
+	 */
+	public AtomSubTitle(AtomTextConstruct subtitle) {
+		super();
+		this.subtitle = subtitle;
+	}
+
+	/**
+	 * @return the subtitle
+	 */
+	public AtomTextConstruct getSubtitle() {
+		return subtitle;
+	}
+
+	/**
+	 * @param subtitle the subtitle to set
+	 */
+	public void setSubtitle(AtomTextConstruct subtitle) {
+		this.subtitle = subtitle;
+	}
+	
+	
 	
 }
