@@ -1,4 +1,8 @@
 package gov.nist.rolie.polie.core.models.elements;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
 /**
  * 
  * The root of a Category Document is the "app:categories" element. An
@@ -37,6 +41,7 @@ package gov.nist.rolie.polie.core.models.elements;
  * @author sab3
  * 
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class APPCategories implements APPElement {
 
 }

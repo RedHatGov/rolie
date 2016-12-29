@@ -24,24 +24,24 @@ public class ROLIEValidationVisitor implements RESTEventVisitor {
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
 		String content = (String)data.get("body");
 		
-		boolean success = false;
 		try {
-			success = validator.validate(content);
+			validator.validate(content);
+			return true;
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			success = false;
+			return false;
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			rb=rb.entity("XML NOT VALID");
-			success = false;
+			rb.entity("XML NOT VALID");
+			rb.status(Status.SEE_OTHER);
+			return false;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			success = false;
+			return false;
 		}
-		return success;
 	}
 
 	@Override

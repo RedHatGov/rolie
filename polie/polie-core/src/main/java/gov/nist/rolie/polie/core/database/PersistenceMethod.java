@@ -2,6 +2,7 @@ package gov.nist.rolie.polie.core.database;
 
 import java.net.URI;
 
+import gov.nist.rolie.polie.core.exceptions.ResourceNotFoundInDatabaseException;
 import gov.nist.rolie.polie.core.models.*;
 import gov.nist.rolie.polie.core.models.elements.APPCollection;
 
@@ -14,7 +15,7 @@ public interface PersistenceMethod
 	APPCategoryDocument loadCategoryDocument(URI iri);
 	
 	APPResource loadResource(String id);
-	APPResource loadResource(URI iri);
+	APPResource loadResource(URI iri) throws ResourceNotFoundInDatabaseException;
 	APPResource createResource(APPResource resource, URI uri);
 	APPResource updateResource(APPResource resource, URI uri);
 	APPResource deleteResource(URI uri);

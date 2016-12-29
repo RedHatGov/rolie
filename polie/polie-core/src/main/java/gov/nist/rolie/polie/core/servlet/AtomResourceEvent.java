@@ -29,6 +29,7 @@ import gov.nist.rolie.polie.core.visitors.ROLIEValidationVisitor;
 import gov.nist.rolie.polie.core.visitors.RequestValidatorVisitor;
 import gov.nist.rolie.polie.core.visitors.ResourceBuilderVisitor;
 import gov.nist.rolie.polie.core.visitors.ResourceEventVisitor;
+import gov.nist.rolie.polie.core.visitors.ResourceSerializerVisitor;
 import gov.nist.rolie.polie.core.visitors.ResponseBuilderVisitor;
 
 //import gov.nist.rolie.polie.core.visitors.DebugVisitor;
@@ -76,6 +77,13 @@ public class AtomResourceEvent {
 	 * consumed by the persistence code.
 	 */
 	private static final RESTEventVisitor RESOURCE_BUILDER_VISITOR = new ResourceBuilderVisitor();
+	
+	
+	/**
+	 * Transforms incoming ROLIE XML content into the internal model format. This intermediate format is
+	 * consumed by the persistence code.
+	 */
+	private static final RESTEventVisitor RESOURCE_SERIALIZER_VISITOR = new ResourceSerializerVisitor();
 
 	/**
 	 * Handles the final steps of response construction, including header fields
@@ -133,6 +141,7 @@ public class AtomResourceEvent {
 		//Adds visitors in order to the execution list. FIFO order.
 		vm.addVisitor(REQUEST_VALIDATOR_VISITOR); 
 		vm.addVisitor(RESOURCE_EVENT_VISITOR);
+		vm.addVisitor(RESOURCE_SERIALIZER_VISITOR);
 		vm.addVisitor(RESPONSE_BUILDER_VISITOR);
 		
 		//Creates and populates the data package for this request. This data map will
@@ -170,6 +179,7 @@ public class AtomResourceEvent {
 		vm.addVisitor(ROLIE_VALIDATION_VISITOR);
 		vm.addVisitor(RESOURCE_BUILDER_VISITOR);
 		vm.addVisitor(RESOURCE_EVENT_VISITOR);
+		vm.addVisitor(RESOURCE_SERIALIZER_VISITOR);
 		vm.addVisitor(RESPONSE_BUILDER_VISITOR);
 		
 		data = new HashMap<>();
@@ -200,7 +210,10 @@ public class AtomResourceEvent {
 		RESTEvent put = new Put(headers,uriInfo,body);
 
 		vm.addVisitor(REQUEST_VALIDATOR_VISITOR);
+		vm.addVisitor(ROLIE_VALIDATION_VISITOR);
+		vm.addVisitor(RESOURCE_BUILDER_VISITOR);
 		vm.addVisitor(RESOURCE_EVENT_VISITOR);
+		vm.addVisitor(RESOURCE_SERIALIZER_VISITOR);
 		vm.addVisitor(RESPONSE_BUILDER_VISITOR);
 		
 		data = new HashMap<>();

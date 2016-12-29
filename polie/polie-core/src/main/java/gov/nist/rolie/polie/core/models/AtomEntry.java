@@ -4,8 +4,17 @@
 package gov.nist.rolie.polie.core.models;
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
 import gov.nist.rolie.polie.core.models.elements.*;
+import gov.nist.rolie.polie.core.XMLMangement.AtomCommonAttributesAdapter;
+
 /**
 4.1.2.  The "atom:entry" Element
 
@@ -77,34 +86,51 @@ import gov.nist.rolie.polie.core.models.elements.*;
    o  atom:entry elements MUST contain exactly one atom:title element.
    o  atom:entry elements MUST contain exactly one atom:updated element.
  */
-public class AtomEntry implements AtomElement,APPResource{
+@XmlRootElement(name="entry")
+@XmlAccessorType(XmlAccessType.NONE)
+public class AtomEntry extends APPResource implements AtomElement{
 	
 	private AtomCommonAttributes comattr;
 	
-	private ArrayList<AtomAuthor> authors;
-	private ArrayList<AtomCategory> categories;
-	private ArrayList<AtomContributor> contributors;
-	private AtomId id;
-	private ArrayList<AtomLink> links;
-	private AtomPublished published;
-	private AtomRights rights;
-	private AtomSource source;
-	private AtomSummary summary;
-	private AtomTitle title;
-	private AtomUpdated updated;
+	@XmlElement
+	private ArrayList<AtomAuthor> author;
 	
+	@XmlElement
+	private ArrayList<AtomCategory> category;
+	
+	
+	@XmlElement
+	private ArrayList<AtomContributor> contributor;
+	@XmlElement
+	private AtomId id;
+	@XmlElement
+	private ArrayList<AtomLink> link;
+	@XmlElement
+	private AtomPublished published;
+	@XmlElement
+	private AtomRights rights;
+	@XmlElement
+	private AtomSource source;
+	@XmlElement
+	private AtomSummary summary;
+	@XmlElement
+	private AtomTitle title;
+	@XmlElement
+	private AtomUpdated updated;
+	@XmlElement(namespace="urn:ietf:params:xml:ns:rolie-1.0")
 	private RolieFormat format;
+	@XmlElement(namespace="urn:ietf:params:xml:ns:rolie-1.0")
 	private RolieProperty property;
 	
 	
 	
 	/**
 	 * @param comattr
-	 * @param authors
-	 * @param categories
-	 * @param contributors
+	 * @param author
+	 * @param category
+	 * @param contributor
 	 * @param id
-	 * @param links
+	 * @param link
 	 * @param published
 	 * @param rights
 	 * @param source
@@ -120,11 +146,11 @@ public class AtomEntry implements AtomElement,APPResource{
 			RolieFormat format, RolieProperty property) {
 		super();
 		this.comattr = comattr;
-		this.authors = authors;
-		this.categories = categories;
-		this.contributors = contributors;
+		this.author = authors;
+		this.category = categories;
+		this.contributor = contributors;
 		this.id = id;
-		this.links = links;
+		this.link = links;
 		this.published = published;
 		this.rights = rights;
 		this.source = source;
@@ -146,22 +172,22 @@ public class AtomEntry implements AtomElement,APPResource{
 		return comattr;
 	}
 	/**
-	 * @return the authors
+	 * @return the author
 	 */
 	public ArrayList<AtomAuthor> getAuthors() {
-		return authors;
+		return author;
 	}
 	/**
-	 * @return the categories
+	 * @return the category
 	 */
 	public ArrayList<AtomCategory> getCategories() {
-		return categories;
+		return category;
 	}
 	/**
-	 * @return the contributors
+	 * @return the contributor
 	 */
 	public ArrayList<AtomContributor> getContributors() {
-		return contributors;
+		return contributor;
 	}
 	/**
 	 * @return the id
@@ -170,10 +196,10 @@ public class AtomEntry implements AtomElement,APPResource{
 		return id;
 	}
 	/**
-	 * @return the links
+	 * @return the link
 	 */
 	public ArrayList<AtomLink> getLinks() {
-		return links;
+		return link;
 	}
 	/**
 	 * @return the published
@@ -230,22 +256,22 @@ public class AtomEntry implements AtomElement,APPResource{
 		this.comattr = comattr;
 	}
 	/**
-	 * @param authors the authors to set
+	 * @param author the author to set
 	 */
 	public void setAuthors(ArrayList<AtomAuthor> authors) {
-		this.authors = authors;
+		this.author = authors;
 	}
 	/**
-	 * @param categories the categories to set
+	 * @param category the category to set
 	 */
 	public void setCategories(ArrayList<AtomCategory> categories) {
-		this.categories = categories;
+		this.category = categories;
 	}
 	/**
-	 * @param contributors the contributors to set
+	 * @param contributor the contributor to set
 	 */
 	public void setContributors(ArrayList<AtomContributor> contributors) {
-		this.contributors = contributors;
+		this.contributor = contributors;
 	}
 	/**
 	 * @param id the id to set
@@ -254,10 +280,10 @@ public class AtomEntry implements AtomElement,APPResource{
 		this.id = id;
 	}
 	/**
-	 * @param links the links to set
+	 * @param link the link to set
 	 */
 	public void setLinks(ArrayList<AtomLink> links) {
-		this.links = links;
+		this.link = links;
 	}
 	/**
 	 * @param published the published to set
@@ -313,10 +339,19 @@ public class AtomEntry implements AtomElement,APPResource{
 	 */
 	@Override
 	public String toString() {
-		return "AtomEntry [comattr=" + comattr + ", authors=" + authors + ", categories=" + categories
-				+ ", contributors=" + contributors + ", id=" + id + ", links=" + links + ", published=" + published
+		return "AtomEntry [comattr=" + comattr + ", author=" + author + ", category=" + category
+				+ ", contributor=" + contributor + ", id=" + id + ", link=" + link + ", published=" + published
 				+ ", rights=" + rights + ", source=" + source + ", summary=" + summary + ", title=" + title
 				+ ", updated=" + updated + ", format=" + format + ", property=" + property + "]";
+	}
+
+	public void setTitle(String string) {
+		setTitle(new AtomTitle(string));
+	}
+
+	public void setSummary(String string) {
+		this.setSummary(new AtomSummary(string));
+		
 	}
 	
 	

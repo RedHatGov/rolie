@@ -19,13 +19,26 @@ public class AtomURI implements AtomElement{
 		this.uri=uri;
 	}
 	
+	public AtomURI(){};
+	
 	public void setURI(URI uri)
 	{
 		this.uri=uri;
 	}
+	
 	public URI getURI()
 	{
 		return uri;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return uri.toString();
+	}
+	
+	
 	
 }

@@ -41,10 +41,11 @@ public class DefaultVisitorManager implements VisitorManager{
 		visitors.clear();
 	}
 	
+	//Is there is threading trouble, you'll probably fix it in this method.
 	public Response execute(RESTEvent event, Map<String, Object> data)
 	{
-		//If something goes wrong, set the default Response to a service unavailable response.
-		ResponseBuilder rb = Response.status(Status.SERVICE_UNAVAILABLE);
+		//If something goes wrong, set the default Response to a server error response.
+		ResponseBuilder rb = Response.status(Status.INTERNAL_SERVER_ERROR);
 		
 		//Basic for loop to execute all visitors. If a visitor returns false, the loop is terminated
 		//right away and the response is built as-is.
@@ -57,11 +58,13 @@ public class DefaultVisitorManager implements VisitorManager{
 			}
 		}
 		
-		//The response builder has incrementally gathered information, this constructs a single response
-		//with that information and returns it.
+		//Resets all data passing. At this point nothing should be using this data (Hopefully)
 		clearVisitors();
 		data.clear();
 		data=null;
+		
+		//The response builder has incrementally gathered information, this constructs a single response
+		//with that information and returns it.
 		return rb.build();
 	}
 

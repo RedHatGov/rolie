@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<entry xmlns="http://www.w3.org/2005/Atom">
-	<id>http://www.example.org/provider/vulns/123456</id>
-	<title>Sample Incident</title>
-	<published>2012-08-04T18:13:51.0Z</published>
-	<updated>2012-08-05T18:13:51.0Z</updated>
-	<category scheme="urn:ietf:params:rolie:information-type"
+<atom:entry xmlns:atom="http://www.w3.org/2005/Atom" xmlns:rolie="foo">
+	<atom:id>http://www.example.org/provider/vulns/123456</atom:id>
+	<atom:title>Sample Incident</atom:title>
+	<atom:published>2012-08-04T18:13:51.0Z</atom:published>
+	<atom:updated>2012-08-05T18:13:51.0Z</atom:updated>
+	<atom:category scheme="urn:ietf:params:rolie:information-type"
 		term="incident" />
-	<summary>A short description of this incident resource</summary>
-	<content type="application/xml"
+	<atom:summary>A short description of this incident resource</atom:summary>
+	<atom:content type="application/xml"
 		src="http://www.example.org/provider/vulns/123456/data">
-	</content>
-</entry>  
+	</atom:content>
+	<rolie:format version="String from client"/>
+</atom:entry>  

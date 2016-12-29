@@ -1,5 +1,13 @@
 package gov.nist.rolie.polie.core.models.elements;
 
+import java.net.URI;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import gov.nist.rolie.polie.core.XMLMangement.AtomURIAdapter;
 import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
 import gov.nist.rolie.polie.core.models.constructs.AtomURI;
 
@@ -77,10 +85,13 @@ Likewise, these are three distinct identifiers, because IRI
    http://www.example.com/%7ebob
    http://www.example.com/%7Ebob
 */
-
+@XmlAccessorType(XmlAccessType.NONE)
 public class AtomId implements AtomElement{
-
+	
 	private AtomCommonAttributes commonattributes;
+	
+	@XmlValue
+	@XmlJavaTypeAdapter(AtomURIAdapter.class)
 	private AtomURI uri;
 	/**
 	 * @param commonattributes
@@ -91,6 +102,9 @@ public class AtomId implements AtomElement{
 		this.commonattributes = commonattributes;
 		this.uri = uri;
 	}
+	public AtomId() {
+		// TODO Auto-generated constructor stub
+	}
 	/**
 	 * @return the commonattributes
 	 */
@@ -100,8 +114,14 @@ public class AtomId implements AtomElement{
 	/**
 	 * @return the uri
 	 */
+	
 	public AtomURI getUri() {
 		return uri;
+	}
+
+	public String getUriAsString()
+	{
+		return getUri().toString();
 	}
 	/**
 	 * @param commonattributes the commonattributes to set
@@ -115,6 +135,7 @@ public class AtomId implements AtomElement{
 	public void setUri(AtomURI uri) {
 		this.uri = uri;
 	}
+
 	
 
 	

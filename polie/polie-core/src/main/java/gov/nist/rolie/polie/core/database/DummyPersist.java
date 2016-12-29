@@ -3,6 +3,7 @@ package gov.nist.rolie.polie.core.database;
 import java.net.URI;
 import java.util.ArrayList;
 
+import gov.nist.rolie.polie.core.exceptions.ResourceNotFoundInDatabaseException;
 import gov.nist.rolie.polie.core.models.APPCategoryDocument;
 import gov.nist.rolie.polie.core.models.APPResource;
 import gov.nist.rolie.polie.core.models.APPServiceDocument;
@@ -10,6 +11,7 @@ import gov.nist.rolie.polie.core.models.AtomEntry;
 import gov.nist.rolie.polie.core.models.AtomFeed;
 import gov.nist.rolie.polie.core.models.elements.APPCollection;
 import gov.nist.rolie.polie.core.models.elements.APPWorkspace;
+import gov.nist.rolie.polie.core.models.elements.AtomId;
 import gov.nist.rolie.polie.core.models.elements.AtomTitle;
 
 public class DummyPersist implements PersistenceMethod {
@@ -26,7 +28,7 @@ public class DummyPersist implements PersistenceMethod {
 		collections.add(collection);
 		workspace.setCollections(collections);
 		service.setWorkspaces(workspaces);
-		entry.setTitle(new AtomTitle("I'm an entry"));
+		//entry.setTitle(new AtomTitle("I'm an entry"));
 		feed.setTitle(new AtomTitle("I'm a feed"));
 	}
 	
@@ -56,20 +58,27 @@ public class DummyPersist implements PersistenceMethod {
 	}
 
 	@Override
-	public APPResource loadResource(URI iri) {
+	public APPResource loadResource(URI iri) throws ResourceNotFoundInDatabaseException {
 		if (iri.toString().equals("http://localhost:8080/polie-core/feed/entry"))
 		{
+			entry.setTitle("I'm an entry loaded from database");
 			return entry;
 		}
 		if (iri.toString().equals("http://localhost:8080/polie-core/feed"))
 		{
+			feed.setTitle("I'm a Feed loaded from database");
 			return feed;
 		}
-		return null;
+		else
+		{
+			throw new ResourceNotFoundInDatabaseException();
+		}
 	}
 
 	@Override
 	public APPResource createResource(APPResource resource, URI uri) {
+		//entry.setTitle("I'm an entry that was just created by the database");
+		((AtomEntry)resource).setSummary("This summary was added by the DB at creation time");
 		return resource;
 	}
 
@@ -93,6 +102,17 @@ public class DummyPersist implements PersistenceMethod {
 
 	@Override
 	public APPResource copyResource(APPResource resource) {
+		return null;
+	}
+	
+	public APPResource postEntryToCollection(APPResource resource, URI uri)
+	{
+		//make sure that uri is a valid feed
+		//Make sure that feed can accept the entry
+		//update entry meta data
+		//Update feed with new entry
+		//update feed metadata
+		//return entry
 		return null;
 	}
 

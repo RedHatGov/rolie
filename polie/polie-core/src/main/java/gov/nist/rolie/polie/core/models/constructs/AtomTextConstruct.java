@@ -20,4 +20,22 @@ public class AtomTextConstruct {
 		this.content = content;
 	}
 
+	public String getContent()
+	{
+		return this.content;
+	}
+	
+	public void setContent(String string)
+	{
+		this.content = string;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return content;
+	}
+
 }

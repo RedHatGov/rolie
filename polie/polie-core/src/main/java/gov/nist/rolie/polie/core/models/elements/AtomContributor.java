@@ -1,5 +1,9 @@
 package gov.nist.rolie.polie.core.models.elements;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+
 import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
 import gov.nist.rolie.polie.core.models.constructs.AtomPerson;
 
@@ -10,9 +14,11 @@ import gov.nist.rolie.polie.core.models.constructs.AtomPerson;
  *
  * atomContributor = element atom:contributor { atomPersonConstruct }
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class AtomContributor implements AtomElement{
 	
 	private AtomCommonAttributes commonattributes;
+	@XmlElement
 	private AtomPerson person;
 	/**
 	 * @param commonattributes
@@ -23,6 +29,8 @@ public class AtomContributor implements AtomElement{
 		this.commonattributes = commonattributes;
 		this.person = person;
 	}
+	
+	public AtomContributor(){};
 	/**
 	 * @return the commonattributes
 	 */

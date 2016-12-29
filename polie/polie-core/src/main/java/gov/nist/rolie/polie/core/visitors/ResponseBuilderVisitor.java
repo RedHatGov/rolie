@@ -37,7 +37,7 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-		rb.entity(data.get("RetrivedResource").toString());
+		rb.entity(data.get("ResponseBody"));
 		return true;
 	}
 	/** 
@@ -57,7 +57,7 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
-		rb.entity(data.get("CreatedResource").toString());
+		rb.entity(data.get("ResponseBody"));
 		return true;
 	}
 	
@@ -78,7 +78,7 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-		rb.entity(data.get("UpdatedResource"));
+		rb.entity(data.get("ResponseBody"));
 		return true;
 	}
 
@@ -98,6 +98,7 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
+		rb.entity(data.get("ResponseBody"));
 		return true;
 	}
 

@@ -2,6 +2,14 @@ package gov.nist.rolie.polie.core.models.elements;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import gov.nist.rolie.polie.core.XMLMangement.AtomURIAdapter;
 import gov.nist.rolie.polie.core.models.APPResource;
 import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
 import gov.nist.rolie.polie.core.models.constructs.AtomURI;
@@ -29,7 +37,9 @@ import gov.nist.rolie.polie.core.models.constructs.AtomURI;
            & extensionSansTitleElement* )
       }
  */
-public class APPCollection implements APPElement,APPResource {
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlRootElement
+public class APPCollection implements APPElement {
 
 	private AtomCommonAttributes commonAttributes;
 	
@@ -39,24 +49,24 @@ public class APPCollection implements APPElement,APPResource {
    The app:collection element MUST contain an "href" attribute, whose
    value gives the IRI of the Collection.
 	 */
+	@XmlAttribute
+	@XmlJavaTypeAdapter(AtomURIAdapter.class)
 	private AtomURI href;
 	
-	//TODO
+	@XmlElement
 	private AtomTitle title;
+	
+	@XmlElement
 	private List<APPCategories> categories;
-	private List<APPAccept> accepts;
+	
+	@XmlElement
+	private List<APPAccept> accept;
 	
 
 	//private AtomPPAccept accept;
 	
-	public APPCollection()
-	{
-		this.commonAttributes = null;
-		this.href = null;
-		this.title= null;
-		this.categories= null;;
-		this.accepts= null;
-	}
+	public APPCollection(){}
+	
 	public APPCollection(AtomCommonAttributes commonAttributes, AtomURI href, AtomTitle title,
 			List<APPCategories> categories, List<APPAccept> accepts) {
 		super();
@@ -64,7 +74,7 @@ public class APPCollection implements APPElement,APPResource {
 		this.href = href;
 		this.title = title;
 		this.categories = categories;
-		this.accepts = accepts;
+		this.accept = accepts;
 	}
 	public AtomCommonAttributes getCommonAttributes() {
 		return commonAttributes;
@@ -85,7 +95,7 @@ public class APPCollection implements APPElement,APPResource {
 		this.categories = categories;
 	}
 	public List<APPAccept> getAccepts() {
-		return accepts;
+		return accept;
 	}
 	public AtomURI getHref() {
 		return href;
@@ -94,7 +104,7 @@ public class APPCollection implements APPElement,APPResource {
 		this.href = href;
 	}
 	public void setAccepts(List<APPAccept> accepts) {
-		this.accepts = accepts;
+		this.accept = accepts;
 	}
 
 }

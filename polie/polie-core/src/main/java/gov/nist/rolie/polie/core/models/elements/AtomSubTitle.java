@@ -1,5 +1,11 @@
 package gov.nist.rolie.polie.core.models.elements;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import gov.nist.rolie.polie.core.XMLMangement.AtomTextAdapter;
 import gov.nist.rolie.polie.core.models.constructs.AtomTextConstruct;
 
 /*
@@ -10,8 +16,10 @@ import gov.nist.rolie.polie.core.models.constructs.AtomTextConstruct;
 
    atomSubtitle = element atom:subtitle { atomTextConstruct }
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class AtomSubTitle {
-
+	@XmlValue
+	@XmlJavaTypeAdapter(AtomTextAdapter.class)
 	private AtomTextConstruct subtitle;
 
 	/**
@@ -22,6 +30,7 @@ public class AtomSubTitle {
 		this.subtitle = subtitle;
 	}
 
+	public AtomSubTitle(){}
 	/**
 	 * @return the subtitle
 	 */

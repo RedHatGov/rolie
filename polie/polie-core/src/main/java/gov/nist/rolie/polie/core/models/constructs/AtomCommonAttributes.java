@@ -10,6 +10,7 @@ package gov.nist.rolie.polie.core.models.constructs;
  */
 public class AtomCommonAttributes {
 
+	
 	private String xmlBase;
 	private String xmlLang;
 	
@@ -17,6 +18,9 @@ public class AtomCommonAttributes {
 	{
 		this.xmlBase=xmlBase;
 		this.xmlLang=xmlLang;
+	}
+
+	public AtomCommonAttributes() {
 	}
 
 	/**

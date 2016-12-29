@@ -3,12 +3,16 @@ package gov.nist.rolie.polie.core.visitors;
 import java.util.Map;
 
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
 
+import gov.nist.rolie.polie.core.XMLMangement.JAXBXMLResourceInterface;
+import gov.nist.rolie.polie.core.XMLMangement.XMLResourceInterface;
 import gov.nist.rolie.polie.core.event.Delete;
 import gov.nist.rolie.polie.core.event.Get;
 import gov.nist.rolie.polie.core.event.Post;
 import gov.nist.rolie.polie.core.event.Put;
-import gov.nist.rolie.polie.core.utils.ResourceBuilder;
+import gov.nist.rolie.polie.core.exceptions.FailedToBuildResourceException;
+import gov.nist.rolie.polie.core.utils.ROLIEResourceBuilder;
 
 /**
  * When added to the visitor execution chain, this visitor consumes the body of the request
@@ -19,6 +23,7 @@ import gov.nist.rolie.polie.core.utils.ResourceBuilder;
  */
 public class ResourceBuilderVisitor implements RESTEventVisitor {
 	
+	private static XMLResourceInterface ri = new JAXBXMLResourceInterface();
 
 	/** 
 	 * When added to the visitor execution chain, this visitor consumes the body of the request
@@ -39,8 +44,14 @@ public class ResourceBuilderVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
-		data.put("resource", ResourceBuilder.buildFromText((String)data.get("body")));
-		return true;
+		try {
+			data.put("resource", ri.XMLToResource(data.get("body")));
+			return true;
+		} catch (FailedToBuildResourceException e) {
+			rb.status(Status.SEE_OTHER);
+			e.printStackTrace();
+			return false;
+		}
 	}
 	/** 
 	 * When added to the visitor execution chain, this visitor consumes the body of the request
@@ -61,7 +72,13 @@ public class ResourceBuilderVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-		data.put("resource", ResourceBuilder.buildFromText((String)data.get("body")));
+		try {
+			data.put("resource", ROLIEResourceBuilder.buildFromText((String)data.get("body")));
+		} catch (FailedToBuildResourceException e) {
+			rb.status(Status.SEE_OTHER);
+			e.printStackTrace();
+			return false;
+		}
 		return true;
 	}
 

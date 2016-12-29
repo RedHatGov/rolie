@@ -2,6 +2,9 @@ package gov.nist.rolie.polie.core.models.elements;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
 import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
 
 /*
@@ -43,6 +46,7 @@ import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
    feed-level Metadata elements (atom:id, atom:title, and atom:updated)
    in the atom:source element.
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class AtomSource implements AtomElement{
 	
 	private AtomCommonAttributes comattr;
@@ -86,6 +90,8 @@ public class AtomSource implements AtomElement{
 		this.subtitle = subtitle;
 		this.updated = updated;
 	}
+	
+	public AtomSource(){}
 	/**
 	 * @return the comattr
 	 */

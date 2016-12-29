@@ -1,5 +1,8 @@
 package gov.nist.rolie.polie.core.models.elements;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlValue;
 
 /**
  * 8.3.4 The "app:accept" Element
@@ -22,6 +25,38 @@ appAccept =
  * @author sab3
  *
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class APPAccept implements APPElement{
+	
+	@XmlValue
+	private String accept;
+	
+	public APPAccept(){}
+
+	/**
+	 * @param accept
+	 */
+	public APPAccept(String accept) {
+		super();
+		this.accept = accept;
+	}
+
+	/**
+	 * @return the accept
+	 */
+	public String getAccept() {
+		return accept;
+	}
+
+	/**
+	 * @param accept the accept to set
+	 */
+	public void setAccept(String accept) {
+		this.accept = accept;
+	}
+	
+	
+	
+	
 
 }

@@ -1,5 +1,12 @@
 package gov.nist.rolie.polie.core.models.elements;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import gov.nist.rolie.polie.core.XMLMangement.AtomURIAdapter;
 import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
 import gov.nist.rolie.polie.core.models.constructs.AtomURI;
 
@@ -29,22 +36,34 @@ import gov.nist.rolie.polie.core.models.constructs.AtomURI;
    The atom:generator element MAY have a "version" attribute that
    indicates the version of the generating agent.
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class AtomGenerator {
 
 	private AtomCommonAttributes commonAttributes;
+	
+	@XmlAttribute
+	@XmlJavaTypeAdapter(AtomURIAdapter.class)
 	private AtomURI uri;
+	
+	@XmlAttribute
 	private String version;
+	
+	@XmlValue
+	private String name;
 	/**
 	 * @param commonAttributes
 	 * @param uri
 	 * @param version
 	 */
-	public AtomGenerator(AtomCommonAttributes commonAttributes, AtomURI uri, String version) {
+	public AtomGenerator(AtomCommonAttributes commonAttributes, AtomURI uri, String version,String name) {
 		super();
 		this.commonAttributes = commonAttributes;
 		this.uri = uri;
 		this.version = version;
+		this.name=name;
 	}
+	
+	public AtomGenerator(){};
 	/**
 	 * @return the commonAttributes
 	 */
@@ -80,6 +99,18 @@ public class AtomGenerator {
 	 */
 	public void setVersion(String version) {
 		this.version = version;
+	}
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

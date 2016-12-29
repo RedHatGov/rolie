@@ -2,6 +2,11 @@ package gov.nist.rolie.polie.core.models;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import gov.nist.rolie.polie.core.models.elements.APPWorkspace;
 import gov.nist.rolie.polie.core.models.elements.AtomElement;
 import gov.nist.rolie.polie.core.models.constructs.APPCommonAttributes;
@@ -24,17 +29,21 @@ import gov.nist.rolie.polie.core.models.constructs.APPCommonAttributes;
            & extensionElement* )
       }
  */
-public class APPServiceDocument implements APPResource,AtomElement {
+@XmlRootElement(name="service")
+@XmlAccessorType(XmlAccessType.NONE)
+public class APPServiceDocument extends APPResource implements AtomElement {
 	
 	APPCommonAttributes APPCommonAttributes;
-	List<APPWorkspace> workspaces;
+	
+	@XmlElement
+	List<APPWorkspace> workspace;
 	
 	
 	public APPServiceDocument(APPCommonAttributes APPCommonAttributes,
 			List<APPWorkspace> workspaces) {
 		super();
 		this.APPCommonAttributes = APPCommonAttributes;
-		this.workspaces = workspaces;
+		this.workspace = workspaces;
 	}
 	public APPServiceDocument() {
 		// TODO Auto-generated constructor stub
@@ -46,10 +55,10 @@ public class APPServiceDocument implements APPResource,AtomElement {
 		return APPCommonAttributes;
 	}
 	/**
-	 * @return the workspaces
+	 * @return the workspace
 	 */
 	public List<APPWorkspace> getWorkspaces() {
-		return workspaces;
+		return workspace;
 	}
 	/**
 	 * @param aPPCommonAttributes the aPPCommonAttributes to set
@@ -58,10 +67,10 @@ public class APPServiceDocument implements APPResource,AtomElement {
 		this.APPCommonAttributes = APPCommonAttributes;
 	}
 	/**
-	 * @param workspaces the workspaces to set
+	 * @param workspace the workspace to set
 	 */
 	public void setWorkspaces(List<APPWorkspace> workspaces) {
-		this.workspaces = workspaces;
+		this.workspace = workspaces;
 	}
 	
 

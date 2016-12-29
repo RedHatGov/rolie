@@ -15,6 +15,11 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import gov.nist.rolie.polie.core.models.APPCategoryDocument;
+import gov.nist.rolie.polie.core.models.APPServiceDocument;
+import gov.nist.rolie.polie.core.models.AtomEntry;
+import gov.nist.rolie.polie.core.models.AtomFeed;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class ROLIEDocumentUtils.
@@ -81,4 +86,21 @@ public class ROLIEDocumentUtils {
 		Document document = parser.parse(file);
 		return document;
 	}
+	
+	public static Class<?> getXMLClass(String xml) throws SAXException, IOException, ParserConfigurationException
+	{
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		dbFactory.setNamespaceAware(true);
+		DocumentBuilder parser = dbFactory.newDocumentBuilder();
+		Document document = parser.parse(new InputSource(new StringReader(xml)));
+		String root = document.getDocumentElement().getLocalName();
+		switch (root) {
+		case "entry": return AtomEntry.class;
+		case "feed": return AtomFeed.class;
+		case "service": return APPServiceDocument.class;
+		case "categories": return APPCategoryDocument.class;
+		}
+		return null;
+	}
+	
 }

@@ -5,6 +5,12 @@ package gov.nist.rolie.polie.core.models;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
 import gov.nist.rolie.polie.core.models.elements.AtomAuthor;
 import gov.nist.rolie.polie.core.models.elements.AtomCategory;
@@ -100,31 +106,57 @@ RFC 4287                      Atom Format                  December 2005
    One typical behavior would be to display only the entry with the
    latest atom:updated timestamp.
  */
-public class AtomFeed implements APPResource,AtomElement{
+@XmlRootElement(name="feed")
+@XmlAccessorType(XmlAccessType.NONE)
+public class AtomFeed extends APPResource implements AtomElement{
 
 	private AtomCommonAttributes comattr;
-	private ArrayList<AtomAuthor> authors;
-	private ArrayList<AtomCategory> categories;
-	private ArrayList<AtomContributor> contributors;
+	
+	@XmlElement
+	private ArrayList<AtomAuthor> author;
+	
+	@XmlElement
+	private ArrayList<AtomCategory> category;
+	
+	@XmlElement
+	private ArrayList<AtomContributor> contributor;
+	
+	@XmlElement
 	private AtomGenerator generator;
+	
+	@XmlElement
 	private AtomId id;
-	private ArrayList<AtomLink> links;
+	
+	@XmlElement
+	private ArrayList<AtomLink> link;
+	
+	@XmlElement
 	private AtomRights rights;
+	
+	@XmlElement
 	private AtomTitle title;
+	
+	@XmlElement
 	private AtomSubTitle subtitle;
+	
+	@XmlElement
 	private AtomUpdated updated;
+	
+	@XmlElement
 	private AtomIcon icon;
+	
+	@XmlElement
 	private AtomLogo logo;
 	
 
 	/**
 	 * @param comattr
-	 * @param authors
-	 * @param categories
-	 * @param contributors
+	 * @param author
+	 * @param category
+	 * @param contributor
 	 * @param generator
 	 * @param id
-	 * @param links
+	 * @param link
 	 * @param rights
 	 * @param title
 	 * @param subtitle
@@ -138,12 +170,12 @@ public class AtomFeed implements APPResource,AtomElement{
 			AtomLogo logo) {
 		super();
 		this.comattr = comattr;
-		this.authors = authors;
-		this.categories = categories;
-		this.contributors = contributors;
+		this.author = authors;
+		this.category = categories;
+		this.contributor = contributors;
 		this.generator = generator;
 		this.id = id;
-		this.links = links;
+		this.link = links;
 		this.rights = rights;
 		this.title = title;
 		this.subtitle = subtitle;
@@ -197,22 +229,22 @@ public class AtomFeed implements APPResource,AtomElement{
 		return comattr;
 	}
 	/**
-	 * @return the authors
+	 * @return the author
 	 */
 	public ArrayList<AtomAuthor> getAuthors() {
-		return authors;
+		return author;
 	}
 	/**
-	 * @return the categories
+	 * @return the category
 	 */
 	public ArrayList<AtomCategory> getCategories() {
-		return categories;
+		return category;
 	}
 	/**
-	 * @return the contributors
+	 * @return the contributor
 	 */
 	public ArrayList<AtomContributor> getContributors() {
-		return contributors;
+		return contributor;
 	}
 	/**
 	 * @return the generator
@@ -227,10 +259,10 @@ public class AtomFeed implements APPResource,AtomElement{
 		return id;
 	}
 	/**
-	 * @return the links
+	 * @return the link
 	 */
 	public ArrayList<AtomLink> getLinks() {
-		return links;
+		return link;
 	}
 	/**
 	 * @return the rights
@@ -263,22 +295,22 @@ public class AtomFeed implements APPResource,AtomElement{
 		this.comattr = comattr;
 	}
 	/**
-	 * @param authors the authors to set
+	 * @param author the author to set
 	 */
 	public void setAuthors(ArrayList<AtomAuthor> authors) {
-		this.authors = authors;
+		this.author = authors;
 	}
 	/**
-	 * @param categories the categories to set
+	 * @param category the category to set
 	 */
 	public void setCategories(ArrayList<AtomCategory> categories) {
-		this.categories = categories;
+		this.category = categories;
 	}
 	/**
-	 * @param contributors the contributors to set
+	 * @param contributor the contributor to set
 	 */
 	public void setContributors(ArrayList<AtomContributor> contributors) {
-		this.contributors = contributors;
+		this.contributor = contributors;
 	}
 	/**
 	 * @param generator the generator to set
@@ -293,10 +325,10 @@ public class AtomFeed implements APPResource,AtomElement{
 		this.id = id;
 	}
 	/**
-	 * @param links the links to set
+	 * @param link the link to set
 	 */
 	public void setLinks(ArrayList<AtomLink> links) {
-		this.links = links;
+		this.link = links;
 	}
 	/**
 	 * @param rights the rights to set
@@ -329,10 +361,15 @@ public class AtomFeed implements APPResource,AtomElement{
 	 */
 	@Override
 	public String toString() {
-		return "AtomFeed [comattr=" + comattr + ", authors=" + authors + ", categories=" + categories
-				+ ", contributors=" + contributors + ", generator=" + generator + ", id=" + id + ", links=" + links
+		return "AtomFeed [comattr=" + comattr + ", author=" + author + ", category=" + category
+				+ ", contributor=" + contributor + ", generator=" + generator + ", id=" + id + ", link=" + link
 				+ ", rights=" + rights + ", title=" + title + ", subtitle=" + subtitle + ", updated=" + updated
 				+ ", icon=" + icon + ", logo=" + logo + "]";
+	}
+
+
+	public void setTitle(String string) {
+		setTitle(new AtomTitle(string));
 	}
 	
 }

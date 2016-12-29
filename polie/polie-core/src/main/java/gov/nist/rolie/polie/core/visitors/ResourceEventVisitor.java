@@ -13,6 +13,7 @@ import gov.nist.rolie.polie.core.event.Delete;
 import gov.nist.rolie.polie.core.event.Get;
 import gov.nist.rolie.polie.core.event.Post;
 import gov.nist.rolie.polie.core.event.Put;
+import gov.nist.rolie.polie.core.exceptions.ResourceNotFoundInDatabaseException;
 import gov.nist.rolie.polie.core.models.APPResource;
 
 /**
@@ -45,8 +46,16 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-		APPResource resource = database.loadResource((URI)data.get("IRI"));
-		data.put("RetrivedResource", resource);
+		APPResource resource;
+		try {
+			resource = database.loadResource((URI)data.get("IRI"));
+			data.put("RetrivedResource", resource);
+		} catch (ResourceNotFoundInDatabaseException e) {
+			e.printStackTrace();
+			rb.status(Status.NOT_FOUND);
+			return false;
+		}
+		rb.status(Status.OK);
 		return true;
 	}
 	

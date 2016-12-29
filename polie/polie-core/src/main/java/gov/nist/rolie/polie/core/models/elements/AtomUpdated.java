@@ -1,5 +1,11 @@
 package gov.nist.rolie.polie.core.models.elements;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import gov.nist.rolie.polie.core.XMLMangement.AtomDateAdapter;
 import gov.nist.rolie.polie.core.models.constructs.AtomDate;
 
 /*
@@ -15,8 +21,11 @@ import gov.nist.rolie.polie.core.models.constructs.AtomDate;
    Publishers MAY change the value of this element over time.
 
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class AtomUpdated implements AtomElement{
 
+	@XmlValue
+	@XmlJavaTypeAdapter(AtomDateAdapter.class)
 	private AtomDate date;
 
 	/**
@@ -27,6 +36,7 @@ public class AtomUpdated implements AtomElement{
 		this.date = date;
 	}
 
+	public AtomUpdated(){}
 	/**
 	 * @return the date
 	 */

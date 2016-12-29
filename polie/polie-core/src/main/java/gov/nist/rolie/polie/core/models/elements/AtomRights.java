@@ -1,5 +1,11 @@
 package gov.nist.rolie.polie.core.models.elements;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import gov.nist.rolie.polie.core.XMLMangement.AtomTextAdapter;
 import gov.nist.rolie.polie.core.models.constructs.AtomTextConstruct;
 
 /*
@@ -17,8 +23,11 @@ import gov.nist.rolie.polie.core.models.constructs.AtomTextConstruct;
    then the atom:rights element of the containing atom:feed element, if
    present, is considered to apply to the entry.
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class AtomRights implements AtomElement{
 	
+	@XmlValue
+	@XmlJavaTypeAdapter(AtomTextAdapter.class)
 	private AtomTextConstruct text;
 
 	/**
@@ -29,6 +38,8 @@ public class AtomRights implements AtomElement{
 		this.text = text;
 	}
 
+	public AtomRights(){}
+	
 	/**
 	 * @return the text
 	 */

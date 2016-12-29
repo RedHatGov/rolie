@@ -15,11 +15,23 @@ package gov.nist.rolie.polie.core.models.elements;
    (vertical) and SHOULD be suitable for presentation at a small size.
  */
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import gov.nist.rolie.polie.core.XMLMangement.AtomURIAdapter;
 import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
 import gov.nist.rolie.polie.core.models.constructs.AtomURI;
-
+@XmlAccessorType(XmlAccessType.NONE)
 public class AtomIcon implements AtomElement{
+	
+	
 	private AtomCommonAttributes commonAttributes;
+	
+	@XmlValue
+	@XmlJavaTypeAdapter(AtomURIAdapter.class)
 	private AtomURI iri;
 	/**
 	 * @param commonAttributes
@@ -30,6 +42,9 @@ public class AtomIcon implements AtomElement{
 		this.commonAttributes = commonAttributes;
 		this.iri = iri;
 	}
+	
+	public AtomIcon(){};
+	
 	/**
 	 * @return the commonAttributes
 	 */

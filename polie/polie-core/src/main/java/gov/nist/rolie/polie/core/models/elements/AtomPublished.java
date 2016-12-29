@@ -1,5 +1,11 @@
 package gov.nist.rolie.polie.core.models.elements;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import gov.nist.rolie.polie.core.XMLMangement.AtomDateAdapter;
 import gov.nist.rolie.polie.core.models.constructs.AtomDate;
 
 /*
@@ -14,8 +20,11 @@ import gov.nist.rolie.polie.core.models.constructs.AtomDate;
    Typically, atom:published will be associated with the initial
    creation or first availability of the resource.
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class AtomPublished implements AtomElement{
 
+	@XmlValue
+	@XmlJavaTypeAdapter(AtomDateAdapter.class)
 	private AtomDate date;
 
 	/**
@@ -25,6 +34,8 @@ public class AtomPublished implements AtomElement{
 		super();
 		this.date = date;
 	}
+	
+	public AtomPublished(){}
 
 	/**
 	 * @return the date

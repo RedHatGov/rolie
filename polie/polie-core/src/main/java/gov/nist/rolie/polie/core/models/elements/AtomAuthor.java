@@ -1,5 +1,9 @@
 package gov.nist.rolie.polie.core.models.elements;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+
 import gov.nist.rolie.polie.core.models.constructs.AtomPerson;
 
 /*    The "atom:author" element is a Person construct that indicates the
@@ -13,14 +17,17 @@ import gov.nist.rolie.polie.core.models.constructs.AtomPerson;
    elements of the containing atom:feed element are considered to apply
    to the entry if there are no atom:author elements in the locations
    described above. */
+@XmlAccessorType(XmlAccessType.NONE)
 public class AtomAuthor implements AtomElement {
-
+	@XmlElement
 	private AtomPerson person;
 	
-	public AtomAuthor()
+	public AtomAuthor(AtomPerson person)
 	{
-		this.setPerson(new AtomPerson());
+		this.setPerson(person);
 	}
+	
+	public AtomAuthor(){}
 
 	/**
 	 * @return the person

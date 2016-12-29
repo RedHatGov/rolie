@@ -1,5 +1,11 @@
 package gov.nist.rolie.polie.core.models.elements;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import gov.nist.rolie.polie.core.XMLMangement.AtomURIAdapter;
 import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
 import gov.nist.rolie.polie.core.models.constructs.AtomMediaType;
 import gov.nist.rolie.polie.core.models.constructs.AtomURI;
@@ -44,11 +50,20 @@ import gov.nist.rolie.polie.core.models.constructs.AtomURI;
    or opaque URI.  The resource identified by the URI need not be
    resolvable.
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class RolieFormat implements RolieElement{
 	
 	private AtomCommonAttributes commonattributes;
+	
+	@XmlAttribute
+	@XmlJavaTypeAdapter(AtomURIAdapter.class)
 	private AtomURI ns;
+	
+	@XmlAttribute
 	private String version;
+	
+	@XmlAttribute
+	@XmlJavaTypeAdapter(AtomURIAdapter.class)
 	private AtomURI schemalocation;
 	private AtomMediaType type;
 	/**
@@ -67,6 +82,8 @@ public class RolieFormat implements RolieElement{
 		this.schemalocation = schemalocation;
 		this.type = type;
 	}
+	
+	public RolieFormat(){};
 	/**
 	 * @return the commonattributes
 	 */

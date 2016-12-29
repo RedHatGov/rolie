@@ -1,5 +1,5 @@
 package gov.nist.rolie.polie.core.models;
 
-public interface APPMediaLinkEntry extends APPEntryResource{
+public abstract class APPMediaLinkEntry extends APPEntryResource{
 
 }

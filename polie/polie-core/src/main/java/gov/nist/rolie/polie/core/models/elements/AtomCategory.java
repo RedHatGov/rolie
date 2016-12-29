@@ -1,5 +1,11 @@
 package gov.nist.rolie.polie.core.models.elements;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import gov.nist.rolie.polie.core.XMLMangement.AtomURIAdapter;
 import gov.nist.rolie.polie.core.models.constructs.AtomURI;
 
 /*    The "atom:category" element conveys information about a category
@@ -15,11 +21,13 @@ import gov.nist.rolie.polie.core.models.constructs.AtomURI;
          undefinedContent
       }
 */
+@XmlAccessorType(XmlAccessType.NONE)
 public class AtomCategory implements AtomElement{
 	
 	/*   The "term" attribute is a string that identifies the category to
    which the entry or feed belongs.  Category elements MUST have a
    "term" attribute.*/
+	@XmlAttribute
 	private String term;
 	
 	/*
@@ -29,12 +37,15 @@ public class AtomCategory implements AtomElement{
    their corresponding characters ("&" and "<", respectively), not
    markup.  Category elements MAY have a "label" attribute.
 	 */
+	@XmlAttribute
 	private String label;
 	
 	/*
 	 *    The "scheme" attribute is an IRI that identifies a categorization
    scheme.  Category elements MAY have a "scheme" attribute.
 	 */
+	@XmlAttribute
+	@XmlJavaTypeAdapter(AtomURIAdapter.class)
 	private AtomURI scheme;
 
 	/**
@@ -48,6 +59,8 @@ public class AtomCategory implements AtomElement{
 		this.label = label;
 		this.scheme = scheme;
 	}
+	
+	public AtomCategory(){}
 
 	/**
 	 * @return the term

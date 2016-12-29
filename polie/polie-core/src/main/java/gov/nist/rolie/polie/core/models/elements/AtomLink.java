@@ -1,5 +1,12 @@
 package gov.nist.rolie.polie.core.models.elements;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import gov.nist.rolie.polie.core.XMLMangement.AtomTextAdapter;
+import gov.nist.rolie.polie.core.XMLMangement.AtomURIAdapter;
 import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
 import gov.nist.rolie.polie.core.models.constructs.AtomLanguageTag;
 import gov.nist.rolie.polie.core.models.constructs.AtomMediaType;
@@ -25,6 +32,7 @@ import gov.nist.rolie.polie.core.models.constructs.AtomURI;
       }
 
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class AtomLink implements AtomElement{
 
 	private AtomCommonAttributes commonAttributes;
@@ -33,6 +41,8 @@ public class AtomLink implements AtomElement{
    have an href attribute, whose value MUST be a IRI reference
    [RFC3987].
    */
+	@XmlAttribute
+	@XmlJavaTypeAdapter(AtomURIAdapter.class)
 	private AtomURI href;
 	
 	/*
@@ -87,6 +97,8 @@ public class AtomLink implements AtomElement{
        attribute identifies a resource that is the source of the
        information provided in the containing element.
 	 */
+	@XmlAttribute
+	@XmlJavaTypeAdapter(AtomURIAdapter.class)
 	private AtomURI rel;
 	
 	/*
@@ -118,6 +130,7 @@ public class AtomLink implements AtomElement{
    characters ("&" and "<", respectively), not markup.  Link elements
    MAY have a title attribute.
 	 */
+	@XmlAttribute
 	private String title;
 	
 	/*
@@ -130,6 +143,7 @@ public class AtomLink implements AtomElement{
    by the underlying protocol.  Link elements MAY have a length
    attribute.
 	 */
+	@XmlAttribute
 	private String length;
 
 	/**
@@ -152,6 +166,8 @@ public class AtomLink implements AtomElement{
 		this.title = title;
 		this.length = length;
 	}
+	
+	public AtomLink(){}
 
 	/**
 	 * @return the commonAttributes

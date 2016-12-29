@@ -1,4 +1,11 @@
 package gov.nist.rolie.polie.core.models.constructs;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import gov.nist.rolie.polie.core.XMLMangement.AtomURIAdapter;
 /*
 3.2.  Person Constructs
 
@@ -38,10 +45,17 @@ package gov.nist.rolie.polie.core.models.constructs;
  */
 import gov.nist.rolie.polie.core.models.elements.AtomElement;
 
+@XmlAccessorType(XmlAccessType.NONE)
 public class AtomPerson implements AtomElement{
 	
+	@XmlElement
 	private String name;
+	
+	@XmlElement
+	@XmlJavaTypeAdapter(AtomURIAdapter.class)
 	private AtomURI uri;
+	
+	@XmlElement
 	private AtomEmailAddress email;
 	/**
 	 * @param name

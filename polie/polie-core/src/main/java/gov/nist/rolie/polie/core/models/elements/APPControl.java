@@ -1,5 +1,8 @@
 package gov.nist.rolie.polie.core.models.elements;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
 /**
  * namespace app = "http://www.w3.org/2007/app"
  * 
@@ -22,6 +25,7 @@ package gov.nist.rolie.polie.core.models.elements;
  * @author sab3
  *
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class APPControl implements APPElement{
 
 }

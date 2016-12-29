@@ -1,5 +1,12 @@
 package gov.nist.rolie.polie.core.models.elements;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import gov.nist.rolie.polie.core.XMLMangement.AtomTextAdapter;
 import gov.nist.rolie.polie.core.models.constructs.AtomTextConstruct;
 
 /*
@@ -10,8 +17,11 @@ import gov.nist.rolie.polie.core.models.constructs.AtomTextConstruct;
 
    atomTitle = element atom:title { atomTextConstruct }
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class AtomTitle implements AtomElement{
 
+	@XmlValue
+	@XmlJavaTypeAdapter(AtomTextAdapter.class)
 	private AtomTextConstruct title;
 
 	/**
@@ -27,19 +37,41 @@ public class AtomTitle implements AtomElement{
 		this.title = new AtomTextConstruct(title);
 	}
 	
+	public AtomTitle(){}
+	
 	/**
 	 * @return the title
 	 */
-	public AtomTextConstruct getTitle() {
+	public AtomTextConstruct getTitleObject() {
 		return title;
 	}
+	
 
+	public String getTitle()
+	{
+		return title.toString();
+	}
+	
+
+	public void setTitle(String string)
+	{
+		this.title.setContent(string);
+	}
 	/**
 	 * @param title the title to set
 	 */
-	public void setTitle(AtomTextConstruct title) {
+	public void setTitleObject(AtomTextConstruct title) {
 		this.title = title;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "AtomTitle [title=" + title + "]";
+	}
+	
 	
 	
 }

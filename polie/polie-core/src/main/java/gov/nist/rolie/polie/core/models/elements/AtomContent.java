@@ -1,5 +1,8 @@
 package gov.nist.rolie.polie.core.models.elements;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
 import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
 import gov.nist.rolie.polie.core.models.constructs.AtomMediaType;
 import gov.nist.rolie.polie.core.models.constructs.AtomURI;
@@ -45,6 +48,7 @@ import gov.nist.rolie.polie.core.models.constructs.AtomURI;
     | atomOutOfLineContent
 
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class AtomContent implements AtomElement{
 
 	private AtomCommonAttributes commonAttributes;

@@ -44,6 +44,9 @@ public class AtomDate {
 		this.commonAttributes = commonAttributes;
 		this.dateTimeString = dateTimeString;
 	}
+	public AtomDate() {
+		// TODO Auto-generated constructor stub
+	}
 	/**
 	 * @return the commonAttributes
 	 */

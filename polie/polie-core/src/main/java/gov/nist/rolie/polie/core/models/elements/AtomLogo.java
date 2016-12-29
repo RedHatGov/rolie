@@ -1,5 +1,12 @@
 package gov.nist.rolie.polie.core.models.elements;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import gov.nist.rolie.polie.core.XMLMangement.AtomTextAdapter;
+import gov.nist.rolie.polie.core.XMLMangement.AtomURIAdapter;
 import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
 import gov.nist.rolie.polie.core.models.constructs.AtomURI;
 
@@ -17,9 +24,12 @@ import gov.nist.rolie.polie.core.models.constructs.AtomURI;
    The image SHOULD have an aspect ratio of 2 (horizontal) to 1
    (vertical).
  */
+@XmlAccessorType(XmlAccessType.NONE)
 public class AtomLogo  implements AtomElement{
 
 	private AtomCommonAttributes commonattributes;
+	@XmlValue
+	@XmlJavaTypeAdapter(AtomURIAdapter.class)
 	private AtomURI iri;
 	/**
 	 * @param commonattributes
@@ -30,6 +40,8 @@ public class AtomLogo  implements AtomElement{
 		this.commonattributes = commonattributes;
 		this.iri = iri;
 	}
+	
+	public AtomLogo(){};
 	/**
 	 * @return the commonattributes
 	 */
