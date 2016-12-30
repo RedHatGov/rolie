@@ -38,7 +38,7 @@ import gov.nist.rolie.polie.core.models.constructs.AtomURI;
       }
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement
+@XmlRootElement(namespace="http://www.w3.org/2007/app")
 public class APPCollection implements APPElement {
 
 	private AtomCommonAttributes commonAttributes;
@@ -56,10 +56,10 @@ public class APPCollection implements APPElement {
 	@XmlElement
 	private AtomTitle title;
 	
-	@XmlElement
+	@XmlElement(namespace="http://www.w3.org/2007/app")
 	private List<APPCategories> categories;
 	
-	@XmlElement
+	@XmlElement(namespace="http://www.w3.org/2007/app")
 	private List<APPAccept> accept;
 	
 

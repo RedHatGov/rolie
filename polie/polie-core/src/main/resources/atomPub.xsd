@@ -23,7 +23,7 @@
 			<xsd:any namespace="##other" minOccurs="0"
 				maxOccurs="unbounded" processContents="lax"/>
 		</xsd:choice>
-		<xsd:attributeGroup ref="atom:commonAttributes"/>
+		<xsd:attributeGroup ref="app:commonAttributes"/>
 	</xsd:complexType>
 	<xsd:complexType name="workspaceType">
 		<xsd:choice minOccurs="1" maxOccurs="unbounded">
@@ -59,10 +59,8 @@
 		<xsd:attribute name="scheme" type="xsd:anyURI" />
 	</xsd:complexType>
 	<xsd:attributeGroup name="commonAttributes">
-		<xsd:attribute ref="xml:base" />
-		<xsd:attribute ref="xml:lang" />
 		<xsd:attribute name ="space" type="xsd:string"/>
-		<xsd:anyAttribute namespace="##other" />
+		<xsd:attributeGroup ref="atom:commonAttributes"/>
 	</xsd:attributeGroup>
 
 </xsd:schema>

@@ -84,7 +84,7 @@ public class DummyPersist implements PersistenceMethod {
 
 	@Override
 	public APPResource loadResource(URI iri) throws ResourceNotFoundInDatabaseException {
-		String root = "C:\\Users\\sab3\\Textdatabase\\";
+		String root = "C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-core\\src\\main\\resources\\";
 		String result = "";
 		Path file = null;
 		switch (iri.toString())

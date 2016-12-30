@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Map;
 
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
 
 import gov.nist.rolie.polie.core.database.DummyPersist;
 import gov.nist.rolie.polie.core.database.PersistenceMethod;
@@ -12,6 +13,8 @@ import gov.nist.rolie.polie.core.event.Delete;
 import gov.nist.rolie.polie.core.event.Get;
 import gov.nist.rolie.polie.core.event.Post;
 import gov.nist.rolie.polie.core.event.Put;
+import gov.nist.rolie.polie.core.exceptions.ResourceNotFoundInDatabaseException;
+import gov.nist.rolie.polie.core.models.APPResource;
 import gov.nist.rolie.polie.core.models.APPServiceDocument;
 
 /**
@@ -47,9 +50,10 @@ public class ServiceDocumentRetrivalVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-		APPServiceDocument serviceDocument = (database.loadServiceDocument((URI)data.get("IRI")));
-		data.put("RetrivedResource", serviceDocument);
-		rb.status(200);
+		APPServiceDocument srv;
+			srv = database.loadServiceDocument((URI)data.get("IRI"));
+			data.put("RetrivedResource", srv);
+		rb.status(Status.OK);
 		return true;
 	}
 

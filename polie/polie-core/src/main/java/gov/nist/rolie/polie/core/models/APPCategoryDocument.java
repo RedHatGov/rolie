@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author sab3
  * 
  */
-@XmlRootElement(name="categories")
+@XmlRootElement(name="categories" ,namespace="http://www.w3.org/2007/app")
 @XmlAccessorType(XmlAccessType.NONE)
 public class APPCategoryDocument extends APPResource {
 

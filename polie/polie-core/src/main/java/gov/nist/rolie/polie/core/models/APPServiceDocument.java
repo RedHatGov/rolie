@@ -29,13 +29,13 @@ import gov.nist.rolie.polie.core.models.constructs.APPCommonAttributes;
            & extensionElement* )
       }
  */
-@XmlRootElement(name="service")
+@XmlRootElement(name="service" ,namespace="http://www.w3.org/2007/app")
 @XmlAccessorType(XmlAccessType.NONE)
 public class APPServiceDocument extends APPResource implements AtomElement {
 	
 	APPCommonAttributes APPCommonAttributes;
 	
-	@XmlElement
+	@XmlElement(namespace="http://www.w3.org/2007/app")
 	List<APPWorkspace> workspace;
 	
 	

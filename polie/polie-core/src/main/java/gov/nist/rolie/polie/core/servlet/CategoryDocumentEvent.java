@@ -17,6 +17,7 @@ import gov.nist.rolie.polie.core.visitors.CategoryDocumentRetrivalVisitor;
 
 import gov.nist.rolie.polie.core.visitors.RESTEventVisitor;
 import gov.nist.rolie.polie.core.visitors.RequestValidatorVisitor;
+import gov.nist.rolie.polie.core.visitors.ResourceSerializerVisitor;
 import gov.nist.rolie.polie.core.visitors.ResponseBuilderVisitor;
 
 //import gov.nist.rolie.polie.core.visitors.DebugVisitor;
@@ -58,6 +59,8 @@ public class CategoryDocumentEvent {
 	 */
 	private static final RESTEventVisitor RESPONSE_BUILDER_VISITOR = new ResponseBuilderVisitor();
 
+	
+	private static final RESTEventVisitor RESOURCE_SERIALIZER_VISITOR = new ResourceSerializerVisitor();
 	/**
 	 * TODO
 	 * Provides a single location that points to the actual category document location
@@ -92,6 +95,7 @@ public class CategoryDocumentEvent {
 		
 		vm.addVisitor(REQUEST_VALIDATOR_VISITOR);
 		vm.addVisitor(CATEGORY_DOCUMENT_RETRIVIAL_VISITOR);
+		vm.addVisitor(RESOURCE_SERIALIZER_VISITOR);
 		vm.addVisitor(RESPONSE_BUILDER_VISITOR);
 		
 		Map<String,Object> data = new HashMap<>();

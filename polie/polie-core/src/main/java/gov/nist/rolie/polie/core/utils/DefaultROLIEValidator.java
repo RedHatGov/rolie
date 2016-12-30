@@ -44,7 +44,7 @@ public class DefaultROLIEValidator implements ROLIEValidator{
 	{
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		
-		InputStream is = DefaultROLIEValidator.class.getClassLoader().getResourceAsStream("atomSynd.xsd");
+		InputStream is = DefaultROLIEValidator.class.getClassLoader().getResourceAsStream("rolie.xsd");
 		Source schemaFile = new StreamSource(is);
 		Schema schema = factory.newSchema(schemaFile); 
 

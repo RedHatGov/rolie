@@ -26,7 +26,7 @@ import gov.nist.rolie.polie.core.models.constructs.APPCommonAttributes;
    atomTitle = element atom:title { atomTextConstruct }
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement
+@XmlRootElement(namespace="http://www.w3.org/2007/app")
 public class APPWorkspace implements APPElement{
 
 	private APPCommonAttributes APPCommonAttributes;
@@ -34,7 +34,7 @@ public class APPWorkspace implements APPElement{
 	@XmlElement
 	private AtomTitle title;
 	
-	@XmlElement
+	@XmlElement(namespace="http://www.w3.org/2007/app")
 	private List<APPCollection> collection;
 	/**
 	 * @param aPPCommonAttributes

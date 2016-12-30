@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<atom:feed xmlns:atom="http://www.w3.org/2005/Atom" xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0">
-<atom:id>http://www.example.org/provider/vulns</atom:id>
-<atom:title type="text">
-Atom formatted representation of 
-a feed of XML incident documents
-</atom:title>
-<atom:category
-scheme="urn:ietf:params:rolie:category:information-type"
-term="vulnerability"/>
-<atom:updated>2012-05-04T18:13:51.0Z</atom:updated>
-<atom:link rel="self" href="http://example.org/provider/vulns" />  
-<atom:link rel="service" 
-href="http://example.org/rolie/servicedocument"/>
-<atom:category scheme="urn:ietf:params:rolie:information-type" term="incident" />
-<atom:entry>
-  <atom:id>http://www.example.org/provider/vulns/123456</atom:id>
-  <atom:title>Sample Incident</atom:title>
-  <atom:published>2012-08-04T18:13:51.0Z</atom:published>
-  <atom:updated>2012-08-05T18:13:51.0Z</atom:updated>
-  <atom:category scheme="urn:ietf:params:rolie:information-type" term="incident" />
-  <atom:category scheme="urn:ietf:params:rolie:information-type"
-    term="vulnerbility" />
-  <atom:summary>A short description of this incident resource</atom:summary>
-  <atom:content type="application/xml"
-    src="http://www.example.org/provider/vulns/123456/data">
-  </atom:content>
-  <rolie:format version="String from client"/>
-  <rolie:property scheme="rolie.com" term="entry"/>
-</atom:entry>     
+<atom:feed xmlns:app="http://www.w3.org/2007/app" xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0"
+	xmlns:atom="http://www.w3.org/2005/Atom" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:ietf:params:xml:ns:rolie-1.0 rolie.xsd">
+	<atom:id>http://www.example.org/provider/vulns</atom:id>
+	<atom:title type="text">
+		Atom formatted representation of
+		a feed of XML incident documents
+	</atom:title>
+	<atom:category scheme="urn:ietf:params:rolie:category:information-type"
+		term="vulnerability" />
+	<atom:updated>2012-05-04T18:13:51.0Z</atom:updated>
+	<atom:link rel="self" href="http://example.org/provider/vulns" />
+	<atom:link rel="service" href="http://example.org/rolie/servicedocument" />
+	<atom:category scheme="urn:ietf:params:rolie:information-type"
+		term="incident" />
+	<atom:entry>
+		<atom:id>http://www.example.org/provider/vulns/123456</atom:id>
+		<atom:title>Sample Incident</atom:title>
+		<atom:published>2012-08-04T18:13:51.0Z</atom:published>
+		<atom:updated>2012-08-05T18:13:51.0Z</atom:updated>
+		<atom:category scheme="urn:ietf:params:rolie:information-type"
+			term="incident" />
+		<atom:category scheme="urn:ietf:params:rolie:information-type"
+			term="vulnerbility" />
+		<atom:summary>A short description of this incident resource
+		</atom:summary>
+		<atom:content type="application/xml"
+			src="http://www.example.org/provider/vulns/123456/data">
+		</atom:content>
+		<rolie:format version="String from client" />
+		<rolie:property scheme="rolie.com" term="entry" />
+	</atom:entry>
 </atom:feed>
