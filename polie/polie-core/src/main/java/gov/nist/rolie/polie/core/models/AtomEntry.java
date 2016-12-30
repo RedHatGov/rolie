@@ -122,8 +122,11 @@ public class AtomEntry extends APPResource implements AtomElement{
 	@XmlElement(namespace="urn:ietf:params:xml:ns:rolie-1.0")
 	private RolieProperty property;
 	
+	@XmlElement
+	private AtomContent content;
 	
-	
+
+
 	/**
 	 * @param comattr
 	 * @param author
@@ -143,7 +146,7 @@ public class AtomEntry extends APPResource implements AtomElement{
 	public AtomEntry(AtomCommonAttributes comattr, ArrayList<AtomAuthor> authors, ArrayList<AtomCategory> categories,
 			ArrayList<AtomContributor> contributors, AtomId id, ArrayList<AtomLink> links, AtomPublished published,
 			AtomRights rights, AtomSource source, AtomSummary summary, AtomTitle title, AtomUpdated updated,
-			RolieFormat format, RolieProperty property) {
+			RolieFormat format, RolieProperty property, AtomContent content) {
 		super();
 		this.comattr = comattr;
 		this.author = authors;
@@ -159,12 +162,27 @@ public class AtomEntry extends APPResource implements AtomElement{
 		this.updated = updated;
 		this.format = format;
 		this.property = property;
+		this.content=content;
 	}
 	
 	public AtomEntry() {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+	/**
+	 * @return the content
+	 */
+	public AtomContent getContent() {
+		return content;
+	}
+
+	/**
+	 * @param content the content to set
+	 */
+	public void setContent(AtomContent content) {
+		this.content = content;
+	}
 	/**
 	 * @return the comattr
 	 */

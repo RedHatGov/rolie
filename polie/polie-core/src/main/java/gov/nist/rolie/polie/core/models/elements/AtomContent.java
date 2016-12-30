@@ -2,7 +2,11 @@ package gov.nist.rolie.polie.core.models.elements;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import gov.nist.rolie.polie.core.XMLMangement.AtomMediaTypeAdapter;
+import gov.nist.rolie.polie.core.XMLMangement.AtomURIAdapter;
 import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
 import gov.nist.rolie.polie.core.models.constructs.AtomMediaType;
 import gov.nist.rolie.polie.core.models.constructs.AtomURI;
@@ -52,8 +56,14 @@ import gov.nist.rolie.polie.core.models.constructs.AtomURI;
 public class AtomContent implements AtomElement{
 
 	private AtomCommonAttributes commonAttributes;
+	
+	@XmlAttribute
+	@XmlJavaTypeAdapter(AtomMediaTypeAdapter.class)
 	private AtomMediaType type;
-	private AtomURI uri;
+	
+	@XmlAttribute
+	@XmlJavaTypeAdapter(AtomURIAdapter.class)
+	private AtomURI src;
 	/**
 	 * @param commonAttributes
 	 * @param type
@@ -63,8 +73,11 @@ public class AtomContent implements AtomElement{
 		super();
 		this.commonAttributes = commonAttributes;
 		this.type = type;
-		this.uri = uri;
+		this.src = uri;
 	}
+	
+	public AtomContent(){}
+	
 	/**
 	 * @return the commonAttributes
 	 */
@@ -81,7 +94,7 @@ public class AtomContent implements AtomElement{
 	 * @return the uri
 	 */
 	public AtomURI getUri() {
-		return uri;
+		return src;
 	}
 	/**
 	 * @param commonAttributes the commonAttributes to set
@@ -99,7 +112,7 @@ public class AtomContent implements AtomElement{
 	 * @param uri the uri to set
 	 */
 	public void setUri(AtomURI uri) {
-		this.uri = uri;
+		this.src = uri;
 	}
 	
 	

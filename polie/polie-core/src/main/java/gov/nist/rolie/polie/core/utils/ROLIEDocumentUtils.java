@@ -15,7 +15,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import gov.nist.rolie.polie.core.models.APPCategoryDocument;
+import gov.nist.rolie.polie.core.models.APPCategories;
 import gov.nist.rolie.polie.core.models.APPServiceDocument;
 import gov.nist.rolie.polie.core.models.AtomEntry;
 import gov.nist.rolie.polie.core.models.AtomFeed;
@@ -98,7 +98,7 @@ public class ROLIEDocumentUtils {
 		case "entry": return AtomEntry.class;
 		case "feed": return AtomFeed.class;
 		case "service": return APPServiceDocument.class;
-		case "categories": return APPCategoryDocument.class;
+		case "categories": return APPCategories.class;
 		}
 		return null;
 	}

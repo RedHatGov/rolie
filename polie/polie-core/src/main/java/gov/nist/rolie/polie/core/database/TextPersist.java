@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import gov.nist.rolie.polie.core.models.APPCategoryDocument;
+import gov.nist.rolie.polie.core.models.APPCategories;
 import gov.nist.rolie.polie.core.models.APPResource;
 import gov.nist.rolie.polie.core.models.APPServiceDocument;
 import gov.nist.rolie.polie.core.models.elements.APPCollection;
@@ -47,13 +47,13 @@ public class TextPersist implements PersistenceMethod{
 	}
 
 	@Override
-	public APPCategoryDocument saveCategoryDocument(APPCategoryDocument categorydocument) {
+	public APPCategories saveCategoryDocument(APPCategories categorydocument) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public APPCategoryDocument loadCategoryDocument(URI iri) {
+	public APPCategories loadCategoryDocument(URI iri) {
 		// TODO Auto-generated method stub
 		return null;
 	}

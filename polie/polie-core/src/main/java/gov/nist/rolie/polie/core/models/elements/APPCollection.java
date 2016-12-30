@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import gov.nist.rolie.polie.core.XMLMangement.AtomURIAdapter;
+import gov.nist.rolie.polie.core.models.APPCategories;
 import gov.nist.rolie.polie.core.models.APPResource;
 import gov.nist.rolie.polie.core.models.constructs.AtomCommonAttributes;
 import gov.nist.rolie.polie.core.models.constructs.AtomURI;

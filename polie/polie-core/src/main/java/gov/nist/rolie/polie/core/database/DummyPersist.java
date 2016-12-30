@@ -13,7 +13,7 @@ import gov.nist.rolie.polie.core.XMLMangement.JAXBXMLResourceInterface;
 import gov.nist.rolie.polie.core.XMLMangement.XMLResourceInterface;
 import gov.nist.rolie.polie.core.exceptions.FailedToBuildResourceException;
 import gov.nist.rolie.polie.core.exceptions.ResourceNotFoundInDatabaseException;
-import gov.nist.rolie.polie.core.models.APPCategoryDocument;
+import gov.nist.rolie.polie.core.models.APPCategories;
 import gov.nist.rolie.polie.core.models.APPResource;
 import gov.nist.rolie.polie.core.models.APPServiceDocument;
 import gov.nist.rolie.polie.core.models.AtomEntry;
@@ -26,7 +26,7 @@ import gov.nist.rolie.polie.core.models.elements.AtomTitle;
 public class DummyPersist implements PersistenceMethod {
 
 	private static APPServiceDocument service = new APPServiceDocument();
-	private static APPCategoryDocument categories = new APPCategoryDocument();
+	private static APPCategories categories = new APPCategories();
 	private static AtomEntry entry = new AtomEntry();
 	private static AtomFeed  feed = new AtomFeed();
 	static {
@@ -60,14 +60,14 @@ public class DummyPersist implements PersistenceMethod {
 	}
 
 	@Override
-	public APPCategoryDocument saveCategoryDocument(APPCategoryDocument categorydocument) {
+	public APPCategories saveCategoryDocument(APPCategories categorydocument) {
 		return categorydocument;
 	}
 
 	@Override
-	public APPCategoryDocument loadCategoryDocument(URI iri) {
+	public APPCategories loadCategoryDocument(URI iri) {
 		try {
-			return (APPCategoryDocument)loadResource(new URI("http://localhost:8080/polie-core/category"));
+			return (APPCategories)loadResource(new URI("http://localhost:8080/polie-core/category"));
 		} catch (ResourceNotFoundInDatabaseException e) {
 			e.printStackTrace();
 			return null;

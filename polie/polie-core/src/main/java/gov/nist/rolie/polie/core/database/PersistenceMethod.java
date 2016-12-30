@@ -11,8 +11,8 @@ public interface PersistenceMethod
 	APPServiceDocument saveServiceDocument(APPServiceDocument servicedocument);
 	APPServiceDocument loadServiceDocument(URI iri);
 	
-	APPCategoryDocument saveCategoryDocument(APPCategoryDocument categorydocument);
-	APPCategoryDocument loadCategoryDocument(URI iri);
+	APPCategories saveCategoryDocument(APPCategories categorydocument);
+	APPCategories loadCategoryDocument(URI iri);
 	
 	APPResource loadResource(String id);
 	APPResource loadResource(URI iri) throws ResourceNotFoundInDatabaseException;
