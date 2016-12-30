@@ -1,8 +1,17 @@
 package gov.nist.rolie.polie.core.database;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import gov.nist.rolie.polie.core.XMLMangement.JAXBXMLResourceInterface;
+import gov.nist.rolie.polie.core.XMLMangement.XMLResourceInterface;
+import gov.nist.rolie.polie.core.exceptions.FailedToBuildResourceException;
 import gov.nist.rolie.polie.core.exceptions.ResourceNotFoundInDatabaseException;
 import gov.nist.rolie.polie.core.models.APPCategoryDocument;
 import gov.nist.rolie.polie.core.models.APPResource;
@@ -39,7 +48,15 @@ public class DummyPersist implements PersistenceMethod {
 
 	@Override
 	public APPServiceDocument loadServiceDocument(URI iri) { 
-		return service;
+		try {
+			return (APPServiceDocument)loadResource(new URI("http://localhost:8080/polie-core/service"));
+		} catch (ResourceNotFoundInDatabaseException e) {
+			e.printStackTrace();
+			return null;
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
@@ -49,7 +66,15 @@ public class DummyPersist implements PersistenceMethod {
 
 	@Override
 	public APPCategoryDocument loadCategoryDocument(URI iri) {
-		return categories;
+		try {
+			return (APPCategoryDocument)loadResource(new URI("http://localhost:8080/polie-core/category"));
+		} catch (ResourceNotFoundInDatabaseException e) {
+			e.printStackTrace();
+			return null;
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
@@ -59,26 +84,39 @@ public class DummyPersist implements PersistenceMethod {
 
 	@Override
 	public APPResource loadResource(URI iri) throws ResourceNotFoundInDatabaseException {
-		if (iri.toString().equals("http://localhost:8080/polie-core/feed/entry"))
+		String root = "C:\\Users\\sab3\\Textdatabase\\";
+		String result = "";
+		Path file = null;
+		switch (iri.toString())
 		{
-			entry.setTitle("I'm an entry loaded from database");
-			return entry;
+		case "http://localhost:8080/polie-core/entry": file = Paths.get(root+"testEntry.xml"); break;
+		case "http://localhost:8080/polie-core/feed": file = Paths.get(root+"testFeed.xml"); break;
+		case "http://localhost:8080/polie-core/service": file = Paths.get(root+"testService.xml"); break;
+		case "http://localhost:8080/polie-core/category": file = Paths.get(root+"testCategory.xml"); break;
 		}
-		if (iri.toString().equals("http://localhost:8080/polie-core/feed"))
-		{
-			feed.setTitle("I'm a Feed loaded from database");
-			return feed;
+
+		try {
+			BufferedReader reader = Files.newBufferedReader(file);
+			String line = null;
+			while ((line = reader.readLine()) != null)
+			{
+				result+=line;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		else
-		{
+		XMLResourceInterface ri = new JAXBXMLResourceInterface();
+		try {
+			return ri.XMLToResource(ri.StringToXML(result));
+		} catch (FailedToBuildResourceException e) {
+			e.printStackTrace();
 			throw new ResourceNotFoundInDatabaseException();
 		}
 	}
 
 	@Override
 	public APPResource createResource(APPResource resource, URI uri) {
-		//entry.setTitle("I'm an entry that was just created by the database");
-		((AtomEntry)resource).setSummary("This summary was added by the DB at creation time");
 		return resource;
 	}
 

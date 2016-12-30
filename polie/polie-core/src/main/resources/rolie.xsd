@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema 
+    xmlns:app="http://www.w3.org/2007/app"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:atom="http://www.w3.org/2005/Atom"
+    xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0"
+
+    targetNamespace="urn:ietf:params:xml:ns:rolie-1.0"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+    
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"
+        schemaLocation="http://www.w3.org/2001/03/xml.xsd" />
+    
+    <xsd:import namespace="http://www.w3.org/2005/Atom"
+        schemaLocation="atomSynd.xsd"/>
+    
+    <xsd:import namespace="http://www.w3.org/2007/app"
+        schemaLocation="atomPub.xsd"/>
+    
+    <xsd:element name = "format" type="rolie:formatType"/>
+    <xsd:element name = "property" type="rolie:propertyType"/>
+    <xsd:complexType name="formatType">
+        <xsd:attribute name="ns" type="xsd:anyURI"/>
+        <xsd:attribute name="version" type="xsd:string"/>
+        <xsd:attribute name="schema-location" type="xsd:anyURI"/>
+        <xsd:attribute name="schema-type" type="xsd:string"/>
+        <xsd:attributeGroup ref="app:commonAttributes"/>
+    </xsd:complexType>
+    <xsd:complexType name="propertyType">
+        <xsd:attribute name="scheme" type="xsd:anyURI"/>
+        <xsd:attribute name="term" type="xsd:string"/>
+        <xsd:attribute name="label" type="xsd:string"/>
+        <xsd:attributeGroup ref="app:commonAttributes"/>
+    </xsd:complexType>
+</xsd:schema>
