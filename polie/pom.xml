@@ -9,7 +9,12 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>polie-core</module>
+		<module>polie-model</module>
+		<module>polie-tools</module>
+		<module>polie-persistence</module>
+		<module>polie-atomLogic</module>
+		<module>polie-server</module>
+		<module>polie-client</module>
 	</modules>
 
 	<properties>
