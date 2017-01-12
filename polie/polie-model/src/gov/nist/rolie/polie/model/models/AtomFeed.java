@@ -104,48 +104,48 @@ RFC 4287                      Atom Format                  December 2005
    One typical behavior would be to display only the entry with the
    latest atom:updated timestamp.
  */
-@XmlRootElement(name="feed")
-@XmlAccessorType(XmlAccessType.NONE)
+
 public class AtomFeed extends APPResource implements AtomElement{
 
 	private AtomCommonAttributes comattr;
 	
-	@XmlElement
+
 	private ArrayList<AtomAuthor> author;
 	
-	@XmlElement
+
 	private ArrayList<AtomCategory> category;
 	
-	@XmlElement
+
 	private ArrayList<AtomContributor> contributor;
 	
-	@XmlElement
+
 	private AtomGenerator generator;
 	
-	@XmlElement
+
 	private AtomId id;
 	
-	@XmlElement
+
 	private ArrayList<AtomLink> link;
 	
-	@XmlElement
+
 	private AtomRights rights;
 	
-	@XmlElement
+
 	private AtomTitle title;
 	
-	@XmlElement
+
 	private AtomSubTitle subtitle;
 	
-	@XmlElement
+
 	private AtomUpdated updated;
 	
-	@XmlElement
+
 	private AtomIcon icon;
 	
-	@XmlElement
+
 	private AtomLogo logo;
 	
+	private ArrayList<AtomEntry> entries;
 
 	/**
 	 * @param comattr
@@ -368,6 +368,22 @@ public class AtomFeed extends APPResource implements AtomElement{
 
 	public void setTitle(String string) {
 		setTitle(new AtomTitle(string));
+	}
+
+
+	/**
+	 * @return the entries
+	 */
+	public ArrayList<AtomEntry> getEntries() {
+		return entries;
+	}
+
+
+	/**
+	 * @param entries the entries to set
+	 */
+	public void setEntries(ArrayList<AtomEntry> entries) {
+		this.entries = entries;
 	}
 	
 }
