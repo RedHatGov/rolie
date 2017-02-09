@@ -2,7 +2,6 @@ package gov.nist.rolie.polie.persistence.database;
 
 import java.net.URI;
 
-import gov.nist.rolie.polie.atomLogic.modelServices.AtomFeed;
 import gov.nist.rolie.polie.model.models.*;
 import gov.nist.rolie.polie.model.models.elements.APPCollection;
 import gov.nist.rolie.polie.tools.exceptions.ResourceNotFoundInDatabaseException;
@@ -25,7 +24,9 @@ public interface PersistenceMethod
 	APPResource copyResource(APPResource resource);
 	AtomFeed loadFeed(URI uri);
 	AtomEntry loadEntry(URI iri);
-	void saveFeed(gov.nist.rolie.polie.model.models.AtomFeed feed);
+	AtomFeed saveFeed(AtomFeed feed);
+	APPServiceDocument loadServiceDocument();
+	APPCategories loadCategoryDocument();
 	
 	
 	

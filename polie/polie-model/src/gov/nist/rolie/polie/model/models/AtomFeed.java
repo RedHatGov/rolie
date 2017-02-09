@@ -5,26 +5,19 @@ package gov.nist.rolie.polie.model.models;
 
 import java.util.ArrayList;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import gov.nist.rolie.polie.model.models.constructs.AtomCommonAttributes;
-import gov.nist.rolie.polie.model.models.elements.AtomAuthor;
+import gov.nist.rolie.polie.model.models.constructs.AtomPerson;
+import gov.nist.rolie.polie.model.models.elements.APPCollection;
+
 import gov.nist.rolie.polie.model.models.elements.AtomCategory;
-import gov.nist.rolie.polie.model.models.elements.AtomContributor;
+
 import gov.nist.rolie.polie.model.models.elements.AtomElement;
 import gov.nist.rolie.polie.model.models.elements.AtomGenerator;
 import gov.nist.rolie.polie.model.models.elements.AtomIcon;
 import gov.nist.rolie.polie.model.models.elements.AtomId;
 import gov.nist.rolie.polie.model.models.elements.AtomLink;
 import gov.nist.rolie.polie.model.models.elements.AtomLogo;
-import gov.nist.rolie.polie.model.models.elements.AtomRights;
-import gov.nist.rolie.polie.model.models.elements.AtomSubTitle;
-import gov.nist.rolie.polie.model.models.elements.AtomTitle;
-import gov.nist.rolie.polie.model.models.elements.AtomUpdated;
+
 
 /**
 4.1.1.  The "atom:feed" Element
@@ -94,29 +87,32 @@ RFC 4287                      Atom Format                  December 2005
    o  atom:feed elements MUST NOT contain more than one atom:subtitle
       element.
    o  atom:feed elements MUST contain exactly one atom:title element.
-   o  atom:feed elements MUST contain exactly one atom:updated element.
+   o  atom:feed elements MUST contain exactly one atom:updatedDate element.
 
    If multiple atom:entry elements with the same atom:id value appear in
    an Atom Feed Document, they represent the same entry.  Their
-   atom:updated timestamps SHOULD be different.  If an Atom Feed
+   atom:updatedDate timestamps SHOULD be different.  If an Atom Feed
    Document contains multiple entries with the same atom:id, Atom
    Processors MAY choose to display all of them or some subset of them.
    One typical behavior would be to display only the entry with the
-   latest atom:updated timestamp.
+   latest atom:updatedDate timestamp.
  */
 
 public class AtomFeed extends APPResource implements AtomElement{
 
+	private APPCollection collectionView;
+	
+	
 	private AtomCommonAttributes comattr;
 	
 
-	private ArrayList<AtomAuthor> author;
+	private ArrayList<AtomPerson> author;
 	
 
 	private ArrayList<AtomCategory> category;
 	
 
-	private ArrayList<AtomContributor> contributor;
+	private ArrayList<AtomPerson> contributor;
 	
 
 	private AtomGenerator generator;
@@ -128,16 +124,16 @@ public class AtomFeed extends APPResource implements AtomElement{
 	private ArrayList<AtomLink> link;
 	
 
-	private AtomRights rights;
+	private String rights;
 	
 
-	private AtomTitle title;
+	private String title;
 	
 
-	private AtomSubTitle subtitle;
+	private String subtitle;
 	
 
-	private AtomUpdated updated;
+	private String updatedDate;
 	
 
 	private AtomIcon icon;
@@ -145,47 +141,130 @@ public class AtomFeed extends APPResource implements AtomElement{
 
 	private AtomLogo logo;
 	
+	
 	private ArrayList<AtomEntry> entries;
 
+
+	
+	
 	/**
-	 * @param comattr
-	 * @param author
-	 * @param category
-	 * @param contributor
-	 * @param generator
-	 * @param id
-	 * @param link
-	 * @param rights
-	 * @param title
-	 * @param subtitle
-	 * @param updated
-	 * @param icon
-	 * @param logo
+	 * @return the collectionView
 	 */
-	public AtomFeed(AtomCommonAttributes comattr, ArrayList<AtomAuthor> authors, ArrayList<AtomCategory> categories,
-			ArrayList<AtomContributor> contributors, AtomGenerator generator, AtomId id, ArrayList<AtomLink> links,
-			AtomRights rights, AtomTitle title, AtomSubTitle subtitle, AtomUpdated updated, AtomIcon icon,
-			AtomLogo logo) {
-		super();
-		this.comattr = comattr;
-		this.author = authors;
-		this.category = categories;
-		this.contributor = contributors;
-		this.generator = generator;
-		this.id = id;
-		this.link = links;
-		this.rights = rights;
-		this.title = title;
-		this.subtitle = subtitle;
-		this.updated = updated;
-		this.icon = icon;
-		this.logo = logo;
+	public APPCollection getCollectionView() {
+		return collectionView;
 	}
-	
-	
-	public AtomFeed() {
-		// TODO Auto-generated constructor stub
+
+
+
+
+	/**
+	 * @return the comattr
+	 */
+	public AtomCommonAttributes getComattr() {
+		return comattr;
 	}
+
+
+
+
+	/**
+	 * @return the author
+	 */
+	public ArrayList<AtomPerson> getAuthor() {
+		return author;
+	}
+
+
+
+
+	/**
+	 * @return the category
+	 */
+	public ArrayList<AtomCategory> getCategory() {
+		return category;
+	}
+
+
+
+
+	/**
+	 * @return the contributor
+	 */
+	public ArrayList<AtomPerson> getContributor() {
+		return contributor;
+	}
+
+
+
+
+	/**
+	 * @return the generator
+	 */
+	public AtomGenerator getGenerator() {
+		return generator;
+	}
+
+
+
+
+	/**
+	 * @return the id
+	 */
+	public AtomId getId() {
+		return id;
+	}
+
+
+
+
+	/**
+	 * @return the link
+	 */
+	public ArrayList<AtomLink> getLink() {
+		return link;
+	}
+
+
+
+
+	/**
+	 * @return the rights
+	 */
+	public String getRights() {
+		return rights;
+	}
+
+
+
+
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+
+
+
+	/**
+	 * @return the subtitle
+	 */
+	public String getSubtitle() {
+		return subtitle;
+	}
+
+
+
+
+	/**
+	 * @return the updatedDate
+	 */
+	public String getUpdatedDate() {
+		return updatedDate;
+	}
+
+
 
 
 	/**
@@ -196,6 +275,8 @@ public class AtomFeed extends APPResource implements AtomElement{
 	}
 
 
+
+
 	/**
 	 * @return the logo
 	 */
@@ -204,171 +285,6 @@ public class AtomFeed extends APPResource implements AtomElement{
 	}
 
 
-	/**
-	 * @param icon the icon to set
-	 */
-	public void setIcon(AtomIcon icon) {
-		this.icon = icon;
-	}
-
-
-	/**
-	 * @param logo the logo to set
-	 */
-	public void setLogo(AtomLogo logo) {
-		this.logo = logo;
-	}
-
-
-	/**
-	 * @return the comattr
-	 */
-	public AtomCommonAttributes getComattr() {
-		return comattr;
-	}
-	/**
-	 * @return the author
-	 */
-	public ArrayList<AtomAuthor> getAuthors() {
-		return author;
-	}
-	/**
-	 * @return the category
-	 */
-	public ArrayList<AtomCategory> getCategories() {
-		return category;
-	}
-	/**
-	 * @return the contributor
-	 */
-	public ArrayList<AtomContributor> getContributors() {
-		return contributor;
-	}
-	/**
-	 * @return the generator
-	 */
-	public AtomGenerator getGenerator() {
-		return generator;
-	}
-	/**
-	 * @return the id
-	 */
-	public AtomId getId() {
-		return id;
-	}
-	/**
-	 * @return the link
-	 */
-	public ArrayList<AtomLink> getLinks() {
-		return link;
-	}
-	/**
-	 * @return the rights
-	 */
-	public AtomRights getRights() {
-		return rights;
-	}
-	/**
-	 * @return the title
-	 */
-	public AtomTitle getTitle() {
-		return title;
-	}
-	/**
-	 * @return the subtitle
-	 */
-	public AtomSubTitle getSubtitle() {
-		return subtitle;
-	}
-	/**
-	 * @return the updated
-	 */
-	public AtomUpdated getUpdated() {
-		return updated;
-	}
-	/**
-	 * @param comattr the comattr to set
-	 */
-	public void setComattr(AtomCommonAttributes comattr) {
-		this.comattr = comattr;
-	}
-	/**
-	 * @param author the author to set
-	 */
-	public void setAuthors(ArrayList<AtomAuthor> authors) {
-		this.author = authors;
-	}
-	/**
-	 * @param category the category to set
-	 */
-	public void setCategories(ArrayList<AtomCategory> categories) {
-		this.category = categories;
-	}
-	/**
-	 * @param contributor the contributor to set
-	 */
-	public void setContributors(ArrayList<AtomContributor> contributors) {
-		this.contributor = contributors;
-	}
-	/**
-	 * @param generator the generator to set
-	 */
-	public void setGenerator(AtomGenerator generator) {
-		this.generator = generator;
-	}
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(AtomId id) {
-		this.id = id;
-	}
-	/**
-	 * @param link the link to set
-	 */
-	public void setLinks(ArrayList<AtomLink> links) {
-		this.link = links;
-	}
-	/**
-	 * @param rights the rights to set
-	 */
-	public void setRights(AtomRights rights) {
-		this.rights = rights;
-	}
-	/**
-	 * @param title the title to set
-	 */
-	public void setTitle(AtomTitle title) {
-		this.title = title;
-	}
-	/**
-	 * @param subtitle the subtitle to set
-	 */
-	public void setSubtitle(AtomSubTitle subtitle) {
-		this.subtitle = subtitle;
-	}
-	/**
-	 * @param updated the updated to set
-	 */
-	public void setUpdated(AtomUpdated updated) {
-		this.updated = updated;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "AtomFeed [comattr=" + comattr + ", author=" + author + ", category=" + category
-				+ ", contributor=" + contributor + ", generator=" + generator + ", id=" + id + ", link=" + link
-				+ ", rights=" + rights + ", title=" + title + ", subtitle=" + subtitle + ", updated=" + updated
-				+ ", icon=" + icon + ", logo=" + logo + "]";
-	}
-
-
-	public void setTitle(String string) {
-		setTitle(new AtomTitle(string));
-	}
 
 
 	/**
@@ -379,11 +295,216 @@ public class AtomFeed extends APPResource implements AtomElement{
 	}
 
 
+
+
+	/**
+	 * @param collectionView
+	 * @param comattr
+	 * @param author
+	 * @param category
+	 * @param contributor
+	 * @param generator
+	 * @param id
+	 * @param link
+	 * @param rights
+	 * @param title
+	 * @param subtitle
+	 * @param updatedDate
+	 * @param icon
+	 * @param logo
+	 * @param entries
+	 */
+	public AtomFeed(APPCollection collectionView, AtomCommonAttributes comattr, ArrayList<AtomPerson> author,
+			ArrayList<AtomCategory> category, ArrayList<AtomPerson> contributor, AtomGenerator generator, AtomId id,
+			ArrayList<AtomLink> link, String rights, String title, String subtitle, String updatedDate, AtomIcon icon,
+			AtomLogo logo, ArrayList<AtomEntry> entries) {
+		super();
+		this.collectionView = collectionView;
+		this.comattr = comattr;
+		this.author = author;
+		this.category = category;
+		this.contributor = contributor;
+		this.generator = generator;
+		this.id = id;
+		this.link = link;
+		this.rights = rights;
+		this.title = title;
+		this.subtitle = subtitle;
+		this.updatedDate = updatedDate;
+		this.icon = icon;
+		this.logo = logo;
+		this.entries = entries;
+	}
+
+
+
+
+	public AtomFeed() {
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+
+	/**
+	 * @param collectionView the collectionView to set
+	 */
+	public void setCollectionView(APPCollection collectionView) {
+		this.collectionView = collectionView;
+	}
+
+
+
+
+	/**
+	 * @param comattr the comattr to set
+	 */
+	public void setComattr(AtomCommonAttributes comattr) {
+		this.comattr = comattr;
+	}
+
+
+
+
+	/**
+	 * @param author the author to set
+	 */
+	public void setAuthor(ArrayList<AtomPerson> author) {
+		this.author = author;
+	}
+
+
+
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(ArrayList<AtomCategory> category) {
+		this.category = category;
+	}
+
+
+
+
+	/**
+	 * @param contributor the contributor to set
+	 */
+	public void setContributor(ArrayList<AtomPerson> contributor) {
+		this.contributor = contributor;
+	}
+
+
+
+
+	/**
+	 * @param generator the generator to set
+	 */
+	public void setGenerator(AtomGenerator generator) {
+		this.generator = generator;
+	}
+
+
+
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(AtomId id) {
+		this.id = id;
+	}
+
+
+
+
+	/**
+	 * @param link the link to set
+	 */
+	public void setLink(ArrayList<AtomLink> link) {
+		this.link = link;
+	}
+
+
+
+
+	/**
+	 * @param rights the rights to set
+	 */
+	public void setRights(String rights) {
+		this.rights = rights;
+	}
+
+
+
+
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
+
+
+	/**
+	 * @param subtitle the subtitle to set
+	 */
+	public void setSubtitle(String subtitle) {
+		this.subtitle = subtitle;
+	}
+
+
+
+
+	/**
+	 * @param updatedDate the updatedDate to set
+	 */
+	public void setUpdatedDate(String updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+
+
+
+
+	/**
+	 * @param icon the icon to set
+	 */
+	public void setIcon(AtomIcon icon) {
+		this.icon = icon;
+	}
+
+
+
+
+	/**
+	 * @param logo the logo to set
+	 */
+	public void setLogo(AtomLogo logo) {
+		this.logo = logo;
+	}
+
+
+
+
 	/**
 	 * @param entries the entries to set
 	 */
 	public void setEntries(ArrayList<AtomEntry> entries) {
 		this.entries = entries;
 	}
-	
+
+
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "AtomFeed [comattr=" + comattr + ", author=" + author + ", category=" + category
+				+ ", contributor=" + contributor + ", generator=" + generator + ", id=" + id + ", link=" + link
+				+ ", rights=" + rights + ", title=" + title + ", subtitle=" + subtitle + ", updatedDate=" + updatedDate
+				+ ", icon=" + icon + ", logo=" + logo + "]";
+	}
+
 }

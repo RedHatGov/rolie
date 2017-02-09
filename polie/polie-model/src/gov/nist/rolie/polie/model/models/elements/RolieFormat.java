@@ -1,9 +1,10 @@
 package gov.nist.rolie.polie.model.models.elements;
 
 
+import java.net.URI;
+
 import gov.nist.rolie.polie.model.models.constructs.AtomCommonAttributes;
-import gov.nist.rolie.polie.model.models.constructs.AtomMediaType;
-import gov.nist.rolie.polie.model.models.constructs.AtomURI;
+
 
 /*
  * 6.2.3.  Use of the "rolie:format" Element
@@ -51,13 +52,13 @@ public class RolieFormat implements RolieElement{
 	private AtomCommonAttributes commonattributes;
 	
 
-	private AtomURI ns;
+	private URI ns;
 
 	private String version;
 	
 
-	private AtomURI schemalocation;
-	private AtomMediaType type;
+	private URI schemalocation;
+	private String type;
 	/**
 	 * @param commonattributes
 	 * @param ns
@@ -65,8 +66,8 @@ public class RolieFormat implements RolieElement{
 	 * @param schemalocation
 	 * @param type
 	 */
-	public RolieFormat(AtomCommonAttributes commonattributes, AtomURI ns, String version, AtomURI schemalocation,
-			AtomMediaType type) {
+	public RolieFormat(AtomCommonAttributes commonattributes, URI ns, String version, URI schemalocation,
+			String type) {
 		super();
 		this.commonattributes = commonattributes;
 		this.ns = ns;
@@ -85,7 +86,7 @@ public class RolieFormat implements RolieElement{
 	/**
 	 * @return the ns
 	 */
-	public AtomURI getNs() {
+	public URI getNs() {
 		return ns;
 	}
 	/**
@@ -97,13 +98,13 @@ public class RolieFormat implements RolieElement{
 	/**
 	 * @return the schemalocation
 	 */
-	public AtomURI getSchemalocation() {
+	public URI getSchemalocation() {
 		return schemalocation;
 	}
 	/**
 	 * @return the type
 	 */
-	public AtomMediaType getType() {
+	public String getType() {
 		return type;
 	}
 	/**
@@ -115,7 +116,7 @@ public class RolieFormat implements RolieElement{
 	/**
 	 * @param ns the ns to set
 	 */
-	public void setNs(AtomURI ns) {
+	public void setNs(URI ns) {
 		this.ns = ns;
 	}
 	/**
@@ -127,13 +128,13 @@ public class RolieFormat implements RolieElement{
 	/**
 	 * @param schemalocation the schemalocation to set
 	 */
-	public void setSchemalocation(AtomURI schemalocation) {
+	public void setSchemalocation(URI schemalocation) {
 		this.schemalocation = schemalocation;
 	}
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(AtomMediaType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 	

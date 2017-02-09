@@ -16,8 +16,10 @@ package gov.nist.rolie.polie.model.models.elements;
  */
 
 
+import java.net.URI;
+
 import gov.nist.rolie.polie.model.models.constructs.AtomCommonAttributes;
-import gov.nist.rolie.polie.model.models.constructs.AtomURI;
+
 
 public class AtomIcon implements AtomElement{
 	
@@ -25,12 +27,12 @@ public class AtomIcon implements AtomElement{
 	private AtomCommonAttributes commonAttributes;
 	
 
-	private AtomURI iri;
+	private URI iri;
 	/**
 	 * @param commonAttributes
 	 * @param iri
 	 */
-	public AtomIcon(AtomCommonAttributes commonAttributes, AtomURI iri) {
+	public AtomIcon(AtomCommonAttributes commonAttributes, URI iri) {
 		super();
 		this.commonAttributes = commonAttributes;
 		this.iri = iri;
@@ -47,7 +49,7 @@ public class AtomIcon implements AtomElement{
 	/**
 	 * @return the iri
 	 */
-	public AtomURI getIri() {
+	public URI getIri() {
 		return iri;
 	}
 	/**
@@ -59,7 +61,7 @@ public class AtomIcon implements AtomElement{
 	/**
 	 * @param iri the iri to set
 	 */
-	public void setIri(AtomURI iri) {
+	public void setIri(URI iri) {
 		this.iri = iri;
 	}
 	

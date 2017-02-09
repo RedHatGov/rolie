@@ -12,6 +12,9 @@
         <dependent-module archiveName="polie-atomLogic-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/polie-atomLogic/polie-atomLogic">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="polie-persistence-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/polie-persistence/polie-persistence">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="polie-server"/>
         <property name="java-output-path" value="/polie-server/target/classes"/>
 	</wb-module>

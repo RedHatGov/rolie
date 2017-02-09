@@ -1,8 +1,9 @@
 package gov.nist.rolie.polie.model.models.elements;
 
+import java.net.URI;
+
 import gov.nist.rolie.polie.model.models.constructs.AtomCommonAttributes;
-import gov.nist.rolie.polie.model.models.constructs.AtomMediaType;
-import gov.nist.rolie.polie.model.models.constructs.AtomURI;
+
 
 /*
  * 4.1.3.  The "atom:content" Element
@@ -51,16 +52,16 @@ public class AtomContent implements AtomElement{
 	private AtomCommonAttributes commonAttributes;
 	
 
-	private AtomMediaType type;
+	private String type;
 	
 
-	private AtomURI src;
+	private URI src;
 	/**
 	 * @param commonAttributes
 	 * @param type
 	 * @param uri
 	 */
-	public AtomContent(AtomCommonAttributes commonAttributes, AtomMediaType type, AtomURI uri) {
+	public AtomContent(AtomCommonAttributes commonAttributes,String type, URI uri) {
 		super();
 		this.commonAttributes = commonAttributes;
 		this.type = type;
@@ -78,13 +79,13 @@ public class AtomContent implements AtomElement{
 	/**
 	 * @return the type
 	 */
-	public AtomMediaType getType() {
+	public String getType() {
 		return type;
 	}
 	/**
 	 * @return the uri
 	 */
-	public AtomURI getUri() {
+	public URI getUri() {
 		return src;
 	}
 	/**
@@ -96,13 +97,13 @@ public class AtomContent implements AtomElement{
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(AtomMediaType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 	/**
 	 * @param uri the uri to set
 	 */
-	public void setUri(AtomURI uri) {
+	public void setUri(URI uri) {
 		this.src = uri;
 	}
 	

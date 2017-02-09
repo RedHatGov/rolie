@@ -1,10 +1,10 @@
 package gov.nist.rolie.polie.model.models.elements;
 
 
+import java.net.URI;
+
 import gov.nist.rolie.polie.model.models.constructs.AtomCommonAttributes;
-import gov.nist.rolie.polie.model.models.constructs.AtomLanguageTag;
-import gov.nist.rolie.polie.model.models.constructs.AtomMediaType;
-import gov.nist.rolie.polie.model.models.constructs.AtomURI;
+
 
 /*
  * 4.2.7.  The "atom:link" Element
@@ -36,7 +36,7 @@ public class AtomLink implements AtomElement{
    [RFC3987].
    */
 
-	private AtomURI href;
+	private URI href;
 	
 	/*
  4.2.7.2.  The "rel" Attribute
@@ -91,7 +91,7 @@ public class AtomLink implements AtomElement{
        information provided in the containing element.
 	 */
 
-	private AtomURI rel;
+	private URI rel;
 	
 	/*
 	 * 4.2.7.3.  The "type" Attribute
@@ -104,7 +104,7 @@ public class AtomLink implements AtomElement{
    MAY have a type attribute, whose value MUST conform to the syntax of
    a MIME media type [MIMEREG].
 	 */
-	private AtomMediaType type;
+	private String type;
 	
 	/*
 	 *    The "hreflang" attribute's content describes the language of the
@@ -113,7 +113,7 @@ public class AtomLink implements AtomElement{
    Link elements MAY have an hreflang attribute, whose value MUST be a
    language tag [RFC3066].
 	 */
-	private AtomLanguageTag hrefLang;
+	private String hrefLang;
 	
 	/*
 	 *    The "title" attribute conveys human-readable information about the
@@ -138,6 +138,10 @@ public class AtomLink implements AtomElement{
 
 	private String length;
 
+	
+	
+	
+	
 	/**
 	 * @param commonAttributes
 	 * @param href
@@ -147,8 +151,8 @@ public class AtomLink implements AtomElement{
 	 * @param title
 	 * @param length
 	 */
-	public AtomLink(AtomCommonAttributes commonAttributes, AtomURI href, AtomURI rel, AtomMediaType type,
-			AtomLanguageTag hrefLang, String title, String length) {
+	public AtomLink(AtomCommonAttributes commonAttributes, URI href, URI rel, String type, String hrefLang,
+			String title, String length) {
 		super();
 		this.commonAttributes = commonAttributes;
 		this.href = href;
@@ -158,8 +162,6 @@ public class AtomLink implements AtomElement{
 		this.title = title;
 		this.length = length;
 	}
-	
-	public AtomLink(){}
 
 	/**
 	 * @return the commonAttributes
@@ -171,28 +173,28 @@ public class AtomLink implements AtomElement{
 	/**
 	 * @return the href
 	 */
-	public AtomURI getHref() {
+	public URI getHref() {
 		return href;
 	}
 
 	/**
 	 * @return the rel
 	 */
-	public AtomURI getRel() {
+	public URI getRel() {
 		return rel;
 	}
 
 	/**
 	 * @return the type
 	 */
-	public AtomMediaType getType() {
+	public String getType() {
 		return type;
 	}
 
 	/**
 	 * @return the hrefLang
 	 */
-	public AtomLanguageTag getHrefLang() {
+	public String getHrefLang() {
 		return hrefLang;
 	}
 
@@ -220,28 +222,28 @@ public class AtomLink implements AtomElement{
 	/**
 	 * @param href the href to set
 	 */
-	public void setHref(AtomURI href) {
+	public void setHref(URI href) {
 		this.href = href;
 	}
 
 	/**
 	 * @param rel the rel to set
 	 */
-	public void setRel(AtomURI rel) {
+	public void setRel(URI rel) {
 		this.rel = rel;
 	}
 
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(AtomMediaType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
 	/**
 	 * @param hrefLang the hrefLang to set
 	 */
-	public void setHrefLang(AtomLanguageTag hrefLang) {
+	public void setHrefLang(String hrefLang) {
 		this.hrefLang = hrefLang;
 	}
 
@@ -258,8 +260,8 @@ public class AtomLink implements AtomElement{
 	public void setLength(String length) {
 		this.length = length;
 	}
-	
-	
+
+
 	
 	
 }

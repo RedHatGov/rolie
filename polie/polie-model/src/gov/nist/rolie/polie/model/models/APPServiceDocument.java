@@ -2,11 +2,6 @@ package gov.nist.rolie.polie.model.models;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import gov.nist.rolie.polie.model.models.constructs.APPCommonAttributes;
 import gov.nist.rolie.polie.model.models.elements.APPWorkspace;
 import gov.nist.rolie.polie.model.models.elements.AtomElement;
@@ -29,15 +24,12 @@ import gov.nist.rolie.polie.model.models.elements.AtomElement;
            & extensionElement* )
       }
  */
-@XmlRootElement(name="service" ,namespace="http://www.w3.org/2007/app")
-@XmlAccessorType(XmlAccessType.NONE)
+
 public class APPServiceDocument extends APPResource implements AtomElement {
 	
 	APPCommonAttributes APPCommonAttributes;
 	
-	@XmlElement(namespace="http://www.w3.org/2007/app")
 	List<APPWorkspace> workspace;
-	
 	
 	public APPServiceDocument(APPCommonAttributes APPCommonAttributes,
 			List<APPWorkspace> workspaces) {

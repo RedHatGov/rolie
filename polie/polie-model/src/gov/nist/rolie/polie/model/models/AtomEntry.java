@@ -5,6 +5,7 @@ package gov.nist.rolie.polie.model.models;
 import java.util.ArrayList;
 
 import gov.nist.rolie.polie.model.models.constructs.AtomCommonAttributes;
+import gov.nist.rolie.polie.model.models.constructs.AtomPerson;
 import gov.nist.rolie.polie.model.models.elements.*;
 
 
@@ -60,7 +61,7 @@ import gov.nist.rolie.polie.model.models.elements.*;
       same combination of type and hreflang attribute values.
    o  atom:entry elements MAY contain additional atom:link elements
       beyond those described above.
-   o  atom:entry elements MUST NOT contain more than one atom:published
+   o  atom:entry elements MUST NOT contain more than one atom:publishedDate
       element.
    o  atom:entry elements MUST NOT contain more than one atom:rights
       element.
@@ -85,30 +86,30 @@ public class AtomEntry extends APPResource implements AtomElement{
 	private AtomCommonAttributes comattr;
 	
 
-	private ArrayList<AtomAuthor> author;
+	private ArrayList<AtomPerson> author;
 	
 
 	private ArrayList<AtomCategory> category;
 	
 	
 
-	private ArrayList<AtomContributor> contributor;
+	private ArrayList<AtomPerson> contributor;
 
 	private AtomId id;
 
 	private ArrayList<AtomLink> link;
 
-	private AtomPublished published;
+	private String publishedDate;
 
-	private AtomRights rights;
+	private String rights;
 
 	private AtomSource source;
 
-	private AtomSummary summary;
+	private String summary;
 
-	private AtomTitle title;
+	private String title;
 
-	private AtomUpdated updated;
+	private String updated;
 
 	private RolieFormat format;
 
@@ -126,7 +127,7 @@ public class AtomEntry extends APPResource implements AtomElement{
 	 * @param contributor
 	 * @param id
 	 * @param link
-	 * @param published
+	 * @param publishedDate
 	 * @param rights
 	 * @param source
 	 * @param summary
@@ -134,19 +135,20 @@ public class AtomEntry extends APPResource implements AtomElement{
 	 * @param updated
 	 * @param format
 	 * @param property
+	 * @param content
 	 */
-	public AtomEntry(AtomCommonAttributes comattr, ArrayList<AtomAuthor> authors, ArrayList<AtomCategory> categories,
-			ArrayList<AtomContributor> contributors, AtomId id, ArrayList<AtomLink> links, AtomPublished published,
-			AtomRights rights, AtomSource source, AtomSummary summary, AtomTitle title, AtomUpdated updated,
-			RolieFormat format, RolieProperty property, AtomContent content) {
+	public AtomEntry(AtomCommonAttributes comattr, ArrayList<AtomPerson> author, ArrayList<AtomCategory> category,
+			ArrayList<AtomPerson> contributor, AtomId id, ArrayList<AtomLink> link, String publishedDate, String rights,
+			AtomSource source, String summary, String title, String updated, RolieFormat format,
+			RolieProperty property, AtomContent content) {
 		super();
 		this.comattr = comattr;
-		this.author = authors;
-		this.category = categories;
-		this.contributor = contributors;
+		this.author = author;
+		this.category = category;
+		this.contributor = contributor;
 		this.id = id;
-		this.link = links;
-		this.published = published;
+		this.link = link;
+		this.publishedDate = publishedDate;
 		this.rights = rights;
 		this.source = source;
 		this.summary = summary;
@@ -154,14 +156,143 @@ public class AtomEntry extends APPResource implements AtomElement{
 		this.updated = updated;
 		this.format = format;
 		this.property = property;
-		this.content=content;
+		this.content = content;
 	}
-	
+
+
+
 	public AtomEntry() {
 		// TODO Auto-generated constructor stub
 	}
 
-	
+
+
+	/**
+	 * @return the comattr
+	 */
+	public AtomCommonAttributes getComattr() {
+		return comattr;
+	}
+
+
+
+	/**
+	 * @return the author
+	 */
+	public ArrayList<AtomPerson> getAuthor() {
+		return author;
+	}
+
+
+
+	/**
+	 * @return the category
+	 */
+	public ArrayList<AtomCategory> getCategory() {
+		return category;
+	}
+
+
+
+	/**
+	 * @return the contributor
+	 */
+	public ArrayList<AtomPerson> getContributor() {
+		return contributor;
+	}
+
+
+
+	/**
+	 * @return the id
+	 */
+	public AtomId getId() {
+		return id;
+	}
+
+
+
+	/**
+	 * @return the link
+	 */
+	public ArrayList<AtomLink> getLink() {
+		return link;
+	}
+
+
+
+	/**
+	 * @return the publishedDate
+	 */
+	public String getPublishedDate() {
+		return publishedDate;
+	}
+
+
+
+	/**
+	 * @return the rights
+	 */
+	public String getRights() {
+		return rights;
+	}
+
+
+
+	/**
+	 * @return the source
+	 */
+	public AtomSource getSource() {
+		return source;
+	}
+
+
+
+	/**
+	 * @return the summary
+	 */
+	public String getSummary() {
+		return summary;
+	}
+
+
+
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+
+
+	/**
+	 * @return the updated
+	 */
+	public String getUpdated() {
+		return updated;
+	}
+
+
+
+	/**
+	 * @return the format
+	 */
+	public RolieFormat getFormat() {
+		return format;
+	}
+
+
+
+	/**
+	 * @return the property
+	 */
+	public RolieProperty getProperty() {
+		return property;
+	}
+
+
+
 	/**
 	 * @return the content
 	 */
@@ -169,174 +300,125 @@ public class AtomEntry extends APPResource implements AtomElement{
 		return content;
 	}
 
-	/**
-	 * @param content the content to set
-	 */
-	public void setContent(AtomContent content) {
-		this.content = content;
-	}
-	/**
-	 * @return the comattr
-	 */
-	public AtomCommonAttributes getComattr() {
-		return comattr;
-	}
-	/**
-	 * @return the author
-	 */
-	public ArrayList<AtomAuthor> getAuthors() {
-		return author;
-	}
-	/**
-	 * @return the category
-	 */
-	public ArrayList<AtomCategory> getCategories() {
-		return category;
-	}
-	/**
-	 * @return the contributor
-	 */
-	public ArrayList<AtomContributor> getContributors() {
-		return contributor;
-	}
-	/**
-	 * @return the id
-	 */
-	public AtomId getId() {
-		return id;
-	}
-	/**
-	 * @return the link
-	 */
-	public ArrayList<AtomLink> getLinks() {
-		return link;
-	}
-	/**
-	 * @return the published
-	 */
-	public AtomPublished getPublished() {
-		return published;
-	}
-	/**
-	 * @return the rights
-	 */
-	public AtomRights getRights() {
-		return rights;
-	}
-	/**
-	 * @return the source
-	 */
-	public AtomSource getSource() {
-		return source;
-	}
-	/**
-	 * @return the summary
-	 */
-	public AtomSummary getSummary() {
-		return summary;
-	}
-	/**
-	 * @return the title
-	 */
-	public AtomTitle getTitle() {
-		return title;
-	}
-	/**
-	 * @return the updated
-	 */
-	public AtomUpdated getUpdated() {
-		return updated;
-	}
-	/**
-	 * @return the format
-	 */
-	public RolieFormat getFormat() {
-		return format;
-	}
-	/**
-	 * @return the property
-	 */
-	public RolieProperty getProperty() {
-		return property;
-	}
+
+
 	/**
 	 * @param comattr the comattr to set
 	 */
 	public void setComattr(AtomCommonAttributes comattr) {
 		this.comattr = comattr;
 	}
+
+
+
 	/**
 	 * @param author the author to set
 	 */
-	public void setAuthors(ArrayList<AtomAuthor> authors) {
-		this.author = authors;
+	public void setAuthor(ArrayList<AtomPerson> author) {
+		this.author = author;
 	}
+
+
+
 	/**
 	 * @param category the category to set
 	 */
-	public void setCategories(ArrayList<AtomCategory> categories) {
-		this.category = categories;
+	public void setCategory(ArrayList<AtomCategory> category) {
+		this.category = category;
 	}
+
+
+
 	/**
 	 * @param contributor the contributor to set
 	 */
-	public void setContributors(ArrayList<AtomContributor> contributors) {
-		this.contributor = contributors;
+	public void setContributor(ArrayList<AtomPerson> contributor) {
+		this.contributor = contributor;
 	}
+
+
+
 	/**
 	 * @param id the id to set
 	 */
 	public void setId(AtomId id) {
 		this.id = id;
 	}
+
+
+
 	/**
 	 * @param link the link to set
 	 */
-	public void setLinks(ArrayList<AtomLink> links) {
-		this.link = links;
+	public void setLink(ArrayList<AtomLink> link) {
+		this.link = link;
 	}
+
+
+
 	/**
-	 * @param published the published to set
+	 * @param publishedDate the publishedDate to set
 	 */
-	public void setPublished(AtomPublished published) {
-		this.published = published;
+	public void setPublishedDate(String publishedDate) {
+		this.publishedDate = publishedDate;
 	}
+
+
+
 	/**
 	 * @param rights the rights to set
 	 */
-	public void setRights(AtomRights rights) {
+	public void setRights(String rights) {
 		this.rights = rights;
 	}
+
+
+
 	/**
 	 * @param source the source to set
 	 */
 	public void setSource(AtomSource source) {
 		this.source = source;
 	}
+
+
+
 	/**
 	 * @param summary the summary to set
 	 */
-	public void setSummary(AtomSummary summary) {
+	public void setSummary(String summary) {
 		this.summary = summary;
 	}
+
+
+
 	/**
 	 * @param title the title to set
 	 */
-	public void setTitle(AtomTitle title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
+
+
+
 	/**
 	 * @param updated the updated to set
 	 */
-	public void setUpdated(AtomUpdated updated) {
+	public void setUpdated(String updated) {
 		this.updated = updated;
 	}
+
+
+
 	/**
 	 * @param format the format to set
 	 */
 	public void setFormat(RolieFormat format) {
 		this.format = format;
 	}
+
+
+
 	/**
 	 * @param property the property to set
 	 */
@@ -344,26 +426,27 @@ public class AtomEntry extends APPResource implements AtomElement{
 		this.property = property;
 	}
 
+
+
+	/**
+	 * @param content the content to set
+	 */
+	public void setContent(AtomContent content) {
+		this.content = content;
+	}
+
+
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "AtomEntry [comattr=" + comattr + ", author=" + author + ", category=" + category
-				+ ", contributor=" + contributor + ", id=" + id + ", link=" + link + ", published=" + published
+				+ ", contributor=" + contributor + ", id=" + id + ", link=" + link + ", publishedDate=" + publishedDate
 				+ ", rights=" + rights + ", source=" + source + ", summary=" + summary + ", title=" + title
 				+ ", updated=" + updated + ", format=" + format + ", property=" + property + "]";
 	}
-
-	public void setTitle(String string) {
-		setTitle(new AtomTitle(string));
-	}
-
-	public void setSummary(String string) {
-		this.setSummary(new AtomSummary(string));
-		
-	}
-	
 	
 	
 }

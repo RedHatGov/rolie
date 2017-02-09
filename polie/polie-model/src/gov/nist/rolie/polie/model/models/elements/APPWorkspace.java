@@ -9,7 +9,7 @@ public class APPWorkspace implements APPElement{
 	private APPCommonAttributes APPCommonAttributes;
 	
 
-	private AtomTitle title;
+	private String title;
 	
 
 	private List<APPCollection> collection;
@@ -19,7 +19,7 @@ public class APPWorkspace implements APPElement{
 	 * @param collection
 	 */
 	public APPWorkspace(gov.nist.rolie.polie.model.models.constructs.APPCommonAttributes aPPCommonAttributes,
-			AtomTitle title, List<APPCollection> collections) {
+			String title, List<APPCollection> collections) {
 		super();
 		APPCommonAttributes = aPPCommonAttributes;
 		this.title = title;
@@ -37,7 +37,7 @@ public class APPWorkspace implements APPElement{
 	/**
 	 * @return the title
 	 */
-	public AtomTitle getTitle() {
+	public String getTitle() {
 		return title;
 	}
 	/**
@@ -55,7 +55,7 @@ public class APPWorkspace implements APPElement{
 	/**
 	 * @param title the title to set
 	 */
-	public void setTitle(AtomTitle title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 	/**

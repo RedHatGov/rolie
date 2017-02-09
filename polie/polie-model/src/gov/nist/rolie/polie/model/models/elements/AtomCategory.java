@@ -1,6 +1,6 @@
 package gov.nist.rolie.polie.model.models.elements;
 
-import gov.nist.rolie.polie.model.models.constructs.AtomURI;
+import java.net.URI;
 
 /*    The "atom:category" element conveys information about a category
    associated with an entry or feed.  This specification assigns no
@@ -37,14 +37,14 @@ public class AtomCategory implements AtomElement{
 	 *    The "scheme" attribute is an IRI that identifies a categorization
    scheme.  Category elements MAY have a "scheme" attribute.
 	 */
-	private AtomURI scheme;
+	private URI scheme;
 
 	/**
 	 * @param term
 	 * @param label
 	 * @param scheme
 	 */
-	public AtomCategory(String term, String label, AtomURI scheme) {
+	public AtomCategory(String term, String label, URI scheme) {
 		super();
 		this.term = term;
 		this.label = label;
@@ -70,7 +70,7 @@ public class AtomCategory implements AtomElement{
 	/**
 	 * @return the scheme
 	 */
-	public AtomURI getScheme() {
+	public URI getScheme() {
 		return scheme;
 	}
 
@@ -91,7 +91,7 @@ public class AtomCategory implements AtomElement{
 	/**
 	 * @param scheme the scheme to set
 	 */
-	public void setScheme(AtomURI scheme) {
+	public void setScheme(URI scheme) {
 		this.scheme = scheme;
 	}
 

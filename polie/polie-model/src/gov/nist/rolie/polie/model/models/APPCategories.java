@@ -1,8 +1,8 @@
 package gov.nist.rolie.polie.model.models;
 
+import java.net.URI;
 import java.util.ArrayList;
 
-import gov.nist.rolie.polie.model.models.constructs.AtomURI;
 import gov.nist.rolie.polie.model.models.elements.APPElement;
 import gov.nist.rolie.polie.model.models.elements.AtomCategory;
 
@@ -46,11 +46,11 @@ import gov.nist.rolie.polie.model.models.elements.AtomCategory;
  */
 public class APPCategories extends APPResource implements APPElement {
 	
-	private AtomURI href;
+	private URI href;
 	
 	private String fixed;
 	
-	private AtomURI scheme;
+	private URI scheme;
 	
 	private ArrayList<AtomCategory> category;
 
@@ -60,7 +60,7 @@ public class APPCategories extends APPResource implements APPElement {
 	 * @param scheme
 	 * @param category
 	 */
-	public APPCategories(AtomURI href, String fixed, AtomURI scheme, ArrayList<AtomCategory> category) {
+	public APPCategories(URI href, String fixed, URI scheme, ArrayList<AtomCategory> category) {
 		super();
 		this.href = href;
 		this.fixed = fixed;
@@ -73,7 +73,7 @@ public class APPCategories extends APPResource implements APPElement {
 	/**
 	 * @return the href
 	 */
-	public AtomURI getHref() {
+	public URI getHref() {
 		return href;
 	}
 
@@ -87,7 +87,7 @@ public class APPCategories extends APPResource implements APPElement {
 	/**
 	 * @return the scheme
 	 */
-	public AtomURI getScheme() {
+	public URI getScheme() {
 		return scheme;
 	}
 
@@ -101,7 +101,7 @@ public class APPCategories extends APPResource implements APPElement {
 	/**
 	 * @param href the href to set
 	 */
-	public void setHref(AtomURI href) {
+	public void setHref(URI href) {
 		this.href = href;
 	}
 
@@ -115,7 +115,7 @@ public class APPCategories extends APPResource implements APPElement {
 	/**
 	 * @param scheme the scheme to set
 	 */
-	public void setScheme(AtomURI scheme) {
+	public void setScheme(URI scheme) {
 		this.scheme = scheme;
 	}
 

@@ -23,13 +23,15 @@ public class ResourceSerializerVisitor implements RESTEventVisitor {
 
 	@Override
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
-		//data.put("ResponseBody", ((APPResource)data.get("CreatedResource")).toXML());
+//		data.put("ResponseBody", ((APPResource)data.get("CreatedResource")).toXML());
+		data.put("ResponseBody","Crippled but working!");
 		return true;
 	}
 
 	@Override
 	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-		data.put("ResponseBody", ROLIEResourceSerializer.serializeResource((APPResource)data.get("UpdatedResource")));
+//		data.put("ResponseBody", ROLIEResourceSerializer.serializeResource((APPResource)data.get("UpdatedResource")));
+		data.put("ResponseBody","Crippled but working!");
 		return true;
 	}
 

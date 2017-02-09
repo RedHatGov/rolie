@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 import gov.nist.rolie.polie.model.models.APPCategories;
 import gov.nist.rolie.polie.model.models.APPResource;
 import gov.nist.rolie.polie.model.models.APPServiceDocument;
+import gov.nist.rolie.polie.model.models.AtomEntry;
+import gov.nist.rolie.polie.model.models.AtomFeed;
 import gov.nist.rolie.polie.model.models.elements.APPCollection;
 
 
@@ -94,6 +96,36 @@ public class TextPersist implements PersistenceMethod{
 
 	@Override
 	public APPResource copyResource(APPResource resource) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AtomFeed loadFeed(URI uri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AtomEntry loadEntry(URI iri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AtomFeed saveFeed(AtomFeed feed) {
+		return feed;
+		
+	}
+
+	@Override
+	public APPServiceDocument loadServiceDocument() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public APPCategories loadCategoryDocument() {
 		// TODO Auto-generated method stub
 		return null;
 	}

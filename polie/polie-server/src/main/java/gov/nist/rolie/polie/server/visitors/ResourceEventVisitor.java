@@ -6,7 +6,11 @@ import java.util.Map;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import gov.nist.rolie.polie.atomLogic.modelServices.DefaultFeedServices;
+import gov.nist.rolie.polie.atomLogic.modelServices.FeedServices;
 import gov.nist.rolie.polie.model.models.APPResource;
+import gov.nist.rolie.polie.model.models.AtomEntry;
+import gov.nist.rolie.polie.model.models.AtomFeed;
 import gov.nist.rolie.polie.server.event.Delete;
 import gov.nist.rolie.polie.server.event.Get;
 import gov.nist.rolie.polie.server.event.Post;
@@ -21,6 +25,7 @@ import gov.nist.rolie.polie.server.event.Put;
  */
 public class ResourceEventVisitor implements RESTEventVisitor {
 
+	FeedServices fs = new DefaultFeedServices();
 	
 	/** 
 	 * When this visitor encounters a get request, the resource at the given IRI can be loaded.
@@ -71,13 +76,28 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
-		APPResource resource = (APPResource)data.get("resource");
-		APPResource createdResource = null;//database.createResource(resource,(URI)data.get("IRI"));
-		rb=rb.status(Status.CREATED);
-		data.put("CreatedResourceLocationIRI", (URI)data.get("IRI")); //TODO FIX THIS
-		rb=rb.header("Location", (URI)data.get("CreatedResourceLocationIRI"));
-		data.put("CreatedResource",createdResource);
+		
+		AtomEntry entry=(AtomEntry)data.get("resource");
+		AtomFeed feed = fs.loadFeed((URI)data.get("IRI"));
+		
+		fs.addEntryToFeed(entry, feed);
+		AtomFeed created = fs.saveFeed(feed);
+		
+		rb.status(Status.CREATED);
+		rb=rb.header("Location", "TODO"); //TODO FIX THIS
+		
+		data.put("CreatedResource",entry);
 		return true;
+//		APPResource resource = (APPResource)data.get("resource");
+//		APPCollection collection = ae.getCollection((URI)data.get("IRI"));
+//		
+//		APPResource createdResource = ae.postEntryToCollection((AtomEntry)resource, collection);
+//		
+//		rb=rb.status(Status.CREATED);
+//		data.put("CreatedResourceLocationIRI", (URI)data.get("IRI")); //TODO FIX THIS
+//		rb=rb.header("Location", (URI)data.get("CreatedResourceLocationIRI"));
+//		data.put("CreatedResource",createdResource);
+//		return true;
 	}
 	
 	

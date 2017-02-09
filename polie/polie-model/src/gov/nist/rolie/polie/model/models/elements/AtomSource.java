@@ -1,11 +1,8 @@
 package gov.nist.rolie.polie.model.models.elements;
 
 import java.util.ArrayList;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 import gov.nist.rolie.polie.model.models.constructs.AtomCommonAttributes;
+import gov.nist.rolie.polie.model.models.constructs.AtomPerson;
 
 /*
  * 4.2.11.  The "atom:source" Element
@@ -46,21 +43,26 @@ import gov.nist.rolie.polie.model.models.constructs.AtomCommonAttributes;
    feed-level Metadata elements (atom:id, atom:title, and atom:updated)
    in the atom:source element.
  */
-@XmlAccessorType(XmlAccessType.NONE)
+
 public class AtomSource implements AtomElement{
 	
 	private AtomCommonAttributes comattr;
 	
-	private ArrayList<AtomAuthor> authors;
+	private ArrayList<AtomPerson> authors;
 	private ArrayList<AtomCategory> categories;
-	private ArrayList<AtomContributor> contributors;
+	private ArrayList<AtomPerson> contributors;
 	private AtomGenerator generator;
 	private AtomId id;
 	private ArrayList<AtomLink> links;
-	private AtomRights rights;
-	private AtomTitle title;
-	private AtomSubTitle subtitle;
-	private AtomUpdated updated;
+	private String rights;
+	private String title;
+	private String subtitle;
+	private String updated;
+	
+	
+	
+	
+	
 	/**
 	 * @param comattr
 	 * @param authors
@@ -74,9 +76,9 @@ public class AtomSource implements AtomElement{
 	 * @param subtitle
 	 * @param updated
 	 */
-	public AtomSource(AtomCommonAttributes comattr, ArrayList<AtomAuthor> authors, ArrayList<AtomCategory> categories,
-			ArrayList<AtomContributor> contributors, AtomGenerator generator, AtomId id, ArrayList<AtomLink> links,
-			AtomRights rights, AtomTitle title, AtomSubTitle subtitle, AtomUpdated updated) {
+	public AtomSource(AtomCommonAttributes comattr, ArrayList<AtomPerson> authors, ArrayList<AtomCategory> categories,
+			ArrayList<AtomPerson> contributors, AtomGenerator generator, AtomId id, ArrayList<AtomLink> links,
+			String rights, String title, String subtitle, String updated) {
 		super();
 		this.comattr = comattr;
 		this.authors = authors;
@@ -90,8 +92,6 @@ public class AtomSource implements AtomElement{
 		this.subtitle = subtitle;
 		this.updated = updated;
 	}
-	
-	public AtomSource(){}
 	/**
 	 * @return the comattr
 	 */
@@ -101,7 +101,7 @@ public class AtomSource implements AtomElement{
 	/**
 	 * @return the authors
 	 */
-	public ArrayList<AtomAuthor> getAuthors() {
+	public ArrayList<AtomPerson> getAuthors() {
 		return authors;
 	}
 	/**
@@ -113,7 +113,7 @@ public class AtomSource implements AtomElement{
 	/**
 	 * @return the contributors
 	 */
-	public ArrayList<AtomContributor> getContributors() {
+	public ArrayList<AtomPerson> getContributors() {
 		return contributors;
 	}
 	/**
@@ -137,25 +137,25 @@ public class AtomSource implements AtomElement{
 	/**
 	 * @return the rights
 	 */
-	public AtomRights getRights() {
+	public String getRights() {
 		return rights;
 	}
 	/**
 	 * @return the title
 	 */
-	public AtomTitle getTitle() {
+	public String getTitle() {
 		return title;
 	}
 	/**
 	 * @return the subtitle
 	 */
-	public AtomSubTitle getSubtitle() {
+	public String getSubtitle() {
 		return subtitle;
 	}
 	/**
 	 * @return the updated
 	 */
-	public AtomUpdated getUpdated() {
+	public String getUpdated() {
 		return updated;
 	}
 	/**
@@ -167,7 +167,7 @@ public class AtomSource implements AtomElement{
 	/**
 	 * @param authors the authors to set
 	 */
-	public void setAuthors(ArrayList<AtomAuthor> authors) {
+	public void setAuthors(ArrayList<AtomPerson> authors) {
 		this.authors = authors;
 	}
 	/**
@@ -179,7 +179,7 @@ public class AtomSource implements AtomElement{
 	/**
 	 * @param contributors the contributors to set
 	 */
-	public void setContributors(ArrayList<AtomContributor> contributors) {
+	public void setContributors(ArrayList<AtomPerson> contributors) {
 		this.contributors = contributors;
 	}
 	/**
@@ -203,25 +203,25 @@ public class AtomSource implements AtomElement{
 	/**
 	 * @param rights the rights to set
 	 */
-	public void setRights(AtomRights rights) {
+	public void setRights(String rights) {
 		this.rights = rights;
 	}
 	/**
 	 * @param title the title to set
 	 */
-	public void setTitle(AtomTitle title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 	/**
 	 * @param subtitle the subtitle to set
 	 */
-	public void setSubtitle(AtomSubTitle subtitle) {
+	public void setSubtitle(String subtitle) {
 		this.subtitle = subtitle;
 	}
 	/**
 	 * @param updated the updated to set
 	 */
-	public void setUpdated(AtomUpdated updated) {
+	public void setUpdated(String updated) {
 		this.updated = updated;
 	}
 	

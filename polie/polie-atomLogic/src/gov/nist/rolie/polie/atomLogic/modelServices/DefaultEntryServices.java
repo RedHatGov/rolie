@@ -10,8 +10,8 @@ public class DefaultEntryServices implements EntryServices {
 
 	@Override
 	public void publishEntry(AtomEntry entry) {
-		// TODO Auto-generated method stub
-		
+		entry.setPublishedDate("Right now!"); //TODO datetime
+		entry.setUpdated("Right now!"); //TODO datetime
 	}
 
 }

@@ -89,7 +89,7 @@ public class AtomResourceEvent {
 	 * @return Returns the completed Response that is passed off to the server to be sent back to the requester.
 	 * 			At this point, the response is completed and is handled all by the webapp.
 	 */
-	@Produces({"application/atom+xml"})
+	@Produces({"application/atom+xml;type=entry"})
 	@GET
 	public Response get(@Context HttpHeaders headers, @Context UriInfo uriInfo)
 	{
@@ -124,8 +124,8 @@ public class AtomResourceEvent {
 	 * @return Returns the completed Response that is passed off to the server to be sent back to the requester.
 	 * 			At this point, the response is completed and is handled all by the webapp.
 	 */
-	@Consumes({"application/xml","application/atom+xml"})
-	@Produces({"application/atom+xml"})
+	@Consumes({"application/atom+xml;type=entry"})
+	@Produces({"application/atom+xml;type=entry"})
 	@POST
 	public Response post(@Context HttpHeaders headers, @Context UriInfo uriInfo, String body)
 	{

@@ -1,5 +1,7 @@
 package gov.nist.rolie.polie.model.models.constructs;
 
+import java.net.URI;
+
 import gov.nist.rolie.polie.model.models.elements.AtomElement;
 
 
@@ -9,16 +11,16 @@ public class AtomPerson implements AtomElement{
 	private String name;
 	
 
-	private AtomURI uri;
+	private URI uri;
 	
 
-	private AtomEmailAddress email;
+	private String email;
 	/**
 	 * @param name
 	 * @param uri
 	 * @param email
 	 */
-	public AtomPerson(String name, AtomURI uri, AtomEmailAddress email) {
+	public AtomPerson(String name, URI uri, String email) {
 		super();
 		this.name = name;
 		this.uri = uri;
@@ -35,13 +37,13 @@ public class AtomPerson implements AtomElement{
 	/**
 	 * @return the uri
 	 */
-	public AtomURI getUri() {
+	public URI getUri() {
 		return uri;
 	}
 	/**
 	 * @return the email
 	 */
-	public AtomEmailAddress getEmail() {
+	public String getEmail() {
 		return email;
 	}
 	/**
@@ -53,13 +55,13 @@ public class AtomPerson implements AtomElement{
 	/**
 	 * @param uri the uri to set
 	 */
-	public void setUri(AtomURI uri) {
+	public void setUri(URI uri) {
 		this.uri = uri;
 	}
 	/**
 	 * @param email the email to set
 	 */
-	public void setEmail(AtomEmailAddress email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 	

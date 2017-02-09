@@ -1,8 +1,10 @@
 package gov.nist.rolie.polie.model.models.elements;
 
 
+import java.net.URI;
+
 import gov.nist.rolie.polie.model.models.constructs.AtomCommonAttributes;
-import gov.nist.rolie.polie.model.models.constructs.AtomURI;
+
 
 /*
  * 4.2.8.  The "atom:logo" Element
@@ -23,12 +25,12 @@ public class AtomLogo  implements AtomElement{
 
 	private AtomCommonAttributes commonattributes;
 
-	private AtomURI iri;
+	private URI iri;
 	/**
 	 * @param commonattributes
 	 * @param iri
 	 */
-	public AtomLogo(AtomCommonAttributes commonattributes, AtomURI iri) {
+	public AtomLogo(AtomCommonAttributes commonattributes, URI iri) {
 		super();
 		this.commonattributes = commonattributes;
 		this.iri = iri;
@@ -44,7 +46,7 @@ public class AtomLogo  implements AtomElement{
 	/**
 	 * @return the iri
 	 */
-	public AtomURI getIri() {
+	public URI getIri() {
 		return iri;
 	}
 	/**
@@ -56,7 +58,7 @@ public class AtomLogo  implements AtomElement{
 	/**
 	 * @param iri the iri to set
 	 */
-	public void setIri(AtomURI iri) {
+	public void setIri(URI iri) {
 		this.iri = iri;
 	}
 	

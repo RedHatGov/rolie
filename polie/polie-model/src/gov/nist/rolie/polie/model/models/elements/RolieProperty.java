@@ -1,8 +1,9 @@
 package gov.nist.rolie.polie.model.models.elements;
 
 
+import java.net.URI;
+
 import gov.nist.rolie.polie.model.models.constructs.AtomCommonAttributes;
-import gov.nist.rolie.polie.model.models.constructs.AtomURI;
 
 /**rolieProperty =
 element rolie:property {
@@ -17,7 +18,7 @@ public class RolieProperty implements RolieElement{
 	
 	private AtomCommonAttributes atomCommonAttributes;
 
-	private AtomURI scheme;
+	private URI scheme;
 
 	private String term;
 
@@ -33,7 +34,7 @@ public class RolieProperty implements RolieElement{
 	 * @param term
 	 * @param label
 	 */
-	public RolieProperty(AtomCommonAttributes atomCommonAttributes, AtomURI scheme, String term, String label) {
+	public RolieProperty(AtomCommonAttributes atomCommonAttributes, URI scheme, String term, String label) {
 		super();
 		this.atomCommonAttributes = atomCommonAttributes;
 		this.scheme = scheme;
@@ -51,7 +52,7 @@ public class RolieProperty implements RolieElement{
 	/**
 	 * @return the scheme
 	 */
-	public AtomURI getScheme() {
+	public URI getScheme() {
 		return scheme;
 	}
 	/**
@@ -75,7 +76,7 @@ public class RolieProperty implements RolieElement{
 	/**
 	 * @param scheme the scheme to set
 	 */
-	public void setScheme(AtomURI scheme) {
+	public void setScheme(URI scheme) {
 		this.scheme = scheme;
 	}
 	/**

@@ -3,7 +3,7 @@ package gov.nist.rolie.polie.model.models.elements;
 import java.net.URI;
 
 import gov.nist.rolie.polie.model.models.constructs.AtomCommonAttributes;
-import gov.nist.rolie.polie.model.models.constructs.AtomURI;
+
 
 /*4.2.6.  The "atom:id" Element
 
@@ -85,12 +85,12 @@ public class AtomId implements AtomElement{
 	private AtomCommonAttributes commonattributes;
 	
 
-	private AtomURI uri;
+	private URI uri;
 	/**
 	 * @param commonattributes
 	 * @param uri
 	 */
-	public AtomId(AtomCommonAttributes commonattributes, AtomURI uri) {
+	public AtomId(AtomCommonAttributes commonattributes, URI uri) {
 		super();
 		this.commonattributes = commonattributes;
 		this.uri = uri;
@@ -108,7 +108,7 @@ public class AtomId implements AtomElement{
 	 * @return the uri
 	 */
 	
-	public AtomURI getUri() {
+	public URI getUri() {
 		return uri;
 	}
 
@@ -125,7 +125,7 @@ public class AtomId implements AtomElement{
 	/**
 	 * @param uri the uri to set
 	 */
-	public void setUri(AtomURI uri) {
+	public void setUri(URI uri) {
 		this.uri = uri;
 	}
 

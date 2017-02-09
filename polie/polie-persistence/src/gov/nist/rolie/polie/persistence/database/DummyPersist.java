@@ -16,8 +16,8 @@ import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.model.models.AtomFeed;
 import gov.nist.rolie.polie.model.models.elements.APPCollection;
 import gov.nist.rolie.polie.model.models.elements.APPWorkspace;
-import gov.nist.rolie.polie.model.models.elements.AtomId;
-import gov.nist.rolie.polie.model.models.elements.AtomTitle;
+
+
 import gov.nist.rolie.polie.tools.XMLMangement.JAXBXMLResourceInterface;
 import gov.nist.rolie.polie.tools.XMLMangement.XMLResourceInterface;
 import gov.nist.rolie.polie.tools.exceptions.FailedToBuildResourceException;
@@ -37,8 +37,8 @@ public class DummyPersist implements PersistenceMethod {
 		collections.add(collection);
 		workspace.setCollections(collections);
 		service.setWorkspaces(workspaces);
-		//entry.setTitle(new AtomTitle("I'm an entry"));
-		feed.setTitle(new AtomTitle("I'm a feed"));
+		entry.setTitle("I'm an entry-dummypersist");
+		feed.setTitle("I'm a feed-dummypersist");
 	}
 	
 	@Override
@@ -150,6 +150,36 @@ public class DummyPersist implements PersistenceMethod {
 		//Update feed with new entry
 		//update feed metadata
 		//return entry
+		return null;
+	}
+
+	@Override
+	public AtomFeed loadFeed(URI uri) {
+		// TODO Auto-generated method stub
+		return feed;
+	}
+
+	@Override
+	public AtomEntry loadEntry(URI iri) {
+		// TODO Auto-generated method stub
+		return entry;
+	}
+
+	@Override
+	public AtomFeed saveFeed(AtomFeed feed) {
+		return feed;
+		
+	}
+
+	@Override
+	public APPServiceDocument loadServiceDocument() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public APPCategories loadCategoryDocument() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

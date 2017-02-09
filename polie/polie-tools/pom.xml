@@ -9,6 +9,12 @@
 			<artifactId>polie-model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+    <groupId>org.apache.xmlbeans</groupId>
+    <artifactId>xmlbeans</artifactId>
+    <version>2.6.0</version>
+</dependency>
+		
   </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>

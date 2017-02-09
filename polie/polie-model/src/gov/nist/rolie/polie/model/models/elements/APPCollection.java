@@ -1,10 +1,11 @@
 package gov.nist.rolie.polie.model.models.elements;
 
-import java.util.List;
+import java.net.URI;
+import java.util.ArrayList;
 
 import gov.nist.rolie.polie.model.models.APPCategories;
 import gov.nist.rolie.polie.model.models.constructs.AtomCommonAttributes;
-import gov.nist.rolie.polie.model.models.constructs.AtomURI;
+
 
 /**
 8.3.3.  The "app:collection" Element
@@ -41,57 +42,111 @@ public class APPCollection implements APPElement {
    value gives the IRI of the Collection.
 	 */
 
-	private AtomURI href;
+	private URI href;
 	
-	private AtomTitle title;
+	private String title;
 	
-	private List<APPCategories> categories;
+	private ArrayList<APPCategories> categories;
 	
-	private List<APPAccept> accept;
-	
+	private ArrayList<String> accept;
 
-	//private AtomPPAccept accept;
+	/**
+	 * @return the commonAttributes
+	 */
+	public AtomCommonAttributes getCommonAttributes() {
+		return commonAttributes;
+	}
+
 	
-	public APPCollection(){}
 	
-	public APPCollection(AtomCommonAttributes commonAttributes, AtomURI href, AtomTitle title,
-			List<APPCategories> categories, List<APPAccept> accepts) {
+	/**
+	 * @param commonAttributes
+	 * @param href
+	 * @param title
+	 * @param categories
+	 * @param accept
+	 */
+	public APPCollection(AtomCommonAttributes commonAttributes, URI href, String title,
+			ArrayList<APPCategories> categories, ArrayList<String> accept) {
 		super();
 		this.commonAttributes = commonAttributes;
 		this.href = href;
 		this.title = title;
 		this.categories = categories;
-		this.accept = accepts;
+		this.accept = accept;
 	}
-	public AtomCommonAttributes getCommonAttributes() {
-		return commonAttributes;
+
+
+
+	public APPCollection() {
+		// TODO Auto-generated constructor stub
 	}
+
+
+
+	/**
+	 * @return the href
+	 */
+	public URI getHref() {
+		return href;
+	}
+
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+	/**
+	 * @return the categories
+	 */
+	public ArrayList<APPCategories> getCategories() {
+		return categories;
+	}
+
+	/**
+	 * @return the accept
+	 */
+	public ArrayList<String> getAccept() {
+		return accept;
+	}
+
+	/**
+	 * @param commonAttributes the commonAttributes to set
+	 */
 	public void setCommonAttributes(AtomCommonAttributes commonAttributes) {
 		this.commonAttributes = commonAttributes;
 	}
-	public AtomTitle getTitle() {
-		return title;
-	}
-	public void setTitle(AtomTitle title) {
-		this.title = title;
-	}
-	public List<APPCategories> getCategories() {
-		return categories;
-	}
-	public void setCategories(List<APPCategories> categories) {
-		this.categories = categories;
-	}
-	public List<APPAccept> getAccepts() {
-		return accept;
-	}
-	public AtomURI getHref() {
-		return href;
-	}
-	public void setHref(AtomURI href) {
+
+	/**
+	 * @param href the href to set
+	 */
+	public void setHref(URI href) {
 		this.href = href;
 	}
-	public void setAccepts(List<APPAccept> accepts) {
-		this.accept = accepts;
+
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
 	}
+
+	/**
+	 * @param categories the categories to set
+	 */
+	public void setCategories(ArrayList<APPCategories> categories) {
+		this.categories = categories;
+	}
+
+	/**
+	 * @param accept the accept to set
+	 */
+	public void setAccept(ArrayList<String> accept) {
+		this.accept = accept;
+	}
+
+	
 
 }

@@ -1,7 +1,9 @@
 package gov.nist.rolie.polie.model.models.elements;
 
+import java.net.URI;
+
 import gov.nist.rolie.polie.model.models.constructs.AtomCommonAttributes;
-import gov.nist.rolie.polie.model.models.constructs.AtomURI;
+
 
 /*
  * 4.2.4.  The "atom:generator" Element
@@ -35,7 +37,7 @@ public class AtomGenerator {
 	private AtomCommonAttributes commonAttributes;
 	
 
-	private AtomURI uri;
+	private URI uri;
 	
 
 	private String version;
@@ -47,7 +49,7 @@ public class AtomGenerator {
 	 * @param uri
 	 * @param version
 	 */
-	public AtomGenerator(AtomCommonAttributes commonAttributes, AtomURI uri, String version,String name) {
+	public AtomGenerator(AtomCommonAttributes commonAttributes, URI uri, String version,String name) {
 		super();
 		this.commonAttributes = commonAttributes;
 		this.uri = uri;
@@ -65,7 +67,7 @@ public class AtomGenerator {
 	/**
 	 * @return the uri
 	 */
-	public AtomURI getUri() {
+	public URI getUri() {
 		return uri;
 	}
 	/**
@@ -83,7 +85,7 @@ public class AtomGenerator {
 	/**
 	 * @param uri the uri to set
 	 */
-	public void setUri(AtomURI uri) {
+	public void setUri(URI uri) {
 		this.uri = uri;
 	}
 	/**

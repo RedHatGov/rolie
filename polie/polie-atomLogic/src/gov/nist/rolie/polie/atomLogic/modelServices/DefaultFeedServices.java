@@ -1,12 +1,15 @@
 package gov.nist.rolie.polie.atomLogic.modelServices;
 
+import java.net.URI;
+
 import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.model.models.AtomFeed;
-import gov.nist.rolie.polie.model.models.constructs.AtomDate;
-import gov.nist.rolie.polie.model.models.elements.AtomUpdated;
+import gov.nist.rolie.polie.persistence.database.DummyPersist;
+import gov.nist.rolie.polie.persistence.database.PersistenceMethod;
 
 public class DefaultFeedServices implements FeedServices{
 
+	PersistenceMethod db = new DummyPersist();
 	EntryServices es;
 	
 	public DefaultFeedServices() {
@@ -18,11 +21,12 @@ public class DefaultFeedServices implements FeedServices{
 		es.publishEntry(entry);
 		addEntry(feed,entry);
 		updateFeedCategories(entry,feed);
-		publishFeed(feed);
+		feed.setUpdatedDate("Right now!"); //TODO datatime
 	}
 
-	private void publishFeed(AtomFeed feed) {
-		feed.setUpdated(new AtomUpdated(new AtomDate(null,"RIGHT NOW!")));
+	public AtomFeed loadFeed(URI uri)
+	{
+		return db.loadFeed(uri);
 	}
 
 	private void addEntry(AtomFeed feed, AtomEntry entry) {
@@ -31,8 +35,15 @@ public class DefaultFeedServices implements FeedServices{
 	}
 
 	private void updateFeedCategories(AtomEntry entry, AtomFeed feed) {
-		// TODO Auto-generated method stub
+		// TODO if entry categories has more than feed categories, add to feed categories
 		
 	}
+
+	@Override
+	public AtomFeed saveFeed(AtomFeed feed) {
+		return db.saveFeed(feed);
+		
+	}
+
 
 }
