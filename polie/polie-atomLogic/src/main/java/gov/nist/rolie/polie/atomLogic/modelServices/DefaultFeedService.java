@@ -2,17 +2,20 @@ package gov.nist.rolie.polie.atomLogic.modelServices;
 
 import java.net.URI;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.model.models.AtomFeed;
 import gov.nist.rolie.polie.persistence.database.DummyPersist;
 import gov.nist.rolie.polie.persistence.database.PersistenceMethod;
-
-public class DefaultFeedServices implements FeedService{
-
-	PersistenceMethod db = new DummyPersist();
+@Component
+public class DefaultFeedService implements FeedService{
+	@Autowired
+	PersistenceMethod db;
 	EntryServices es;
 	
-	public DefaultFeedServices() {
+	public DefaultFeedService() {
 		es = new DefaultEntryServices();
 	}
 
@@ -42,6 +45,12 @@ public class DefaultFeedServices implements FeedService{
 	@Override
 	public AtomFeed saveFeed(AtomFeed feed) {
 		return db.saveFeed(feed);
+		
+	}
+
+	@Override
+	public void cleanup() {
+		// TODO Auto-generated method stub
 		
 	}
 

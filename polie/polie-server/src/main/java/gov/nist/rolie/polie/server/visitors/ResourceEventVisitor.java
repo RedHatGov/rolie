@@ -192,4 +192,9 @@ public class ResourceEventVisitor implements RESTEventVisitor { //TODO:
 		return true;
 	}
 
+	
+	public void cleanup()
+	{
+		
+	}
 }

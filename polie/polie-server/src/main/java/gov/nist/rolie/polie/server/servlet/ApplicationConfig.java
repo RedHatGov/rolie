@@ -5,6 +5,7 @@ import javax.ws.rs.core.Application;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
 
 /**
@@ -19,6 +20,7 @@ public class ApplicationConfig extends Application {
 	private ApplicationContext ctx;
 	
 	public ApplicationConfig() {
+
 		ctx = new AnnotationConfigApplicationContext(AppConfig.class); 
 	}
 }

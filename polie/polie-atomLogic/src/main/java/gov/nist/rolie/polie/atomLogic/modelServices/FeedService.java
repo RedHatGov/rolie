@@ -6,7 +6,7 @@ import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.model.models.AtomFeed;
 import gov.nist.rolie.polie.model.models.elements.APPCollection;
 
-public interface FeedService {
+public interface FeedService extends Service{
 
 	void addEntryToFeed(AtomEntry entry, AtomFeed feed);
 

@@ -1,11 +1,15 @@
 package gov.nist.rolie.polie.server.servlet;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
+
 import gov.nist.rolie.polie.server.visitors.RESTEventVisitor;
 import gov.nist.rolie.polie.server.visitors.ROLIEValidationVisitor;
 import gov.nist.rolie.polie.server.visitors.RequestValidatorVisitor;
 import gov.nist.rolie.polie.server.visitors.ResourceEventVisitor;
 import gov.nist.rolie.polie.server.visitors.ResponseBuilderVisitor;
-
+@Component
 public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
 	
 	//Visitors are declared here by their intended purpose. If a new visitor is written it can be swapped here
@@ -26,7 +30,9 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
 	 * Primary visitor for resource requests. Drives required Atom transformations, and starts 
 	 * persistence procedures.
 	 */
-	private static final RESTEventVisitor REQUEST_PROCESSOR_VISITOR = new ResourceEventVisitor();
+	
+
+	private static ResourceEventVisitor REQUEST_PROCESSOR_VISITOR;
 	
 	/**
 	 * Validates ROLIE XML content in the body of the request.
@@ -44,6 +50,9 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
 	private static final VisitorManager deleteVisitorManagerInstance;
 
 	static {
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+		REQUEST_PROCESSOR_VISITOR= ctx.getBean(ResourceEventVisitor.class);
+		
 		//get appcontext get bean for visitor instad of creating a new one
 		getVisitorManagerInstance = new DefaultVisitorManager();
 		
@@ -99,5 +108,7 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
 	public VisitorManager GetDeleteVisitorManager() {
 		return deleteVisitorManagerInstance;
 	}
+	
+	public void cleanup(){}
 
 }
