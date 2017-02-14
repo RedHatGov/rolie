@@ -6,11 +6,17 @@ import java.util.Map;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
-import gov.nist.rolie.polie.atomLogic.modelServices.DefaultFeedServices;
-import gov.nist.rolie.polie.atomLogic.modelServices.FeedServices;
+import org.glassfish.jersey.message.internal.Statuses;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import gov.nist.rolie.polie.atomLogic.modelServices.FeedService;
+import gov.nist.rolie.polie.atomLogic.modelServices.ResourceService;
+import gov.nist.rolie.polie.model.ResourceType;
 import gov.nist.rolie.polie.model.models.APPResource;
 import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.model.models.AtomFeed;
+import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
 import gov.nist.rolie.polie.server.event.Delete;
 import gov.nist.rolie.polie.server.event.Get;
 import gov.nist.rolie.polie.server.event.Post;
@@ -23,9 +29,14 @@ import gov.nist.rolie.polie.server.event.Put;
  * @author sab3
  *
  */
-public class ResourceEventVisitor implements RESTEventVisitor {
+@Component
+public class ResourceEventVisitor implements RESTEventVisitor { //TODO: 
 
-	FeedServices fs = new DefaultFeedServices();
+	@Autowired
+	ResourceService resourceService;
+
+	@Autowired
+	FeedService feedService;
 	
 	/** 
 	 * When this visitor encounters a get request, the resource at the given IRI can be loaded.
@@ -46,9 +57,17 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
+
+		URI iri = get.getURIInfo().getAbsolutePath();
 		APPResource resource;
-		resource = null;//database.loadResource((URI)data.get("IRI"));
-		data.put("RetrivedResource", resource);
+		try {
+			resource = resourceService.retrieveResource(iri);
+		} catch (ResourceNotFoundException e) {
+			rb.status(Status.NOT_FOUND);
+			return false;
+		}
+		
+		data.put(RESOURCE_DATA_KEY, resource);
 		rb.status(Status.OK);
 		return true;
 	}
@@ -78,13 +97,31 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
 		
 		AtomEntry entry=(AtomEntry)data.get("resource");
-		AtomFeed feed = fs.loadFeed((URI)data.get("IRI"));
 		
-		fs.addEntryToFeed(entry, feed);
-		AtomFeed created = fs.saveFeed(feed);
+		URI iri = post.getURIInfo().getAbsolutePath();
+		
+		// Current assumptions are: 1) iri is the collection?,  
+		APPResource resource;
+		try {
+			resource = resourceService.retrieveResource(iri);
+		} catch (ResourceNotFoundException e) {
+			rb.status(Status.NOT_FOUND);
+			return false;
+		}
+
+		if (!ResourceType.FEED.equals(resource.getResourceType())) {
+			// the IRI is not a feed
+			rb.status(Statuses.from(Status.NOT_ACCEPTABLE, "IRI is not a valid feed"));
+			return false;
+		}
+
+		AtomFeed feed = (AtomFeed)resource;
+		
+		feedService.addEntryToFeed(entry, feed);
+		AtomFeed created = feedService.saveFeed(feed);
 		
 		rb.status(Status.CREATED);
-		rb=rb.header("Location", "TODO"); //TODO FIX THIS
+		rb=rb.header("Location", created.getIRI()); //TODO FIX THIS
 		
 		data.put("CreatedResource",entry);
 		return true;
@@ -123,8 +160,10 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
+		URI iri = put.getURIInfo().getAbsolutePath();
 		APPResource resource = (APPResource)data.get("resource");
-		APPResource updatedResource = null;//database.updateResource(resource,(URI)data.get("IRI"));
+		APPResource updatedResource = null;
+//		database.updateResource(resource,iri);
 		rb=rb.status(Status.OK);
 		data.put("updatedResource",updatedResource);
 		return true;

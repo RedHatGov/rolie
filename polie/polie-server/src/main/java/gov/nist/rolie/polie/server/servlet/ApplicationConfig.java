@@ -3,6 +3,9 @@ package gov.nist.rolie.polie.server.servlet;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 
 /**
  * Provides configuration information for the webapp. Currently overrides none of the default values,
@@ -12,4 +15,10 @@ import javax.ws.rs.core.Application;
  *
  */
 @ApplicationPath("") 
-public class ApplicationConfig extends Application {}
+public class ApplicationConfig extends Application {
+	private ApplicationContext ctx;
+	
+	public ApplicationConfig() {
+		ctx = new AnnotationConfigApplicationContext(AppConfig.class); 
+	}
+}

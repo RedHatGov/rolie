@@ -51,6 +51,8 @@ public class AtomResourceEvent {
 	private VisitorManagerFactory vmFactory;
 	
 	/**
+	 * TODO:Move to RESTEventVisitor
+	 * 
 	 * Provides a map for storing data to be transfered between visitors. There are no requirements
 	 * or static definitions for keys and values. Each visitor should document what values it uses and which
 	 * it places in the map.
@@ -69,7 +71,6 @@ public class AtomResourceEvent {
 	 * overwritting them.
 	 * 
 	 */
-	private static Map<String,Object> data;
 	
 	public AtomResourceEvent() {
 		this(DefaultVisitorManagerFactory.instance());
@@ -94,23 +95,14 @@ public class AtomResourceEvent {
 	public Response get(@Context HttpHeaders headers, @Context UriInfo uriInfo)
 	{
 		log.debug("Processing GET request");
-
-		//Generates a new Get event. This only servers to identify the event,
-		//provides no real functionality. 
-		RESTEvent get = new Get(headers,uriInfo);
-		
-		//Creates and populates the data package for this request. This data map will
-		//be passed from visitor to visitor and relies on contracts (i.e. there are no base requirements
-		// imposed on this map) to define keys and values. 
-		data = new HashMap<>();
-		data.put("path", uriInfo.getPath());
-		data.put("IRI", uriInfo.getAbsolutePath());
-		data.put("headers", headers.getRequestHeaders());
 		
 		VisitorManager vm = vmFactory.GetGetVisitorManager();
+
+		//Generates a new Get event.
+		RESTEvent get = new Get(headers, uriInfo);
 		
 		//Starts the execution chain, returns a built response
-		return vm.execute(get,data);
+		return vm.execute(get);
 	}
 
 
@@ -132,14 +124,8 @@ public class AtomResourceEvent {
 		
 		RESTEvent post = new Post(headers,uriInfo,body);
 		
-		data = new HashMap<>();
-		data.put("path", uriInfo.getPath());
-		data.put("IRI", uriInfo.getAbsolutePath());
-		data.put("headers", headers.getRequestHeaders());
-		data.put("body", body);
-		
 		VisitorManager vm = vmFactory.GetPostVisitorManager();
-		return vm.execute(post,data);
+		return vm.execute(post);
 	}
 	
 	/**
@@ -160,14 +146,9 @@ public class AtomResourceEvent {
 		
 		RESTEvent put = new Put(headers,uriInfo,body);
 		
-		data = new HashMap<>();
-		data.put("path", uriInfo.getPath());
-		data.put("IRI", uriInfo.getAbsolutePath());
-		data.put("headers", headers.getRequestHeaders());
-		
 		VisitorManager vm = vmFactory.GetPutVisitorManager();
 		
-		return vm.execute(put,data);
+		return vm.execute(put);
 	}
 
 	/**
@@ -185,14 +166,9 @@ public class AtomResourceEvent {
 	{
 		RESTEvent delete = new Delete(headers,uriInfo);
 		
-		data = new HashMap<>();
-		data.put("path", uriInfo.getPath());
-		data.put("IRI", uriInfo.getAbsolutePath());
-		data.put("headers", headers.getRequestHeaders());
-		
 		VisitorManager vm = vmFactory.GetDeleteVisitorManager();
 		
-		return vm.execute(delete,data);
+		return vm.execute(delete);
 	}
 	
 }

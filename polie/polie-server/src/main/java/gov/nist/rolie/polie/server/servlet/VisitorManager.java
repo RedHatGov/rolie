@@ -39,6 +39,14 @@ public interface VisitorManager {
 		public void addVisitor(int index, RESTEventVisitor visitor);
 		
 		/**
+		 * A simplification of {@link #execute(RESTEvent, Map)} that initializes an empty map. Same as calling <code>execute(RESETEvent, new Map<>())</code>.
+		 * @param event The event that the execution chain is tied to (i.e. GET,PUT,POST, or DELETE)
+		 * @return The built response from the response builder.
+		 * @see VisitorManager#execute(RESTEvent, Map)
+		 */
+		public Response execute(RESTEvent event);
+
+		/**
 		 * Visitor Execution loop. All visitors that are currently in the visitor list are executed in order.
 		 *  The data map and the response builder are passed by reference and used to pass information from visitor to visitor and to 
 		 *  incrementally build the response, respectively. A visitor may cease the execution chain at any time

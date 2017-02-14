@@ -1,56 +1,55 @@
 package gov.nist.rolie.polie.persistence.database;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
+import org.apache.xmlbeans.XmlException;
+import org.w3.x2005.atom.EntryDocument;
+import org.w3.x2005.atom.FeedDocument;
+import org.w3.x2007.app.CategoriesDocument;
+import org.w3.x2007.app.CollectionType;
+import org.w3.x2007.app.ServiceDocument;
+import org.w3.x2007.app.ServiceType;
+import org.w3.x2007.app.WorkspaceType;
+
+import gov.nist.rolie.polie.model.ResourceType;
 import gov.nist.rolie.polie.model.models.APPCategories;
 import gov.nist.rolie.polie.model.models.APPResource;
 import gov.nist.rolie.polie.model.models.APPServiceDocument;
 import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.model.models.AtomFeed;
-import gov.nist.rolie.polie.model.models.elements.APPCollection;
-import gov.nist.rolie.polie.model.models.elements.APPWorkspace;
-
-
-import gov.nist.rolie.polie.tools.XMLMangement.JAXBXMLResourceInterface;
-import gov.nist.rolie.polie.tools.XMLMangement.XMLResourceInterface;
-import gov.nist.rolie.polie.tools.exceptions.FailedToBuildResourceException;
-import gov.nist.rolie.polie.tools.exceptions.ResourceNotFoundInDatabaseException;
+import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
 
 public class DummyPersist implements PersistenceMethod {
 
-	private static APPServiceDocument service = new APPServiceDocument();
+	private static APPServiceDocument serviceDocument = new APPServiceDocument();
 	private static APPCategories categories = new APPCategories();
 	private static AtomEntry entry = new AtomEntry();
-	private static AtomFeed  feed = new AtomFeed();
+	private static AtomFeed feed = new AtomFeed();
 	static {
-		ArrayList<APPWorkspace> workspaces = new ArrayList<APPWorkspace>();
-		APPWorkspace workspace = new APPWorkspace();
-		APPCollection collection = new APPCollection();
-		ArrayList<APPCollection> collections = new ArrayList<APPCollection>();
-		collections.add(collection);
-		workspace.setCollections(collections);
-		service.setWorkspaces(workspaces);
-		entry.setTitle("I'm an entry-dummypersist");
-		feed.setTitle("I'm a feed-dummypersist");
+		ServiceType serivce = serviceDocument.getXmlObject().addNewService();
+		WorkspaceType workspace = serivce.addNewWorkspace();
+		CollectionType collection = workspace.addNewCollection();
+		collection.addNewTitle();
+		collection.setHref("here/there");
+		
+		entry.getXmlObject().addNewEntry().addNewTitle();//.set(XmlToken.Factory.newInstance().setStringValue("I'm a dummy entry"));
+		feed.getXmlObject().addNewFeed().addNewTitle();//.setTitle("I'm a feed-dummypersist");
 	}
-	
+
 	@Override
 	public APPServiceDocument saveServiceDocument(APPServiceDocument servicedocument) {
 		return servicedocument;
 	}
 
 	@Override
-	public APPServiceDocument loadServiceDocument(URI iri) { 
+	public APPServiceDocument loadServiceDocument(URI iri) {
 		try {
-			return (APPServiceDocument)loadResource(new URI("http://localhost:8080/polie-core/service"));
-		} catch (ResourceNotFoundInDatabaseException e) {
+			return (APPServiceDocument) loadResource(new URI("http://localhost:8080/polie-core/serviceDocument"));
+		} catch (ResourceNotFoundException e) {
 			e.printStackTrace();
 			return null;
 		} catch (URISyntaxException e) {
@@ -67,8 +66,8 @@ public class DummyPersist implements PersistenceMethod {
 	@Override
 	public APPCategories loadCategoryDocument(URI iri) {
 		try {
-			return (APPCategories)loadResource(new URI("http://localhost:8080/polie-core/category"));
-		} catch (ResourceNotFoundInDatabaseException e) {
+			return (APPCategories) loadResource(new URI("http://localhost:8080/polie-core/category"));
+		} catch (ResourceNotFoundException e) {
 			e.printStackTrace();
 			return null;
 		} catch (URISyntaxException e) {
@@ -82,35 +81,71 @@ public class DummyPersist implements PersistenceMethod {
 		return null;
 	}
 
-	@Override
-	public APPResource loadResource(URI iri) throws ResourceNotFoundInDatabaseException {
-		String root = "C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\";
-		String result = "";
-		Path file = null;
-		switch (iri.toString())
-		{
-		case "http://localhost:8080/polie-server/entry": file = Paths.get(root+"testEntry.xml"); break;
-		case "http://localhost:8080/polie-server/feed": file = Paths.get(root+"testFeed.xml"); break;
-		case "http://localhost:8080/polie-server/service": file = Paths.get(root+"testService.xml"); break;
-		case "http://localhost:8080/polie-server/category": file = Paths.get(root+"testCategory.xml"); break;
+	private ResourceType iriToResourceType(URI iri) {
+		ResourceType retval = null;
+		switch (iri.toString()) {
+		case "http://localhost:8080/polie-server/entry":
+			retval = ResourceType.ENTRY;
+			break;
+		case "http://localhost:8080/polie-server/feed":
+			retval = ResourceType.FEED;
+			break;
+		case "http://localhost:8080/polie-server/serviceDocument":
+			retval = ResourceType.SERVICE;
+			break;
+		case "http://localhost:8080/polie-server/category":
+			retval = ResourceType.CATEGORY;
+			break;
 		}
+		return retval;
+	}
 
-		try (BufferedReader reader = Files.newBufferedReader(file)) {
-			String line = null;
-			while ((line = reader.readLine()) != null)
-			{
-				result+=line;
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	private Path iriToPath(URI iri) {
+		String root = "C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\";
+		Path file = null;
+		switch (iri.toString()) {
+		case "http://localhost:8080/polie-server/entry":
+			file = Paths.get(root + "testEntry.xml");
+			break;
+		case "http://localhost:8080/polie-server/feed":
+			file = Paths.get(root + "testFeed.xml");
+			break;
+		case "http://localhost:8080/polie-server/serviceDocument":
+			file = Paths.get(root + "testService.xml");
+			break;
+		case "http://localhost:8080/polie-server/category":
+			file = Paths.get(root + "testCategory.xml");
+			break;
 		}
-		XMLResourceInterface ri = new JAXBXMLResourceInterface();
+		return file;
+	}
+
+	@Override
+	public APPResource loadResource(URI iri) throws ResourceNotFoundException {
+		String result = "";
+
+		Path file = iriToPath(iri);
 		try {
-			return ri.XMLToResource(ri.StringToXML(result));
-		} catch (FailedToBuildResourceException e) {
+			APPResource retval = null;
+			switch (iriToResourceType(iri)) {
+			case CATEGORY:
+				retval = new APPCategories(CategoriesDocument.Factory.parse(file.toFile()));
+				break;
+			case ENTRY:
+				retval = new AtomEntry(EntryDocument.Factory.parse(file.toFile()));
+				break;
+			case FEED:
+				retval = new AtomFeed(FeedDocument.Factory.parse(file.toFile()));
+				break;
+			case SERVICE:
+				retval = new APPServiceDocument(ServiceDocument.Factory.parse(file.toFile()));
+				break;
+			
+			}
+			return retval;
+		} catch (IOException | XmlException e) {
 			e.printStackTrace();
-			throw new ResourceNotFoundInDatabaseException();
+			throw new ResourceNotFoundException();
 		}
 	}
 
@@ -141,15 +176,14 @@ public class DummyPersist implements PersistenceMethod {
 	public APPResource copyResource(APPResource resource) {
 		return null;
 	}
-	
-	public APPResource postEntryToCollection(APPResource resource, URI uri)
-	{
-		//make sure that uri is a valid feed
-		//Make sure that feed can accept the entry
-		//update entry meta data
-		//Update feed with new entry
-		//update feed metadata
-		//return entry
+
+	public APPResource postEntryToCollection(APPResource resource, URI uri) {
+		// make sure that uri is a valid feed
+		// Make sure that feed can accept the entry
+		// update entry meta data
+		// Update feed with new entry
+		// update feed metadata
+		// return entry
 		return null;
 	}
 
@@ -168,7 +202,7 @@ public class DummyPersist implements PersistenceMethod {
 	@Override
 	public AtomFeed saveFeed(AtomFeed feed) {
 		return feed;
-		
+
 	}
 
 	@Override
@@ -181,6 +215,17 @@ public class DummyPersist implements PersistenceMethod {
 	public APPCategories loadCategoryDocument() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public ResourceType identifyResouceType(URI iri) {
+		return iriToResourceType(iri);
+	}
+
+	@Override
+	public void cleanup() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -3,6 +3,7 @@
  */
 package gov.nist.rolie.polie.server.servlet;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -45,11 +46,18 @@ public class DefaultVisitorManager implements VisitorManager {
 		visitors.clear();
 	}
 	
+	@Override
+	public Response execute(RESTEvent event) {
+		return execute(event, new HashMap<String, Object>());
+	}
+
 	//Is there is threading trouble, you'll probably fix it in this method.
 	public Response execute(RESTEvent event, Map<String, Object> data)
 	{
 		//If something goes wrong, set the default Response to a server error response.
-		ResponseBuilder rb = Response.status(Status.INTERNAL_SERVER_ERROR);
+		// TODO: set to a resonable default status that doesn't need to be changed
+		// TODO: use a call to the event to get the default status by request method
+		ResponseBuilder rb = Response.status(Status.METHOD_NOT_ALLOWED);
 		
 		//Basic for loop to execute all visitors. If a visitor returns false, the loop is terminated
 		//right away and the response is built as-is.

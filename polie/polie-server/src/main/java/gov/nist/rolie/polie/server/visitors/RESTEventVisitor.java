@@ -21,9 +21,8 @@ import gov.nist.rolie.polie.server.event.Put;
  * 		case the visitor must set the response builder with a reasonable error status and description.
  */
 public interface RESTEventVisitor {
-	
+	public static final String RESOURCE_DATA_KEY = "resource";
 
-	
 	public boolean visit(Get get, ResponseBuilder rb, Map<String,Object> data);
 
 	public boolean visit(Post post, ResponseBuilder rb, Map<String,Object> data);

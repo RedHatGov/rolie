@@ -15,7 +15,7 @@ public abstract class AbstractRESTEvent implements RESTEvent {
 		this.headers = headers;
 	}
 
-	public UriInfo getURI()
+	public UriInfo getURIInfo()
 	{
 		return this.uriInfo;
 	}

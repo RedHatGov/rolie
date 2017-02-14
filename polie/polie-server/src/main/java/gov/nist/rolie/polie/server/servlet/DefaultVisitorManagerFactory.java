@@ -3,9 +3,7 @@ package gov.nist.rolie.polie.server.servlet;
 import gov.nist.rolie.polie.server.visitors.RESTEventVisitor;
 import gov.nist.rolie.polie.server.visitors.ROLIEValidationVisitor;
 import gov.nist.rolie.polie.server.visitors.RequestValidatorVisitor;
-import gov.nist.rolie.polie.server.visitors.ResourceBuilderVisitor;
 import gov.nist.rolie.polie.server.visitors.ResourceEventVisitor;
-import gov.nist.rolie.polie.server.visitors.ResourceSerializerVisitor;
 import gov.nist.rolie.polie.server.visitors.ResponseBuilderVisitor;
 
 public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
@@ -36,19 +34,6 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
 	private static final RESTEventVisitor ROLIE_CONTENT_VALIDATION_VISITOR = new ROLIEValidationVisitor();
 	
 	/**
-	 * Transforms incoming ROLIE XML content into the internal model format. This intermediate format is
-	 * consumed by the persistence code.
-	 */
-	private static final RESTEventVisitor REQUEST_CONTENT_UNMARSHALLER_VISITOR = new ResourceBuilderVisitor();
-	
-	
-	/**
-	 * Transforms incoming ROLIE XML content into the internal model format. This intermediate format is
-	 * consumed by the persistence code.
-	 */
-	private static final RESTEventVisitor RESOURCE_TO_XML_VISITOR = new ResourceSerializerVisitor();
-
-	/**
 	 * Handles the final steps of response construction, including header fields
 	 */
 	private static final RESTEventVisitor RESPONSE_BUILDER_VISITOR = new ResponseBuilderVisitor();
@@ -59,29 +44,25 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
 	private static final VisitorManager deleteVisitorManagerInstance;
 
 	static {
+		//get appcontext get bean for visitor instad of creating a new one
 		getVisitorManagerInstance = new DefaultVisitorManager();
 		
 		//Adds visitors in order to the execution list. FIFO order.
 		getVisitorManagerInstance.addVisitor(HTTP_REQUEST_VALIDATOR_VISITOR); 
 		getVisitorManagerInstance.addVisitor(REQUEST_PROCESSOR_VISITOR);
-		getVisitorManagerInstance.addVisitor(RESOURCE_TO_XML_VISITOR); //TODO Look into using entity adapters to do this automatically
 		getVisitorManagerInstance.addVisitor(RESPONSE_BUILDER_VISITOR);
 
 		postVisitorManagerInstance = new DefaultVisitorManager();
 
 		postVisitorManagerInstance.addVisitor(HTTP_REQUEST_VALIDATOR_VISITOR);
 		postVisitorManagerInstance.addVisitor(ROLIE_CONTENT_VALIDATION_VISITOR);
-		postVisitorManagerInstance.addVisitor(REQUEST_CONTENT_UNMARSHALLER_VISITOR);
 		postVisitorManagerInstance.addVisitor(REQUEST_PROCESSOR_VISITOR);
-		postVisitorManagerInstance.addVisitor(RESOURCE_TO_XML_VISITOR);
 		postVisitorManagerInstance.addVisitor(RESPONSE_BUILDER_VISITOR);
 
 		putVisitorManagerInstance = new DefaultVisitorManager();
 		putVisitorManagerInstance.addVisitor(HTTP_REQUEST_VALIDATOR_VISITOR);
 		putVisitorManagerInstance.addVisitor(ROLIE_CONTENT_VALIDATION_VISITOR);
-		putVisitorManagerInstance.addVisitor(REQUEST_CONTENT_UNMARSHALLER_VISITOR);
 		putVisitorManagerInstance.addVisitor(REQUEST_PROCESSOR_VISITOR);
-		putVisitorManagerInstance.addVisitor(RESOURCE_TO_XML_VISITOR);
 		putVisitorManagerInstance.addVisitor(RESPONSE_BUILDER_VISITOR);
 
 		deleteVisitorManagerInstance = new DefaultVisitorManager();

@@ -29,6 +29,7 @@ public class AtomResourceEventTest {
 	
 
 	@Test
+	@Ignore
 	@SuppressWarnings("unchecked")
 	public void testGet() throws URISyntaxException {
 //		 event = new AtomResourceEvent();

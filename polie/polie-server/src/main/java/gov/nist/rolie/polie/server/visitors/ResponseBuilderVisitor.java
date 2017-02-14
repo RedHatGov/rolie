@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import gov.nist.rolie.polie.model.models.APPResource;
 import gov.nist.rolie.polie.server.event.Delete;
 import gov.nist.rolie.polie.server.event.Get;
 import gov.nist.rolie.polie.server.event.Post;
@@ -37,7 +38,8 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-		rb.entity(data.get("ResponseBody"));
+		APPResource resource = (APPResource)data.get(RESOURCE_DATA_KEY);
+		rb.entity(resource.getXmlObject());
 		return true;
 	}
 	/** 

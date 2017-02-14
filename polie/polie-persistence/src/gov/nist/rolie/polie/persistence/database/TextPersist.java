@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import gov.nist.rolie.polie.model.ResourceType;
 import gov.nist.rolie.polie.model.models.APPCategories;
 import gov.nist.rolie.polie.model.models.APPResource;
 import gov.nist.rolie.polie.model.models.APPServiceDocument;
@@ -128,6 +129,18 @@ public class TextPersist implements PersistenceMethod{
 	public APPCategories loadCategoryDocument() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public ResourceType identifyResouceType(URI iri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void cleanup() {
+		// TODO Auto-generated method stub
+		
 	}
 
 
