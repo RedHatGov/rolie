@@ -6,9 +6,11 @@ import java.util.Map;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.xmlbeans.XmlException;
 import org.glassfish.jersey.message.internal.Statuses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.w3.x2005.atom.EntryDocument;
 
 import gov.nist.rolie.polie.atomLogic.modelServices.FeedService;
 import gov.nist.rolie.polie.atomLogic.modelServices.ResourceService;
@@ -96,7 +98,13 @@ public class ResourceEventVisitor implements RESTEventVisitor { //TODO:
 	@Override
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
 		
-		AtomEntry entry=(AtomEntry)data.get("resource");
+		AtomEntry entry = null;
+		try {
+			entry = new AtomEntry(EntryDocument.Factory.parse(post.getBody()));
+		} catch (XmlException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		URI iri = post.getURIInfo().getAbsolutePath();
 		
@@ -125,16 +133,7 @@ public class ResourceEventVisitor implements RESTEventVisitor { //TODO:
 		
 		data.put("CreatedResource",entry);
 		return true;
-//		APPResource resource = (APPResource)data.get("resource");
-//		APPCollection collection = ae.getCollection((URI)data.get("IRI"));
-//		
-//		APPResource createdResource = ae.postEntryToCollection((AtomEntry)resource, collection);
-//		
-//		rb=rb.status(Status.CREATED);
-//		data.put("CreatedResourceLocationIRI", (URI)data.get("IRI")); //TODO FIX THIS
-//		rb=rb.header("Location", (URI)data.get("CreatedResourceLocationIRI"));
-//		data.put("CreatedResource",createdResource);
-//		return true;
+
 	}
 	
 	

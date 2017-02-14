@@ -61,7 +61,8 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
-		rb.entity(data.get("ResponseBody"));
+		APPResource resource = (APPResource)data.get("CreatedResource");
+		rb.entity(resource.getXmlObject());
 		return true;
 	}
 	
