@@ -1,0 +1,6 @@
+gov\nist\rolie\polie\persistence\database\PersistenceMethod.class
+gov\nist\rolie\polie\persistence\ResourceNotFoundException.class
+gov\nist\rolie\polie\persistence\database\TextPersist.class
+gov\nist\rolie\polie\persistence\NestedStringMaker.class
+gov\nist\rolie\polie\persistence\database\DummyPersist$1.class
+gov\nist\rolie\polie\persistence\database\DummyPersist.class

@@ -34,7 +34,7 @@ public class APPServiceDocument extends AbstractAPPResource<ServiceDocument> imp
 		super(doc);
 	}
 
-	@Override
+
 	public ResourceType getResourceType() {
 		return ResourceType.SERVICE;
 	}

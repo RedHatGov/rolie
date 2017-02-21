@@ -1,7 +1,10 @@
 package gov.nist.rolie.polie.atomLogic.modelServices;
 
+import org.springframework.stereotype.Component;
+
 import gov.nist.rolie.polie.model.models.AtomEntry;
 
+@Component
 public class DefaultEntryServices implements EntryServices {
 
 	public DefaultEntryServices() {

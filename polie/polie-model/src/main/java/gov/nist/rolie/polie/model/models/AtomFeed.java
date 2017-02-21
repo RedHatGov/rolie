@@ -98,7 +98,7 @@ public class AtomFeed extends AbstractAPPResource<FeedDocument> implements AtomE
 		super(doc);
 	}
 
-	@Override
+
 	public ResourceType getResourceType() {
 		return ResourceType.FEED;
 	}

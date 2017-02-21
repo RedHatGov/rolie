@@ -13,12 +13,11 @@ import gov.nist.rolie.polie.server.event.Delete;
 import gov.nist.rolie.polie.server.event.Get;
 import gov.nist.rolie.polie.server.event.Post;
 import gov.nist.rolie.polie.server.event.Put;
-import gov.nist.rolie.polie.tools.utils.DefaultROLIEValidator;
-import gov.nist.rolie.polie.tools.utils.ROLIEValidator;
+
 
 public class ROLIEValidationVisitor implements RESTEventVisitor {
 
-	static ROLIEValidator validator = new DefaultROLIEValidator();
+	//static ROLIEValidator validator = new DefaultROLIEValidator();
 
 	@Override
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
@@ -47,49 +46,51 @@ public class ROLIEValidationVisitor implements RESTEventVisitor {
 
 	@Override
 	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-		String content = (String)data.get("body");
-		rb=rb.status(Status.BAD_REQUEST);
-		boolean success = false;
-		try {
-			success = validator.validate(content);
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			success = false;
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			success = false;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			success = false;
-		}
-		return success;
+//		String content = (String)data.get("body");
+//		rb=rb.status(Status.BAD_REQUEST);
+//		boolean success = false;
+//		try {
+//			success = validator.validate(content);
+//		} catch (ParserConfigurationException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			success = false;
+//		} catch (SAXException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			success = false;
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			success = false;
+//		}
+//		return success;
+		return true;
 	}
 	
 
 	@Override
 	public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
-		String content = (String)data.get("body");
-		rb=rb.status(Status.BAD_REQUEST);
-		boolean success = false;
-		try {
-			success = validator.validate(content);
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			success = false;
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			success = false;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			success = false;
-		}
-		return success;
+//		String content = (String)data.get("body");
+//		rb=rb.status(Status.BAD_REQUEST);
+//		boolean success = false;
+//		try {
+//			success = validator.validate(content);
+//		} catch (ParserConfigurationException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			success = false;
+//		} catch (SAXException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			success = false;
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			success = false;
+//		}
+//		return success;
+		return true;
 	}
 	
 

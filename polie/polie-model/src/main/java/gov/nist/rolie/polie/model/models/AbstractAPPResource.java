@@ -15,7 +15,6 @@ public abstract class AbstractAPPResource<XML extends XmlObject> implements APPR
 		this.xmlObject = xmlObject;
 	}
 
-	@Override
 	public XML getXmlObject() {
 		return xmlObject;
 	}

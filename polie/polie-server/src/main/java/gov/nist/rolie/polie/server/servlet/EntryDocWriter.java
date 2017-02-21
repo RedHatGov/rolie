@@ -12,7 +12,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import org.apache.xmlbeans.XmlObject;
 import org.w3.x2005.atom.impl.EntryDocumentImpl;
 
 @Provider

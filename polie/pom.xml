@@ -1,12 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>gov.nist.rolie</groupId>
 	<artifactId>polie</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-
 	<packaging>pom</packaging>
+
+	<name>polie</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jersey.version>2.23.1</jersey.version>
+		<rdf4j.version>2.0M3</rdf4j.version>
+		<log4j.version>2.6.2</log4j.version>
+		<netty.version>4.0.0.Alpha8</netty.version>
+		<spring.version>4.3.6.RELEASE</spring.version>
+		<resteasy.version>3.1.0.Final</resteasy.version>
+		<junit.version>3.8.1</junit.version>
+	</properties>
+
 
 	<modules>
 		<module>polie-model</module>
@@ -17,16 +31,27 @@
 		<module>polie-client</module>
 	</modules>
 
-	<properties>
-		<jersey.version>2.23.1</jersey.version>
-		<rdf4j.version>2.0M3</rdf4j.version>
-		<log4j.version>2.6.2</log4j.version>
-		<netty.version>4.0.0.Alpha8</netty.version>
-		<spring.version>4.3.6.RELEASE</spring.version>
-	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-api</artifactId>
@@ -37,63 +62,23 @@
 				<artifactId>log4j-core</artifactId>
 				<version>${log4j.version}</version>
 			</dependency>
+			
 			<dependency>
-				<groupId>org.glassfish.jersey.containers</groupId>
-				<artifactId>jersey-container-servlet</artifactId>
-				<version>${jersey.version}</version>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxrs</artifactId>
+				<version>${resteasy.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.glassfish.jersey.core</groupId>
-				<artifactId>jersey-server</artifactId>
-				<version>${jersey.version}</version>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-spring</artifactId>
+				<version>${resteasy.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.glassfish.jersey.core</groupId>
-				<artifactId>jersey-common</artifactId>
-				<version>${jersey.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.glassfish.jersey.core</groupId>
-				<artifactId>jersey-client</artifactId>
-				<version>${jersey.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.rdf4j</groupId>
-				<artifactId>rdf4j-runtime</artifactId>
-				<version>${rdf4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.rdf4j</groupId>
-				<artifactId>rdf4j-sail-memory</artifactId>
-				<version>${rdf4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.rdf4j</groupId>
-				<artifactId>rdf4j-repository-sail</artifactId>
-				<version>${rdf4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.rdf4j</groupId>
-				<artifactId>rdf4j-sail-nativerdf</artifactId>
-				<version>${rdf4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty</artifactId>
-				<version>${netty.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-beans</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
+
+
+
 		</dependencies>
 	</dependencyManagement>
+
 
 	<build>
 		<pluginManagement>
@@ -120,12 +105,7 @@
 					<inherited>true</inherited>
 				</plugin>
 			</plugins>
-
 		</pluginManagement>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-		</plugins>
 	</build>
+
 </project>

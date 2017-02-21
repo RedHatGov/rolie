@@ -20,9 +20,9 @@ public class Get extends AbstractRESTEvent implements RESTEvent {
 	}
 	
 	@Override
-	public boolean accept(RESTEventVisitor RESTEventVisitor, ResponseBuilder rb, Map<String, Object> data)
+	public boolean accept(RESTEventVisitor restEventVisitor, ResponseBuilder rb, Map<String, Object> data)
 	{
-		return RESTEventVisitor.visit(this, rb, data);
+		return restEventVisitor.visit(this, rb, data);
 	}
 	
 }

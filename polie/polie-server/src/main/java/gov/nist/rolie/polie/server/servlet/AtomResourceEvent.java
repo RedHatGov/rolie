@@ -3,10 +3,7 @@
  */
 package gov.nist.rolie.polie.server.servlet;
 
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -21,6 +18,9 @@ import javax.ws.rs.core.UriInfo;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
 import gov.nist.rolie.polie.server.event.Delete;
 import gov.nist.rolie.polie.server.event.Get;
@@ -40,14 +40,15 @@ import gov.nist.rolie.polie.server.event.RESTEvent;
  * @author sab3
  *
  */
-@Path("{path: .*}")
-@Singleton
+@Component
+//@Path("{path:.*}")
 public class AtomResourceEvent {
 	private static final Logger log = LogManager.getLogger(AtomResourceEvent.class); 
 
 	/**The visitor manager is declared here. If a new visitor manager is written is can be swapped out here
 	*To apply to all requests.
 	*/
+	@Autowired
 	private VisitorManagerFactory vmFactory;
 	
 	/**
@@ -71,15 +72,15 @@ public class AtomResourceEvent {
 	 * overwritting them.
 	 * 
 	 */
-	
+	 
 	public AtomResourceEvent() {
-		this(DefaultVisitorManagerFactory.instance());
+
 	}
 
-	public AtomResourceEvent(VisitorManagerFactory vmFactory) {
-		log.info("Constructing AtomResourceEvent");
-		this.vmFactory = vmFactory;
-	}
+//	public AtomResourceEvent(VisitorManagerFactory vmFactory) {
+//		log.info("Constructing AtomResourceEvent");
+//		this.vmFactory = vmFactory;
+//	}
 
 	/**
 	 * Code that executes when the server receives a GET request on anything other than rolie/servicedocument and
@@ -90,12 +91,13 @@ public class AtomResourceEvent {
 	 * @return Returns the completed Response that is passed off to the server to be sent back to the requester.
 	 * 			At this point, the response is completed and is handled all by the webapp.
 	 */
-	@Produces({"application/atom+xml;type=entry"})
+//	@Produces({"application/atom+xml;type=entry"})
 	@GET
 	public Response get(@Context HttpHeaders headers, @Context UriInfo uriInfo)
 	{
 		log.debug("Processing GET request");
 		
+
 		VisitorManager vm = vmFactory.GetGetVisitorManager();
 
 		//Generates a new Get event.

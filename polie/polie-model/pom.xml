@@ -8,7 +8,9 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+
 	<artifactId>polie-model</artifactId>
+	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>

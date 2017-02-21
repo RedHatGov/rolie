@@ -7,12 +7,14 @@ import org.springframework.stereotype.Component;
 
 import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.model.models.AtomFeed;
-import gov.nist.rolie.polie.persistence.database.DummyPersist;
 import gov.nist.rolie.polie.persistence.database.PersistenceMethod;
+
 @Component
 public class DefaultFeedService implements FeedService{
 	@Autowired
 	PersistenceMethod db;
+
+	@Autowired
 	EntryServices es;
 	
 	public DefaultFeedService() {

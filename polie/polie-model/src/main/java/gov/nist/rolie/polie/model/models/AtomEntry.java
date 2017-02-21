@@ -90,7 +90,7 @@ public class AtomEntry extends AbstractAPPResource<EntryDocument> implements Ato
 		super(doc);
 	}
 
-	@Override
+
 	public ResourceType getResourceType() {
 		return ResourceType.ENTRY;
 	}

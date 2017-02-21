@@ -1,10 +1,14 @@
 package gov.nist.rolie.polie.server.visitors;
 
+import java.net.URI;
 import java.util.Map;
 
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import gov.nist.rolie.polie.atomLogic.modelServices.DefaultResourceService;
+import gov.nist.rolie.polie.atomLogic.modelServices.ResourceService;
 import gov.nist.rolie.polie.model.models.APPResource;
+import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
 import gov.nist.rolie.polie.server.event.Delete;
 import gov.nist.rolie.polie.server.event.Get;
 import gov.nist.rolie.polie.server.event.Post;
@@ -18,8 +22,23 @@ import gov.nist.rolie.polie.server.event.Put;
  * @author sab3
  *
  */
+
 public class ResponseBuilderVisitor implements RESTEventVisitor {
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/** 
 	 * When this visitor encounters a GET request, it gets the resource that has been found and places it
@@ -38,7 +57,16 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-		APPResource resource = (APPResource)data.get(RESOURCE_DATA_KEY);
+//		APPResource resource = (APPResource)data.get(RESOURCE_DATA_KEY);
+		URI iri = get.getURIInfo().getAbsolutePath();
+		APPResource resource = null;
+		ResourceService resourceService = new DefaultResourceService();
+		try {
+			resource = resourceService.retrieveResource(iri);
+		} catch (ResourceNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		rb.entity(resource.getXmlObject());
 		return true;
 	}

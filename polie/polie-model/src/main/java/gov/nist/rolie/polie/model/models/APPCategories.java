@@ -53,7 +53,7 @@ public class APPCategories extends AbstractAPPResource<CategoriesDocument> imple
 		super(doc);
 	}
 
-	@Override
+
 	public ResourceType getResourceType() {
 		return ResourceType.CATEGORY;
 	}

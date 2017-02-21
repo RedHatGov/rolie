@@ -12,6 +12,7 @@ import gov.nist.rolie.polie.persistence.database.PersistenceMethod;
 
 @Component
 public class DefaultResourceService implements ResourceService {
+	
 	@Autowired
 	PersistenceMethod persistenceMethod;
 
