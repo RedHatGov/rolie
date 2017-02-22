@@ -53,3 +53,6 @@ target
 .project
 .classpath
 .settings
+.settings
+.classpath
+.project
