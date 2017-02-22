@@ -12,9 +12,11 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import org.springframework.stereotype.Component;
 import org.w3.x2005.atom.impl.EntryDocumentImpl;
 
 @Provider
+@Component
 @Produces("application/atom+xml;type=entry")
  public class EntryDocWriter implements MessageBodyWriter<EntryDocumentImpl> {
 

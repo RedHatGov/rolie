@@ -57,16 +57,8 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
 	 */
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-//		APPResource resource = (APPResource)data.get(RESOURCE_DATA_KEY);
+		APPResource resource = (APPResource)data.get(RESOURCE_DATA_KEY);
 		URI iri = get.getURIInfo().getAbsolutePath();
-		APPResource resource = null;
-		ResourceService resourceService = new DefaultResourceService();
-		try {
-			resource = resourceService.retrieveResource(iri);
-		} catch (ResourceNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		rb.entity(resource.getXmlObject());
 		return true;
 	}

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import gov.nist.rolie.polie.atomLogic.modelServices.ModuleStringMakerInterface;
 
 @Component
-@Path("{path:.*}")
+
 public class resteasyServlet {
 
 	@Autowired

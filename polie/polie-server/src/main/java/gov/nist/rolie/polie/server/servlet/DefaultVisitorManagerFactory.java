@@ -37,7 +37,7 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
 	 */
 	private static final RESTEventVisitor RESPONSE_BUILDER_VISITOR = new ResponseBuilderVisitor();
 
-	private static final RESTEventVisitor DEBUGPROCESSOR = new ResourceEventVisitor();
+//	private static final RESTEventVisitor DEBUGPROCESSOR = new ResourceEventVisitor();
 	/*
 	 * Primary visitor for resource requests. Drives required Atom
 	 * transformations, and starts persistence procedures.
@@ -60,7 +60,7 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
 
 			// Adds visitors in order to the execution list. FIFO order.
 			getVisitorManagerInstance.addVisitor(HTTP_REQUEST_VALIDATOR_VISITOR);
-			getVisitorManagerInstance.addVisitor(DEBUGPROCESSOR);
+			getVisitorManagerInstance.addVisitor(requestProcessor);
 			getVisitorManagerInstance.addVisitor(RESPONSE_BUILDER_VISITOR);
 		}
 		return getVisitorManagerInstance;

@@ -88,18 +88,20 @@ public class DummyPersist implements PersistenceMethod {
 	private ResourceType iriToResourceType(URI iri) {
 		ResourceType retval = null;
 		switch (iri.toString()) {
-		case "http://localhost:8080/polie-server/entry":
+		case "http://localhost:8080/polie-server/rest/entry":
 			retval = ResourceType.ENTRY;
 			break;
-		case "http://localhost:8080/polie-server/feed":
+		case "http://localhost:8080/polie-server/rest/feed":
 			retval = ResourceType.FEED;
 			break;
-		case "http://localhost:8080/polie-server/serviceDocument":
+		case "http://localhost:8080/polie-server/rest/serviceDocument":
 			retval = ResourceType.SERVICE;
 			break;
-		case "http://localhost:8080/polie-server/category":
+		case "http://localhost:8080/polie-server/rest/category":
 			retval = ResourceType.CATEGORY;
 			break;
+		default:
+			throw new UnsupportedOperationException(iri.toString());
 		}
 		return retval;
 	}
@@ -108,18 +110,20 @@ public class DummyPersist implements PersistenceMethod {
 		String root = "C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\";
 		Path file = null;
 		switch (iri.toString()) {
-		case "http://localhost:8080/polie-server/entry":
+		case "http://localhost:8080/polie-server/rest/entry":
 			file = Paths.get(root + "testEntry.xml");
 			break;
-		case "http://localhost:8080/polie-server/feed":
+		case "http://localhost:8080/polie-server/rest/feed":
 			file = Paths.get(root + "testFeed.xml");
 			break;
-		case "http://localhost:8080/polie-server/serviceDocument":
+		case "http://localhost:8080/polie-server/rest/serviceDocument":
 			file = Paths.get(root + "testService.xml");
 			break;
-		case "http://localhost:8080/polie-server/category":
+		case "http://localhost:8080/polie-server/rest/category":
 			file = Paths.get(root + "testCategory.xml");
 			break;
+		default:
+			throw new UnsupportedOperationException(iri.toString());
 		}
 		return file;
 	}
