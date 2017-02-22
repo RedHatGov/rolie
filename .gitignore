@@ -48,4 +48,8 @@ Temporary Items
 
 #Maven
 target
-
+/target
+/.settings
+.project
+.classpath
+.settings
