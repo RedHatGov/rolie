@@ -19,7 +19,6 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import gov.nist.rolie.polie.server.event.Delete;
@@ -91,7 +90,7 @@ public class AtomResourceEvent {
 	 * @return Returns the completed Response that is passed off to the server to be sent back to the requester.
 	 * 			At this point, the response is completed and is handled all by the webapp.
 	 */
-	@Produces({"application/atom+xml;type=entry"})
+	@Produces({"application/atom+xml"})
 	@GET
 	public Response get(@Context HttpHeaders headers, @Context UriInfo uriInfo)
 	{
@@ -127,6 +126,7 @@ public class AtomResourceEvent {
 		RESTEvent post = new Post(headers,uriInfo,body);
 		
 		VisitorManager vm = vmFactory.GetPostVisitorManager();
+		
 		return vm.execute(post);
 	}
 	
@@ -140,8 +140,8 @@ public class AtomResourceEvent {
 	 * @return Returns the completed Response that is passed off to the server to be sent back to the requester.
 	 * 			At this point, the response is completed and is handled all by the webapp.
 	 */
-	@Consumes({"application/xml","application/atom+xml"})
-	@Produces({"application/atom+xml"})
+	@Consumes({"application/atom+xml;type=entry"})
+	@Produces({"application/atom+xml;type=entry"})
 	@PUT
 	public Response put( @Context HttpHeaders headers, @Context UriInfo uriInfo, String body)
 	{

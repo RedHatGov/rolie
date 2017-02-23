@@ -7,32 +7,30 @@ import org.springframework.stereotype.Component;
 
 import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.model.models.AtomFeed;
+import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
+import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
+import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
 import gov.nist.rolie.polie.persistence.database.PersistenceMethod;
 
 @Component
 public class DefaultFeedService implements FeedService{
+	
 	@Autowired
-	PersistenceMethod db;
+	PersistenceMethod persistenceMethod;
 
 	@Autowired
-	EntryServices es;
+	EntryService es;
 	
 	public DefaultFeedService() {
-		es = new DefaultEntryServices();
 	}
 
 	@Override
-	public void addEntryToFeed(AtomEntry entry, AtomFeed feed) {
-		es.publishEntry(entry);
-		addEntry(feed,entry);
-		updateFeedCategories(entry,feed);
-//		feed.setUpdatedDate("Right now!"); //TODO datatime
+	public AtomFeed addEntryToFeed(AtomEntry entry, AtomFeed feed) {
+		feed.getXmlObject().getFeed().addNewEntry().set(entry.getXmlObject());
+		return feed;
 	}
 
-	public AtomFeed loadFeed(URI uri)
-	{
-		return db.loadFeed(uri);
-	}
+
 
 	private void addEntry(AtomFeed feed, AtomEntry entry) {
 		//TODO If not exists
@@ -45,16 +43,26 @@ public class DefaultFeedService implements FeedService{
 	}
 
 	@Override
-	public AtomFeed saveFeed(AtomFeed feed) {
-		return db.saveFeed(feed);
-		
+	public AtomFeed loadFeed(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException {
+		return persistenceMethod.loadFeed(uri);
 	}
 
 	@Override
-	public void cleanup() {
-		// TODO Auto-generated method stub
-		
+	public AtomFeed createFeed(AtomFeed feed, URI iri) throws ResourceAlreadyExistsException {
+		return persistenceMethod.createFeed(feed, iri);
 	}
+
+	@Override
+	public AtomFeed updateFeed(AtomFeed feed, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException {
+		return persistenceMethod.updateFeed(feed, iri);
+	}
+
+	@Override
+	public boolean deleteFeed(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException {
+		return persistenceMethod.deleteFeed(iri);
+	}
+
+
 
 
 }

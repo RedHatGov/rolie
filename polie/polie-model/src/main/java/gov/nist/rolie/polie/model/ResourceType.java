@@ -5,5 +5,7 @@ public enum ResourceType {
 	FEED,
 	CATEGORY,
 	SERVICE,
+	RESOURCE,
 	MEDIA;
+	
 }

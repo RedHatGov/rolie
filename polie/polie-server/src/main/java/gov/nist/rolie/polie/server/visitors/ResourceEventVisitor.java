@@ -1,6 +1,7 @@
 package gov.nist.rolie.polie.server.visitors;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
 
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -14,10 +15,13 @@ import org.w3.x2005.atom.EntryDocument;
 
 import gov.nist.rolie.polie.atomLogic.modelServices.FeedService;
 import gov.nist.rolie.polie.atomLogic.modelServices.ResourceService;
+import gov.nist.rolie.polie.atomLogic.modelServices.EntryService;
 import gov.nist.rolie.polie.model.ResourceType;
 import gov.nist.rolie.polie.model.models.APPResource;
 import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.model.models.AtomFeed;
+import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
+import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
 import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
 import gov.nist.rolie.polie.server.event.Delete;
 import gov.nist.rolie.polie.server.event.Get;
@@ -37,9 +41,11 @@ public class ResourceEventVisitor implements RESTEventVisitor { //TODO:
 	@Autowired
 	ResourceService resourceService;
 
-//	@Autowired
-//	FeedService feedService;
+	@Autowired
+	FeedService feedService;
 	
+	@Autowired
+	EntryService entryService;
 	/** 
 	 * When this visitor encounters a get request, the resource at the given IRI can be loaded.
 	 * There is no needed consideration at this point as to what the resource is.
@@ -59,11 +65,12 @@ public class ResourceEventVisitor implements RESTEventVisitor { //TODO:
 	 */
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-
+		System.out.println("ResourceEventVisitor");
 		URI iri = get.getURIInfo().getAbsolutePath();
 		APPResource resource;
 		try {
-			resource = resourceService.retrieveResource(iri);
+			System.out.println("Trying to load: " + iri.toString());
+			resource = resourceService.loadResource(iri);
 		} catch (ResourceNotFoundException e) { 
 			rb.status(Status.NOT_FOUND);
 			return false;
@@ -102,34 +109,53 @@ public class ResourceEventVisitor implements RESTEventVisitor { //TODO:
 		try {
 			entry = new AtomEntry(EntryDocument.Factory.parse(post.getBody()));
 		} catch (XmlException e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
 		
 		URI iri = post.getURIInfo().getAbsolutePath();
 		
 		// Current assumptions are: 1) iri is the collection?,  
-		APPResource resource;
-//		try {
-//			resource = resourceService.retrieveResource(iri);
-//		} catch (ResourceNotFoundException e) {
-//			rb.status(Status.NOT_FOUND);
-//			return false;
-//		}
-//
-//		if (!ResourceType.FEED.equals(resource.getResourceType())) {
-//			// the IRI is not a feed
-//			//rb.status(Statuses.from(Status.NOT_ACCEPTABLE, "IRI is not a valid feed"));
-//			return false;
-//		}
-//
-//		AtomFeed feed = (AtomFeed)resource;
-//		
-//		feedService.addEntryToFeed(entry, feed);
-//		AtomFeed created = feedService.saveFeed(feed);
-//		
-//		rb.status(Status.CREATED);
-//		rb=rb.header("Location", created.getIRI()); //TODO FIX THIS
+		APPResource feed;
+		try {
+			feed = resourceService.loadResource(iri);
+		} catch (ResourceNotFoundException e) {
+			rb.status(Status.NOT_FOUND);
+			return false;
+		}
+
+		if (!ResourceType.FEED.equals(feed.getResourceType())) {
+			// the IRI is not a feed
+			rb.status(Status.NOT_FOUND);
+			return false;
+		}
+
+		AtomFeed retrievedFeed = (AtomFeed)feed;
+		retrievedFeed = feedService.addEntryToFeed(entry, retrievedFeed);
+		try {
+			entryService.createEntry(entry, new URI(entry.getXmlObject().getEntry().getIdArray(0).getStringValue()));
+		} catch (ResourceAlreadyExistsException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			rb.status(Status.CONFLICT);
+			return false;
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		AtomFeed created = null;
+		try {
+			created = feedService.updateFeed(retrievedFeed,iri);
+		} catch (ResourceNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidResourceTypeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		rb.status(Status.CREATED);
+		rb=rb.header("Location", created.getIRI()); //TODO FIX THIS
 		
 		data.put("CreatedResource",entry);
 		return true;
@@ -159,13 +185,51 @@ public class ResourceEventVisitor implements RESTEventVisitor { //TODO:
 	 */
 	@Override
 	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
+		AtomEntry entry = null;
+		try {
+			entry = new AtomEntry(EntryDocument.Factory.parse(put.getBody()));
+		} catch (XmlException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		URI iri = put.getURIInfo().getAbsolutePath();
-		APPResource resource = (APPResource)data.get("resource");
-		APPResource updatedResource = null;
-//		database.updateResource(resource,iri);
-		rb=rb.status(Status.OK);
-		data.put("updatedResource",updatedResource);
+		
+		// Current assumptions are: 1) iri is the collection?,  
+		APPResource feedResource;
+		try {
+			feedResource = resourceService.loadResource(iri);
+		} catch (ResourceNotFoundException e) {
+			rb.status(Status.NOT_FOUND);
+			return false;
+		}
+
+		if (!ResourceType.FEED.equals(feedResource.getResourceType())) {
+			// the IRI is not a feed
+			rb.status(Status.NOT_FOUND);
+			return false;
+		}
+
+		AtomFeed feed = (AtomFeed)feedResource;
+		
+		if (resourceService.resourceExists(iri)){
+			
+		}
+		feedService.addEntryToFeed(entry, feed);
+		AtomFeed created = null;
+		try {
+			created = feedService.createFeed(feed,iri);
+		} catch (ResourceAlreadyExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		rb.status(Status.CREATED);
+		rb=rb.header("Location", created.getIRI()); //TODO FIX THIS
+		
+		data.put("CreatedResource",entry);
 		return true;
+
 	}
 
 	/** 
@@ -186,14 +250,14 @@ public class ResourceEventVisitor implements RESTEventVisitor { //TODO:
 	 */
 	@Override
 	public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
-		//database.deleteResource((URI)data.get("IRI"));
+		try {
+			resourceService.deleteResource(delete.getURIInfo().getAbsolutePath());
+		} catch (ResourceNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		rb=rb.status(Status.OK);
 		return true;
 	}
 
-	
-	public void cleanup()
-	{
-		
-	}
 }

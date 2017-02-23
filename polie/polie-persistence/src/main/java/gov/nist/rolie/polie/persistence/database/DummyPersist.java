@@ -25,7 +25,7 @@ import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.model.models.AtomFeed;
 import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
 
-@Component
+//@Component
 public class DummyPersist implements PersistenceMethod {
 
 	private static APPServiceDocument serviceDocument = new APPServiceDocument();
@@ -44,7 +44,7 @@ public class DummyPersist implements PersistenceMethod {
 		feed.getXmlObject().addNewFeed().addNewTitle();//.setTitle("I'm a feed-dummypersist");
 	}
 
-	@Override
+
 	public APPServiceDocument saveServiceDocument(APPServiceDocument servicedocument) {
 		return servicedocument;
 	}
@@ -62,7 +62,6 @@ public class DummyPersist implements PersistenceMethod {
 		}
 	}
 
-	@Override
 	public APPCategories saveCategoryDocument(APPCategories categorydocument) {
 		return categorydocument;
 	}
@@ -159,18 +158,18 @@ public class DummyPersist implements PersistenceMethod {
 
 
 	@Override
-	public APPResource deleteResource(URI uri) {
+	public boolean deleteResource(URI uri) {
 		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
 
 	@Override
-	public APPResource deleteResource(String id) {
+	public boolean deleteResource(String id) {
 		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
 
-	@Override
+
 	public APPResource copyResource(APPResource resource) {
 		return null;
 	}
@@ -197,7 +196,7 @@ public class DummyPersist implements PersistenceMethod {
 		return entry;
 	}
 
-	@Override
+
 	public AtomFeed saveFeed(AtomFeed feed) {
 		return feed;
 
@@ -209,22 +208,185 @@ public class DummyPersist implements PersistenceMethod {
 		return iriToResourceType(iri);
 	}
 
-	@Override
-	public void cleanup() {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	@Override
-	public APPResource saveResource(APPResource resource, URI uri) {
+	public APPResource createResource(APPResource resource, URI uri) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+
 	public AtomEntry saveEntry(URI iri) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public ResourceType identifyResouceType(String id) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public APPResource createResource(APPResource resource, String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public APPResource updateResource(APPResource resource, URI uri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public APPResource updateResource(APPResource resource, String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public APPServiceDocument createServiceDocument(APPServiceDocument serviceDoc, URI uri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public APPServiceDocument updateServiceDocument(APPServiceDocument serviceDoc, URI uri)
+			throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean deleteServiceDocument(URI uri) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public APPCategories createCategoryDocument(APPCategories categoryDoc, URI uri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public APPCategories updateCategoryDocument(APPCategories categoryDoc, URI uri) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean deleteCategoryDocument(URI uri) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public AtomFeed loadFeed(String id) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AtomFeed createFeed(AtomFeed feed, URI uri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AtomFeed createFeed(AtomFeed feed, String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AtomFeed updateFeed(AtomFeed resource, URI uri) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AtomFeed updateFeed(AtomFeed feed, String id) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean deleteFeed(URI uri) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteFeed(String id) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public AtomEntry loadEntry(String id) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AtomEntry createEntry(AtomEntry entry, URI uri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AtomEntry createEntry(AtomEntry entry, String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AtomEntry updateEntry(AtomEntry entry, URI uri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AtomEntry updateEntry(AtomEntry entry, String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean deleteEntry(URI uri) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteEntry(String id) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean resourceExists(URI iri) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean resourceExists(String id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	@Override
+	public boolean resourceExists(APPResource resource, ResourceType type) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -1,4 +1,4 @@
-package gov.nist.rolie.polie.server.servlet;
+package gov.nist.rolie.polie.server.writers;
 
 import java.io.IOException;
 import java.io.OutputStream;

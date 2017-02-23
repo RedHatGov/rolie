@@ -4,21 +4,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="urn:ietf:params:xml:ns:rolie-1.0 rolie.xsd">
 	<app:workspace>
-		<atom:title>Public Security Information Sharing</atom:title>
-		<app:collection href="http://example.org/provider/public/vulns">
-			<atom:title>Public Vulnerabilities</atom:title>
-			<atom:link rel="service" href="www.example.com/rolie/servicedocument" />
-			<app:categories fixed="yes">
-				<atom:category scheme="urn:ietf:params:rolie:category:information-type"
-					term="vulnerability" />
-			</app:categories>
-		</app:collection>
-	</app:workspace>
-	<app:workspace>
-		<atom:title>Private Consortium Sharing</atom:title>
-		<app:collection href="http://example.org/provider/private/vulns">
-			<atom:title>Incidents</atom:title>
-			<atom:link rel="service" href="www.example.com/rolie/servicedocument" />
+		<atom:title>Bootstrap Workspace Title</atom:title>
+		<app:collection href="http://localhost:8080/polie-server/rest/feed">
+			<atom:title>Bootstrap collection title</atom:title>
+			<atom:link rel="service" href="http://localhost:8080/polie-server/rest/service" />
 			<app:categories fixed="yes">
 				<atom:category scheme="urn:ietf:params:rolie:category:information-type"
 					term="incidents" />
