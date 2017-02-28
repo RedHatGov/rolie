@@ -37,7 +37,7 @@ public class DummyPersist implements PersistenceMethod {
 		ServiceType service = serviceDocument.getXmlObject().addNewService();
 		WorkspaceType workspace = service.addNewWorkspace();
 		CollectionType collection = workspace.addNewCollection();
-		collection.addNewTitle();
+
 		collection.setHref("here/there");
 		
 		entry.getXmlObject().addNewEntry().addNewTitle();//.set(XmlToken.Factory.newInstance().setStringValue("I'm a dummy entry"));

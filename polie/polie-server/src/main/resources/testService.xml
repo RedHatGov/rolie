@@ -7,7 +7,8 @@
 		<atom:title>Bootstrap Workspace Title</atom:title>
 		<app:collection href="http://localhost:8080/polie-server/rest/feed">
 			<atom:title>Bootstrap collection title</atom:title>
-			<atom:link rel="service" href="http://localhost:8080/polie-server/rest/service" />
+			<atom:link rel="service"
+				href="http://localhost:8080/polie-server/rest/service" />
 			<app:categories fixed="yes">
 				<atom:category scheme="urn:ietf:params:rolie:category:information-type"
 					term="incidents" />

@@ -15,4 +15,5 @@ public interface FeedService extends Service{
 	AtomFeed createFeed(AtomFeed feed, URI iri) throws ResourceAlreadyExistsException;
 	AtomFeed updateFeed(AtomFeed feed, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
 	boolean deleteFeed(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+	URI getServiceDocumentIRI(AtomFeed feed);
 }

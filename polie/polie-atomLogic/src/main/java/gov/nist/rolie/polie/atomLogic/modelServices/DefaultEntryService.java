@@ -1,9 +1,11 @@
 package gov.nist.rolie.polie.atomLogic.modelServices;
 
 import java.net.URI;
+import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.w3.x2005.atom.AtomDateConstruct;
 
 import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
@@ -43,6 +45,17 @@ public class DefaultEntryService implements EntryService {
 	@Override
 	public boolean deleteEntry(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException {
 		return persistenceMethod.deleteEntry(iri);
+	}
+
+	@Override
+	public AtomEntry updateDates(AtomEntry entry) {
+		AtomDateConstruct date = entry.getXmlObject().getEntry().getPublishedArray(0);
+		date.setDateValue(Calendar.getInstance().getTime());
+		
+		entry.getXmlObject().getEntry().setPublishedArray(0,date);
+		entry.getXmlObject().getEntry().setUpdatedArray(0,date);
+		
+		return entry;
 	}
 
 		

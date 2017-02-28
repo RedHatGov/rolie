@@ -5,7 +5,8 @@
 	<atom:id>http://www.example.org/provider/vulns</atom:id>
 	<atom:title type="text">
 		Atom formatted representation of
-		a feed of XML incident documents
+		a feed of
+		XML incident documents
 	</atom:title>
 	<atom:category scheme="urn:ietf:params:rolie:category:information-type"
 		term="vulnerability" />

@@ -8,7 +8,8 @@
 	</atom:title>
 	<atom:updated>2012-05-04T18:13:51.0Z</atom:updated>
 	<atom:link rel="self" href="http://localhost:8080/polie-server/rest/feed" />
-	<atom:link rel="service" href="http://localhost:8080/polie-server/rest/service" />
+	<atom:link rel="service"
+		href="http://localhost:8080/polie-server/rest/service" />
 	<atom:category scheme="urn:ietf:params:rolie:information-type"
 		term="incident" />
 	<atom:entry>

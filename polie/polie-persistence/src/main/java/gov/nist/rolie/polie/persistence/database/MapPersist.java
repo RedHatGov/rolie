@@ -29,20 +29,21 @@ public class MapPersist implements PersistenceMethod {
 
 	private static final boolean BOOTSTRAP = true;
 	HashMap<String, MappedResource> map = new HashMap<>();
-	
-	public MapPersist()
-	{
-		if (BOOTSTRAP)
-		{
+
+	public MapPersist() {
+		if (BOOTSTRAP) {
 			System.out.println("Bootstrapping...");
-			Path pathFeed = Paths.get("C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\testFeed.xml");
+			Path pathFeed = Paths
+					.get("C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\testFeed.xml");
 			File fileFeed = pathFeed.toFile();
-			Path pathService = Paths.get("C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\testService.xml");
+			Path pathService = Paths.get(
+					"C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\testService.xml");
 			File fileService = pathService.toFile();
 			AtomFeed feed = null;
 			APPServiceDocument service = null;
 			try {
 				feed = new AtomFeed(FeedDocument.Factory.parse(fileFeed));
+
 				service = new APPServiceDocument(ServiceDocument.Factory.parse(fileService));
 			} catch (XmlException e) {
 				// TODO Auto-generated catch block
@@ -55,7 +56,7 @@ public class MapPersist implements PersistenceMethod {
 				createFeed(feed, "http://localhost:8080/polie-server/rest/feed");
 				URI serviceuri = new URI("http://localhost:8080/polie-server/rest/service");
 				createServiceDocument(service, serviceuri);
-System.out.println("Just created a service document at:" + serviceuri.toString());
+				System.out.println("Just created a service document at:" + serviceuri.toString());
 			} catch (ResourceAlreadyExistsException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -65,7 +66,6 @@ System.out.println("Just created a service document at:" + serviceuri.toString()
 			}
 		}
 	}
-	
 
 	@Override
 	public ResourceType identifyResouceType(URI iri) throws ResourceNotFoundException {
@@ -395,7 +395,7 @@ System.out.println("Just created a service document at:" + serviceuri.toString()
 	}
 
 	@Override
-	public boolean resourceExists(APPResource resource,ResourceType type) {
-		return map.containsValue(new MappedResource(resource,type));
+	public boolean resourceExists(APPResource resource, ResourceType type) {
+		return map.containsValue(new MappedResource(resource, type));
 	}
 }

@@ -15,4 +15,6 @@ public interface EntryService {
 	AtomEntry createEntry(AtomEntry entry, URI iri) throws ResourceAlreadyExistsException;
 	AtomEntry updateEntry(AtomEntry entry, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
 	boolean deleteEntry(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+
+	AtomEntry updateDates(AtomEntry localEntry);
 }

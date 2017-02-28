@@ -105,35 +105,38 @@ public class ResourceEventVisitor implements RESTEventVisitor { //TODO:
 	@Override
 	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
 		
+		//Load the entry from the body of the request.
 		AtomEntry entry = null;
 		try {
 			entry = new AtomEntry(EntryDocument.Factory.parse(post.getBody()));
 		} catch (XmlException e1) {
-			
+			//TODO
 			e1.printStackTrace();
+			return false;
 		}
 		
-		URI iri = post.getURIInfo().getAbsolutePath();
 		
-		// Current assumptions are: 1) iri is the collection?,  
-		APPResource feed;
+		
+		// Load the feed from the IRI given by the request
+		APPResource feed =null;
+		URI iri = post.getURIInfo().getAbsolutePath();
 		try {
-			feed = resourceService.loadResource(iri);
+			feed = feedService.loadFeed(iri);
 		} catch (ResourceNotFoundException e) {
 			rb.status(Status.NOT_FOUND);
 			return false;
+		} catch (InvalidResourceTypeException e) {
+			e.printStackTrace();
+			return false;	
 		}
-
-		if (!ResourceType.FEED.equals(feed.getResourceType())) {
-			// the IRI is not a feed
-			rb.status(Status.NOT_FOUND);
-			return false;
-		}
-
 		AtomFeed retrievedFeed = (AtomFeed)feed;
+		
+		//Update the feed with the entry
 		retrievedFeed = feedService.addEntryToFeed(entry, retrievedFeed);
+		
+		
 		try {
-			entryService.createEntry(entry, new URI(entry.getXmlObject().getEntry().getIdArray(0).getStringValue()));
+			entryService.createEntry(entry, new URI(entry.getXmlObject().getEntry().getIdArray(0).toString()));
 		} catch (ResourceAlreadyExistsException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

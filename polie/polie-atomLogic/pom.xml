@@ -9,9 +9,9 @@
 	</parent>
 
 	<artifactId>polie-atomLogic</artifactId>
-	
+
 	<packaging>jar</packaging>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>gov.nist.rolie</groupId>

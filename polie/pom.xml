@@ -103,6 +103,9 @@
 						</execution>
 					</executions>
 					<inherited>true</inherited>
+					<configuration>
+						<javaSource>1.5</javaSource>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>

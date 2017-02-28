@@ -8,13 +8,13 @@
 	</Appenders>
 	<Loggers>
 		<Root level="DEBUG">
-			<AppenderRef ref="console"/>
+			<AppenderRef ref="console" />
 		</Root>
 		<logger name="org.jboss.resteasy" level="trace">
-			<AppenderRef ref="console"/>
+			<AppenderRef ref="console" />
 		</logger>
 		<logger name="org.springframework" level="trace">
-			<AppenderRef ref="console"/>
+			<AppenderRef ref="console" />
 		</logger>
 	</Loggers>
 </Configuration>
