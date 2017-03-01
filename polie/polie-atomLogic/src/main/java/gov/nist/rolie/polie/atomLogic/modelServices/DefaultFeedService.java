@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.w3.x2005.atom.AtomDateConstruct;
 import org.w3.x2005.atom.CategoryDocument.Category;
 import org.w3.x2005.atom.LinkDocument.Link;
+import org.w3.x2005.atom.impl.CategoryDocumentImpl.CategoryImpl;
 
 import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.model.models.AtomFeed;
@@ -68,6 +69,11 @@ public class DefaultFeedService implements FeedService {
 		return feed;
 	}
 
+	private boolean categoryEquals(Category cat1, Category cat2)
+	{
+		return cat1.getScheme().equals(cat2.getScheme()) && cat1.getTerm().equals(cat2.getTerm());
+	}
+	
 	private AtomFeed updateFeedCategories(AtomEntry entry, AtomFeed feed) {
 		// if entry categories has more than feed categories, add to feed categories
 		List<Category> feedCats = feed.getXmlObject().getFeed().getCategoryList();
@@ -75,7 +81,7 @@ public class DefaultFeedService implements FeedService {
 		for (Category cat : entryCats) {
 			boolean found = false;
 			for (int i = 0; i < feedCats.size(); i++) {
-				if (feedCats.get(i).equals(cat)) {
+				if (categoryEquals(feedCats.get(i),cat)) {
 					found = true;
 					break;
 				}
