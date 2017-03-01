@@ -136,7 +136,7 @@ public class ResourceEventVisitor implements RESTEventVisitor { //TODO:
 		
 		
 		try {
-			entryService.createEntry(entry, new URI(entry.getXmlObject().getEntry().getIdArray(0).toString()));
+			entryService.createEntry(entry, new URI(entry.getXmlObject().getEntry().getIdArray(0).getStringValue()));
 		} catch (ResourceAlreadyExistsException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

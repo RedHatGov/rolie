@@ -51,9 +51,9 @@ public class DefaultEntryService implements EntryService {
 	public AtomEntry updateDates(AtomEntry entry) {
 		AtomDateConstruct date = entry.getXmlObject().getEntry().getPublishedArray(0);
 		date.setDateValue(Calendar.getInstance().getTime());
-		
-		entry.getXmlObject().getEntry().setPublishedArray(0,date);
-		entry.getXmlObject().getEntry().setUpdatedArray(0,date);
+
+		entry.getXmlObject().getEntry().getPublishedList().set(0,date);
+		entry.getXmlObject().getEntry().getUpdatedList().set(0,date);
 		
 		return entry;
 	}

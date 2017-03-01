@@ -64,7 +64,7 @@ public class DefaultFeedService implements FeedService {
 
 	private AtomFeed addEntry(AtomFeed feed, AtomEntry entry) {
 		feed = updateFeedCategories(entry, feed);
-		feed.getXmlObject().getFeed().addNewEntry().set(entry.getXmlObject());
+		feed.getXmlObject().getFeed().addNewEntry().set(entry.getXmlObject().getEntry());
 		return feed;
 	}
 
@@ -81,7 +81,11 @@ public class DefaultFeedService implements FeedService {
 				}
 			}
 			if (found == false) {
+				
+				serviceDocumentService.updateCollectionCategories(cat,feed);
+				
 				feed.getXmlObject().getFeed().addNewCategory().set(cat);
+
 			}
 		}
 		return feed;
@@ -92,9 +96,22 @@ public class DefaultFeedService implements FeedService {
 		for (Link link : links) {
 			if (link.getRel().equals("service")) {
 				try {
+					return new URI(link.getHref());
 				} catch (URISyntaxException e) {
 					e.printStackTrace();
 				}
+			}
+		}
+		return null;
+	}
+	
+	public String searchFeedLinksForRel(AtomFeed feed,String rel)
+	{
+		for (Link link : feed.getXmlObject().getFeed().getLinkList())
+		{
+			if (link.getRel().equals(rel))
+			{
+				return link.getHref();
 			}
 		}
 		return null;
