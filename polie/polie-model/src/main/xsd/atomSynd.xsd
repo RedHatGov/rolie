@@ -228,11 +228,11 @@
     </xs:complexType>
   </xs:element>
   <!-- atom:subtitle -->
-  <xs:element name="subtitle" type="atom:atomTextConstruct"/>
+  <xs:element name="subtitle" type="xs:string"/>
   <!-- atom:summary -->
-  <xs:element name="summary" type="atom:atomTextConstruct"/>
+  <xs:element name="summary" type="xs:string"/>
   <!-- atom:title -->
-  <xs:element name="title" type="atom:atomTextConstruct"/>
+  <xs:element name="title" type="xs:string"/>
   <!-- atom:updated -->
   <xs:element name="updated" type="atom:atomDateConstruct"/>
   <!-- Low-level simple types -->

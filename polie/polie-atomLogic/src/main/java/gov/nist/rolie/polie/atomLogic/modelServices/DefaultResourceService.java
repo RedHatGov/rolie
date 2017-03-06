@@ -13,7 +13,7 @@ import gov.nist.rolie.polie.persistence.database.PersistenceMethod;
 
 @Component
 public class DefaultResourceService implements ResourceService {
-	
+
 	@Autowired
 	PersistenceMethod persistenceMethod;
 
@@ -22,7 +22,6 @@ public class DefaultResourceService implements ResourceService {
 		return persistenceMethod.identifyResouceType(iri);
 	}
 
-
 	@Override
 	public boolean resourceExists(URI iri) {
 		return persistenceMethod.resourceExists(iri);
@@ -30,18 +29,17 @@ public class DefaultResourceService implements ResourceService {
 
 	@Override
 	public APPResource loadResource(URI iri) throws ResourceNotFoundException {
-		System.out.print("DefaultResourceService");
 		return persistenceMethod.loadResource(iri);
 	}
 
 	@Override
 	public APPResource createResource(URI iri, APPResource resource) throws ResourceAlreadyExistsException {
-		return persistenceMethod.createResource(resource,iri);
+		return persistenceMethod.createResource(resource, iri);
 	}
 
 	@Override
 	public APPResource updateResource(URI iri, APPResource resource) throws ResourceNotFoundException {
-		return persistenceMethod.updateResource(resource,iri);
+		return persistenceMethod.updateResource(resource, iri);
 	}
 
 	@Override

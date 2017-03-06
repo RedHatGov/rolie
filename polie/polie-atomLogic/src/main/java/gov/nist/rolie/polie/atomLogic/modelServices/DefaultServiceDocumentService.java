@@ -29,10 +29,7 @@ public class DefaultServiceDocumentService implements ServiceDocumentService {
 	PersistenceMethod persistenceMethod;
 
 	public APPCollection buildCollectionFromFeed(AtomFeed feed) {
-		APPCollection collection = new APPCollection();
-		APPServiceDocument serv = new APPServiceDocument();
-		serv.getXmlObject().getService().getWorkspaceList().get(0).getCollectionList().get(0);
-
+		//Unused
 		return null;
 	}
 
@@ -75,7 +72,7 @@ public class DefaultServiceDocumentService implements ServiceDocumentService {
 		return persistenceMethod.deleteServiceDocument(iri);
 	}
 
-	public CollectionType getCollectionFromFeed(AtomFeed feed,APPServiceDocument serviceDoc) {
+	public CollectionType getCollectionFromFeed(AtomFeed feed, APPServiceDocument serviceDoc) {
 
 		String feedURI = feedService.searchFeedLinksForRel(feed, "self");
 
@@ -99,11 +96,11 @@ public class DefaultServiceDocumentService implements ServiceDocumentService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		getCollectionFromFeed(feed,serviceDoc).getCategoriesList().get(0).addNewCategory().set(cat);
-		
+
+		getCollectionFromFeed(feed, serviceDoc).getCategoriesList().get(0).addNewCategory().set(cat);
+
 		try {
-			updateServiceDocument(serviceDoc,feedService.getServiceDocumentIRI(feed));
+			updateServiceDocument(serviceDoc, feedService.getServiceDocumentIRI(feed));
 		} catch (ResourceNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

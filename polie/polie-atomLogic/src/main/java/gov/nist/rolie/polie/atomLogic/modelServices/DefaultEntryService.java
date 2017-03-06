@@ -6,6 +6,7 @@ import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3.x2005.atom.AtomDateConstruct;
+import org.w3.x2005.atom.LinkDocument.Link;
 
 import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
@@ -18,13 +19,13 @@ public class DefaultEntryService implements EntryService {
 
 	@Autowired
 	PersistenceMethod persistenceMethod;
-	
+
 	public DefaultEntryService() {
 	}
 
 	@Override
 	public void publishEntry(AtomEntry entry) {
-		
+
 	}
 
 	@Override
@@ -34,11 +35,16 @@ public class DefaultEntryService implements EntryService {
 
 	@Override
 	public AtomEntry createEntry(AtomEntry entry, URI iri) throws ResourceAlreadyExistsException {
+		Link link = Link.Factory.newInstance();
+		link.setHref(iri.toString());
+		link.setRel("edit");
+		entry.getXmlObject().getEntry().addNewLink().set(link);
 		return persistenceMethod.createEntry(entry, iri);
 	}
 
 	@Override
-	public AtomEntry updateEntry(AtomEntry entry, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException {
+	public AtomEntry updateEntry(AtomEntry entry, URI iri)
+			throws ResourceNotFoundException, InvalidResourceTypeException {
 		return persistenceMethod.updateEntry(entry, iri);
 	}
 
@@ -52,12 +58,10 @@ public class DefaultEntryService implements EntryService {
 		AtomDateConstruct date = entry.getXmlObject().getEntry().getPublishedArray(0);
 		date.setDateValue(Calendar.getInstance().getTime());
 
-		entry.getXmlObject().getEntry().getPublishedList().set(0,date);
-		entry.getXmlObject().getEntry().getUpdatedList().set(0,date);
-		
+		entry.getXmlObject().getEntry().getPublishedList().set(0, date);
+		entry.getXmlObject().getEntry().getUpdatedList().set(0, date);
+
 		return entry;
 	}
-
-		
 
 }

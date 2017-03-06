@@ -3,6 +3,7 @@ package gov.nist.rolie.polie.atomLogic.modelServices;
 import java.net.URI;
 
 import org.w3.x2005.atom.CategoryDocument.Category;
+import org.w3.x2007.app.CollectionType;
 
 import gov.nist.rolie.polie.model.models.APPServiceDocument;
 import gov.nist.rolie.polie.model.models.AtomFeed;
@@ -12,7 +13,7 @@ import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
 import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
 
 public interface ServiceDocumentService {
-	
+	CollectionType getCollectionFromFeed(AtomFeed feed,APPServiceDocument serviceDoc);
 	APPCollection buildCollectionFromFeed(AtomFeed feed);
 	APPCollection addTitleToCollection(APPCollection collection, String title);
 	String readTitleFromCollection(APPCollection collection);

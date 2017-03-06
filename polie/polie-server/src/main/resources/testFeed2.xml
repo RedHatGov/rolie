@@ -2,27 +2,28 @@
 <atom:feed xmlns:app="http://www.w3.org/2007/app" xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0"
 	xmlns:atom="http://www.w3.org/2005/Atom" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="urn:ietf:params:xml:ns:rolie-1.0 rolie.xsd">
-	<atom:id>http://localhost:8080/polie-server/rest/feed</atom:id>
+	<atom:id>http://localhost:8080/polie-server/rest/feed2</atom:id>
 	<atom:title type="text">
-		Bootstrap feed
+		Indicator feed
 	</atom:title>
 	<atom:updated>2012-05-04T18:13:51.0Z</atom:updated>
-	<atom:link rel="self" href="http://localhost:8080/polie-server/rest/feed" />
+	<atom:link rel="self" href="http://localhost:8080/polie-server/rest/feed2" />
 	<atom:link rel="service"
 		href="http://localhost:8080/polie-server/rest/service" />
 	<atom:category scheme="urn:ietf:params:rolie:information-type"
-		term="incident" />
+		term="indicators" />
 	<atom:entry>
-		<atom:id>http://localhost:8080/polie-server/rest/feed/bootstrapentry</atom:id>
+		<atom:id>http://localhost:8080/polie-server/rest/feed2/testentry2</atom:id>
+			<atom:link rel="self" href="http://localhost:8080/polie-server/rest/feed2/testentry2" />
 		<atom:title>I am the bootstrapped entry</atom:title>
 		<atom:published>2012-08-04T18:13:51.0Z</atom:published>
 		<atom:updated>2012-08-05T18:13:51.0Z</atom:updated>
 		<atom:category scheme="urn:ietf:params:rolie:information-type"
-			term="incident" />
-		<atom:summary>A short description of this incident resource
+			term="indicator" />
+		<atom:summary>A short description of this indicator resource
 		</atom:summary>
 		<atom:content type="application/xml"
-			src="http://www.example.org/provider/vulns/123456/data">
+			src="http://www.example.org/provider/indicators/123456/data">
 		</atom:content>
 		<rolie:format version="String from client" />
 		<rolie:property scheme="rolie.com" term="entry" />

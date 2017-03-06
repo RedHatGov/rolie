@@ -33,17 +33,36 @@ public class MapPersist implements PersistenceMethod {
 	public MapPersist() {
 		if (BOOTSTRAP) {
 			System.out.println("Bootstrapping...");
-			Path pathFeed = Paths
-					.get("C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\testFeed.xml");
-			File fileFeed = pathFeed.toFile();
+			Path pathFeed1 = Paths
+					.get("C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\testFeed1.xml");
+			File fileFeed1 = pathFeed1.toFile();
+
+			Path pathFeed2 = Paths
+					.get("C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\testFeed2.xml");
+			File fileFeed2 = pathFeed2.toFile();
+
+			Path pathEntry1 = Paths
+					.get("C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\testEntry1.xml");
+			File fileEntry1 = pathEntry1.toFile();
+
+			Path pathEntry2 = Paths
+					.get("C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\testEntry2.xml");
+			File fileEntry2 = pathEntry2.toFile();
+
 			Path pathService = Paths.get(
 					"C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\testService.xml");
 			File fileService = pathService.toFile();
-			AtomFeed feed = null;
+
+			AtomFeed feed1 = null;
+			AtomFeed feed2 = null;
+			AtomEntry entry1 = null;
+			AtomEntry entry2 = null;
 			APPServiceDocument service = null;
 			try {
-				feed = new AtomFeed(FeedDocument.Factory.parse(fileFeed));
-
+				feed1 = new AtomFeed(FeedDocument.Factory.parse(fileFeed1));
+				feed2 = new AtomFeed(FeedDocument.Factory.parse(fileFeed2));
+				entry1 = new AtomEntry(EntryDocument.Factory.parse(fileEntry1));
+				entry2 = new AtomEntry(EntryDocument.Factory.parse(fileEntry2));
 				service = new APPServiceDocument(ServiceDocument.Factory.parse(fileService));
 			} catch (XmlException e) {
 				// TODO Auto-generated catch block
@@ -53,7 +72,10 @@ public class MapPersist implements PersistenceMethod {
 				e.printStackTrace();
 			}
 			try {
-				createFeed(feed, "http://localhost:8080/polie-server/rest/feed");
+				createFeed(feed1, "http://localhost:8080/polie-server/rest/feed1");
+				createFeed(feed2, "http://localhost:8080/polie-server/rest/feed2");
+				createEntry(entry1, "http://localhost:8080/polie-server/rest/feed1/testentry1");
+				createEntry(entry2, "http://localhost:8080/polie-server/rest/feed2/testentry2");
 				URI serviceuri = new URI("http://localhost:8080/polie-server/rest/service");
 				createServiceDocument(service, serviceuri);
 				System.out.println("Just created a service document at:" + serviceuri.toString());

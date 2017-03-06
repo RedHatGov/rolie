@@ -10,8 +10,11 @@ import org.springframework.stereotype.Component;
 import org.w3.x2005.atom.AtomDateConstruct;
 import org.w3.x2005.atom.CategoryDocument.Category;
 import org.w3.x2005.atom.LinkDocument.Link;
-import org.w3.x2005.atom.impl.CategoryDocumentImpl.CategoryImpl;
+import org.w3.x2007.app.CategoriesType;
+import org.w3.x2007.app.CollectionType;
 
+import gov.nist.rolie.polie.atomLogic.MismatchedCategoriesException;
+import gov.nist.rolie.polie.model.models.APPServiceDocument;
 import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.model.models.AtomFeed;
 import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
@@ -35,10 +38,15 @@ public class DefaultFeedService implements FeedService {
 	}
 
 	@Override
-	public AtomFeed addEntryToFeed(AtomEntry entry, AtomFeed feed) {
+	public AtomFeed addEntryToFeed(AtomEntry entry, AtomFeed feed)
+			throws MismatchedCategoriesException, ResourceNotFoundException, InvalidResourceTypeException {
 		// make local copies
 		AtomEntry localEntry = entry;
 		AtomFeed localFeed = feed;
+
+		if (!matchingCategories(entry, feed)) {
+			throw new MismatchedCategoriesException();
+		}
 
 		// Make server modifications to the entry
 		localEntry = entryService.updateDates(localEntry);
@@ -53,48 +61,53 @@ public class DefaultFeedService implements FeedService {
 	}
 
 	private AtomFeed updateFeedDates(AtomFeed localFeed) {
-		
+
 		AtomDateConstruct date = localFeed.getXmlObject().getFeed().getUpdatedArray(0);
-		
+
 		date.setDateValue(Calendar.getInstance().getTime());
-		
+
 		localFeed.getXmlObject().getFeed().setUpdatedArray(0, date);
-		
+
 		return localFeed;
 	}
 
 	private AtomFeed addEntry(AtomFeed feed, AtomEntry entry) {
-		feed = updateFeedCategories(entry, feed);
 		feed.getXmlObject().getFeed().addNewEntry().set(entry.getXmlObject().getEntry());
 		return feed;
 	}
 
-	private boolean categoryEquals(Category cat1, Category cat2)
-	{
+	private boolean categoryEquals(Category cat1, Category cat2) {
 		return cat1.getScheme().equals(cat2.getScheme()) && cat1.getTerm().equals(cat2.getTerm());
 	}
-	
-	private AtomFeed updateFeedCategories(AtomEntry entry, AtomFeed feed) {
-		// if entry categories has more than feed categories, add to feed categories
-		List<Category> feedCats = feed.getXmlObject().getFeed().getCategoryList();
+
+	private boolean matchingCategories(AtomEntry entry, AtomFeed feed)
+			throws ResourceNotFoundException, InvalidResourceTypeException {
+
+		APPServiceDocument service = null;
+		service = serviceDocumentService.loadServiceDocument(getServiceDocumentIRI(feed));
+		CollectionType collection = serviceDocumentService.getCollectionFromFeed(feed, service);
+		List<CategoriesType> categories = collection.getCategoriesList();
+		CategoriesType singleCategories = categories.get(0);
+		List<Category> feedCats = singleCategories.getCategoryList();
 		List<Category> entryCats = entry.getXmlObject().getEntry().getCategoryList();
-		for (Category cat : entryCats) {
-			boolean found = false;
-			for (int i = 0; i < feedCats.size(); i++) {
-				if (categoryEquals(feedCats.get(i),cat)) {
-					found = true;
+
+		String fixedString = collection.getCategoriesList().get(0).getFixed();
+		boolean found = true;
+		if (fixedString.equals("yes")) {
+			for (Category ecat : entryCats) {
+				found = false;
+				for (Category fcat : feedCats) {
+					if (categoryEquals(ecat, fcat)) {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
 					break;
 				}
 			}
-			if (found == false) {
-				
-				serviceDocumentService.updateCollectionCategories(cat,feed);
-				
-				feed.getXmlObject().getFeed().addNewCategory().set(cat);
-
-			}
 		}
-		return feed;
+		return found;
 	}
 
 	public URI getServiceDocumentIRI(AtomFeed feed) {
@@ -110,13 +123,10 @@ public class DefaultFeedService implements FeedService {
 		}
 		return null;
 	}
-	
-	public String searchFeedLinksForRel(AtomFeed feed,String rel)
-	{
-		for (Link link : feed.getXmlObject().getFeed().getLinkList())
-		{
-			if (link.getRel().equals(rel))
-			{
+
+	public String searchFeedLinksForRel(AtomFeed feed, String rel) {
+		for (Link link : feed.getXmlObject().getFeed().getLinkList()) {
+			if (link.getRel().equals(rel)) {
 				return link.getHref();
 			}
 		}
