@@ -5,7 +5,7 @@
 	xsi:schemaLocation="urn:ietf:params:xml:ns:rolie-1.0 rolie.xsd">
 	<app:workspace>
 		<atom:title>Public Facing Workspace</atom:title>
-		<app:collection href="http://localhost:8080/polie-server/rest/feed1">
+		<app:collection href="http://localhost:8080/polie-server/rest/feed/1">
 			<atom:title>Incidents feed</atom:title>
 			<atom:link rel="service"
 				href="http://localhost:8080/polie-server/rest/service" />
@@ -14,7 +14,7 @@
 					term="incidents" />
 			</app:categories>
 		</app:collection>
-				<app:collection href="http://localhost:8080/polie-server/rest/feed2">
+				<app:collection href="http://localhost:8080/polie-server/rest/feed/2">
 			<atom:title>Indicators feed</atom:title>
 			<atom:link rel="service"
 				href="http://localhost:8080/polie-server/rest/service" />

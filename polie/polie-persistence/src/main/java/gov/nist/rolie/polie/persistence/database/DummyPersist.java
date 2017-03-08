@@ -152,7 +152,7 @@ public class DummyPersist implements PersistenceMethod {
 			return retval;
 		} catch (IOException | XmlException e) {
 			e.printStackTrace();
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(iri.toString());
 		}
 	}
 
@@ -387,6 +387,12 @@ public class DummyPersist implements PersistenceMethod {
 	public boolean resourceExists(APPResource resource, ResourceType type) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public String generateNewEntryID(AtomEntry entry) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

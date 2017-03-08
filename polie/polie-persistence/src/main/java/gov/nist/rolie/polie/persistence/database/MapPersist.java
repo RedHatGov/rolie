@@ -32,7 +32,7 @@ public class MapPersist implements PersistenceMethod {
 
 	public MapPersist() {
 		if (BOOTSTRAP) {
-			System.out.println("Bootstrapping...");
+			//System.out.println("Bootstrapping...");
 			Path pathFeed1 = Paths
 					.get("C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\testFeed1.xml");
 			File fileFeed1 = pathFeed1.toFile();
@@ -72,13 +72,13 @@ public class MapPersist implements PersistenceMethod {
 				e.printStackTrace();
 			}
 			try {
-				createFeed(feed1, "http://localhost:8080/polie-server/rest/feed1");
-				createFeed(feed2, "http://localhost:8080/polie-server/rest/feed2");
-				createEntry(entry1, "http://localhost:8080/polie-server/rest/feed1/testentry1");
-				createEntry(entry2, "http://localhost:8080/polie-server/rest/feed2/testentry2");
+				createFeed(feed1, "http://localhost:8080/polie-server/rest/feed/1");
+				createFeed(feed2, "http://localhost:8080/polie-server/rest/feed/2");
+				createEntry(entry1, "http://localhost:8080/polie-server/rest/entry/1");
+				createEntry(entry2, "http://localhost:8080/polie-server/rest/entry/2");
 				URI serviceuri = new URI("http://localhost:8080/polie-server/rest/service");
 				createServiceDocument(service, serviceuri);
-				System.out.println("Just created a service document at:" + serviceuri.toString());
+				//System.out.println("Just created a service document at:" + serviceuri.toString());
 			} catch (ResourceAlreadyExistsException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -98,7 +98,7 @@ public class MapPersist implements PersistenceMethod {
 	public ResourceType identifyResouceType(String id) throws ResourceNotFoundException {
 		MappedResource resource = map.get(id);
 		if (resource == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(id);
 		} else {
 			return resource.getType();
 		}
@@ -106,7 +106,7 @@ public class MapPersist implements PersistenceMethod {
 
 	@Override
 	public APPResource loadResource(URI iri) throws ResourceNotFoundException {
-		System.out.println("Loading: " + iri.toString());
+
 		return loadResource(iri.toString());
 	}
 
@@ -114,7 +114,7 @@ public class MapPersist implements PersistenceMethod {
 	public APPResource loadResource(String id) throws ResourceNotFoundException {
 		MappedResource resource = map.get(id);
 		if (resource == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(id);
 		} else {
 			return resource.getResource();
 		}
@@ -144,7 +144,7 @@ public class MapPersist implements PersistenceMethod {
 	public APPResource updateResource(APPResource resource, String id) throws ResourceNotFoundException {
 		MappedResource mappedResource = map.get(id);
 		if (mappedResource == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(id);
 		} else {
 			map.put(id, new MappedResource(resource, ResourceType.RESOURCE));
 			return resource;
@@ -159,7 +159,7 @@ public class MapPersist implements PersistenceMethod {
 	@Override
 	public boolean deleteResource(String id) throws ResourceNotFoundException {
 		if (map.remove(id) == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(id);
 		} else {
 			return true;
 		}
@@ -170,7 +170,7 @@ public class MapPersist implements PersistenceMethod {
 			throws ResourceNotFoundException, InvalidResourceTypeException {
 		MappedResource mappedResource = map.get(iri.toString());
 		if (mappedResource == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(iri.toString());
 		} else if (mappedResource.getType() != ResourceType.SERVICE) {
 			throw new InvalidResourceTypeException();
 		} else {
@@ -194,7 +194,7 @@ public class MapPersist implements PersistenceMethod {
 			throws ResourceNotFoundException, InvalidResourceTypeException {
 		MappedResource mappedResource = map.get(uri.toString());
 		if (mappedResource == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(uri.toString());
 		} else if (mappedResource.getType() != ResourceType.SERVICE) {
 			throw new InvalidResourceTypeException();
 		} else {
@@ -207,7 +207,7 @@ public class MapPersist implements PersistenceMethod {
 	public boolean deleteServiceDocument(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException {
 		MappedResource mappedResource = map.get(uri.toString());
 		if (mappedResource == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(uri.toString());
 		} else if (mappedResource.getType() != ResourceType.SERVICE) {
 			throw new InvalidResourceTypeException();
 		} else {
@@ -220,7 +220,7 @@ public class MapPersist implements PersistenceMethod {
 	public APPCategories loadCategoryDocument(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException {
 		MappedResource mappedResource = map.get(iri.toString());
 		if (mappedResource == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(iri.toString());
 		} else if (mappedResource.getType() != ResourceType.CATEGORY) {
 			throw new InvalidResourceTypeException();
 		} else {
@@ -244,7 +244,7 @@ public class MapPersist implements PersistenceMethod {
 			throws ResourceNotFoundException, InvalidResourceTypeException {
 		MappedResource mappedResource = map.get(uri.toString());
 		if (mappedResource == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(uri.toString());
 		} else if (mappedResource.getType() != ResourceType.SERVICE) {
 			throw new InvalidResourceTypeException();
 		} else {
@@ -257,7 +257,7 @@ public class MapPersist implements PersistenceMethod {
 	public boolean deleteCategoryDocument(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException {
 		MappedResource mappedResource = map.get(uri.toString());
 		if (mappedResource == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(uri.toString());
 		} else if (mappedResource.getType() != ResourceType.CATEGORY) {
 			throw new InvalidResourceTypeException();
 		} else {
@@ -275,7 +275,7 @@ public class MapPersist implements PersistenceMethod {
 	public AtomFeed loadFeed(String id) throws ResourceNotFoundException, InvalidResourceTypeException {
 		MappedResource mappedResource = map.get(id);
 		if (mappedResource == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(id);
 		} else if (mappedResource.getType() != ResourceType.FEED) {
 			throw new InvalidResourceTypeException();
 		} else {
@@ -308,7 +308,7 @@ public class MapPersist implements PersistenceMethod {
 			throws ResourceNotFoundException, InvalidResourceTypeException {
 		MappedResource mappedResource = map.get(id);
 		if (mappedResource == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(id);
 		} else if (mappedResource.getType() != ResourceType.FEED) {
 			throw new InvalidResourceTypeException();
 		} else {
@@ -326,7 +326,7 @@ public class MapPersist implements PersistenceMethod {
 	public boolean deleteFeed(String id) throws ResourceNotFoundException, InvalidResourceTypeException {
 		MappedResource mappedResource = map.get(id);
 		if (mappedResource == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(id);
 		} else if (mappedResource.getType() != ResourceType.CATEGORY) {
 			throw new InvalidResourceTypeException();
 		} else {
@@ -344,7 +344,7 @@ public class MapPersist implements PersistenceMethod {
 	public AtomEntry loadEntry(String id) throws ResourceNotFoundException, InvalidResourceTypeException {
 		MappedResource mappedResource = map.get(id);
 		if (mappedResource == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(id);
 		} else if (mappedResource.getType() != ResourceType.ENTRY) {
 			throw new InvalidResourceTypeException();
 		} else {
@@ -378,7 +378,7 @@ public class MapPersist implements PersistenceMethod {
 			throws ResourceNotFoundException, InvalidResourceTypeException {
 		MappedResource mappedResource = map.get(id);
 		if (mappedResource == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(id);
 		} else if (mappedResource.getType() != ResourceType.ENTRY) {
 			throw new InvalidResourceTypeException();
 		} else {
@@ -396,7 +396,7 @@ public class MapPersist implements PersistenceMethod {
 	public boolean deleteEntry(String id) throws ResourceNotFoundException, InvalidResourceTypeException {
 		MappedResource mappedResource = map.get(id);
 		if (mappedResource == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(id);
 		} else if (mappedResource.getType() != ResourceType.CATEGORY) {
 			throw new InvalidResourceTypeException();
 		} else {
@@ -419,5 +419,10 @@ public class MapPersist implements PersistenceMethod {
 	@Override
 	public boolean resourceExists(APPResource resource, ResourceType type) {
 		return map.containsValue(new MappedResource(resource, type));
+	}
+
+	@Override
+	public String generateNewEntryID(AtomEntry entry) {
+		return java.util.UUID.randomUUID().toString();
 	}
 }

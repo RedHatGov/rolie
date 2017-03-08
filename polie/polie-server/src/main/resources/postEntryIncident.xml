@@ -3,12 +3,11 @@
 	xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0" xmlns:atom="http://www.w3.org/2005/Atom"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="urn:ietf:params:xml:ns:rolie-1.0 rolie.xsd">
-	<atom:id>http://localhost:8080/polie-server/rest/feed/entry</atom:id>
 	<atom:title>I'm an entry that was added</atom:title>
 	<atom:published>2012-08-04T18:13:51.0Z</atom:published>
 	<atom:updated>2012-08-05T18:13:51.0Z</atom:updated>
-	<atom:category scheme="urn:ietf:params:rolie:information-type"
-		term="vulnerability" />
+				<atom:category scheme="urn:ietf:params:rolie:category:information-type"
+					term="incidents" />
 	<atom:summary>A short description of this incident resource
 	</atom:summary>
 	<atom:content type="application/xml"

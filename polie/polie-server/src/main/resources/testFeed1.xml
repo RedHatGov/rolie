@@ -2,25 +2,26 @@
 <atom:feed xmlns:app="http://www.w3.org/2007/app" xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0"
 	xmlns:atom="http://www.w3.org/2005/Atom" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="urn:ietf:params:xml:ns:rolie-1.0 rolie.xsd">
-	<atom:id>http://localhost:8080/polie-server/rest/feed1</atom:id>
+	<atom:id>2a7e265a-39bc-43f2-b711-b8fd9264b5c9</atom:id>
 	<atom:title type="text">
 		Incidents feed
 	</atom:title>
 	<atom:updated>2012-05-04T18:13:51.0Z</atom:updated>
-	<atom:link rel="self" href="http://localhost:8080/polie-server/rest/feed1" />
+	<atom:link rel="self" href="http://localhost:8080/polie-server/rest/feed/1" />
 	<atom:link rel="service"
 		href="http://localhost:8080/polie-server/rest/service" />
-	<atom:category scheme="urn:ietf:params:rolie:information-type"
-		term="incident" />
+				<atom:category scheme="urn:ietf:params:rolie:category:information-type"
+					term="incidents" />
 	<atom:entry>
-		<atom:id>http://localhost:8080/polie-server/rest/feed1/testentry1</atom:id>
-					<atom:link rel="self" href="http://localhost:8080/polie-server/rest/feed1/testentry1" />
-		<atom:title>I am the bootstrapped entry</atom:title>
+		<atom:id>1</atom:id>
+		<atom:link rel="self" href="http://localhost:8080/polie-server/rest/entry/1" />
+		<atom:link rel="edit" href="http://localhost:8080/polie-server/rest/entry/1" />
+		<atom:title>An example incident resource</atom:title>
 		<atom:published>2012-08-04T18:13:51.0Z</atom:published>
 		<atom:updated>2012-08-05T18:13:51.0Z</atom:updated>
 		<atom:category scheme="urn:ietf:params:rolie:information-type"
 			term="incident" />
-		<atom:summary>A short description of this incident resource
+		<atom:summary>This example resource provides information in the category of "incidents". The entry provides metadata, while the resource itself can be found in the content element.
 		</atom:summary>
 		<atom:content type="application/xml"
 			src="http://www.example.org/provider/incidents/123456/data">

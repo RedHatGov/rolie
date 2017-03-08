@@ -85,6 +85,7 @@ public interface PersistenceMethod
 	
 	boolean deleteEntry(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException;
 	boolean deleteEntry(String id) throws ResourceNotFoundException, InvalidResourceTypeException;
+	String generateNewEntryID(AtomEntry entry);
 	
 	
 }

@@ -11,4 +11,19 @@ public class ResourceNotFoundException extends Exception {
 	 * initial serial version
 	 */
 
+	public ResourceNotFoundException (String resourceLocation)
+	{
+		this.resourceLocation=resourceLocation;
+	}
+	
+	private String resourceLocation;
+
+	/**
+	 * @return the resourceLocation
+	 */
+	public String getResourceLocation() {
+		return resourceLocation;
+	}
+
+	
 }

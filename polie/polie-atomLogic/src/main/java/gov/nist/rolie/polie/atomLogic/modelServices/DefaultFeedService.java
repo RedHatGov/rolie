@@ -44,12 +44,9 @@ public class DefaultFeedService implements FeedService {
 		AtomEntry localEntry = entry;
 		AtomFeed localFeed = feed;
 
-		if (!matchingCategories(entry, feed)) {
-			throw new MismatchedCategoriesException();
-		}
+		matchingCategories(entry, feed);
 
-		// Make server modifications to the entry
-		localEntry = entryService.updateDates(localEntry);
+		localEntry = entryService.stripEntry(localEntry);
 
 		// Add the entry to the feed
 		localFeed = addEntry(localFeed, localEntry);
@@ -81,7 +78,7 @@ public class DefaultFeedService implements FeedService {
 	}
 
 	private boolean matchingCategories(AtomEntry entry, AtomFeed feed)
-			throws ResourceNotFoundException, InvalidResourceTypeException {
+			throws ResourceNotFoundException, InvalidResourceTypeException, MismatchedCategoriesException {
 
 		APPServiceDocument service = null;
 		service = serviceDocumentService.loadServiceDocument(getServiceDocumentIRI(feed));
@@ -95,6 +92,9 @@ public class DefaultFeedService implements FeedService {
 		boolean found = true;
 		if (fixedString.equals("yes")) {
 			for (Category ecat : entryCats) {
+				if (!ecat.getScheme().equals("urn:ietf:params:rolie:category:information-type")) {
+					continue;
+				}
 				found = false;
 				for (Category fcat : feedCats) {
 					if (categoryEquals(ecat, fcat)) {
@@ -103,7 +103,7 @@ public class DefaultFeedService implements FeedService {
 					}
 				}
 				if (!found) {
-					break;
+					throw new MismatchedCategoriesException(ecat);
 				}
 			}
 		}
