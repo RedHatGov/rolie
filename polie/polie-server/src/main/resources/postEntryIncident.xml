@@ -6,8 +6,8 @@
 	<atom:title>I'm an entry that was added</atom:title>
 	<atom:published>2012-08-04T18:13:51.0Z</atom:published>
 	<atom:updated>2012-08-05T18:13:51.0Z</atom:updated>
-				<atom:category scheme="urn:ietf:params:rolie:category:information-type"
-					term="incidents" />
+	<atom:category scheme="urn:ietf:params:rolie:category:information-type"
+		term="incidents" />
 	<atom:summary>A short description of this incident resource
 	</atom:summary>
 	<atom:content type="application/xml"

@@ -14,7 +14,7 @@
 					term="incidents" />
 			</app:categories>
 		</app:collection>
-				<app:collection href="http://localhost:8080/polie-server/rest/feed/2">
+		<app:collection href="http://localhost:8080/polie-server/rest/feed/2">
 			<atom:title>Indicators feed</atom:title>
 			<atom:link rel="service"
 				href="http://localhost:8080/polie-server/rest/service" />

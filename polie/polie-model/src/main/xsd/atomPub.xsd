@@ -1,60 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsd:schema xmlns:app="http://www.w3.org/2007/app"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:atom="http://www.w3.org/2005/Atom"
-	targetNamespace="http://www.w3.org/2007/app"
+<xsd:schema xmlns:app="http://www.w3.org/2007/app" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:atom="http://www.w3.org/2005/Atom" targetNamespace="http://www.w3.org/2007/app"
 	elementFormDefault="qualified" attributeFormDefault="unqualified"
 	xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning">
 
 	<xsd:import namespace="http://www.w3.org/XML/1998/namespace"
-		schemaLocation="http://www.w3.org/2001/03/xml.xsd"/>
+		schemaLocation="http://www.w3.org/2001/03/xml.xsd" />
 
 	<xsd:import namespace="http://www.w3.org/2005/Atom"
-		schemaLocation="atomSynd.xsd"/>
+		schemaLocation="atomSynd.xsd" />
 
-	<xsd:element name="service" type="app:serviceType"/>
-	<xsd:element name="categories" type="app:categoriesType"/>
+	<xsd:element name="service" type="app:serviceType" />
+	<xsd:element name="categories" type="app:categoriesType" />
 	<xsd:complexType name="serviceType">
 		<xsd:choice minOccurs="1" maxOccurs="unbounded">
 			<xsd:element name="workspace" type="app:workspaceType"
-				minOccurs="1" maxOccurs="unbounded"/>
-			<xsd:any namespace="##other" minOccurs="0"
-				maxOccurs="unbounded" processContents="lax"/>
+				minOccurs="1" maxOccurs="unbounded" />
+			<xsd:any namespace="##other" minOccurs="0" maxOccurs="unbounded"
+				processContents="lax" />
 		</xsd:choice>
-		<xsd:attributeGroup ref="app:commonAttributes"/>
+		<xsd:attributeGroup ref="app:commonAttributes" />
 	</xsd:complexType>
 	<xsd:complexType name="workspaceType">
 		<xsd:choice minOccurs="1" maxOccurs="unbounded">
 			<xsd:element name="collection" type="app:collectionType"
-				minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:any namespace="##other" minOccurs="0"
-				maxOccurs="unbounded" processContents="lax"/>
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:any namespace="##other" minOccurs="0" maxOccurs="unbounded"
+				processContents="lax" />
 		</xsd:choice>
-		<xsd:attributeGroup ref="app:commonAttributes"/>
+		<xsd:attributeGroup ref="app:commonAttributes" />
 	</xsd:complexType>
 	<xsd:complexType name="collectionType">
 		<xsd:choice minOccurs="1" maxOccurs="unbounded">
 			<xsd:element name="accept" type="atom:atomTextConstruct"
-				minOccurs="0" maxOccurs="unbounded"/>
+				minOccurs="0" maxOccurs="unbounded" />
 			<xsd:element name="categories" type="app:categoriesType"
-				minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:any namespace="##other" minOccurs="0"
-				maxOccurs="unbounded" processContents="lax"/>
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:any namespace="##other" minOccurs="0" maxOccurs="unbounded"
+				processContents="lax" />
 		</xsd:choice>
-		<xsd:attribute name="href" type="xsd:anyURI"/>
-		<xsd:attributeGroup ref="app:commonAttributes"/>
+		<xsd:attribute name="href" type="xsd:anyURI" />
+		<xsd:attributeGroup ref="app:commonAttributes" />
 	</xsd:complexType>
 	<xsd:complexType name="categoriesType">
 		<xsd:choice minOccurs="1" maxOccurs="unbounded">
-			<xsd:element ref="atom:category" minOccurs="0"
-				maxOccurs="unbounded"/>
+			<xsd:element ref="atom:category" minOccurs="0" maxOccurs="unbounded" />
 		</xsd:choice>
-		<xsd:attribute name="fixed" type="xsd:string"/>
-		<xsd:attribute name="scheme" type="xsd:anyURI"/>
+		<xsd:attribute name="fixed" type="xsd:string" />
+		<xsd:attribute name="scheme" type="xsd:anyURI" />
 	</xsd:complexType>
 	<xsd:attributeGroup name="commonAttributes">
-		<xsd:attribute name="space" type="xsd:string"/>
-		<xsd:attributeGroup ref="atom:atomCommonAttributes"/>
+		<xsd:attribute name="space" type="xsd:string" />
+		<xsd:attributeGroup ref="atom:atomCommonAttributes" />
 	</xsd:attributeGroup>
 
 </xsd:schema>
