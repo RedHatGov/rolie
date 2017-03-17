@@ -29,6 +29,8 @@ import gov.nist.rolie.polie.server.event.Get;
 import gov.nist.rolie.polie.server.event.Post;
 import gov.nist.rolie.polie.server.event.Put;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Map;
 
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -40,7 +42,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
  * @author sab3
  *
  */
-
+@Component
 public class ResponseBuilderVisitor implements RESTEventVisitor {
 
   /**
@@ -59,8 +61,7 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
    */
   @Override
   public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-    APPResource resource = (APPResource) data.get(RESOURCE_DATA_KEY);
-    // URI iri = get.getURIInfo().getAbsolutePath();
+    APPResource resource = (APPResource) data.get(RESOURCE_KEY);
     rb.entity(resource.getXmlObject());
     return true;
   }
@@ -83,7 +84,7 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
    */
   @Override
   public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
-    APPResource resource = (APPResource) data.get("CreatedResource");
+    APPResource resource = (APPResource) data.get(RESOURCE_KEY);
     rb.entity(resource.getXmlObject());
     return true;
   }
@@ -104,7 +105,8 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
    */
   @Override
   public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-    rb.entity(data.get("ResponseBody"));
+    APPResource resource = (APPResource) data.get(RESOURCE_KEY);
+    rb.entity(resource.getXmlObject());
     return true;
   }
 
@@ -123,7 +125,7 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
    */
   @Override
   public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
-    rb.entity(data.get("ResponseBody"));
+    //rb.entity(data.get("ResponseBody"));
     return true;
   }
 

@@ -21,7 +21,7 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.atom.logic.modelServices;
+package gov.nist.rolie.polie.atom.logic.services;
 
 import gov.nist.rolie.polie.model.models.APPServiceDocument;
 import gov.nist.rolie.polie.model.models.AtomFeed;

@@ -21,7 +21,7 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.atom.logic.modelServices;
+package gov.nist.rolie.polie.atom.logic.services;
 
 import gov.nist.rolie.polie.atom.logic.LinkAlreadyExistsException;
 import gov.nist.rolie.polie.model.models.AtomEntry;
@@ -34,11 +34,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3.x2005.atom.AtomDateConstruct;
 import org.w3.x2005.atom.EntryDocument;
+import org.w3.x2005.atom.CategoryDocument.Category;
 import org.w3.x2005.atom.LinkDocument.Link;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 @Component
@@ -64,19 +67,19 @@ public class DefaultEntryService implements EntryService {
   public AtomEntry createEntry(AtomEntry entry, URI iri)
       throws ResourceAlreadyExistsException, LinkAlreadyExistsException, URISyntaxException {
     String id = null;
+
     if (!hasID(entry)) {
       id = generateEntryID(entry);
       entry.getXmlObject().getEntry().addNewId().setStringValue(id);
     } else {
       id = entry.getXmlObject().getEntry().getIdList().get(0).getStringValue();
     }
-    ;
+
 
     String entryLocation = iri.toString() + "entry/" + id;
 
-    entry = addEntryLink(entry, "self", entryLocation); // TODO: Generate
-    // hrefs
-    entry = addEntryLink(entry, "edit", entryLocation);
+    entry = addNewEntryLink(entry, "self", entryLocation);
+    entry = addNewEntryLink(entry, "edit", entryLocation);
     entry = updateDates(entry);
 
     entry.setIRI(new URI(entryLocation));
@@ -90,10 +93,13 @@ public class DefaultEntryService implements EntryService {
   private boolean hasID(AtomEntry entry) {
     return (entry.getXmlObject().getEntry().getIdList() != null && entry.getXmlObject().getEntry().sizeOfIdArray() > 0);
   }
-
-  public AtomEntry addEntryLink(AtomEntry entry, String rel, String href) throws LinkAlreadyExistsException {
-    if (hasLink(entry, rel, href) == null) {
-      Link link = Link.Factory.newInstance();
+  
+  
+  @Override
+  public AtomEntry addNewEntryLink(AtomEntry entry, String rel, String href) throws LinkAlreadyExistsException {
+    Link link = hasLink(entry, rel, href);
+    if (link == null) {
+      link = Link.Factory.newInstance();
       link.setHref(href);
       link.setRel(rel);
       entry.getXmlObject().getEntry().addNewLink().set(link);
@@ -103,7 +109,30 @@ public class DefaultEntryService implements EntryService {
     return entry;
   }
 
-  private Link hasLink(AtomEntry entry, String rel, String href) { // TODO:
+  /**
+   * 
+   * @param entry
+   * @param link
+   * @return
+   */
+  public Link deleteLink(AtomEntry entry, Link link) {
+    List<Link> links = entry.getXmlObject().getEntry().getLinkList();
+    for (int i = 0; i < links.size(); i++) {
+      Link innerLink = links.get(i);
+      if (linkEquals(innerLink, link)) {
+        links.remove(i);
+        return innerLink;
+      }
+    }
+    return null;
+  }
+
+  private boolean linkEquals(Link link1, Link link2) {
+    return link1.getRel().equals(link2.getRel()) && link2.getHref().equals(link2.getHref());
+  }
+
+  @Override
+  public Link hasLink(AtomEntry entry, String rel, String href) { // TODO:
     // Add
     // regex
     // matching
@@ -114,6 +143,7 @@ public class DefaultEntryService implements EntryService {
     List<Link> links = entry.getXmlObject().getEntry().getLinkList();
     for (Link link : links) {
       if ((link.getRel().equals(rel) || rel.equals("any")) && (link.getHref().equals(href) || href.equals("any"))) {
+        System.out.println("dink" + rel + href);
         return link;
       }
     }
@@ -123,6 +153,7 @@ public class DefaultEntryService implements EntryService {
   @Override
   public AtomEntry updateEntry(AtomEntry entry, URI iri)
       throws ResourceNotFoundException, InvalidResourceTypeException {
+    entry = updateUpdatedDate(entry);
     return persistenceMethod.updateEntry(entry, iri);
   }
 
@@ -131,9 +162,29 @@ public class DefaultEntryService implements EntryService {
     return persistenceMethod.deleteEntry(iri);
   }
 
+  private AtomEntry updateUpdatedDate(AtomEntry entry)
+  {
+    if (entry.getXmlObject().getEntry().getUpdatedList().isEmpty()) {
+      entry.getXmlObject().getEntry().addNewUpdated();
+    }
+
+    AtomDateConstruct date = entry.getXmlObject().getEntry().getPublishedList().get(0);
+    date.setDateValue(Calendar.getInstance().getTime());
+
+    entry.getXmlObject().getEntry().getUpdatedList().set(0, date);
+    return entry;
+  }
+  
   @Override
   public AtomEntry updateDates(AtomEntry entry) {
-    AtomDateConstruct date = entry.getXmlObject().getEntry().getPublishedArray(0);
+    if (entry.getXmlObject().getEntry().getPublishedList().isEmpty()) {
+      entry.getXmlObject().getEntry().addNewPublished();
+    }
+    if (entry.getXmlObject().getEntry().getUpdatedList().isEmpty()) {
+      entry.getXmlObject().getEntry().addNewUpdated();
+    }
+
+    AtomDateConstruct date = entry.getXmlObject().getEntry().getPublishedList().get(0);
     date.setDateValue(Calendar.getInstance().getTime());
 
     entry.getXmlObject().getEntry().getPublishedList().set(0, date);
@@ -153,6 +204,35 @@ public class DefaultEntryService implements EntryService {
 
     return localEntry; // TODO: remove unneeded elements from entry view in
     // feed
+  }
+
+  private AtomEntry cleanEntryLinks(AtomEntry entry) {
+    if (entry.getXmlObject().getEntry().getLinkList().isEmpty()) {
+      return entry;
+    }
+    List<Link> links = entry.getXmlObject().getEntry().getLinkList();
+    for (int i = 0; i < links.size(); i++) {
+      Link link = links.get(i);
+      if (link.getRel().equals("self") || link.getRel().equals("feed") || link.getRel().equals("edit")) {
+        links.remove(link);
+        i--;
+      }
+    }
+    return entry;
+  }
+
+  @Override
+  public AtomEntry cleanEntry(AtomEntry entry) {
+    ArrayList<List> toBeCleared = new ArrayList<List>();
+    toBeCleared.add(entry.getXmlObject().getEntry().getPublishedList());
+    toBeCleared.add(entry.getXmlObject().getEntry().getUpdatedList());
+    for (List list : toBeCleared) {
+      list.clear();
+    }
+    if (!entry.getXmlObject().getEntry().getLinkList().isEmpty()) {
+      entry = cleanEntryLinks(entry);
+    }
+    return entry;
   }
 
 }

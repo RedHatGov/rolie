@@ -21,8 +21,9 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.atom.logic.modelServices;
+package gov.nist.rolie.polie.atom.logic.services;
 
+import gov.nist.rolie.polie.atom.logic.EntryNotFoundException;
 import gov.nist.rolie.polie.atom.logic.MismatchedCategoriesException;
 import gov.nist.rolie.polie.model.models.APPServiceDocument;
 import gov.nist.rolie.polie.model.models.AtomEntry;
@@ -36,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3.x2005.atom.AtomDateConstruct;
 import org.w3.x2005.atom.CategoryDocument.Category;
+import org.w3.x2005.atom.EntryDocument;
 import org.w3.x2005.atom.LinkDocument.Link;
 import org.w3.x2007.app.CategoriesType;
 import org.w3.x2007.app.CollectionType;
@@ -58,6 +60,50 @@ public class DefaultFeedService implements FeedService {
   ServiceDocumentService serviceDocumentService;
 
   public DefaultFeedService() {
+  }
+
+  /**
+   * 
+   * @param entry
+   * @param feed
+   * @return
+   * @throws MismatchedCategoriesException
+   * @throws ResourceNotFoundException
+   * @throws InvalidResourceTypeException
+   * @throws URISyntaxException
+   * @throws EntryNotFoundException
+   */
+  @Override
+  public AtomFeed updateEntryInFeed(AtomEntry entry, AtomFeed feed) throws MismatchedCategoriesException,
+      ResourceNotFoundException, InvalidResourceTypeException, URISyntaxException, EntryNotFoundException {
+    matchingCategories(entry, feed);
+    feed = removeEntryFromFeed(entry, feed);
+    feed = addEntryToFeed(entry, feed);
+    feed = updateFeedDates(feed);
+    return feed;
+  }
+
+  private AtomFeed removeEntryFromFeed(AtomEntry entry, AtomFeed feed) throws EntryNotFoundException {
+    return removeEntryFromFeedById(entry.getXmlObject().getEntry().getIdList().get(0).getStringValue(), feed);
+  }
+
+  private AtomFeed removeEntryFromFeedById(String id, AtomFeed feed) throws EntryNotFoundException {
+    AtomFeed localFeed = feed;
+    boolean success = false;
+    List<EntryDocument.Entry> entries = localFeed.getXmlObject().getFeed().getEntryList();
+    for (int i = 0; i < entries.size(); i++) {
+      EntryDocument.Entry innerEntry = entries.get(i);
+      if (innerEntry.getIdList().get(0).getStringValue().equals(id)) {
+        localFeed.getXmlObject().getFeed().getEntryList().remove(i);
+        success = true;
+        break;
+      }
+    }
+    if (success) {
+      return localFeed;
+    } else {
+      throw new EntryNotFoundException();
+    }
   }
 
   @Override
@@ -115,10 +161,10 @@ public class DefaultFeedService implements FeedService {
     boolean found = true;
     if (fixedString.equals("yes")) {
       for (Category ecat : entryCats) {
+        found = false;
         if (!ecat.getScheme().equals("urn:ietf:params:rolie:category:information-type")) {
           continue;
         }
-        found = false;
         for (Category fcat : feedCats) {
           if (categoryEquals(ecat, fcat)) {
             found = true;

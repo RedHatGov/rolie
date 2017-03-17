@@ -21,26 +21,8 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.atom.logic.modelServices;
+package gov.nist.rolie.polie.atom.logic.services;
 
-import gov.nist.rolie.polie.model.ResourceType;
-import gov.nist.rolie.polie.model.models.APPResource;
-import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
+public interface Service {
 
-import java.net.URI;
-
-public interface ResourceService extends Service {
-
-  ResourceType identifyResouceType(URI iri) throws ResourceNotFoundException;
-
-  boolean resourceExists(URI iri);
-
-  APPResource loadResource(URI iri) throws ResourceNotFoundException;
-
-  APPResource createResource(URI iri, APPResource resource) throws ResourceAlreadyExistsException;
-
-  APPResource updateResource(URI iri, APPResource resource) throws ResourceNotFoundException;
-
-  boolean deleteResource(URI iri) throws ResourceNotFoundException;
 }

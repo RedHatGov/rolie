@@ -23,7 +23,7 @@
 
 package gov.nist.rolie.polie.server.servlet;
 
-import gov.nist.rolie.polie.server.visitors.RESTEventVisitor;
+import gov.nist.rolie.polie.server.visitors.AuthorizationVisitor;
 import gov.nist.rolie.polie.server.visitors.ROLIEValidationVisitor;
 import gov.nist.rolie.polie.server.visitors.RequestValidatorVisitor;
 import gov.nist.rolie.polie.server.visitors.ResourceEventVisitor;
@@ -47,20 +47,25 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
   /**
    * Validates the request itself. Most of this is handled by the server, but extra logic may be included as needed.
    */
-  private static final RESTEventVisitor HTTP_REQUEST_VALIDATOR_VISITOR = new RequestValidatorVisitor();
+  @Autowired
+  private RequestValidatorVisitor requestValidator;
 
   /**
    * Validates ROLIE XML content in the body of the request.
    */
-  private static final RESTEventVisitor ROLIE_CONTENT_VALIDATION_VISITOR = new ROLIEValidationVisitor();
+  @Autowired
+  private ROLIEValidationVisitor rolieContentValidator;
 
   /**
-   * Handles the final steps of response construction, including header fields
+   * Handles the final steps of response construction, including header fields.
    */
-  private static final RESTEventVisitor RESPONSE_BUILDER_VISITOR = new ResponseBuilderVisitor();
+  @Autowired
+  private ResponseBuilderVisitor responseBuilder;
 
   // private static final RESTEventVisitor DEBUGPROCESSOR = new
-  // ResourceEventVisitor();
+
+  @Autowired
+  private AuthorizationVisitor authorizationManager;
   /*
    * Primary visitor for resource requests. Drives required Atom transformations, and starts persistence procedures.
    */
@@ -81,9 +86,10 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
       getVisitorManagerInstance = new DefaultVisitorManager();
 
       // Adds visitors in order to the execution list. FIFO order.
-      getVisitorManagerInstance.addVisitor(HTTP_REQUEST_VALIDATOR_VISITOR);
+      getVisitorManagerInstance.addVisitor(requestValidator);
+      getVisitorManagerInstance.addVisitor(authorizationManager);
       getVisitorManagerInstance.addVisitor(requestProcessor);
-      getVisitorManagerInstance.addVisitor(RESPONSE_BUILDER_VISITOR);
+      getVisitorManagerInstance.addVisitor(responseBuilder);
     }
     return getVisitorManagerInstance;
   }
@@ -94,10 +100,11 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
       // Adds visitors in order to the execution list. FIFO order.
       postVisitorManagerInstance = new DefaultVisitorManager();
 
-      postVisitorManagerInstance.addVisitor(HTTP_REQUEST_VALIDATOR_VISITOR);
-      postVisitorManagerInstance.addVisitor(ROLIE_CONTENT_VALIDATION_VISITOR);
+      postVisitorManagerInstance.addVisitor(requestValidator);
+      postVisitorManagerInstance.addVisitor(authorizationManager);
+      postVisitorManagerInstance.addVisitor(rolieContentValidator);
       postVisitorManagerInstance.addVisitor(requestProcessor);
-      postVisitorManagerInstance.addVisitor(RESPONSE_BUILDER_VISITOR);
+      postVisitorManagerInstance.addVisitor(responseBuilder);
     }
     return postVisitorManagerInstance;
   }
@@ -107,10 +114,11 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
     if (putVisitorManagerInstance == null) {
       // Adds visitors in order to the execution list. FIFO order.
       putVisitorManagerInstance = new DefaultVisitorManager();
-      putVisitorManagerInstance.addVisitor(HTTP_REQUEST_VALIDATOR_VISITOR);
-      putVisitorManagerInstance.addVisitor(ROLIE_CONTENT_VALIDATION_VISITOR);
+      putVisitorManagerInstance.addVisitor(requestValidator);
+      putVisitorManagerInstance.addVisitor(authorizationManager);
+      putVisitorManagerInstance.addVisitor(rolieContentValidator);
       putVisitorManagerInstance.addVisitor(requestProcessor);
-      putVisitorManagerInstance.addVisitor(RESPONSE_BUILDER_VISITOR);
+      putVisitorManagerInstance.addVisitor(responseBuilder);
     }
     return putVisitorManagerInstance;
   }
@@ -120,9 +128,10 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
     if (deleteVisitorManagerInstance == null) {
       // Adds visitors in order to the execution list. FIFO order.
       deleteVisitorManagerInstance = new DefaultVisitorManager();
-      deleteVisitorManagerInstance.addVisitor(HTTP_REQUEST_VALIDATOR_VISITOR);
+      deleteVisitorManagerInstance.addVisitor(requestValidator);
+      deleteVisitorManagerInstance.addVisitor(authorizationManager);
       deleteVisitorManagerInstance.addVisitor(requestProcessor);
-      deleteVisitorManagerInstance.addVisitor(RESPONSE_BUILDER_VISITOR);
+      deleteVisitorManagerInstance.addVisitor(responseBuilder);
 
     }
     return deleteVisitorManagerInstance;

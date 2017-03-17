@@ -30,7 +30,7 @@
   <!-- Servlet Definition -->
   <context-param>
   	<param-name>resteasy.servlet.mapping.prefix</param-name>
-  	<param-value>/rest</param-value>
+  	<param-value>/rolie</param-value>
   </context-param>
   <servlet>
     <servlet-name>polie-server</servlet-name>
@@ -45,7 +45,7 @@
   
   <servlet-mapping>
     <servlet-name>polie-server</servlet-name>
-    <url-pattern>/rest/*</url-pattern>
+    <url-pattern>/rolie/*</url-pattern>
   </servlet-mapping>
   
   

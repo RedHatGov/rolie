@@ -21,30 +21,26 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.atom.logic.modelServices;
+package gov.nist.rolie.polie.atom.logic.services;
 
-import gov.nist.rolie.polie.atom.logic.MismatchedCategoriesException;
-import gov.nist.rolie.polie.model.models.AtomEntry;
-import gov.nist.rolie.polie.model.models.AtomFeed;
-import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
+import gov.nist.rolie.polie.model.ResourceType;
+import gov.nist.rolie.polie.model.models.APPResource;
 import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
 import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
 
 import java.net.URI;
 
-public interface FeedService extends Service {
-  String searchFeedLinksForRel(AtomFeed feed, String rel);
+public interface ResourceService extends Service {
 
-  AtomFeed addEntryToFeed(AtomEntry entry, AtomFeed feed)
-      throws MismatchedCategoriesException, ResourceNotFoundException, InvalidResourceTypeException;
+  ResourceType identifyResouceType(URI iri) throws ResourceNotFoundException;
 
-  AtomFeed loadFeed(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException;
+  boolean resourceExists(URI iri);
 
-  AtomFeed createFeed(AtomFeed feed, URI iri) throws ResourceAlreadyExistsException;
+  APPResource loadResource(URI iri) throws ResourceNotFoundException;
 
-  AtomFeed updateFeed(AtomFeed feed, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+  APPResource createResource(URI iri, APPResource resource) throws ResourceAlreadyExistsException;
 
-  boolean deleteFeed(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+  APPResource updateResource(URI iri, APPResource resource) throws ResourceNotFoundException;
 
-  URI getServiceDocumentIRI(AtomFeed feed);
+  boolean deleteResource(URI iri) throws ResourceNotFoundException;
 }

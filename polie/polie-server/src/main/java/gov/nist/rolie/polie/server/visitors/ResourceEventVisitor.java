@@ -23,12 +23,12 @@
 
 package gov.nist.rolie.polie.server.visitors;
 
+import gov.nist.rolie.polie.atom.logic.EntryNotFoundException;
 import gov.nist.rolie.polie.atom.logic.LinkAlreadyExistsException;
 import gov.nist.rolie.polie.atom.logic.MismatchedCategoriesException;
-import gov.nist.rolie.polie.atom.logic.modelServices.EntryService;
-import gov.nist.rolie.polie.atom.logic.modelServices.FeedService;
-import gov.nist.rolie.polie.atom.logic.modelServices.ResourceService;
-import gov.nist.rolie.polie.model.ResourceType;
+import gov.nist.rolie.polie.atom.logic.services.EntryService;
+import gov.nist.rolie.polie.atom.logic.services.FeedService;
+import gov.nist.rolie.polie.atom.logic.services.ResourceService;
 import gov.nist.rolie.polie.model.models.APPResource;
 import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.model.models.AtomFeed;
@@ -39,7 +39,10 @@ import gov.nist.rolie.polie.server.event.Delete;
 import gov.nist.rolie.polie.server.event.Get;
 import gov.nist.rolie.polie.server.event.Post;
 import gov.nist.rolie.polie.server.event.Put;
+import gov.nist.rolie.polie.server.servlet.AtomResourceEvent;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -61,6 +64,7 @@ import javax.ws.rs.core.Response.Status;
  */
 @Component
 public class ResourceEventVisitor implements RESTEventVisitor { // TODO:
+  private static final Logger log = LogManager.getLogger(ResourceEventVisitor.class);
 
   @Autowired
   ResourceService resourceService;
@@ -90,18 +94,18 @@ public class ResourceEventVisitor implements RESTEventVisitor { // TODO:
    */
   @Override
   public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-
+    log.debug("Processing GET request");
     URI iri = get.getURIInfo().getAbsolutePath();
     APPResource resource;
     try {
-
       resource = resourceService.loadResource(iri);
     } catch (ResourceNotFoundException e) {
       rb.status(Status.NOT_FOUND);
+      rb.entity("Resource not found at database location: " + e.getResourceLocation());
       return false;
     }
 
-    data.put(RESOURCE_DATA_KEY, resource);
+    data.put(RESOURCE_KEY, resource);
     rb.status(Status.OK);
     return true;
   }
@@ -133,6 +137,7 @@ public class ResourceEventVisitor implements RESTEventVisitor { // TODO:
     URI feedURI = post.getURIInfo().getAbsolutePath();
     URI entryURI = post.getURIInfo().getBaseUri();
 
+    // Load feed from database
     try {
       feed = feedService.loadFeed(feedURI);
     } catch (ResourceNotFoundException e) {
@@ -146,21 +151,9 @@ public class ResourceEventVisitor implements RESTEventVisitor { // TODO:
     }
 
     try {
-      entry = new AtomEntry(EntryDocument.Factory.parse(post.getBody()));
-    } catch (XmlException e) {
-      rb.status(Status.NOT_ACCEPTABLE);
-      rb.entity("The resource you are posting is invalid.");
-      return false;
-    }
-
-    try {
-      entryService.addEntryLink(entry, "feed", feedURI.toString());
-    } catch (LinkAlreadyExistsException e) {
-      rb.status(Status.CONFLICT);
-      rb.entity("Link conflict in entry. This shouldn't ever happen.");
-      return false;
-    }
-    try {
+      entry = (AtomEntry) data.get(RESOURCE_KEY);
+      entry = entryService.cleanEntry(entry);
+      entryService.addNewEntryLink(entry, "feed", feedURI.toString());
       entry = entryService.createEntry(entry, entryURI);
     } catch (ResourceAlreadyExistsException e) {
       rb.status(Status.CONFLICT);
@@ -168,15 +161,18 @@ public class ResourceEventVisitor implements RESTEventVisitor { // TODO:
       return false;
     } catch (LinkAlreadyExistsException e) {
       rb.status(Status.CONFLICT);
-      rb.entity("Link conflict in entry. This shouldn't ever happen.");
+      rb.entity("Link conflict in entry.");
       return false;
     } catch (URISyntaxException e) {
       rb.status(Status.CONFLICT);
-      rb.entity("ID generates an invalid URI. This shouldn't ever happen.");
+      rb.entity("ID generates an invalid URI.");
       return false;
     }
+
+    // Add the new entry to the feed
     try {
       feed = feedService.addEntryToFeed(entry, feed);
+      feedService.updateFeed(feed, feedURI);
     } catch (MismatchedCategoriesException e) {
       rb.status(Status.EXPECTATION_FAILED);
       rb.entity("The entry you are trying to post has invalid categories for"
@@ -191,22 +187,12 @@ public class ResourceEventVisitor implements RESTEventVisitor { // TODO:
       rb.entity("Invalid resource while adding entry to feed.");
       return false;
     }
-    try {
-      feedService.updateFeed(feed, feedURI);
-    } catch (ResourceNotFoundException e) {
-      rb.status(Status.NOT_FOUND);
-      rb.entity("Resource not found at database location: " + e.getResourceLocation());
-      return false;
-    } catch (InvalidResourceTypeException e) {
-      rb.status(Status.METHOD_NOT_ALLOWED);
-      rb.entity("The feed is not a valid feed to update");
-      return false;
-    }
 
+    // Report success, store resource, and return
     rb.status(Status.CREATED);
     rb = rb.header("Location", entry.getIRI().toString());
 
-    data.put("CreatedResource", entry);
+    data.put(RESOURCE_KEY, entry);
     return true;
 
   }
@@ -231,60 +217,97 @@ public class ResourceEventVisitor implements RESTEventVisitor { // TODO:
    */
   @Override
   public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-    AtomEntry entry = null;
-    try {
-      entry = new AtomEntry(EntryDocument.Factory.parse(put.getBody()));
-    } catch (XmlException e1) {
-      // TODO Auto-generated catch block
-      e1.printStackTrace();
-    }
+    AtomEntry newEntry;
+    AtomEntry oldEntry;
+    AtomFeed feed = null;
+    URI feedURI = put.getURIInfo().getAbsolutePath();
+    URI entryURI = put.getURIInfo().getAbsolutePath();
 
-    URI iri = put.getURIInfo().getAbsolutePath();
-
-    // Current assumptions are: 1) iri is the collection?,
-    APPResource feedResource;
     try {
-      feedResource = resourceService.loadResource(iri);
+      oldEntry = entryService.loadEntry(entryURI);
     } catch (ResourceNotFoundException e) {
       rb.status(Status.NOT_FOUND);
+      rb.entity("Entry not found at database location: " + e.getResourceLocation());
       return false;
-    }
-
-    if (!ResourceType.FEED.equals(feedResource.getResourceType())) {
-      // the IRI is not a feed
-      rb.status(Status.NOT_FOUND);
-      return false;
-    }
-
-    AtomFeed feed = (AtomFeed) feedResource;
-
-    if (resourceService.resourceExists(iri)) {
-      // TODO: ?????
-    }
-    try {
-      feedService.addEntryToFeed(entry, feed);
-    } catch (MismatchedCategoriesException e1) {
-      // TODO Auto-generated catch block
-      e1.printStackTrace();
-    } catch (ResourceNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
     } catch (InvalidResourceTypeException e) {
+      rb.status(Status.METHOD_NOT_ALLOWED);
+      rb.entity("The requested resource is not a valid entry to PUT to.");
+      return false;
+    }
+
+    try {
+      if (entryService.hasLink(oldEntry, "feed", "any") == null) {
+        rb.status(Status.NOT_IMPLEMENTED);
+        rb.entity("Target entry is either standalone or has been decoupled from its feed. "
+            + "Standalone entry support is not implemented.");
+        return false;
+      }
+      feedURI = new URI(entryService.hasLink(oldEntry, "feed", "any").getHref());
+      feed = feedService.loadFeed(feedURI);
+    } catch (ResourceNotFoundException e) {
+      rb.status(Status.NOT_FOUND);
+      rb.entity("Feed not found at database location: " + e.getResourceLocation());
+      return false;
+    } catch (InvalidResourceTypeException e) {
+      rb.status(Status.METHOD_NOT_ALLOWED);
+      rb.entity("The requested resource is not a valid feed to PUT to.");
+      return false;
+    } catch (URISyntaxException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    AtomFeed created = null;
+
+    newEntry = (AtomEntry) data.get(RESOURCE_KEY);
+
     try {
-      created = feedService.createFeed(feed, iri);
-    } catch (ResourceAlreadyExistsException e) {
+      newEntry = entryService.updateEntry(newEntry, entryURI);
+    } catch (ResourceNotFoundException e) {
+      rb.status(Status.NOT_FOUND);
+      rb.entity("Entry not found at database location: " + e.getResourceLocation());
+      return false;
+    } catch (InvalidResourceTypeException e) {
+      rb.status(Status.CONFLICT);
+      rb.entity("The resource you are attempting to PUT to does not match the type of the body.");
+      return false;
+    }
+    try {
+      feed = feedService.updateEntryInFeed(newEntry, feed);
+    } catch (MismatchedCategoriesException e) {
+      rb.status(Status.EXPECTATION_FAILED);
+      rb.entity("The entry you are trying to post has invalid categories for"
+          + " this fixed cateory feed. Entry category:" + e.getChildCategory().toString());
+      return false;
+    } catch (ResourceNotFoundException e) {
+      rb.status(Status.NOT_FOUND);
+      rb.entity("Resource not found at database location: " + e.getResourceLocation());
+      return false;
+    } catch (InvalidResourceTypeException e) {
+      rb.status(Status.METHOD_NOT_ALLOWED);
+      rb.entity("Invalid resource while adding entry to feed.");
+      return false;
+    } catch (URISyntaxException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
+    } catch (EntryNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    try {
+      feedService.updateFeed(feed, feedURI);
+    } catch (ResourceNotFoundException e) {
+      rb.status(Status.NOT_FOUND);
+      rb.entity("Resource not found at database location: " + e.getResourceLocation());
+      return false;
+    } catch (InvalidResourceTypeException e) {
+      rb.status(Status.METHOD_NOT_ALLOWED);
+      rb.entity("The feed is not a valid feed to update");
+      return false;
     }
 
     rb.status(Status.CREATED);
-    rb = rb.header("Location", created.getIRI()); // TODO FIX THIS
-
-    data.put("CreatedResource", entry);
+    rb = rb.header("Location", entryURI);
+    rb = rb.header("Content-Location", entryURI);
+    data.put(RESOURCE_KEY, newEntry);
     return true;
 
   }
@@ -309,8 +332,9 @@ public class ResourceEventVisitor implements RESTEventVisitor { // TODO:
     try {
       resourceService.deleteResource(delete.getURIInfo().getAbsolutePath());
     } catch (ResourceNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      rb.status(Status.NOT_FOUND);
+      rb.entity("Resource not found at database location: " + e.getResourceLocation());
+      return false;
     }
     rb = rb.status(Status.OK);
     return true;

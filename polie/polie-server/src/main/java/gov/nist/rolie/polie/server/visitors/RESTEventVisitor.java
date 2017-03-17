@@ -44,7 +44,10 @@ import javax.ws.rs.core.Response.ResponseBuilder;
  * must set the response builder with a reasonable error status and description.
  */
 public interface RESTEventVisitor {
-  public static final String RESOURCE_DATA_KEY = "resource";
+  public static final String CREATED_RESOURCE_KEY = "createdresource";
+  public static final String VALIDATED_RESOURCE_KEY = "validresource";
+  public static final String UPDATED_RESOURCE_KEY = "updatedresource";
+  public static final String RESOURCE_KEY = "resource";
 
   public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data);
 

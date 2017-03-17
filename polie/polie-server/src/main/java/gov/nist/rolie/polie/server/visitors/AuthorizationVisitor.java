@@ -21,52 +21,63 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.atom.logic.modelServices;
+package gov.nist.rolie.polie.server.visitors;
 
-import gov.nist.rolie.polie.model.ResourceType;
-import gov.nist.rolie.polie.model.models.APPResource;
-import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
-import gov.nist.rolie.polie.persistence.database.PersistenceMethod;
+import gov.nist.rolie.polie.server.event.Delete;
+import gov.nist.rolie.polie.server.event.Get;
+import gov.nist.rolie.polie.server.event.Post;
+import gov.nist.rolie.polie.server.event.Put;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.net.URI;
+import java.util.Map;
+
+import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
 
 @Component
-public class DefaultResourceService implements ResourceService {
+public class AuthorizationVisitor implements RESTEventVisitor {
 
-  @Autowired
-  PersistenceMethod persistenceMethod;
+  // TODO: SUPER WIP
 
   @Override
-  public ResourceType identifyResouceType(URI iri) throws ResourceNotFoundException {
-    return persistenceMethod.identifyResouceType(iri);
+  public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
+    if (get.getURIInfo().getAbsolutePath().toString().indexOf("private") != -1) {
+      rb.status(Status.UNAUTHORIZED);
+      return false;
+    } else {
+      return true;
+    }
   }
 
   @Override
-  public boolean resourceExists(URI iri) {
-    return persistenceMethod.resourceExists(iri);
+  public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
+    if (post.getURIInfo().getAbsolutePath().toString().indexOf("private") != -1) {
+      rb.status(Status.UNAUTHORIZED);
+      return false;
+    } else {
+      return true;
+    }
   }
 
   @Override
-  public APPResource loadResource(URI iri) throws ResourceNotFoundException {
-    return persistenceMethod.loadResource(iri);
+  public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
+    if (put.getURIInfo().getAbsolutePath().toString().indexOf("private") != -1) {
+      rb.status(Status.UNAUTHORIZED);
+      return false;
+    } else {
+      return true;
+    }
   }
 
   @Override
-  public APPResource createResource(URI iri, APPResource resource) throws ResourceAlreadyExistsException {
-    return persistenceMethod.createResource(resource, iri);
+  public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
+    if (delete.getURIInfo().getAbsolutePath().toString().indexOf("private") != -1) {
+      rb.status(Status.UNAUTHORIZED);
+      return false;
+    } else {
+      return true;
+    }
   }
 
-  @Override
-  public APPResource updateResource(URI iri, APPResource resource) throws ResourceNotFoundException {
-    return persistenceMethod.updateResource(resource, iri);
-  }
-
-  @Override
-  public boolean deleteResource(URI iri) throws ResourceNotFoundException {
-    return persistenceMethod.deleteResource(iri);
-  }
 }

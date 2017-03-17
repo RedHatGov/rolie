@@ -21,33 +21,52 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.atom.logic.modelServices;
+package gov.nist.rolie.polie.atom.logic.services;
 
-import gov.nist.rolie.polie.atom.logic.LinkAlreadyExistsException;
-import gov.nist.rolie.polie.model.models.AtomEntry;
-import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
+import gov.nist.rolie.polie.model.ResourceType;
+import gov.nist.rolie.polie.model.models.APPResource;
 import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
 import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
+import gov.nist.rolie.polie.persistence.database.PersistenceMethod;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
-public interface EntryService {
+@Component
+public class DefaultResourceService implements ResourceService {
 
-  void publishEntry(AtomEntry entry);
+  @Autowired
+  PersistenceMethod persistenceMethod;
 
-  AtomEntry loadEntry(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException;
+  @Override
+  public ResourceType identifyResouceType(URI iri) throws ResourceNotFoundException {
+    return persistenceMethod.identifyResouceType(iri);
+  }
 
-  AtomEntry createEntry(AtomEntry entry, URI iri)
-      throws ResourceAlreadyExistsException, LinkAlreadyExistsException, URISyntaxException;
+  @Override
+  public boolean resourceExists(URI iri) {
+    return persistenceMethod.resourceExists(iri);
+  }
 
-  AtomEntry updateEntry(AtomEntry entry, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+  @Override
+  public APPResource loadResource(URI iri) throws ResourceNotFoundException {
+    return persistenceMethod.loadResource(iri);
+  }
 
-  boolean deleteEntry(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+  @Override
+  public APPResource createResource(URI iri, APPResource resource) throws ResourceAlreadyExistsException {
+    return persistenceMethod.createResource(resource, iri);
+  }
 
-  AtomEntry addEntryLink(AtomEntry entry, String rel, String href) throws LinkAlreadyExistsException;
+  @Override
+  public APPResource updateResource(URI iri, APPResource resource) throws ResourceNotFoundException {
+    return persistenceMethod.updateResource(resource, iri);
+  }
 
-  AtomEntry updateDates(AtomEntry localEntry);
-
-  AtomEntry stripEntry(AtomEntry localEntry);
+  @Override
+  public boolean deleteResource(URI iri) throws ResourceNotFoundException {
+    return persistenceMethod.deleteResource(iri);
+  }
 }

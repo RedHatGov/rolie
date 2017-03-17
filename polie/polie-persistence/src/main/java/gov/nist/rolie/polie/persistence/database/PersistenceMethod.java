@@ -77,6 +77,9 @@ public interface PersistenceMethod {
 
   APPServiceDocument createServiceDocument(APPServiceDocument serviceDoc, URI uri)
       throws ResourceAlreadyExistsException;
+  
+  APPServiceDocument createServiceDocument(APPServiceDocument serviceDoc, String uri)
+      throws ResourceAlreadyExistsException;
 
   APPServiceDocument updateServiceDocument(APPServiceDocument serviceDoc, URI uri)
       throws ResourceNotFoundException, InvalidResourceTypeException;
@@ -128,5 +131,7 @@ public interface PersistenceMethod {
   boolean deleteEntry(String id) throws ResourceNotFoundException, InvalidResourceTypeException;
 
   String generateNewEntryID(AtomEntry entry);
+
+
 
 }

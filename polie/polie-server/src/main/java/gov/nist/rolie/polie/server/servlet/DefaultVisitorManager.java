@@ -70,7 +70,6 @@ public class DefaultVisitorManager implements VisitorManager {
     return execute(event, new HashMap<String, Object>());
   }
 
-
   public Response execute(RESTEvent event, Map<String, Object> data) {
     // If something goes wrong, set the default Response to a server error
     // response.
@@ -78,7 +77,7 @@ public class DefaultVisitorManager implements VisitorManager {
     // changed
     // TODO: use a call to the event to get the default status by request
     // method
-    ResponseBuilder rb = Response.status(Status.METHOD_NOT_ALLOWED);
+    ResponseBuilder rb = Response.status(Status.INTERNAL_SERVER_ERROR);
 
     // Basic for loop to execute all visitors. If a visitor returns false,
     // the loop is terminated

@@ -112,7 +112,7 @@ public class AtomResourceEvent {
   @Produces({ "application/atom+xml" })
   @GET
   public Response get(@Context HttpHeaders headers, @Context UriInfo uriInfo) {
-    log.debug("Processing GET request");
+    log.debug("Processing GET request EVENT");
 
     VisitorManager vm = vmFactory.GetGetVisitorManager();
 
@@ -120,6 +120,7 @@ public class AtomResourceEvent {
     RESTEvent get = new Get(headers, uriInfo);
 
     // Starts the execution chain, returns a built response
+    log.debug("EXECUTING VISITOR CHAIN ON GET REQUEST");
     return vm.execute(get);
   }
 
@@ -138,9 +139,9 @@ public class AtomResourceEvent {
    */
   @Consumes({ "application/atom+xml;type=entry" })
   @Produces({ "application/atom+xml;type=entry" })
-  @POST
+  @POST //TODO: Add atomsvc type support
   public Response post(@Context HttpHeaders headers, @Context UriInfo uriInfo, String body) {
-
+    log.debug("Processing POST request");
     RESTEvent post = new Post(headers, uriInfo, body);
 
     VisitorManager vm = vmFactory.GetPostVisitorManager();
@@ -165,7 +166,7 @@ public class AtomResourceEvent {
   @Produces({ "application/atom+xml;type=entry" })
   @PUT
   public Response put(@Context HttpHeaders headers, @Context UriInfo uriInfo, String body) {
-
+    log.debug("Processing PUT request");
     RESTEvent put = new Put(headers, uriInfo, body);
 
     VisitorManager vm = vmFactory.GetPutVisitorManager();
@@ -187,6 +188,7 @@ public class AtomResourceEvent {
   @Produces("text/plain")
   @DELETE
   public Response delete(@Context HttpHeaders headers, @Context UriInfo uriInfo) {
+    log.debug("Processing DELETE request");
     RESTEvent delete = new Delete(headers, uriInfo);
 
     VisitorManager vm = vmFactory.GetDeleteVisitorManager();

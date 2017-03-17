@@ -42,78 +42,20 @@ import org.w3.x2007.app.ServiceDocument;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
 @Component
 public class MapPersist implements PersistenceMethod {
 
-  private static final boolean BOOTSTRAP = true;
+  private static final boolean EXAMPLE = true;
   HashMap<String, MappedResource> map = new HashMap<>();
 
   /**
-   * 
+   * .
    */
   public MapPersist() {
-    if (BOOTSTRAP) {
-      // System.out.println("Bootstrapping...");
-      Path pathFeed1 = Paths
-          .get("C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\testFeed1.xml");
-      File fileFeed1 = pathFeed1.toFile();
-
-      Path pathFeed2 = Paths
-          .get("C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\testFeed2.xml");
-      File fileFeed2 = pathFeed2.toFile();
-
-      Path pathEntry1 = Paths
-          .get("C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\testEntry1.xml");
-      File fileEntry1 = pathEntry1.toFile();
-
-      Path pathEntry2 = Paths
-          .get("C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\testEntry2.xml");
-      File fileEntry2 = pathEntry2.toFile();
-
-      Path pathService = Paths
-          .get("C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\testService.xml");
-      File fileService = pathService.toFile();
-
-      AtomFeed feed1 = null;
-      AtomFeed feed2 = null;
-      AtomEntry entry1 = null;
-      AtomEntry entry2 = null;
-      APPServiceDocument service = null;
-      try {
-        feed1 = new AtomFeed(FeedDocument.Factory.parse(fileFeed1));
-        feed2 = new AtomFeed(FeedDocument.Factory.parse(fileFeed2));
-        entry1 = new AtomEntry(EntryDocument.Factory.parse(fileEntry1));
-        entry2 = new AtomEntry(EntryDocument.Factory.parse(fileEntry2));
-        service = new APPServiceDocument(ServiceDocument.Factory.parse(fileService));
-      } catch (XmlException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-      try {
-        createFeed(feed1, "http://localhost:8080/polie-server/rest/feed/1");
-        createFeed(feed2, "http://localhost:8080/polie-server/rest/feed/2");
-        createEntry(entry1, "http://localhost:8080/polie-server/rest/entry/1");
-        createEntry(entry2, "http://localhost:8080/polie-server/rest/entry/2");
-        URI serviceuri = new URI("http://localhost:8080/polie-server/rest/service");
-        createServiceDocument(service, serviceuri);
-        // System.out.println("Just created a service document at:" +
-        // serviceuri.toString());
-      } catch (ResourceAlreadyExistsException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (URISyntaxException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-    }
+    exampleBootstrap();
   }
 
   @Override
@@ -205,13 +147,18 @@ public class MapPersist implements PersistenceMethod {
     }
   }
 
-  @Override
   public APPServiceDocument createServiceDocument(APPServiceDocument serviceDoc, URI uri)
+      throws ResourceAlreadyExistsException {
+    return createServiceDocument(serviceDoc, uri.toString());
+  }
+
+  @Override
+  public APPServiceDocument createServiceDocument(APPServiceDocument serviceDoc, String uri)
       throws ResourceAlreadyExistsException {
     if (map.containsKey(uri)) {
       throw new ResourceAlreadyExistsException();
     } else {
-      map.put(uri.toString(), new MappedResource(serviceDoc, ResourceType.SERVICE));
+      map.put(uri, new MappedResource(serviceDoc, ResourceType.SERVICE));
       return serviceDoc;
     }
   }
@@ -451,4 +398,62 @@ public class MapPersist implements PersistenceMethod {
   public String generateNewEntryID(AtomEntry entry) {
     return java.util.UUID.randomUUID().toString();
   }
+
+  private void exampleBootstrap() {
+    if (EXAMPLE) {
+      String root = "C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\rolieexamples\\";
+
+      File incidentFeedFile = Paths.get(root + "examplePrivateIncidentFeed.xml").toFile();
+      File vulnFeedFile = Paths.get(root + "examplePublicVulnFeed.xml").toFile();
+      File swdFeedFile = Paths.get(root + "examplePublicSWDFeed.xml").toFile();
+
+      File incidentEntryFile = Paths.get(root + "exampleIncidentEntry1.xml").toFile();
+      File vulnEntryFile = Paths.get(root + "exampleVulnEntry1.xml").toFile();
+      File swdEntryFile = Paths.get(root + "exampleSWDEntry1.xml").toFile();
+
+      File serviceDocFile = Paths.get(root + "exampleServiceDocument.xml").toFile();
+
+      AtomFeed incidentFeed = null;
+      AtomFeed vulnFeed = null;
+      AtomFeed swdFeed = null;
+
+      AtomEntry incidentEntry = null;
+      AtomEntry vulnEntry = null;
+      AtomEntry swdEntry = null;
+
+      APPServiceDocument service = null;
+      // APPCategories category = null;
+
+      try {
+        incidentFeed = new AtomFeed(FeedDocument.Factory.parse(incidentFeedFile));
+        swdFeed = new AtomFeed(FeedDocument.Factory.parse(swdFeedFile));
+        vulnFeed = new AtomFeed(FeedDocument.Factory.parse(vulnFeedFile));
+
+        incidentEntry = new AtomEntry(EntryDocument.Factory.parse(incidentEntryFile));
+        vulnEntry = new AtomEntry(EntryDocument.Factory.parse(vulnEntryFile));
+        swdEntry = new AtomEntry(EntryDocument.Factory.parse(swdEntryFile));
+
+        service = new APPServiceDocument(ServiceDocument.Factory.parse(serviceDocFile));
+      } catch (XmlException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      try {
+        createFeed(incidentFeed, "http://localhost:8080/polie-server/rolie/private/feed/examplePrivateIncidentFeed");
+        createFeed(vulnFeed, "http://localhost:8080/polie-server/rolie/feed/examplePublicVulnFeed");
+        createFeed(swdFeed, "http://localhost:8080/polie-server/rolie/feed/examplePublicSWDFeed");
+
+        createEntry(incidentEntry, "http://localhost:8080/polie-server/rolie/entry/exampleIncidentEntry1");
+        createEntry(vulnEntry, "http://localhost:8080/polie-server/rolie/entry/exampleVulnEntry1");
+        createEntry(swdEntry, "http://localhost:8080/polie-server/rolie/entry/exampleSWDEntry1");
+
+        createServiceDocument(service, "http://localhost:8080/polie-server/rolie/servicedocument");
+
+      } catch (ResourceAlreadyExistsException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
 }

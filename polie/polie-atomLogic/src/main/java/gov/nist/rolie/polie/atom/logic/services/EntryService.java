@@ -21,37 +21,40 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.atom.logic.modelServices;
+package gov.nist.rolie.polie.atom.logic.services;
 
-import gov.nist.rolie.polie.model.models.APPServiceDocument;
-import gov.nist.rolie.polie.model.models.AtomFeed;
-import gov.nist.rolie.polie.model.models.elements.APPCollection;
+import gov.nist.rolie.polie.atom.logic.LinkAlreadyExistsException;
+import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
 import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
 import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
 
-import org.w3.x2005.atom.CategoryDocument.Category;
-import org.w3.x2007.app.CollectionType;
+import org.w3.x2005.atom.LinkDocument.Link;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
-public interface ServiceDocumentService {
-  CollectionType getCollectionFromFeed(AtomFeed feed, APPServiceDocument serviceDoc);
+public interface EntryService {
 
-  APPCollection buildCollectionFromFeed(AtomFeed feed);
+  void publishEntry(AtomEntry entry);
 
-  APPCollection addTitleToCollection(APPCollection collection, String title);
+  AtomEntry loadEntry(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException;
 
-  String readTitleFromCollection(APPCollection collection);
+  AtomEntry createEntry(AtomEntry entry, URI iri)
+      throws ResourceAlreadyExistsException, LinkAlreadyExistsException, URISyntaxException;
 
-  APPServiceDocument loadServiceDocument(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException;
+  AtomEntry updateEntry(AtomEntry entry, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
 
-  APPServiceDocument createServiceDocument(APPServiceDocument service, URI iri) throws ResourceAlreadyExistsException;
+  boolean deleteEntry(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
 
-  APPServiceDocument updateServiceDocument(APPServiceDocument service, URI iri)
-      throws ResourceNotFoundException, InvalidResourceTypeException;
+  AtomEntry updateDates(AtomEntry localEntry);
 
-  boolean deleteServiceDocument(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+  AtomEntry stripEntry(AtomEntry localEntry);
 
-  void updateCollectionCategories(Category cat, AtomFeed feed);
+  Link hasLink(AtomEntry entry, String rel, String href);
+
+  AtomEntry cleanEntry(AtomEntry entry);
+
+
+  AtomEntry addNewEntryLink(AtomEntry entry, String rel, String href) throws LinkAlreadyExistsException;
 }
