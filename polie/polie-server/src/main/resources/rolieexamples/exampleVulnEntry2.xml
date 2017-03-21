@@ -10,5 +10,5 @@
 	<summary>A second vulnerability issue identified by CVE-...</summary>
 	<rolie:format ns="urn:ietf:params:xml:ns:exampleformat" version="1.0"/>
 	<rolie:property name="urn:ietf:params:rolie:property:exampleformatID" value="1234"/>
-	<content src="http://localhost:8080/polie-server/data/exampleVuln1" type="application/xml"/>
+	<content src="http://localhost:8080/polie-server/data/exampleVuln2" type="application/xml"/>
 </entry>
