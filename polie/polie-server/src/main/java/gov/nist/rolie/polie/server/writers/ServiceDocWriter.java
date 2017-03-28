@@ -50,16 +50,16 @@ public class ServiceDocWriter implements MessageBodyWriter<ServiceDocumentImpl> 
   }
 
   @Override
-  public long getSize(ServiceDocumentImpl t, Class<?> type, Type genericType, Annotation[] annotations,
+  public long getSize(ServiceDocumentImpl instance, Class<?> type, Type genericType, Annotation[] annotations,
       MediaType mediaType) {
     return -1;
   }
 
   @Override
-  public void writeTo(ServiceDocumentImpl t, Class<?> type, Type genericType, Annotation[] annotations,
+  public void writeTo(ServiceDocumentImpl instance, Class<?> type, Type genericType, Annotation[] annotations,
       MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream)
       throws IOException, WebApplicationException {
-    t.save(entityStream);
+    instance.save(entityStream);
   }
 
 }

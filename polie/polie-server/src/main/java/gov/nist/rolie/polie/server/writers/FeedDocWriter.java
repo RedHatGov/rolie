@@ -50,16 +50,16 @@ public class FeedDocWriter implements MessageBodyWriter<FeedDocumentImpl> {
   }
 
   @Override
-  public long getSize(FeedDocumentImpl t, Class<?> type, Type genericType, Annotation[] annotations,
+  public long getSize(FeedDocumentImpl instance, Class<?> type, Type genericType, Annotation[] annotations,
       MediaType mediaType) {
     return -1;
   }
 
   @Override
-  public void writeTo(FeedDocumentImpl t, Class<?> type, Type genericType, Annotation[] annotations,
+  public void writeTo(FeedDocumentImpl instance, Class<?> type, Type genericType, Annotation[] annotations,
       MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream)
       throws IOException, WebApplicationException {
-    t.save(entityStream);
+    instance.save(entityStream);
   }
 
 }

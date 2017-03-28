@@ -24,10 +24,10 @@
 package gov.nist.rolie.polie.server.servlet;
 
 import gov.nist.rolie.polie.server.visitors.AuthorizationVisitor;
-import gov.nist.rolie.polie.server.visitors.ValidationVisitor;
 import gov.nist.rolie.polie.server.visitors.RequestValidatorVisitor;
 import gov.nist.rolie.polie.server.visitors.ResourceEventVisitor;
 import gov.nist.rolie.polie.server.visitors.ResponseBuilderVisitor;
+import gov.nist.rolie.polie.server.visitors.ValidationVisitor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

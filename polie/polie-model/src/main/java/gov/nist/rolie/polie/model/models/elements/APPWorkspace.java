@@ -89,8 +89,8 @@ public class APPWorkspace implements APPElement {
   }
 
   /**
-   * @param collection
-   *          the collection to set
+   * @param collections
+   *          the collections to set
    */
   public void setCollections(List<APPCollection> collections) {
     this.collection = collections;

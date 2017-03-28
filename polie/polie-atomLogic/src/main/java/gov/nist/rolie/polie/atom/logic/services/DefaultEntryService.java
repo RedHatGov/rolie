@@ -34,14 +34,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3.x2005.atom.AtomDateConstruct;
 import org.w3.x2005.atom.EntryDocument;
-import org.w3.x2005.atom.CategoryDocument.Category;
 import org.w3.x2005.atom.LinkDocument.Link;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 
 @Component
