@@ -29,13 +29,66 @@ import java.io.InputStreamReader;
 
 public class CLI {
   public static void main(String[] args) {
-    try (BufferedReader in = new BufferedReader(new InputStreamReader(System.in))) {
+    new CLI().process(args);
+  }
 
+  /**
+   * Process a set of CLI arguments.
+   * @param args the arguments to process
+   */
+  public void process(String[] args) {
+    ExitStatus status = parseCommand(args);
+    System.err.println(status.getMessage());
+    System.exit(status.getExitCode().getStatusCode());
+  }
+
+  private ExitStatus parseCommand(String line) {
+    String[] args = line.split("\\s");
+    return parseCommand(args);
+  }
+
+  private ExitStatus parseCommand(String[] args) {
+    ExitStatus status;
+    // the first two arguments should be the <type> and <operation>, where <type> is the object type
+    // the <operation> is performed against.
+    if (args.length < 1) {
+      status = ExitCode.INVALID_COMMAND.toExitStatus();
+    } else if ("interactive".equals(args[0].toLowerCase())) {
+      status = processInteractive();
+    } else if (args.length < 2) {
+      status = ExitCode.INVALID_COMMAND.toExitStatus();
+    } else {
+      status = processCommand(args);
+    }
+    return status;
+  }
+
+  private ExitStatus processCommand(String[] args) {
+    // String typeString = args[0];
+    // String operationString = args[1];
+    //
+    // TODO: add calls to setup the command execution
+    // Type type = TypeEnum.lookup(typeString).getType();
+    // Operation operation = type.lookup(operationString);
+    // Options options = operation.parseOptions(options);
+    //
+    // return operation.execute(options);
+    return ExitCode.OK.toExitStatus();
+  }
+
+  private ExitStatus processInteractive() {
+    ExitStatus status = null;
+    try (BufferedReader in = new BufferedReader(new InputStreamReader(System.in))) {
       String line;
       while ((line = in.readLine()) != null) {
-        // parse(line)
+        status = parseCommand(line);
       }
     } catch (IOException e) {
+      status = ExitCode.INPUT_ERROR.toExitStatus();
     }
+    if (status == null) {
+      status = ExitCode.OK.toExitStatus();
+    }
+    return status;
   }
 }
