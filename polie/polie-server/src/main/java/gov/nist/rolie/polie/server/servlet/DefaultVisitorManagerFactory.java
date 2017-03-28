@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.rolie.polie.server.servlet;
 
 import gov.nist.rolie.polie.server.visitors.AuthorizationVisitor;
@@ -44,7 +45,8 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
   // private static final RESTEventVisitor DEBUG_VISITOR = new DebugVisitor();
 
   /**
-   * Validates the request itself. Most of this is handled by the server, but extra logic may be included as needed.
+   * Validates the request itself. Most of this is handled by the server, but extra logic may be
+   * included as needed.
    */
   @Autowired
   private RequestValidatorVisitor requestValidator;
@@ -66,7 +68,8 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
   @Autowired
   private AuthorizationVisitor authorizationManager;
   /*
-   * Primary visitor for resource requests. Drives required Atom transformations, and starts persistence procedures.
+   * Primary visitor for resource requests. Drives required Atom transformations, and starts
+   * persistence procedures.
    */
   @Autowired
   private ResourceEventVisitor requestProcessor;

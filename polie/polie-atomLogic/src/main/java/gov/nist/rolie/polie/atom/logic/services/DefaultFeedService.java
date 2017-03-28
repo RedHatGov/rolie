@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.rolie.polie.atom.logic.services;
 
 import gov.nist.rolie.polie.atom.logic.EntryNotFoundException;
@@ -137,11 +138,10 @@ public class DefaultFeedService implements FeedService {
   }
 
   private AtomFeed addEntry(AtomFeed feed, AtomEntry entry) {
-    
-    
+
     feed.getXmlObject().getFeed().addNewEntry().set(entry.getXmlObject().getEntry());
-    //feed.getXmlObject().getFeed().getEntryList()
-    //XmlCursor cursor = fir
+    // feed.getXmlObject().getFeed().getEntryList()
+    // XmlCursor cursor = fir
     return feed;
   }
 

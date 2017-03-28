@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.rolie.polie.server.visitors;
 
 import gov.nist.rolie.polie.atom.logic.EntryNotFoundException;
@@ -55,8 +56,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 /**
- * Primary driver of resource requests in POLIE. Consolidated in one visitor because the request type implies the valid
- * resource types.
+ * Primary driver of resource requests in POLIE. Consolidated in one visitor because the request
+ * type implies the valid resource types.
  * 
  * @author sab3
  *
@@ -75,13 +76,13 @@ public class ResourceEventVisitor implements RESTEventVisitor { // TODO:
   EntryService entryService;
 
   /**
-   * When this visitor encounters a get request, the resource at the given IRI can be loaded. There is no needed
-   * consideration at this point as to what the resource is.
+   * When this visitor encounters a get request, the resource at the given IRI can be loaded. There
+   * is no needed consideration at this point as to what the resource is.
    * 
    * It then places the Retrieved resource in the data map and returns.
    * 
-   * DATA MAP CONTRACT: BEFORE: "IRI" is an absolute path to the resource. AFTER: "resource" holds the APPResource at
-   * the IRI.
+   * DATA MAP CONTRACT: BEFORE: "IRI" is an absolute path to the resource. AFTER: "resource" holds
+   * the APPResource at the IRI.
    * 
    * @param get
    *          The event type.
@@ -110,15 +111,16 @@ public class ResourceEventVisitor implements RESTEventVisitor { // TODO:
   }
 
   /**
-   * When this visitor encounters a POST request, we can assume that the target is a collection. The body of the request
-   * needs to be created and added to the Collection as a member resource.
+   * When this visitor encounters a POST request, we can assume that the target is a collection. The
+   * body of the request needs to be created and added to the Collection as a member resource.
    * 
    * Header Considerations: "Location" is set to the location the resource was created at.
    * 
-   * DATA MAP CONTRACT: BEFORE: "IRI" is an absolute path to the collection that the resource will be under. "resource"
-   * holds a valid APPResource to be posted to a collection. AFTER: "CreatedResourceLocationIRI" holds the actual
-   * location the resource was created at. NOTE: This MUST be set by the createResource() method. "CreatedResource"
-   * holds the actual created representation of the resource.
+   * DATA MAP CONTRACT: BEFORE: "IRI" is an absolute path to the collection that the resource will
+   * be under. "resource" holds a valid APPResource to be posted to a collection. AFTER:
+   * "CreatedResourceLocationIRI" holds the actual location the resource was created at. NOTE: This
+   * MUST be set by the createResource() method. "CreatedResource" holds the actual created
+   * representation of the resource.
    * 
    * @param post
    *          The event type.
@@ -197,14 +199,14 @@ public class ResourceEventVisitor implements RESTEventVisitor { // TODO:
   }
 
   /**
-   * When this visitor encounters a PUT request, we can assume that the target is a resource. The body of the request
-   * will be used to overwrite the target resource.
+   * When this visitor encounters a PUT request, we can assume that the target is a resource. The
+   * body of the request will be used to overwrite the target resource.
    * <p>
    * Header Considerations: "Location" is set to the location the resource was created at.
    * <p>
-   * DATA MAP CONTRACT: BEFORE: "IRI" is an absolute path to the resource to be updated "resource" holds a valid
-   * APPResource that will overwrite the target AFTER: "UpdatedResource" holds the actual updated representation of the
-   * resource.
+   * DATA MAP CONTRACT: BEFORE: "IRI" is an absolute path to the resource to be updated "resource"
+   * holds a valid APPResource that will overwrite the target AFTER: "UpdatedResource" holds the
+   * actual updated representation of the resource.
    * 
    * @param put
    *          The event type.
@@ -302,7 +304,7 @@ public class ResourceEventVisitor implements RESTEventVisitor { // TODO:
       rb.entity("The feed is not a valid feed to update");
       return false;
     }
-    //TODO:switch to app:edited from updated
+    // TODO:switch to app:edited from updated
     rb.status(Status.CREATED);
     rb = rb.header("Location", entryURI);
     rb = rb.header("Content-Location", entryURI);
@@ -312,8 +314,8 @@ public class ResourceEventVisitor implements RESTEventVisitor { // TODO:
   }
 
   /**
-   * When this visitor encounters a DELETE request, the resource at the given IRI will be deleted. There is no needed
-   * consideration at this point as to what the resource is.
+   * When this visitor encounters a DELETE request, the resource at the given IRI will be deleted.
+   * There is no needed consideration at this point as to what the resource is.
    * 
    * 
    * DATA MAP CONTRACT: BEFORE: "IRI" is an absolute path to the resource. AFTER: NONE

@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.rolie.polie.server.servlet;
 
 import gov.nist.rolie.polie.server.event.RESTEvent;
@@ -31,9 +32,9 @@ import java.util.Map;
 import javax.ws.rs.core.Response;
 
 /**
- * Interface for the visitor manager. Implementations should take note that this object will be created once per
- * request, and execute will be run once per request. Visitor manager provides core functionality and the webapp will
- * not function if there is a bug here.
+ * Interface for the visitor manager. Implementations should take note that this object will be
+ * created once per request, and execute will be run once per request. Visitor manager provides core
+ * functionality and the webapp will not function if there is a bug here.
  * 
  * @author sab3
  *
@@ -64,8 +65,8 @@ public interface VisitorManager {
   public void addVisitor(int index, RESTEventVisitor visitor);
 
   /**
-   * A simplification of {@link #execute(RESTEvent, Map)} that initializes an empty map. Same as calling
-   * <code>execute(RESETEvent, new Map<>())</code>.
+   * A simplification of {@link #execute(RESTEvent, Map)} that initializes an empty map. Same as
+   * calling <code>execute(RESETEvent, new Map<>())</code>.
    * 
    * @param event
    *          The event that the execution chain is tied to (i.e. GET,PUT,POST, or DELETE)
@@ -75,13 +76,14 @@ public interface VisitorManager {
   public Response execute(RESTEvent event);
 
   /**
-   * Visitor Execution loop. All visitors that are currently in the visitor list are executed in order. The data map and
-   * the response builder are passed by reference and used to pass information from visitor to visitor and to
-   * incrementally build the response, respectively. A visitor may cease the execution chain at any time if an error
-   * occurs. Later visitors may overwrite response characteristics.
+   * Visitor Execution loop. All visitors that are currently in the visitor list are executed in
+   * order. The data map and the response builder are passed by reference and used to pass
+   * information from visitor to visitor and to incrementally build the response, respectively. A
+   * visitor may cease the execution chain at any time if an error occurs. Later visitors may
+   * overwrite response characteristics.
    * 
-   * This means that if a visitor encounters a non-recoverable error, it will most likely overwrite the work of all
-   * previous visitors, and prevent any further visitors from executing.
+   * This means that if a visitor encounters a non-recoverable error, it will most likely overwrite
+   * the work of all previous visitors, and prevent any further visitors from executing.
    *
    * @param event
    *          The event that the execution chain is tied to (i.e. GET,PUT,POST, or DELETE)

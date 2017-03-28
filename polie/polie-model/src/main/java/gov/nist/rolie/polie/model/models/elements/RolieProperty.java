@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.rolie.polie.model.models.elements;
 
 import gov.nist.rolie.polie.model.models.constructs.AtomCommonAttributes;
@@ -27,8 +28,8 @@ import gov.nist.rolie.polie.model.models.constructs.AtomCommonAttributes;
 import java.net.URI;
 
 /**
- * rolieProperty = element rolie:property { atomCommonAttributes, attribute scheme { atomURI }, attribute term { text },
- * attribute label { text } ? empty
+ * rolieProperty = element rolie:property { atomCommonAttributes, attribute scheme { atomURI },
+ * attribute term { text }, attribute label { text } ? empty
  */
 
 public class RolieProperty implements RolieElement {

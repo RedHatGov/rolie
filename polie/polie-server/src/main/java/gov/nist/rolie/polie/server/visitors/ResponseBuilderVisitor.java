@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.rolie.polie.server.visitors;
 
 import gov.nist.rolie.polie.model.models.APPResource;
@@ -35,8 +36,9 @@ import java.util.Map;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 /**
- * This visitor provides the common final steps of response preparation before the request is sent out. Most of the work
- * is done automatically by the server, but any extra logic is done here. This should be a late visitor, or the last.
+ * This visitor provides the common final steps of response preparation before the request is sent
+ * out. Most of the work is done automatically by the server, but any extra logic is done here. This
+ * should be a late visitor, or the last.
  * 
  * @author sab3
  *
@@ -45,8 +47,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 public class ResponseBuilderVisitor implements RESTEventVisitor {
 
   /**
-   * When this visitor encounters a GET request, it gets the resource that has been found and places it in the body of
-   * the request.
+   * When this visitor encounters a GET request, it gets the resource that has been found and places
+   * it in the body of the request.
    * 
    * DATA MAP CONTRACT: BEFORE: "RetrivedResource" is an APPResource AFTER: NONE
    * 
@@ -66,8 +68,8 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
   }
 
   /**
-   * When this visitor encounters a post request, it gets the resource that has been cerated and places it in the body
-   * of the request.
+   * When this visitor encounters a post request, it gets the resource that has been cerated and
+   * places it in the body of the request.
    * 
    * DATA MAP CONTRACT: BEFORE: "CreatedResource" is an APPResource AFTER: NONE
    * 
@@ -89,8 +91,8 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
   }
 
   /**
-   * When this visitor encounters a PUT request, it gets the resource that has been updated and places it in the body of
-   * the request.
+   * When this visitor encounters a PUT request, it gets the resource that has been updated and
+   * places it in the body of the request.
    * 
    * DATA MAP CONTRACT: BEFORE: "UpdatedResource" is an APPResource AFTER: NONE
    * 
@@ -124,7 +126,7 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
    */
   @Override
   public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
-    //rb.entity(data.get("ResponseBody"));
+    // rb.entity(data.get("ResponseBody"));
     return true;
   }
 

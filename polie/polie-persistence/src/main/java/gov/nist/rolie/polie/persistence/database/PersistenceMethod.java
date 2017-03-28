@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.rolie.polie.persistence.database;
 
 import gov.nist.rolie.polie.model.ResourceType;
@@ -76,7 +77,7 @@ public interface PersistenceMethod {
 
   APPServiceDocument createServiceDocument(APPServiceDocument serviceDoc, URI uri)
       throws ResourceAlreadyExistsException;
-  
+
   APPServiceDocument createServiceDocument(APPServiceDocument serviceDoc, String uri)
       throws ResourceAlreadyExistsException;
 
@@ -130,7 +131,5 @@ public interface PersistenceMethod {
   boolean deleteEntry(String id) throws ResourceNotFoundException, InvalidResourceTypeException;
 
   String generateNewEntryID(AtomEntry entry);
-
-
 
 }

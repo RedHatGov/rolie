@@ -51,8 +51,9 @@ import javax.ws.rs.core.UriInfo;
 
 //import gov.nist.rolie.polie.server.visitors.DebugVisitor;
 /**
- * One of three entry point Classes for the webapp. This class handles ALL resource requests that are not category or
- * service documents. The Path annotation is a regex expression that should match all valid paths.
+ * One of three entry point Classes for the webapp. This class handles ALL resource requests that
+ * are not category or service documents. The Path annotation is a regex expression that should
+ * match all valid paths.
  * 
  * In this case the path is everything after the server root "{server}/polie-core/{path}"
  * 
@@ -66,8 +67,8 @@ public class AtomResourceEvent {
   private static final Logger log = LogManager.getLogger(AtomResourceEvent.class);
 
   /**
-   * The visitor manager is declared here. If a new visitor manager is written is can be swapped out here To apply to
-   * all requests.
+   * The visitor manager is declared here. If a new visitor manager is written is can be swapped out
+   * here To apply to all requests.
    */
   @Autowired
   private VisitorManagerFactory vmFactory;
@@ -75,17 +76,20 @@ public class AtomResourceEvent {
   /**
    * TODO:Move to RESTEventVisitor
    * 
-   * Provides a map for storing data to be transfered between visitors. There are no requirements or static definitions
-   * for keys and values. Each visitor should document what values it uses and which it places in the map.
+   * Provides a map for storing data to be transfered between visitors. There are no requirements or
+   * static definitions for keys and values. Each visitor should document what values it uses and
+   * which it places in the map.
    * 
    * As of this version, here are some used keys:
    * 
-   * "IRI" - a string of the absolute IRI. "path" - a string of the relative IRI. "headers" - the map of headers from
-   * the request. "body" - the body content from the request. "RetrievedResource" - a resource loaded from persistence
-   * "CreatedResource" - representation of a resource in persistence after creation "UpdatedResource" - representation
-   * of a resource in persistence after update
+   * "IRI" - a string of the absolute IRI. "path" - a string of the relative IRI. "headers" - the
+   * map of headers from the request. "body" - the body content from the request.
+   * "RetrievedResource" - a resource loaded from persistence "CreatedResource" - representation of
+   * a resource in persistence after creation "UpdatedResource" - representation of a resource in
+   * persistence after update
    * 
-   * These are examples and pose no requirements or limitations, but investigate before overwritting them.
+   * These are examples and pose no requirements or limitations, but investigate before overwritting
+   * them.
    * 
    */
 
@@ -99,15 +103,15 @@ public class AtomResourceEvent {
   // }
 
   /**
-   * Code that executes when the server receives a GET request on anything other than rolie/servicedocument and
-   * rolie/categorydocument.
+   * Code that executes when the server receives a GET request on anything other than
+   * rolie/servicedocument and rolie/categorydocument.
    * 
    * @param headers
    *          Automatically populated with a map of all headers.
    * @param uriInfo
    *          Automatically populated with a variety of URI data fields
-   * @return Returns the completed Response that is passed off to the server to be sent back to the requester. At this
-   *         point, the response is completed and is handled all by the webapp.
+   * @return Returns the completed Response that is passed off to the server to be sent back to the
+   *         requester. At this point, the response is completed and is handled all by the webapp.
    */
   @Produces({ "application/atom+xml" })
   @GET
@@ -125,8 +129,8 @@ public class AtomResourceEvent {
   }
 
   /**
-   * Code that executes when the server receives a POST request on anything other than rolie/servicedocument and
-   * rolie/categorydocument.
+   * Code that executes when the server receives a POST request on anything other than
+   * rolie/servicedocument and rolie/categorydocument.
    * 
    * @param headers
    *          Automatically populated with a map of all headers.
@@ -134,12 +138,12 @@ public class AtomResourceEvent {
    *          Automatically populated with a variety of URI data fields
    * @param body
    *          Text from the content of the request. This is automatically populated.
-   * @return Returns the completed Response that is passed off to the server to be sent back to the requester. At this
-   *         point, the response is completed and is handled all by the webapp.
+   * @return Returns the completed Response that is passed off to the server to be sent back to the
+   *         requester. At this point, the response is completed and is handled all by the webapp.
    */
   @Consumes({ "application/atom+xml;type=entry" })
   @Produces({ "application/atom+xml;type=entry" })
-  @POST //TODO: Add atomsvc type support
+  @POST // TODO: Add atomsvc type support
   public Response post(@Context HttpHeaders headers, @Context UriInfo uriInfo, String body) {
     log.debug("Processing POST request");
     RESTEvent post = new Post(headers, uriInfo, body);
@@ -150,8 +154,8 @@ public class AtomResourceEvent {
   }
 
   /**
-   * Code that executes when the server receives a PUT request on anything other than rolie/servicedocument and
-   * rolie/categorydocument.
+   * Code that executes when the server receives a PUT request on anything other than
+   * rolie/servicedocument and rolie/categorydocument.
    * 
    * @param headers
    *          Automatically populated with a map of all headers.
@@ -159,8 +163,8 @@ public class AtomResourceEvent {
    *          Automatically populated with a variety of URI data fields
    * @param body
    *          Text from the content of the request. This is automatically populated.
-   * @return Returns the completed Response that is passed off to the server to be sent back to the requester. At this
-   *         point, the response is completed and is handled all by the webapp.
+   * @return Returns the completed Response that is passed off to the server to be sent back to the
+   *         requester. At this point, the response is completed and is handled all by the webapp.
    */
   @Consumes({ "application/atom+xml;type=entry" })
   @Produces({ "application/atom+xml;type=entry" })
@@ -175,15 +179,15 @@ public class AtomResourceEvent {
   }
 
   /**
-   * Code that executes when the server receives a DELETE request on anything other than rolie/servicedocument and
-   * rolie/categorydocument.
+   * Code that executes when the server receives a DELETE request on anything other than
+   * rolie/servicedocument and rolie/categorydocument.
    * 
    * @param headers
    *          Automatically populated with a map of all headers.
    * @param uriInfo
    *          Automatically populated with a variety of URI data fields
-   * @return Returns the completed Response that is passed off to the server to be sent back to the requester. At this
-   *         point, the response is completed and is handled all by the webapp.
+   * @return Returns the completed Response that is passed off to the server to be sent back to the
+   *         requester. At this point, the response is completed and is handled all by the webapp.
    */
   @Produces("text/plain")
   @DELETE

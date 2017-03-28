@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.rolie.polie.atom.logic.services;
 
 import gov.nist.rolie.polie.atom.logic.LinkAlreadyExistsException;
@@ -74,7 +75,6 @@ public class DefaultEntryService implements EntryService {
       id = entry.getXmlObject().getEntry().getIdList().get(0).getStringValue();
     }
 
-
     String entryLocation = iri.toString() + "entry/" + id;
 
     entry = addNewEntryLink(entry, "self", entryLocation);
@@ -92,8 +92,7 @@ public class DefaultEntryService implements EntryService {
   private boolean hasID(AtomEntry entry) {
     return (entry.getXmlObject().getEntry().getIdList() != null && entry.getXmlObject().getEntry().sizeOfIdArray() > 0);
   }
-  
-  
+
   @Override
   public AtomEntry addNewEntryLink(AtomEntry entry, String rel, String href) throws LinkAlreadyExistsException {
     Link link = hasLink(entry, rel, href);
@@ -172,7 +171,7 @@ public class DefaultEntryService implements EntryService {
     entry.getXmlObject().getEntry().getUpdatedList().set(0, date);
     return entry;
   }
-  
+
   @Override
   public AtomEntry updateDates(AtomEntry entry) {
     if (entry.getXmlObject().getEntry().getPublishedList().isEmpty()) {

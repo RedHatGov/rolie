@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.rolie.polie.atom.logic.services;
 
 import gov.nist.rolie.polie.atom.logic.EntryNotFoundException;
@@ -49,6 +50,6 @@ public interface FeedService extends Service {
 
   URI getServiceDocumentIRI(AtomFeed feed);
 
-AtomFeed updateEntryInFeed(AtomEntry entry, AtomFeed feed) throws MismatchedCategoriesException,
-		ResourceNotFoundException, InvalidResourceTypeException, URISyntaxException, EntryNotFoundException;
+  AtomFeed updateEntryInFeed(AtomEntry entry, AtomFeed feed) throws MismatchedCategoriesException,
+      ResourceNotFoundException, InvalidResourceTypeException, URISyntaxException, EntryNotFoundException;
 }

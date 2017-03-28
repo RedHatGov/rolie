@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.rolie.polie.model.models.elements;
 
 import java.net.URI;
@@ -41,22 +42,23 @@ import java.net.URI;
 public class AtomCategory implements AtomElement {
 
   /*
-   * The "term" attribute is a string that identifies the category to which the entry or feed belongs. Category elements
-   * MUST have a "term" attribute.
+   * The "term" attribute is a string that identifies the category to which the entry or feed
+   * belongs. Category elements MUST have a "term" attribute.
    */
 
   private String term;
 
   /*
-   * The "label" attribute provides a human-readable label for display in end-user applications. The content of the
-   * "label" attribute is Language-Sensitive. Entities such as "&amp;" and "&lt;" represent their corresponding
-   * characters ("&" and "<", respectively), not markup. Category elements MAY have a "label" attribute.
+   * The "label" attribute provides a human-readable label for display in end-user applications. The
+   * content of the "label" attribute is Language-Sensitive. Entities such as "&amp;" and "&lt;"
+   * represent their corresponding characters ("&" and "<", respectively), not markup. Category
+   * elements MAY have a "label" attribute.
    */
   private String label;
 
   /*
-   * The "scheme" attribute is an IRI that identifies a categorization scheme. Category elements MAY have a "scheme"
-   * attribute.
+   * The "scheme" attribute is an IRI that identifies a categorization scheme. Category elements MAY
+   * have a "scheme" attribute.
    */
   private URI scheme;
 

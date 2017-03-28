@@ -40,8 +40,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
  * 
  * All visitors MUST implement this interface and MUST adhere to this contract:
  * 
- * 1.The visitor must only return false if there is an unrecoverable error during execution. In this case the visitor
- * must set the response builder with a reasonable error status and description.
+ * 1.The visitor must only return false if there is an unrecoverable error during execution. In this
+ * case the visitor must set the response builder with a reasonable error status and description.
  */
 public interface RESTEventVisitor {
   public static final String CREATED_RESOURCE_KEY = "createdresource";
