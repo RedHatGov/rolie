@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.rolie.polie.client;
 
 import java.io.BufferedReader;
@@ -33,7 +34,9 @@ public class CLI {
 
   /**
    * Process a set of CLI arguments.
-   * @param args the arguments to process
+   * 
+   * @param args
+   *          the arguments to process
    */
   public void process(String[] args) {
     ExitStatus status = parseCommand(args);

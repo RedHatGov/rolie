@@ -20,13 +20,14 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.rolie.polie.client;
 
 import java.util.Objects;
 
 public abstract class AbstractExitStatus implements ExitStatus {
   private final ExitCode exitCode;
-  
+
   public AbstractExitStatus(ExitCode exitCode) {
     Objects.requireNonNull(exitCode, "exitCode");
     this.exitCode = exitCode;

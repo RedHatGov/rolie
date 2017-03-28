@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.rolie.polie.client;
 
 import java.io.BufferedReader;
@@ -33,79 +34,79 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class CLIDriver {
-//
-//  static String repo = "Not Set";
-//  static String input = "";
-//  static Scanner scanner = new Scanner(System.in);
-//
-//  public static void main(String[] args) {
-//
-//    System.out.println("Welcome to the demo POLIE Client!");
-//
-//    while (input != "exit") {
-//      mainMenu();
-//      input = scanner.nextLine();
-//      switch (input) {
-//      case "1": {
-//        setRepo();
-//        break;
-//      }
-//      case "2": {
-//        getBasicInfo();
-//        break;
-//      }
-//      case "3": {
-//        getResource();
-//        break;
-//      }
-//      case "4": {
-//        input = "exit";
-//        break;
-//      }
-//      }
-//    }
-//
-//    scanner.close();
-//  }
-//
-//  private static void getResource() {
-//    // TODO Auto-generated method stub
-//
-//  }
-//
-//  private static void getBasicInfo() {
-//    try {
-//      sendGetRequest(repo + "/rolie/servicedocument");
-//    } catch (MalformedURLException e) {
-//      // TODO Auto-generated catch block
-//      e.printStackTrace();
-//    } catch (IOException e) {
-//      // TODO Auto-generated catch block
-//      e.printStackTrace();
-//    }
-//  }
-//
-//  private static void setRepo() {
-//    System.out.println("Enter the server root of ROLIE repo.");
-//    String url = "";
-//    while (url.equals("")) {
-//      url = scanner.nextLine();
-//      try {
-//        new URL(url);
-//        sendGetRequest(url + "/rolie/servicedocument");
-//      } catch (MalformedURLException e) {
-//        System.out.print("Invalid/Malformed URL, try again\n");
-//        url = "";
-//      } catch (IOException e) {
-//        System.out.print("The server you've contacted is either no responding or not a ROLIE repo.\n");
-//        // e.printStackTrace();
-//        url = "";
-//      }
-//    }
-//    repo = url;
-//    System.out.println("Successfully set repo URL");
-//  }
-//
+  //
+  // static String repo = "Not Set";
+  // static String input = "";
+  // static Scanner scanner = new Scanner(System.in);
+  //
+  // public static void main(String[] args) {
+  //
+  // System.out.println("Welcome to the demo POLIE Client!");
+  //
+  // while (input != "exit") {
+  // mainMenu();
+  // input = scanner.nextLine();
+  // switch (input) {
+  // case "1": {
+  // setRepo();
+  // break;
+  // }
+  // case "2": {
+  // getBasicInfo();
+  // break;
+  // }
+  // case "3": {
+  // getResource();
+  // break;
+  // }
+  // case "4": {
+  // input = "exit";
+  // break;
+  // }
+  // }
+  // }
+  //
+  // scanner.close();
+  // }
+  //
+  // private static void getResource() {
+  // // TODO Auto-generated method stub
+  //
+  // }
+  //
+  // private static void getBasicInfo() {
+  // try {
+  // sendGetRequest(repo + "/rolie/servicedocument");
+  // } catch (MalformedURLException e) {
+  // // TODO Auto-generated catch block
+  // e.printStackTrace();
+  // } catch (IOException e) {
+  // // TODO Auto-generated catch block
+  // e.printStackTrace();
+  // }
+  // }
+  //
+  // private static void setRepo() {
+  // System.out.println("Enter the server root of ROLIE repo.");
+  // String url = "";
+  // while (url.equals("")) {
+  // url = scanner.nextLine();
+  // try {
+  // new URL(url);
+  // sendGetRequest(url + "/rolie/servicedocument");
+  // } catch (MalformedURLException e) {
+  // System.out.print("Invalid/Malformed URL, try again\n");
+  // url = "";
+  // } catch (IOException e) {
+  // System.out.print("The server you've contacted is either no responding or not a ROLIE repo.\n");
+  // // e.printStackTrace();
+  // url = "";
+  // }
+  // }
+  // repo = url;
+  // System.out.println("Successfully set repo URL");
+  // }
+  //
   private static String sendGetRequest(String targetURL) throws MalformedURLException, IOException {
     HttpURLConnection connection = null;
     URL url = new URL(targetURL);
@@ -134,16 +135,16 @@ public class CLIDriver {
     return response.toString();
 
   }
-//
-//  public static void mainMenu() {
-//    System.out.println();
-//    System.out.println("Main Menu");
-//    System.out.println("The current ROLIE Repo URL is:" + repo);
-//    System.out.println("\nOptions:");
-//    System.out.println(" \"1\": Set the repo URL");
-//    System.out.println(" \"2\": Retrive basic repo info (Service Doc/Category Doc)");
-//    System.out.println(" \"3\": GET a resource");
-//    System.out.println(" \"4\": Exit");
-//  }
+  //
+  // public static void mainMenu() {
+  // System.out.println();
+  // System.out.println("Main Menu");
+  // System.out.println("The current ROLIE Repo URL is:" + repo);
+  // System.out.println("\nOptions:");
+  // System.out.println(" \"1\": Set the repo URL");
+  // System.out.println(" \"2\": Retrive basic repo info (Service Doc/Category Doc)");
+  // System.out.println(" \"3\": GET a resource");
+  // System.out.println(" \"4\": Exit");
+  // }
 
 }
