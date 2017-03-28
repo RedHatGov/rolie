@@ -38,7 +38,7 @@ public class Delete extends AbstractRESTEvent implements RESTEvent {
   }
 
   @Override
-  public boolean accept(RESTEventVisitor RESTEventVisitor, ResponseBuilder rb, Map<String, Object> data) {
-    return RESTEventVisitor.visit(this, rb, data);
+  public boolean accept(RESTEventVisitor visitor, ResponseBuilder rb, Map<String, Object> data) {
+    return visitor.visit(this, rb, data);
   }
 }

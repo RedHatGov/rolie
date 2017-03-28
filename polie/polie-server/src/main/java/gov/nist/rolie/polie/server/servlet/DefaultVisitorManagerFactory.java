@@ -24,7 +24,7 @@
 package gov.nist.rolie.polie.server.servlet;
 
 import gov.nist.rolie.polie.server.visitors.AuthorizationVisitor;
-import gov.nist.rolie.polie.server.visitors.ROLIEValidationVisitor;
+import gov.nist.rolie.polie.server.visitors.ValidationVisitor;
 import gov.nist.rolie.polie.server.visitors.RequestValidatorVisitor;
 import gov.nist.rolie.polie.server.visitors.ResourceEventVisitor;
 import gov.nist.rolie.polie.server.visitors.ResponseBuilderVisitor;
@@ -55,7 +55,7 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
    * Validates ROLIE XML content in the body of the request.
    */
   @Autowired
-  private ROLIEValidationVisitor rolieContentValidator;
+  private ValidationVisitor rolieContentValidator;
 
   /**
    * Handles the final steps of response construction, including header fields.
@@ -83,7 +83,7 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
   }
 
   @Override
-  public synchronized VisitorManager GetGetVisitorManager() {
+  public synchronized VisitorManager getGetVisitorManager() {
     if (getVisitorManagerInstance == null) {
       getVisitorManagerInstance = new DefaultVisitorManager();
 
@@ -97,7 +97,7 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
   }
 
   @Override
-  public synchronized VisitorManager GetPostVisitorManager() {
+  public synchronized VisitorManager getPostVisitorManager() {
     if (postVisitorManagerInstance == null) {
       // Adds visitors in order to the execution list. FIFO order.
       postVisitorManagerInstance = new DefaultVisitorManager();
@@ -112,7 +112,7 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
   }
 
   @Override
-  public synchronized VisitorManager GetPutVisitorManager() {
+  public synchronized VisitorManager getPutVisitorManager() {
     if (putVisitorManagerInstance == null) {
       // Adds visitors in order to the execution list. FIFO order.
       putVisitorManagerInstance = new DefaultVisitorManager();
@@ -126,7 +126,7 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
   }
 
   @Override
-  public synchronized VisitorManager GetDeleteVisitorManager() {
+  public synchronized VisitorManager getDeleteVisitorManager() {
     if (deleteVisitorManagerInstance == null) {
       // Adds visitors in order to the execution list. FIFO order.
       deleteVisitorManagerInstance = new DefaultVisitorManager();

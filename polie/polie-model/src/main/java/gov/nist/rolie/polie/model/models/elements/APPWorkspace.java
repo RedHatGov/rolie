@@ -36,7 +36,7 @@ public class APPWorkspace implements APPElement {
   private List<APPCollection> collection;
 
   /**
-   * @param aPPCommonAttributes
+   * @param appCommonAttributes
    * @param title
    * @param collection
    */

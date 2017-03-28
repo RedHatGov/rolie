@@ -118,7 +118,7 @@ public class AtomResourceEvent {
   public Response get(@Context HttpHeaders headers, @Context UriInfo uriInfo) {
     log.debug("Processing GET request EVENT");
 
-    VisitorManager vm = vmFactory.GetGetVisitorManager();
+    VisitorManager vm = vmFactory.getGetVisitorManager();
 
     // Generates a new Get event.
     RESTEvent get = new Get(headers, uriInfo);
@@ -148,7 +148,7 @@ public class AtomResourceEvent {
     log.debug("Processing POST request");
     RESTEvent post = new Post(headers, uriInfo, body);
 
-    VisitorManager vm = vmFactory.GetPostVisitorManager();
+    VisitorManager vm = vmFactory.getPostVisitorManager();
 
     return vm.execute(post);
   }
@@ -173,7 +173,7 @@ public class AtomResourceEvent {
     log.debug("Processing PUT request");
     RESTEvent put = new Put(headers, uriInfo, body);
 
-    VisitorManager vm = vmFactory.GetPutVisitorManager();
+    VisitorManager vm = vmFactory.getPutVisitorManager();
 
     return vm.execute(put);
   }
@@ -195,7 +195,7 @@ public class AtomResourceEvent {
     log.debug("Processing DELETE request");
     RESTEvent delete = new Delete(headers, uriInfo);
 
-    VisitorManager vm = vmFactory.GetDeleteVisitorManager();
+    VisitorManager vm = vmFactory.getDeleteVisitorManager();
 
     return vm.execute(delete);
   }

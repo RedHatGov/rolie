@@ -65,10 +65,10 @@ public class DefaultServiceDocumentService implements ServiceDocumentService {
   }
 
   public String readTitleFromCollection(APPCollection collection) {
-    XmlCursor c = collection.getXmlObject().newCursor();
-    c.selectPath("atom:title");
-    String titleText = c.getTextValue();
-    c.dispose();
+    XmlCursor cur = collection.getXmlObject().newCursor();
+    cur.selectPath("atom:title");
+    String titleText = cur.getTextValue();
+    cur.dispose();
     return titleText;
   }
 
