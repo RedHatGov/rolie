@@ -24,7 +24,7 @@
 package gov.nist.rolie.polie.server.writers;
 
 import org.springframework.stereotype.Component;
-import org.w3.x2005.atom.impl.FeedDocumentImpl;
+import org.w3.x2005.atom.FeedDocument;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -41,7 +41,7 @@ import javax.ws.rs.ext.Provider;
 @Provider
 @Component
 @Produces("application/atom+xml")
-public class FeedDocWriter implements MessageBodyWriter<FeedDocumentImpl> {
+public class FeedDocWriter implements MessageBodyWriter<FeedDocument> {
 
   @Override
   public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
@@ -50,13 +50,13 @@ public class FeedDocWriter implements MessageBodyWriter<FeedDocumentImpl> {
   }
 
   @Override
-  public long getSize(FeedDocumentImpl instance, Class<?> type, Type genericType, Annotation[] annotations,
+  public long getSize(FeedDocument instance, Class<?> type, Type genericType, Annotation[] annotations,
       MediaType mediaType) {
     return -1;
   }
 
   @Override
-  public void writeTo(FeedDocumentImpl instance, Class<?> type, Type genericType, Annotation[] annotations,
+  public void writeTo(FeedDocument instance, Class<?> type, Type genericType, Annotation[] annotations,
       MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream)
       throws IOException, WebApplicationException {
     instance.save(entityStream);

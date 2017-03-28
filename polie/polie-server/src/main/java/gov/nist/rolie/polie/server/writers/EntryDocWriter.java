@@ -24,7 +24,7 @@
 package gov.nist.rolie.polie.server.writers;
 
 import org.springframework.stereotype.Component;
-import org.w3.x2005.atom.impl.EntryDocumentImpl;
+import org.w3.x2005.atom.EntryDocument;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -41,7 +41,7 @@ import javax.ws.rs.ext.Provider;
 @Provider
 @Component
 @Produces("application/atom+xml;type=entry")
-public class EntryDocWriter implements MessageBodyWriter<EntryDocumentImpl> {
+public class EntryDocWriter implements MessageBodyWriter<EntryDocument> {
 
   @Override
   public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
@@ -50,13 +50,13 @@ public class EntryDocWriter implements MessageBodyWriter<EntryDocumentImpl> {
   }
 
   @Override
-  public long getSize(EntryDocumentImpl entry, Class<?> type, Type genericType, Annotation[] annotations,
+  public long getSize(EntryDocument entry, Class<?> type, Type genericType, Annotation[] annotations,
       MediaType mediaType) {
     return -1;
   }
 
   @Override
-  public void writeTo(EntryDocumentImpl entry, Class<?> type, Type genericType, Annotation[] annotations,
+  public void writeTo(EntryDocument entry, Class<?> type, Type genericType, Annotation[] annotations,
       MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream)
       throws IOException, WebApplicationException {
     entry.save(entityStream);
