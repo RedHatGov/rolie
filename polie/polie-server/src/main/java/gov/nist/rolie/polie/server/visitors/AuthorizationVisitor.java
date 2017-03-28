@@ -48,6 +48,7 @@ public class AuthorizationVisitor implements RESTEventVisitor {
     } else {
       return true;
     }
+//    AuthenticationService.dosomething();
   }
 
   @Override

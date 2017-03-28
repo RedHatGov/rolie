@@ -303,7 +303,7 @@ public class ResourceEventVisitor implements RESTEventVisitor { // TODO:
       rb.entity("The feed is not a valid feed to update");
       return false;
     }
-
+    //TODO:switch to app:edited from updated
     rb.status(Status.CREATED);
     rb = rb.header("Location", entryURI);
     rb = rb.header("Content-Location", entryURI);
