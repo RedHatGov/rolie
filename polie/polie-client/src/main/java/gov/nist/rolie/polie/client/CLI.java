@@ -23,6 +23,12 @@
 
 package gov.nist.rolie.polie.client;
 
+import gov.nist.rolie.polie.client.type.Operation;
+import gov.nist.rolie.polie.client.type.Type;
+import gov.nist.rolie.polie.client.type.TypeEnum;
+
+import org.apache.commons.cli.Options;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -66,16 +72,15 @@ public class CLI {
   }
 
   private ExitStatus processCommand(String[] args) {
-    // String typeString = args[0];
-    // String operationString = args[1];
-    //
-    // TODO: add calls to setup the command execution
-    // Type type = TypeEnum.lookup(typeString).getType();
-    // Operation operation = type.lookup(operationString);
-    // Options options = operation.parseOptions(options);
-    //
-    // return operation.execute(options);
-    return ExitCode.OK.toExitStatus();
+    String typeString = args[0];
+    String operationString = args[1];
+
+    Type type = TypeEnum.lookup(typeString).getType();
+    Operation operation = type.lookup(operationString);
+    Options options = operation.parseOptions(args);
+
+    return operation.execute(options);
+    
   }
 
   private ExitStatus processInteractive() {
