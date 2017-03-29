@@ -80,7 +80,7 @@ public class CLI {
     Options options = operation.parseOptions(args);
 
     return operation.execute(options);
-    
+
   }
 
   private ExitStatus processInteractive() {

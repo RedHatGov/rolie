@@ -21,30 +21,43 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.client.type.feed;
+package gov.nist.rolie.polie.client;
 
-import gov.nist.rolie.polie.client.ExitCode;
-import gov.nist.rolie.polie.client.ExitStatus;
-import gov.nist.rolie.polie.client.type.AbstractOperation;
-import gov.nist.rolie.polie.client.type.Operation;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-import org.apache.commons.cli.Options;
+public class GetUtils {
 
-public abstract class AbstractFeedOperation extends AbstractOperation {
+  public static String sendGetRequest(String targetURL) throws MalformedURLException, IOException {
+    HttpURLConnection connection = ConnectionUtils.openConnection(targetURL);
 
-  @Override
-  public Options parseOptions(String[] args) {
-    return new Options();
+    connection.setRequestMethod("GET");
+
+    // Send request
+    DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+    wr.close();
+
+    // Get Response
+    InputStream is = connection.getInputStream();
+    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+    StringBuffer response = new StringBuffer();
+    String line;
+    while ((line = rd.readLine()) != null) {
+      response.append(line);
+      response.append('\r');
+    }
+    rd.close();
+
+    if (connection != null) {
+      connection.disconnect();
+    }
+    return response.toString();
+
   }
-
-  @Override
-  public ExitStatus execute(String[] args) {
-    return execute(parseOptions(args));
-  }
-
-  @Override
-  public ExitStatus execute(Options options) {
-    return ExitCode.OK.toExitStatus();
-  }
-
 }

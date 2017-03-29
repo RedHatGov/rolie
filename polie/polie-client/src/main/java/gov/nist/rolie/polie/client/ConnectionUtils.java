@@ -21,30 +21,50 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.client.type.feed;
+package gov.nist.rolie.polie.client;
 
-import gov.nist.rolie.polie.client.ExitCode;
-import gov.nist.rolie.polie.client.ExitStatus;
-import gov.nist.rolie.polie.client.type.AbstractOperation;
-import gov.nist.rolie.polie.client.type.Operation;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-import org.apache.commons.cli.Options;
+public class ConnectionUtils {
 
-public abstract class AbstractFeedOperation extends AbstractOperation {
-
-  @Override
-  public Options parseOptions(String[] args) {
-    return new Options();
+  /**
+   * 
+   * Utility for opening a connection to a repo.
+   * 
+   * @param target
+   *          The Repo URL to open a connection to.
+   * @return THe Connection object representing the open connection.
+   * @throws IOException
+   *           Thrown if a connection cannot be opened to the target.
+   * @throws MalformedURLException
+   *           Thrown if the target URL is malformed.
+   */
+  public static HttpURLConnection openConnection(String target) throws MalformedURLException, IOException {
+    HttpURLConnection connection = null;
+    URL url = new URL(target);
+    connection = (HttpURLConnection) url.openConnection();
+    connection.setUseCaches(false);
+    connection.setDoOutput(true);
+    return connection;
   }
 
-  @Override
-  public ExitStatus execute(String[] args) {
-    return execute(parseOptions(args));
-  }
-
-  @Override
-  public ExitStatus execute(Options options) {
-    return ExitCode.OK.toExitStatus();
+  public static String getResponse(HttpURLConnection connection) throws IOException {
+    InputStream is = connection.getInputStream();
+    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+    StringBuffer response = new StringBuffer();
+    String line;
+    while ((line = rd.readLine()) != null) {
+      response.append(line);
+      response.append('\r');
+    }
+    rd.close();
+    return response.toString();
   }
 
 }
