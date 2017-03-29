@@ -33,13 +33,14 @@ public abstract class AbstractOperation implements Operation {
   }
 
   @Override
-  public CommandLine parseOptions(String[] args) {
+  public CommandLine parseOptions(String[] args) throws ParseException {
+    Options options = getOptions();
     CommandLineParser parser = new DefaultParser();
 
     ParseException parseException = null;
     CommandLine cmd;
     try {
-      cmd = parser.parse(getOptions(), args);
+      cmd = parser.parse(options, args);
     } catch (ParseException e) {
       parseException = e;
       cmd = null;
@@ -53,7 +54,7 @@ public abstract class AbstractOperation implements Operation {
 
     CommandLine retval;
     if (cmd == null || cmd.hasOption(OPTION_HELP)) {
-      doShowHelp();
+      doShowHelp("fixme", options);
       if (cmd == null) {
         if (parseException != null) {
           throw parseException;
@@ -69,9 +70,11 @@ public abstract class AbstractOperation implements Operation {
     } else {
       retval = cmd;
       if (cmd.hasOption(OPTION_DEBUG)) {
-        DecimaLoggingConfigurationFactory.changeRootLogLevel(Level.DEBUG);
+        // TODO: verbose logging configuration
+//        DecimaLoggingConfigurationFactory.changeRootLogLevel(Level.DEBUG);
       } else if (cmd.hasOption(OPTION_QUIET)) {
-        DecimaLoggingConfigurationFactory.changeRootLogLevel(Level.FATAL);
+        // TODO: limited logging configuration
+//        DecimaLoggingConfigurationFactory.changeRootLogLevel(Level.FATAL);
       }
     }
 
