@@ -29,39 +29,52 @@ import gov.nist.rolie.polie.client.type.feed.FeedType;
 import gov.nist.rolie.polie.client.type.resource.ResourceType;
 import gov.nist.rolie.polie.client.type.service.ServiceType;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum TypeEnum {
-  RESOURCE(new ResourceType()), ENTRY(new EntryType()), FEED(new FeedType()), SERVICE(new ServiceType()), CATEGORY(
-      new CategoryType());
+  RESOURCE("resource", new ResourceType()),
+  ENTRY("entry", new EntryType()),
+  FEED("feed", new FeedType()),
+  SERVICE("service", new ServiceType()),
+  CATEGORY("category", new CategoryType());
 
-  private final Type type;
+  private static final Map<String, TypeEnum> nameToTypeEnumMap;
 
-  private TypeEnum(Type type) {
-    this.type = type;
-  }
-
-  public Type getType() {
-    return type;
+  static {
+    nameToTypeEnumMap = new HashMap<>();
+    for (TypeEnum type : TypeEnum.values()) {
+      nameToTypeEnumMap.put(type.getName(), type);
+    }
   }
 
   /**
    * .
+   * 
    * @param lookupString
    *          lookupString
    * @return the TypeEnum
    */
   public static TypeEnum lookup(String lookupString) {
-    switch (lookupString) {
-    case "entry":
-      return ENTRY;
-    case "feed":
-      return FEED;
-    case "service":
-      return SERVICE;
-    case "category":
-      return CATEGORY;
-    default:
-      return null;
-    }
+    return nameToTypeEnumMap.get(lookupString);
   }
 
+  private final String name;
+  private final Type type;
+
+  private TypeEnum(String name, Type type) {
+    this.name = name;
+    this.type = type;
+  }
+
+  /**
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
+
+  public Type getType() {
+    return type;
+  }
 }

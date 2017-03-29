@@ -27,7 +27,8 @@ import gov.nist.rolie.polie.client.type.Operation;
 import gov.nist.rolie.polie.client.type.Type;
 import gov.nist.rolie.polie.client.type.TypeEnum;
 
-import org.apache.commons.cli.Options;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -77,10 +78,15 @@ public class CLI {
 
     Type type = TypeEnum.lookup(typeString).getType();
     Operation operation = type.lookup(operationString);
-    Options options = operation.parseOptions(args);
 
-    return operation.execute(options);
-
+    ExitStatus retval;
+    try {
+      CommandLine cmdline = operation.parseOptions(args);
+      retval = operation.execute(cmdline);
+    } catch (ParseException e) {
+      retval = ExitCode.INVALID_COMMAND.toExitStatus();
+    }
+    return retval;
   }
 
   private ExitStatus processInteractive() {
