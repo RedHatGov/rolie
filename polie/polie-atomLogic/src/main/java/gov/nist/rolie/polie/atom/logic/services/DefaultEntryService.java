@@ -38,7 +38,6 @@ import org.w3.x2005.atom.LinkDocument.Link;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -218,12 +217,9 @@ public class DefaultEntryService implements EntryService {
 
   @Override
   public AtomEntry cleanEntry(AtomEntry entry) {
-    ArrayList<List> toBeCleared = new ArrayList<List>();
-    toBeCleared.add(entry.getXmlObject().getEntry().getPublishedList());
-    toBeCleared.add(entry.getXmlObject().getEntry().getUpdatedList());
-    for (List list : toBeCleared) {
-      list.clear();
-    }
+    entry.getXmlObject().getEntry().getPublishedList().clear();
+    entry.getXmlObject().getEntry().getUpdatedList().clear();
+
     if (!entry.getXmlObject().getEntry().getLinkList().isEmpty()) {
       entry = cleanEntryLinks(entry);
     }

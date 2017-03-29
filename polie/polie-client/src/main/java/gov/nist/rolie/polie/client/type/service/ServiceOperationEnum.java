@@ -4,13 +4,13 @@ package gov.nist.rolie.polie.client.type.service;
 public enum ServiceOperationEnum {
   GET(new ServiceGet()), CREATE(new ServiceCreate()), UPDATE(new ServiceUpdate()), DELETE(new ServiceDelete());
 
-  private final ServiceOperation operation;
+  private final AbstractServiceOperation operation;
 
-  private ServiceOperationEnum(ServiceOperation operation) {
+  private ServiceOperationEnum(AbstractServiceOperation operation) {
     this.operation = operation;
   }
 
-  public ServiceOperation getOperation() {
+  public AbstractServiceOperation getOperation() {
     return operation;
   }
 

@@ -39,14 +39,11 @@ import gov.nist.rolie.polie.server.event.Delete;
 import gov.nist.rolie.polie.server.event.Get;
 import gov.nist.rolie.polie.server.event.Post;
 import gov.nist.rolie.polie.server.event.Put;
-import gov.nist.rolie.polie.server.servlet.AtomResourceEvent;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.xmlbeans.XmlException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.w3.x2005.atom.EntryDocument;
 
 import java.net.URI;
 import java.net.URISyntaxException;

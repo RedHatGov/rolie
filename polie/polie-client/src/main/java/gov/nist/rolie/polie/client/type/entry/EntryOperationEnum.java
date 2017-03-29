@@ -4,13 +4,13 @@ package gov.nist.rolie.polie.client.type.entry;
 public enum EntryOperationEnum {
   GET(new EntryGet()), CREATE(new EntryCreate()), UPDATE(new EntryUpdate()), DELETE(new EntryDelete());
 
-  private final EntryOperation operation;
+  private final AbstractEntryOperation operation;
 
-  private EntryOperationEnum(EntryOperation operation) {
+  private EntryOperationEnum(AbstractEntryOperation operation) {
     this.operation = operation;
   }
 
-  public EntryOperation getOperation() {
+  public AbstractEntryOperation getOperation() {
     return operation;
   }
 

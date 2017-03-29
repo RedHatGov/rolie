@@ -1,6 +1,6 @@
 
 package gov.nist.rolie.polie.client.type.resource;
 
-public class ResourceCreate extends ResourceOperation {
+public class ResourceCreate extends AbstractResourceOperation {
 
 }

@@ -1,13 +1,14 @@
 
-package gov.nist.rolie.polie.client.type.entry;
+package gov.nist.rolie.polie.client.type.service;
 
 import gov.nist.rolie.polie.client.ExitCode;
 import gov.nist.rolie.polie.client.ExitStatus;
+import gov.nist.rolie.polie.client.type.AbstractOperation;
 import gov.nist.rolie.polie.client.type.Operation;
 
 import org.apache.commons.cli.Options;
 
-public abstract class EntryOperation implements Operation {
+public abstract class AbstractServiceOperation extends AbstractOperation {
 
   @Override
   public Options parseOptions(String[] args) {

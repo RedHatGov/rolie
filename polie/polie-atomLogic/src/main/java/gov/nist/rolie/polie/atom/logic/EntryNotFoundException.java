@@ -25,4 +25,9 @@ package gov.nist.rolie.polie.atom.logic;
 
 public class EntryNotFoundException extends Exception {
 
+  /**
+   * The serial version UID.
+   */
+  private static final long serialVersionUID = 1L;
+
 }

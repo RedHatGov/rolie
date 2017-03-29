@@ -3,11 +3,11 @@ package gov.nist.rolie.polie.client.type.category;
 
 import gov.nist.rolie.polie.client.ExitCode;
 import gov.nist.rolie.polie.client.ExitStatus;
-import gov.nist.rolie.polie.client.type.Operation;
+import gov.nist.rolie.polie.client.type.AbstractOperation;
 
 import org.apache.commons.cli.Options;
 
-public abstract class CategoryOperation implements Operation {
+public abstract class AbstractCategoryOperation extends AbstractOperation {
 
   @Override
   public Options parseOptions(String[] args) {
