@@ -25,13 +25,11 @@ package gov.nist.rolie.polie.client.type;
 
 import gov.nist.rolie.polie.client.ExitStatus;
 
-import org.apache.commons.cli.Options;
+import org.apache.commons.cli.CommandLine;
 
 public interface Operation {
   
-  public Options parseOptions(String[] args);
+  public CommandLine parseOptions(String[] args);
 
-  public ExitStatus execute(String[] args);
-
-  public ExitStatus execute(Options options);
+  public ExitStatus execute(CommandLine cmdLine);
 }

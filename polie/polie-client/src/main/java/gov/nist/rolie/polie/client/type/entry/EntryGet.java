@@ -27,15 +27,22 @@ import gov.nist.rolie.polie.client.ExitCode;
 import gov.nist.rolie.polie.client.ExitStatus;
 import gov.nist.rolie.polie.client.GetUtils;
 
+import org.apache.commons.cli.CommandLine;
+
+import java.awt.color.CMMException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
 public class EntryGet extends AbstractEntryOperation {
 
-  String target = "http://localhost:8080/polie-server/rolie/entry/exampleVulnEntry";
+  @Override
+  public String getTarget() {
+    return "http://localhost:8080/polie-server/rolie/entry/exampleVulnEntry";
+  }
+
 
   @Override
-  public ExitStatus execute(String[] args) {
+  public ExitStatus execute(CommandLine cmdLine) {
     try {
       GetUtils.sendGetRequest(getTarget());
       return ExitCode.OK.toExitStatus();
