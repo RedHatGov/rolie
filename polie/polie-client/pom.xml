@@ -29,7 +29,7 @@
 						<addMavenDescriptor>false</addMavenDescriptor>
 						<compress>true</compress>
 						<manifest>
-							<mainClass>gov.nist.rolie.polie.client.CLIDriver</mainClass>
+							<mainClass>gov.nist.rolie.polie.client.CLI</mainClass>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>../lib/</classpathPrefix>
 						</manifest>

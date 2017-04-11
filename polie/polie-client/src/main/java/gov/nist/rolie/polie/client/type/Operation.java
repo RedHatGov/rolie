@@ -30,7 +30,7 @@ import org.apache.commons.cli.ParseException;
 
 public interface Operation {
   
-  public CommandLine parseOptions(String[] args) throws ParseException;
+  CommandLine parseOptions(String[] args) throws ParseException;
 
-  public ExitStatus execute(CommandLine cmdLine);
+  ExitStatus execute(CommandLine cmdLine);
 }
