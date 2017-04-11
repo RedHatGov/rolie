@@ -23,7 +23,14 @@
 
 package gov.nist.rolie.polie.client.type.entry;
 
+import java.io.InputStream;
+
 public class EntryCreate extends AbstractEntryOperation {
 
+  protected InputStream getInputStream() {
+    return null;
+  }
 
+ 
+  
 }

@@ -43,11 +43,6 @@ public abstract class AbstractOperation implements Operation {
   private static final String OPTION_VERSION = "version";
   private static final String OPTION_HELP = "h";
 
-  private String target;
-
-  public String getTarget() {
-    return this.target;
-  }
 
   @Override
   public ExitStatus execute(CommandLine options) {

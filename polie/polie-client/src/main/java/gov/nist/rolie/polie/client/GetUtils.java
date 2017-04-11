@@ -31,11 +31,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 public class GetUtils {
 
-  public static String sendGetRequest(String targetURL) throws MalformedURLException, IOException {
-    HttpURLConnection connection = ConnectionUtils.openConnection(targetURL);
+  public static String sendGetRequest(URL targetURL) throws MalformedURLException, IOException {
+    URLConnection urlConnection = targetURL.openConnection();
+    if (!HttpURLConnection.class.isInstance(urlConnection)) {
+      throw new MalformedURLException();
+    }
+
+    HttpURLConnection connection = (HttpURLConnection) urlConnection;
 
     connection.setRequestMethod("GET");
 

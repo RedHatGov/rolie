@@ -23,8 +23,8 @@
 
 package gov.nist.rolie.polie.client.type.category;
 
-import gov.nist.rolie.polie.client.type.AbstractOperation;
+import gov.nist.rolie.polie.client.type.AbstractTargetedOperation;
 
-public abstract class AbstractCategoryOperation extends AbstractOperation {
+public abstract class AbstractCategoryOperation extends AbstractTargetedOperation {
 
 }

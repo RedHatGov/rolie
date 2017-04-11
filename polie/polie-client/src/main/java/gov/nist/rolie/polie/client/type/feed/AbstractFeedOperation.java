@@ -23,7 +23,7 @@
 
 package gov.nist.rolie.polie.client.type.feed;
 
-import gov.nist.rolie.polie.client.type.AbstractOperation;
+import gov.nist.rolie.polie.client.type.AbstractTargetedOperation;
 
-public abstract class AbstractFeedOperation extends AbstractOperation {
+public abstract class AbstractFeedOperation extends AbstractTargetedOperation {
 }

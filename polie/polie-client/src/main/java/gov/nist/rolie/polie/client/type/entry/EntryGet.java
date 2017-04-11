@@ -29,15 +29,15 @@ import gov.nist.rolie.polie.client.GetUtils;
 
 import org.apache.commons.cli.CommandLine;
 
-import java.awt.color.CMMException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 
 public class EntryGet extends AbstractEntryOperation {
 
   @Override
-  public String getTarget() {
-    return "http://localhost:8080/polie-server/rolie/entry/exampleVulnEntry";
+  public URL getTarget() throws MalformedURLException {
+    return new URL("http://localhost:8080/polie-server/rolie/entry/exampleVulnEntry");
   }
 
 
