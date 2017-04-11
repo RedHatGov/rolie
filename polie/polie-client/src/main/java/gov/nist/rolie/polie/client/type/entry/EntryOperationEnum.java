@@ -23,17 +23,50 @@
 
 package gov.nist.rolie.polie.client.type.entry;
 
+import gov.nist.rolie.polie.client.type.Operation;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
 public enum EntryOperationEnum {
-  GET(new EntryGet()), CREATE(new EntryCreate()), UPDATE(new EntryUpdate()), DELETE(new EntryDelete());
+  GET("get", EntryGet::new),
+  CREATE("create", EntryCreate::new),
+  UPDATE("update", EntryUpdate::new),
+  DELETE("delete", EntryDelete::new);
 
-  private final AbstractEntryOperation operation;
+  private static final Map<String, EntryOperationEnum> nameToEnumMap;
 
-  private EntryOperationEnum(AbstractEntryOperation operation) {
-    this.operation = operation;
+  static {
+    nameToEnumMap = new HashMap<>();
+    for (EntryOperationEnum ev : EntryOperationEnum.values()) {
+      nameToEnumMap.put(ev.getName(), ev);
+    }
   }
 
-  public AbstractEntryOperation getOperation() {
-    return operation;
+  public static Supplier<Operation> lookup(String name) {
+    return nameToEnumMap.get(name).supplier();
   }
 
+  private final String name;
+  private final Supplier<Operation> supplier;
+
+  private EntryOperationEnum(String name, Supplier<Operation> supplier) {
+    this.name = name;
+    this.supplier = supplier;
+  }
+
+  /**
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * @return the supplier
+   */
+  public Supplier<Operation> supplier() {
+    return supplier;
+  }
 }

@@ -23,17 +23,50 @@
 
 package gov.nist.rolie.polie.client.type.resource;
 
+import gov.nist.rolie.polie.client.type.Operation;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
 public enum ResourceOperationEnum {
-  GET(new ResourceGet()), CREATE(new ResourceCreate()), UPDATE(new ResourceUpdate()), DELETE(new ResourceDelete());
+  GET("get", ResourceGet::new),
+  CREATE("create", ResourceCreate::new),
+  UPDATE("update", ResourceUpdate::new),
+  DELETE("delete", ResourceDelete::new);
 
-  private final AbstractResourceOperation operation;
+  private static final Map<String, ResourceOperationEnum> nameToEnumMap;
 
-  private ResourceOperationEnum(AbstractResourceOperation operation) {
-    this.operation = operation;
+  static {
+    nameToEnumMap = new HashMap<>();
+    for (ResourceOperationEnum ev : ResourceOperationEnum.values()) {
+      nameToEnumMap.put(ev.getName(), ev);
+    }
   }
 
-  public AbstractResourceOperation getOperation() {
-    return operation;
+  public static Supplier<Operation> lookup(String name) {
+    return nameToEnumMap.get(name).supplier();
   }
 
+  private final String name;
+  private final Supplier<Operation> supplier;
+
+  private ResourceOperationEnum(String name, Supplier<Operation> supplier) {
+    this.name = name;
+    this.supplier = supplier;
+  }
+
+  /**
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * @return the supplier
+   */
+  public Supplier<Operation> supplier() {
+    return supplier;
+  }
 }

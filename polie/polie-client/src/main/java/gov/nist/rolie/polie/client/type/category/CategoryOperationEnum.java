@@ -23,17 +23,51 @@
 
 package gov.nist.rolie.polie.client.type.category;
 
-public enum CategoryOperationEnum {
-  GET(new CategoryGet()), CREATE(new CategoryCreate()), UPDATE(new CategoryUpdate()), DELETE(new CategoryDelete());
+import gov.nist.rolie.polie.client.type.Operation;
+import gov.nist.rolie.polie.client.type.OperationSupplier;
 
-  private final AbstractCategoryOperation operation;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
-  private CategoryOperationEnum(AbstractCategoryOperation operation) {
-    this.operation = operation;
+public enum CategoryOperationEnum implements OperationSupplier {
+  GET("get", CategoryGet::new),
+  CREATE("create", CategoryCreate::new),
+  UPDATE("update", CategoryUpdate::new),
+  DELETE("delete", CategoryDelete::new);
+
+  private static final Map<String, CategoryOperationEnum> nameToEnumMap;
+
+  static {
+    nameToEnumMap = new HashMap<>();
+    for (CategoryOperationEnum ev : CategoryOperationEnum.values()) {
+      nameToEnumMap.put(ev.getName(), ev);
+    }
   }
 
-  public AbstractCategoryOperation getOperation() {
-    return operation;
+  public static Supplier<Operation> lookup(String name) {
+    return nameToEnumMap.get(name).supplier();
   }
 
+  private final String name;
+  private final Supplier<Operation> supplier;
+  
+  private CategoryOperationEnum(String name, Supplier<Operation> supplier) {
+    this.name = name;
+    this.supplier = supplier;
+  }
+
+  /**
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * @return the supplier
+   */
+  public Supplier<Operation> supplier() {
+    return supplier;
+  }
 }

@@ -23,27 +23,37 @@
 
 package gov.nist.rolie.polie.client.type;
 
-import gov.nist.rolie.polie.client.type.category.CategoryType;
-import gov.nist.rolie.polie.client.type.entry.EntryType;
-import gov.nist.rolie.polie.client.type.feed.FeedType;
-import gov.nist.rolie.polie.client.type.resource.ResourceType;
-import gov.nist.rolie.polie.client.type.service.ServiceType;
+import gov.nist.rolie.polie.client.type.category.CategoryOperationEnum;
+import gov.nist.rolie.polie.client.type.entry.EntryOperationEnum;
+import gov.nist.rolie.polie.client.type.feed.FeedOperationEnum;
+import gov.nist.rolie.polie.client.type.resource.ResourceOperationEnum;
+import gov.nist.rolie.polie.client.type.service.ServiceOperationEnum;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum TypeEnum {
-  RESOURCE("resource", new ResourceType()),
-  ENTRY("entry", new EntryType()),
-  FEED("feed", new FeedType()),
-  SERVICE("service", new ServiceType()),
-  CATEGORY("category", new CategoryType());
+public enum CommandTypeEnum {
+  RESOURCE("resource", (name) -> {
+    return ResourceOperationEnum.lookup(name);
+  }),
+  ENTRY("entry", (name) -> {
+    return EntryOperationEnum.lookup(name);
+  }),
+  FEED("feed", (name) -> {
+    return FeedOperationEnum.lookup(name);
+  }),
+  SERVICE("service", (name) -> {
+    return ServiceOperationEnum.lookup(name);
+  }),
+  CATEGORY("category", (name) -> {
+    return CategoryOperationEnum.lookup(name);
+  });
 
-  private static final Map<String, TypeEnum> nameToTypeEnumMap;
+  private static final Map<String, CommandTypeEnum> nameToTypeEnumMap;
 
   static {
     nameToTypeEnumMap = new HashMap<>();
-    for (TypeEnum type : TypeEnum.values()) {
+    for (CommandTypeEnum type : CommandTypeEnum.values()) {
       nameToTypeEnumMap.put(type.getName(), type);
     }
   }
@@ -53,18 +63,18 @@ public enum TypeEnum {
    * 
    * @param lookupString
    *          lookupString
-   * @return the TypeEnum
+   * @return the CommandTypeEnum
    */
-  public static TypeEnum lookup(String lookupString) {
+  public static CommandTypeEnum lookup(String lookupString) {
     return nameToTypeEnumMap.get(lookupString);
   }
 
   private final String name;
-  private final Type type;
+  private final OperationFinder operationFinder;
 
-  private TypeEnum(String name, Type type) {
+  private CommandTypeEnum(String name, OperationFinder finder) {
     this.name = name;
-    this.type = type;
+    this.operationFinder = finder;
   }
 
   /**
@@ -74,7 +84,11 @@ public enum TypeEnum {
     return name;
   }
 
-  public Type getType() {
-    return type;
+  /**
+   * @return the operationFinder
+   */
+  public OperationFinder getOperationFinder() {
+    return operationFinder;
   }
+
 }

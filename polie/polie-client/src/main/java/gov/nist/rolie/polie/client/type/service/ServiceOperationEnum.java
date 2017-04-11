@@ -23,17 +23,52 @@
 
 package gov.nist.rolie.polie.client.type.service;
 
-public enum ServiceOperationEnum {
-  GET(new ServiceGet()), CREATE(new ServiceCreate()), UPDATE(new ServiceUpdate()), DELETE(new ServiceDelete());
+import gov.nist.rolie.polie.client.type.Operation;
+import gov.nist.rolie.polie.client.type.OperationSupplier;
 
-  private final AbstractServiceOperation operation;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
-  private ServiceOperationEnum(AbstractServiceOperation operation) {
-    this.operation = operation;
+public enum ServiceOperationEnum implements OperationSupplier {
+  GET("get", ServiceGet::new),
+  CREATE("create", ServiceCreate::new),
+  UPDATE("update", ServiceUpdate::new),
+  DELETE("delete", ServiceDelete::new);
+
+  private static final Map<String, ServiceOperationEnum> nameToEnumMap;
+
+  static {
+    nameToEnumMap = new HashMap<>();
+    for (ServiceOperationEnum ev : ServiceOperationEnum.values()) {
+      nameToEnumMap.put(ev.getName(), ev);
+    }
   }
 
-  public AbstractServiceOperation getOperation() {
-    return operation;
+  public static Supplier<Operation> lookup(String name) {
+    return nameToEnumMap.get(name).supplier();
+  }
+
+  private final String name;
+  private final Supplier<Operation> supplier;
+
+  private ServiceOperationEnum(String name, Supplier<Operation> supplier) {
+    this.name = name;
+    this.supplier = supplier;
+  }
+
+  /**
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * @return the supplier
+   */
+  public Supplier<Operation> supplier() {
+    return supplier;
   }
 
 }

@@ -23,8 +23,8 @@
 
 package gov.nist.rolie.polie.client.type;
 
-public interface Type {
+import java.util.function.Supplier;
 
-  public Operation lookup(String lookupString);
-  //  public TypeEnum getType();
+public interface Type {
+  Supplier<Operation> supplier(String operationName);
 }

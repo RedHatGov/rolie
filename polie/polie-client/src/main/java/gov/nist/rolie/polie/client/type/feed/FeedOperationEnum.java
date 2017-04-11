@@ -23,17 +23,50 @@
 
 package gov.nist.rolie.polie.client.type.feed;
 
+import gov.nist.rolie.polie.client.type.Operation;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
 public enum FeedOperationEnum {
-  GET(new FeedGet()), CREATE(new FeedCreate()), UPDATE(new FeedUpdate()), DELETE(new FeedDelete());
+  GET("get", FeedGet::new),
+  CREATE("create", FeedCreate::new),
+  UPDATE("update", FeedUpdate::new),
+  DELETE("delete", FeedDelete::new);
 
-  private final AbstractFeedOperation operation;
+  private static final Map<String, FeedOperationEnum> nameToEnumMap;
 
-  private FeedOperationEnum(AbstractFeedOperation operation) {
-    this.operation = operation;
+  static {
+    nameToEnumMap = new HashMap<>();
+    for (FeedOperationEnum ev : FeedOperationEnum.values()) {
+      nameToEnumMap.put(ev.getName(), ev);
+    }
   }
 
-  public AbstractFeedOperation getOperation() {
-    return operation;
+  public static Supplier<Operation> lookup(String name) {
+    return nameToEnumMap.get(name).supplier();
   }
 
+  private final String name;
+  private final Supplier<Operation> supplier;
+
+  private FeedOperationEnum(String name, Supplier<Operation> supplier) {
+    this.name = name;
+    this.supplier = supplier;
+  }
+
+  /**
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * @return the supplier
+   */
+  public Supplier<Operation> supplier() {
+    return supplier;
+  }
 }

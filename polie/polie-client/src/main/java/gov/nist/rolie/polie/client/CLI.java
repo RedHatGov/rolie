@@ -23,9 +23,8 @@
 
 package gov.nist.rolie.polie.client;
 
+import gov.nist.rolie.polie.client.type.CommandTypeEnum;
 import gov.nist.rolie.polie.client.type.Operation;
-import gov.nist.rolie.polie.client.type.Type;
-import gov.nist.rolie.polie.client.type.TypeEnum;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
@@ -76,8 +75,8 @@ public class CLI {
     String typeString = args[0];
     String operationString = args[1];
 
-    Type type = TypeEnum.lookup(typeString).getType();
-    Operation operation = type.lookup(operationString);
+    CommandTypeEnum type = CommandTypeEnum.lookup(typeString);
+    Operation operation = type.getOperationFinder().lookup(operationString).get();
 
     ExitStatus retval;
     try {
