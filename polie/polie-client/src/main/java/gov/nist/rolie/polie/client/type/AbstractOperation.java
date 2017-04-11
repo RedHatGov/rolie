@@ -35,8 +35,6 @@ import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import java.util.logging.Level;
-
 public abstract class AbstractOperation implements Operation {
   private static final String OPTION_DEBUG = "debug";
   private static final String OPTION_QUIET = "quiet";
@@ -44,13 +42,20 @@ public abstract class AbstractOperation implements Operation {
   private static final String OPTION_HELP = "h";
 
 
+  protected AbstractOperation(String[] args) throws ParseException {
+    CommandLine cmd = parseOptions(args);
+
+    handleOptions(cmd);
+  }
+
+  protected abstract void handleOptions(CommandLine cmd) throws ParseException;
+
   @Override
-  public ExitStatus execute(CommandLine options) {
+  public ExitStatus execute() {
     return ExitCode.OK.toExitStatus();
   }
 
-  @Override
-  public CommandLine parseOptions(String[] args) throws ParseException {
+  protected CommandLine parseOptions(String[] args) throws ParseException {
     Options options = getOptions();
     CommandLineParser parser = new DefaultParser();
 

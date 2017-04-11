@@ -25,12 +25,6 @@ package gov.nist.rolie.polie.client.type;
 
 import gov.nist.rolie.polie.client.ExitStatus;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.ParseException;
-
 public interface Operation {
-  
-  CommandLine parseOptions(String[] args) throws ParseException;
-
-  ExitStatus execute(CommandLine cmdLine);
+  public ExitStatus execute();
 }
