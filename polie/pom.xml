@@ -67,6 +67,11 @@
 				<artifactId>log4j-core</artifactId>
 				<version>${log4j.version}</version>
 			</dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-jul</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
 
 			<dependency>
 				<groupId>org.jboss.resteasy</groupId>
@@ -78,9 +83,6 @@
 				<artifactId>resteasy-spring</artifactId>
 				<version>${resteasy.version}</version>
 			</dependency>
-
-
-
 		</dependencies>
 	</dependencyManagement>
 
