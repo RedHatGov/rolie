@@ -21,49 +21,52 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.client;
+package gov.nist.rolie.polie.client.connection;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 
-public class GetUtils {
+public class PolieGetRequest extends PolieAbstractRequest {
 
-  public static String sendGetRequest(URL targetURL) throws MalformedURLException, IOException {
-    URLConnection urlConnection = targetURL.openConnection();
-    if (!HttpURLConnection.class.isInstance(urlConnection)) {
-      throw new MalformedURLException();
-    }
+  private static final Logger log = LogManager.getLogger(PolieGetRequest.class);
 
-    HttpURLConnection connection = (HttpURLConnection) urlConnection;
+  public PolieGetRequest(URL targetURL) {
+    super(targetURL);
+  }
+
+  /**
+   * Sends a GET Request across the open connection of this request object.
+   * 
+   * @return The server response as a String.
+   * @throws MalformedURLException
+   *           .
+   * @throws IOException
+   *           .
+   */
+  @Override
+  public String send() throws IOException {
 
     connection.setRequestMethod("GET");
 
-    // Send request
-    DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-    wr.close();
+    connection.setRequestProperty("User-Agent", "polie-client/1.0");
 
-    // Get Response
-    InputStream is = connection.getInputStream();
-    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-    StringBuffer response = new StringBuffer();
-    String line;
-    while ((line = rd.readLine()) != null) {
-      response.append(line);
-      response.append('\r');
-    }
-    rd.close();
+    log.debug("Sending 'GET' request to URL : " + targetURL);
+    int responseCode = connection.getResponseCode();
+    log.debug("Response Code : " + responseCode);
 
-    if (connection != null) {
-      connection.disconnect();
-    }
-    return response.toString();
+    handleResponseCode(responseCode);
+
+    String response = this.getResponse();
+
+    connection.disconnect();
+
+    log.debug(response);
+    return response;
 
   }
+
 }

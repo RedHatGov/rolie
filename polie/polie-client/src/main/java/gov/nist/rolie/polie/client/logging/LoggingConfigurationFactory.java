@@ -57,7 +57,7 @@ public class LoggingConfigurationFactory extends ConfigurationFactory {
    */
   public static final String[] SUFFIXES = new String[] { ".xml", "*" };
 
-  private Level logLevel = Level.INFO;
+  private Level logLevel = Level.DEBUG;
 
   public Level getLogLevel() {
     return logLevel;

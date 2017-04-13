@@ -23,14 +23,51 @@
 
 package gov.nist.rolie.polie.client.operation.entry;
 
+import gov.nist.rolie.polie.client.cli.ExitCode;
+import gov.nist.rolie.polie.client.cli.ExitStatus;
+import gov.nist.rolie.polie.client.connection.PolieAbstractRequest;
+import gov.nist.rolie.polie.client.connection.PoliePostRequest;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.nio.file.Paths;
 
 public class EntryCreate extends AbstractEntryOperation {
 
   protected InputStream getInputStream() {
-    return null;
+    String root = "C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\rolieexamples\\";
+    File incidentFeedFile = Paths.get(root + "examplePrivateIncidentFeed.xml").toFile();
+    InputStream stream = null;
+    try {
+      stream = new FileInputStream(incidentFeedFile);
+    } catch (FileNotFoundException e) {
+      log.error(e);
+    }
+    return stream;
   }
 
- 
-  
+  private static final Logger log = LogManager.getLogger(EntryCreate.class);
+
+  @Override
+  public ExitStatus execute() {
+    try {
+      PolieAbstractRequest request = new PoliePostRequest(getTarget(), getInputStream());
+      String response = request.send();
+      return ExitCode.OK.toExitStatus("Created. The server responds: \n" + response);
+    } catch (MalformedURLException e) {
+      return ExitCode.INVALID_TARGET.toExitStatus("The URL you have entered is malformed");
+    } catch (IOException e) {
+      log.error("an IO error ocurred", e);
+      return ExitCode.INVALID_TARGET.toExitStatus("The URL you have entered is not responding or is not a ROLIE repo.");
+    }
+
+  }
+
 }
