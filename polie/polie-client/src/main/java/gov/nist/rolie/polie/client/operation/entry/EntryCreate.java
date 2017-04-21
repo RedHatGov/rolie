@@ -31,26 +31,16 @@ import gov.nist.rolie.polie.client.connection.PoliePostRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class EntryCreate extends AbstractEntryOperation {
 
-  protected InputStream getInputStream() {
+  protected String getInput() throws IOException {
     String root = "C:\\Users\\sab3\\git\\IETF-ROLIE\\polie\\polie-server\\src\\main\\resources\\rolieexamples\\";
-    File incidentFeedFile = Paths.get(root + "examplePrivateIncidentFeed.xml").toFile();
-    InputStream stream = null;
-    try {
-      stream = new FileInputStream(incidentFeedFile);
-    } catch (FileNotFoundException e) {
-      log.error(e);
-    }
-    return stream;
+    return new String(Files.readAllBytes(Paths.get(root + "exampleVulnEntry1.xml")));
   }
 
   private static final Logger log = LogManager.getLogger(EntryCreate.class);
@@ -58,7 +48,7 @@ public class EntryCreate extends AbstractEntryOperation {
   @Override
   public ExitStatus execute() {
     try {
-      PolieAbstractRequest request = new PoliePostRequest(getTarget(), getInputStream());
+      PolieAbstractRequest request = new PoliePostRequest(getTarget(), getInput());
       String response = request.send();
       return ExitCode.OK.toExitStatus("Created. The server responds: \n" + response);
     } catch (MalformedURLException e) {

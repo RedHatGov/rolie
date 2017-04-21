@@ -23,7 +23,34 @@
 
 package gov.nist.rolie.polie.client.operation.entry;
 
-public class EntryDelete extends AbstractEntryOperation {
+import gov.nist.rolie.polie.client.cli.ExitCode;
+import gov.nist.rolie.polie.client.cli.ExitStatus;
+import gov.nist.rolie.polie.client.connection.PolieAbstractRequest;
+import gov.nist.rolie.polie.client.connection.PolieDeleteRequest;
+import gov.nist.rolie.polie.client.connection.PolieGetRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+
+public class EntryDelete extends AbstractEntryOperation {
+  private static final Logger log = LogManager.getLogger(EntryDelete.class);
+  
+  @Override
+  public ExitStatus execute() {
+    try {
+      PolieAbstractRequest request = new PolieDeleteRequest(getTarget());
+      String response = request.send();
+      return ExitCode.OK.toExitStatus("Success. The server response: \n" + response);
+    } catch (MalformedURLException e) {
+      return ExitCode.INVALID_TARGET.toExitStatus("The URL you have entered is malformed");
+    } catch (IOException e) {
+      log.error("an IO error ocurred", e);
+      return ExitCode.INVALID_TARGET.toExitStatus("The URL you have entered is not responding or is not a ROLIE repo.");
+    }
+
+  }
 
 }

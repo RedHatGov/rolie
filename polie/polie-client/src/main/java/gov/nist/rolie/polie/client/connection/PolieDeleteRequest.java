@@ -26,20 +26,17 @@ package gov.nist.rolie.polie.client.connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
-public class PolieGetRequest extends PolieAbstractRequest {
+public class PolieDeleteRequest extends PolieAbstractRequest {
 
-  private static final Logger log = LogManager.getLogger(PolieGetRequest.class);
+  private static final Logger log = LogManager.getLogger(PolieDeleteRequest.class);
 
-  public PolieGetRequest(URL targetURL) {
+  public PolieDeleteRequest(URL targetURL) {
     super(targetURL);
   }
 
@@ -53,7 +50,7 @@ public class PolieGetRequest extends PolieAbstractRequest {
 
     Client client = ClientBuilder.newClient();
     String url = targetURL.toString();
-    Response response = client.target(url).request().get();
+    Response response = client.target(url).request().delete();
     String responseAsString = response.readEntity(String.class);
     return responseAsString;
 

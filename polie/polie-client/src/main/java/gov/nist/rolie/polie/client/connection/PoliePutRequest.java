@@ -11,13 +11,13 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
-public class PoliePostRequest extends PolieAbstractRequest {
+public class PoliePutRequest extends PolieAbstractRequest {
 
-  private static final Logger log = LogManager.getLogger(PoliePostRequest.class);
+  private static final Logger log = LogManager.getLogger(PoliePutRequest.class);
 
   String input;
 
-  public PoliePostRequest(URL targetURL, String input) {
+  public PoliePutRequest(URL targetURL, String input) {
     super(targetURL);
     this.input = input;
   }
@@ -26,7 +26,7 @@ public class PoliePostRequest extends PolieAbstractRequest {
   public String send() {
     Client client = ClientBuilder.newClient();
     String url = targetURL.toString();
-    Response response = client.target(url).request().post(Entity.entity(input, "application/atom+xml;type=entry"));
+    Response response = client.target(url).request().put(Entity.entity(input, "application/atom+xml;type=entry"));
     String responseAsString = response.readEntity(String.class);
     return responseAsString;
   }

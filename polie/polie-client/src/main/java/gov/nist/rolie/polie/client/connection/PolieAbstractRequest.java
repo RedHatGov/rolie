@@ -50,6 +50,22 @@ public abstract class PolieAbstractRequest {
     in.close();
     return response.toString();
   }
+  
+  protected String getError() throws IOException {
+    if (this.connection == null) {
+      throw new NullPointerException("This request's connection is null");
+    }
+
+    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+    String inputLine;
+    StringBuffer response = new StringBuffer();
+
+    while ((inputLine = in.readLine()) != null) {
+      response.append("\n" + inputLine);
+    }
+    in.close();
+    return response.toString();
+  }
 
   protected void handleResponseCode(int responseCode) throws IOException {
     if (responseCode % 100 == 4) {
