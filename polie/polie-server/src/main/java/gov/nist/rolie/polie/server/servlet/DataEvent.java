@@ -62,16 +62,17 @@ import javax.ws.rs.core.UriInfo;
  *
  */
 @Component
-@Path("/{exp: (?!data).+}")
-public class AtomResourceEvent {
-  private static final Logger log = LogManager.getLogger(AtomResourceEvent.class);
+@Path("/{exp: (data).+}")
+
+public class DataEvent {
+  private static final Logger log = LogManager.getLogger(DataEvent.class);
 
   /**
    * The visitor manager is declared here. If a new visitor manager is written is can be swapped out
    * here To apply to all requests.
    */
   @Autowired
-  private VisitorManagerFactory vmFactory;
+  private DataVisitorManagerFactory vmFactory;
 
   /**
    * TODO:Move to RESTEventVisitor
@@ -93,7 +94,7 @@ public class AtomResourceEvent {
    * 
    */
 
-  public AtomResourceEvent() {
+  public DataEvent() {
 
   }
 
@@ -113,18 +114,19 @@ public class AtomResourceEvent {
    * @return Returns the completed Response that is passed off to the server to be sent back to the
    *         requester. At this point, the response is completed and is handled all by the webapp.
    */
-  @Produces({ "application/atom+xml" })
   @GET
   public Response get(@Context HttpHeaders headers, @Context UriInfo uriInfo) {
-    log.debug("Processing GET request EVENT");
+
+    log.debug("Processing GET request, access through data resource.");
 
     VisitorManager vm = vmFactory.getGetVisitorManager();
 
     // Generates a new Get event.
     RESTEvent get = new Get(headers, uriInfo);
-
+    
     // Starts the execution chain, returns a built response
-    log.debug("EXECUTING VISITOR CHAIN ON GET REQUEST");
+    log.debug("Visitor chain init, executing data request.");
+
     return vm.execute(get);
   }
 
@@ -141,15 +143,13 @@ public class AtomResourceEvent {
    * @return Returns the completed Response that is passed off to the server to be sent back to the
    *         requester. At this point, the response is completed and is handled all by the webapp.
    */
-  @Consumes({ "application/atom+xml;type=entry" })
-  @Produces({ "application/atom+xml;type=entry" })
   @POST // TODO: Add atomsvc type support
   public Response post(@Context HttpHeaders headers, @Context UriInfo uriInfo, String body) {
     log.debug("Processing POST request");
     RESTEvent post = new Post(headers, uriInfo, body);
 
     VisitorManager vm = vmFactory.getPostVisitorManager();
-
+    
     return vm.execute(post);
   }
 
@@ -166,8 +166,6 @@ public class AtomResourceEvent {
    * @return Returns the completed Response that is passed off to the server to be sent back to the
    *         requester. At this point, the response is completed and is handled all by the webapp.
    */
-  @Consumes({ "application/atom+xml;type=entry" })
-  @Produces({ "application/atom+xml;type=entry" })
   @PUT
   public Response put(@Context HttpHeaders headers, @Context UriInfo uriInfo, String body) {
     log.debug("Processing PUT request");
@@ -189,7 +187,6 @@ public class AtomResourceEvent {
    * @return Returns the completed Response that is passed off to the server to be sent back to the
    *         requester. At this point, the response is completed and is handled all by the webapp.
    */
-  @Produces("text/plain")
   @DELETE
   public Response delete(@Context HttpHeaders headers, @Context UriInfo uriInfo) {
     log.debug("Processing DELETE request");

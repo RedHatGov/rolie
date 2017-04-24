@@ -131,5 +131,22 @@ public interface PersistenceMethod {
   boolean deleteEntry(String id) throws ResourceNotFoundException, InvalidResourceTypeException;
 
   String generateNewEntryID(AtomEntry entry);
+  
+  // General data methods. Use carefully
+  String loadData(URI iri) throws ResourceNotFoundException;
+
+  String loadData(String id) throws ResourceNotFoundException;
+
+  String createData(String data, URI uri) throws ResourceAlreadyExistsException;
+
+  String createData(String data, String id) throws ResourceAlreadyExistsException;
+
+  String updateData(String data, URI uri) throws ResourceNotFoundException;
+
+  String updateData(String data, String id) throws ResourceNotFoundException;
+
+  boolean deleteData(URI uri) throws ResourceNotFoundException;
+
+  boolean deleteData(String id) throws ResourceNotFoundException;
 
 }

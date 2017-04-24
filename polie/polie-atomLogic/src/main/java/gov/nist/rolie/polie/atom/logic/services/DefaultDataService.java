@@ -21,36 +21,48 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.client.connection;
+package gov.nist.rolie.polie.atom.logic.services;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import gov.nist.rolie.polie.atom.logic.LinkAlreadyExistsException;
+import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
+import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
+import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
+import gov.nist.rolie.polie.persistence.database.PersistenceMethod;
 
-import java.net.URL;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Response;
+import java.net.URI;
+import java.net.URISyntaxException;
 
-public class PoliePostRequest extends PolieAbstractRequest {
+@Component
+public class DefaultDataService implements DataService {
 
-  private static final Logger log = LogManager.getLogger(PoliePostRequest.class);
+  @Autowired
+  PersistenceMethod persistenceMethod;
 
-  private String input;
-
-  public PoliePostRequest(URL targetURL, String input) {
-    super(targetURL);
-    this.input = input;
+  public DefaultDataService() {
   }
 
   @Override
-  public String send() {
-    Client client = ClientBuilder.newClient();
-    String url = targetURL.toString();
-    Response response = client.target(url).request().post(Entity.entity(input, "application/atom+xml;type=entry"));
-    String responseAsString = response.readEntity(String.class);
-    return responseAsString;
+  public String loadData(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException {
+    return persistenceMethod.loadData(uri);
+  }
+
+  @Override
+  public String createData(String data, URI iri)
+      throws ResourceAlreadyExistsException, LinkAlreadyExistsException, URISyntaxException {
+    return persistenceMethod.createData(data, iri);
+  }
+
+  @Override
+  public String updateData(String data, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException {
+    return persistenceMethod.updateData(data, iri);
+  }
+
+  @Override
+  public boolean deleteData(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException {
+    return persistenceMethod.deleteEntry(iri);
   }
 
 }

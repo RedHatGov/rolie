@@ -30,6 +30,7 @@ public class MappedResource {
 
   APPResource resource;
   ResourceType type;
+  String data = null;
 
   /**
    * @param resource
@@ -38,6 +39,14 @@ public class MappedResource {
   public MappedResource(APPResource resource, ResourceType type) {
     this.resource = resource;
     this.type = type;
+  }
+
+  public String getData() {
+    return data;
+  }
+
+  public void setData(String data) {
+    this.data = data;
   }
 
   /**

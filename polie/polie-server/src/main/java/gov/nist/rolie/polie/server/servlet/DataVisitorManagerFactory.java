@@ -21,36 +21,14 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.client.connection;
+package gov.nist.rolie.polie.server.servlet;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+public interface DataVisitorManagerFactory {
+  VisitorManager getGetVisitorManager();
 
-import java.net.URL;
+  VisitorManager getPostVisitorManager();
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Response;
+  VisitorManager getPutVisitorManager();
 
-public class PoliePostRequest extends PolieAbstractRequest {
-
-  private static final Logger log = LogManager.getLogger(PoliePostRequest.class);
-
-  private String input;
-
-  public PoliePostRequest(URL targetURL, String input) {
-    super(targetURL);
-    this.input = input;
-  }
-
-  @Override
-  public String send() {
-    Client client = ClientBuilder.newClient();
-    String url = targetURL.toString();
-    Response response = client.target(url).request().post(Entity.entity(input, "application/atom+xml;type=entry"));
-    String responseAsString = response.readEntity(String.class);
-    return responseAsString;
-  }
-
+  VisitorManager getDeleteVisitorManager();
 }

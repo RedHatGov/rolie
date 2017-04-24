@@ -21,36 +21,28 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.client.connection;
+package gov.nist.rolie.polie.atom.logic.services;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import gov.nist.rolie.polie.atom.logic.LinkAlreadyExistsException;
+import gov.nist.rolie.polie.model.models.AtomEntry;
+import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
+import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
+import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
 
-import java.net.URL;
+import org.w3.x2005.atom.LinkDocument.Link;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Response;
+import java.net.URI;
+import java.net.URISyntaxException;
 
-public class PoliePostRequest extends PolieAbstractRequest {
+public interface DataService {
 
-  private static final Logger log = LogManager.getLogger(PoliePostRequest.class);
+  String loadData(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException;
 
-  private String input;
+  String createData(String data, URI iri)
+      throws ResourceAlreadyExistsException, LinkAlreadyExistsException, URISyntaxException;
 
-  public PoliePostRequest(URL targetURL, String input) {
-    super(targetURL);
-    this.input = input;
-  }
+  String updateData(String data, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
 
-  @Override
-  public String send() {
-    Client client = ClientBuilder.newClient();
-    String url = targetURL.toString();
-    Response response = client.target(url).request().post(Entity.entity(input, "application/atom+xml;type=entry"));
-    String responseAsString = response.readEntity(String.class);
-    return responseAsString;
-  }
+  boolean deleteData(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
 
 }
