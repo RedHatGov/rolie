@@ -29,8 +29,6 @@ import gov.nist.rolie.polie.model.models.AtomFeed;
 import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
 
 import org.apache.xmlbeans.XmlException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.w3.x2005.atom.EntryDocument;
 import org.w3.x2005.atom.FeedDocument;
 import org.w3.x2007.app.ServiceDocument;
@@ -42,8 +40,7 @@ import java.util.Scanner;
 
 public class Bootstrap {
   /**
-   * Create a new example feed using a target file as the content, and a target URL as the resulting
-   * resource location.
+   * Create a new example feed using a target file as the content, and a target URL as the resulting resource location.
    * 
    * @param file
    *          the target content to load
@@ -53,8 +50,11 @@ public class Bootstrap {
    *          the persistence method to use to store the feed
    * @return the new feed
    * @throws XmlException
+   *           if xml parsing error occurs while loading the xml from file.
    * @throws IOException
+   *           if IO error occurs while loading the file.
    * @throws ResourceAlreadyExistsException
+   *           If resource already exists at targetURL
    */
   public static AtomFeed bootstrapFeed(File file, String targetURL, PersistenceMethod persistenceMethod)
       throws XmlException, IOException, ResourceAlreadyExistsException {
@@ -64,8 +64,8 @@ public class Bootstrap {
   }
 
   /**
-   * Create a new example feed using a target file as an input stream as the content, and a target
-   * URL as the resulting resource location.
+   * Create a new example feed using a target file as an input stream as the content, and a target URL as the resulting
+   * resource location.
    * 
    * @param is
    *          the target content to load
@@ -75,8 +75,11 @@ public class Bootstrap {
    *          the persistence method to use to store the feed
    * @return the new feed
    * @throws XmlException
+   *           if xml parsing error occurs while loading the xml from file.
    * @throws IOException
+   *           if IO error occurs while loading the file.
    * @throws ResourceAlreadyExistsException
+   *           If resource already exists at targetURL
    */
   public static AtomFeed bootstrapFeed(InputStream is, String targetURL, PersistenceMethod persistenceMethod)
       throws XmlException, IOException, ResourceAlreadyExistsException {
@@ -86,8 +89,7 @@ public class Bootstrap {
   }
 
   /**
-   * Create a new example entry using a target file as the content, and a target URL as the
-   * resulting resource location.
+   * Create a new example entry using a target file as the content, and a target URL as the resulting resource location.
    * 
    * @param file
    *          the target content to load
@@ -97,8 +99,11 @@ public class Bootstrap {
    *          the persistence method to use to store the feed
    * @return the new entry
    * @throws XmlException
+   *           if xml parsing error occurs while loading the xml from file.
    * @throws IOException
+   *           if IO error occurs while loading the file.
    * @throws ResourceAlreadyExistsException
+   *           If resource already exists at targetURL
    */
   public static AtomEntry bootstrapEntry(File file, String targetURL, PersistenceMethod persistenceMethod)
       throws XmlException, IOException, ResourceAlreadyExistsException {
@@ -108,8 +113,8 @@ public class Bootstrap {
   }
 
   /**
-   * Create a new example entry using a target file as an input stream as the content, and a target
-   * URL as the resulting resource location.
+   * Create a new example entry using a target file as an input stream as the content, and a target URL as the resulting
+   * resource location.
    * 
    * @param is
    *          the target content to load
@@ -119,8 +124,11 @@ public class Bootstrap {
    *          the persistence method to use to store the feed
    * @return the new entry
    * @throws XmlException
+   *           if xml parsing error occurs while loading the xml from file.
    * @throws IOException
+   *           if IO error occurs while loading the file.
    * @throws ResourceAlreadyExistsException
+   *           If resource already exists at targetURL
    */
   public static AtomEntry bootstrapEntry(InputStream is, String targetURL, PersistenceMethod persistenceMethod)
       throws XmlException, IOException, ResourceAlreadyExistsException {
@@ -130,8 +138,8 @@ public class Bootstrap {
   }
 
   /**
-   * Create a new example service document using a target file as the content, and a target URL as
-   * the resulting resource location.
+   * Create a new example service document using a target file as the content, and a target URL as the resulting
+   * resource location.
    * 
    * @param file
    *          the target content to load
@@ -141,8 +149,11 @@ public class Bootstrap {
    *          the persistence method to use to store the feed
    * @return the new service document
    * @throws XmlException
+   *           if xml parsing error occurs while loading the xml from file.
    * @throws IOException
+   *           if IO error occurs while loading the file.
    * @throws ResourceAlreadyExistsException
+   *           If resource already exists at targetURL
    */
   public static APPServiceDocument bootstrapServiceDocument(File file, String targetURL,
       PersistenceMethod persistenceMethod) throws XmlException, IOException, ResourceAlreadyExistsException {
@@ -152,8 +163,8 @@ public class Bootstrap {
   }
 
   /**
-   * Create a new example service document using a target file as an input stream as the content,
-   * and a target URL as the resulting resource location.
+   * Create a new example service document using a target file as an input stream as the content, and a target URL as
+   * the resulting resource location.
    * 
    * @param is
    *          the target content to load
@@ -163,8 +174,11 @@ public class Bootstrap {
    *          the persistence method to use to store the feed
    * @return the new service document
    * @throws XmlException
+   *           if xml parsing error occurs while loading the xml from file.
    * @throws IOException
+   *           if IO error occurs while loading the file.
    * @throws ResourceAlreadyExistsException
+   *           If resource already exists at targetURL
    */
   public static APPServiceDocument bootstrapServiceDocument(InputStream is, String targetURL,
       PersistenceMethod persistenceMethod) throws XmlException, IOException, ResourceAlreadyExistsException {
@@ -178,9 +192,12 @@ public class Bootstrap {
    * 
    * @param pm
    *          the persistence method to use to write the boostrapped content to
-   * @throws ResourceAlreadyExistsException
-   * @throws IOException
    * @throws XmlException
+   *           if xml parsing error occurs while loading the xml from file.
+   * @throws IOException
+   *           if IO error occurs while loading the file.
+   * @throws ResourceAlreadyExistsException
+   *           If resource already exists at targetURL
    */
   public Bootstrap(PersistenceMethod pm) throws XmlException, IOException, ResourceAlreadyExistsException {
     bootstrapFeed(getClass().getClassLoader().getResourceAsStream("/rolieexamples/examplePrivateIncidentFeed.xml"),
