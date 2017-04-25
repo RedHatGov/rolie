@@ -24,7 +24,7 @@
 package gov.nist.rolie.polie.server.writers;
 
 import org.springframework.stereotype.Component;
-import org.w3.x2007.app.impl.ServiceDocumentImpl;
+import org.w3.x2007.app.ServiceDocument;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -41,7 +41,7 @@ import javax.ws.rs.ext.Provider;
 @Provider
 @Component
 @Produces("application/atom+xml")
-public class ServiceDocWriter implements MessageBodyWriter<ServiceDocumentImpl> {
+public class ServiceDocWriter implements MessageBodyWriter<ServiceDocument> {
 
   @Override
   public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
@@ -50,16 +50,16 @@ public class ServiceDocWriter implements MessageBodyWriter<ServiceDocumentImpl> 
   }
 
   @Override
-  public long getSize(ServiceDocumentImpl t, Class<?> type, Type genericType, Annotation[] annotations,
+  public long getSize(ServiceDocument instance, Class<?> type, Type genericType, Annotation[] annotations,
       MediaType mediaType) {
     return -1;
   }
 
   @Override
-  public void writeTo(ServiceDocumentImpl t, Class<?> type, Type genericType, Annotation[] annotations,
+  public void writeTo(ServiceDocument instance, Class<?> type, Type genericType, Annotation[] annotations,
       MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream)
       throws IOException, WebApplicationException {
-    t.save(entityStream);
+    instance.save(entityStream);
   }
 
 }

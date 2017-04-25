@@ -24,11 +24,11 @@
 package gov.nist.rolie.polie.server.servlet;
 
 public interface VisitorManagerFactory {
-  VisitorManager GetGetVisitorManager();
+  VisitorManager getGetVisitorManager();
 
-  VisitorManager GetPostVisitorManager();
+  VisitorManager getPostVisitorManager();
 
-  VisitorManager GetPutVisitorManager();
+  VisitorManager getPutVisitorManager();
 
-  VisitorManager GetDeleteVisitorManager();
+  VisitorManager getDeleteVisitorManager();
 }

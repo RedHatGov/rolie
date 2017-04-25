@@ -36,7 +36,7 @@ public class APPWorkspace implements APPElement {
   private List<APPCollection> collection;
 
   /**
-   * @param aPPCommonAttributes
+   * @param appCommonAttributes
    * @param title
    * @param collection
    */
@@ -89,8 +89,8 @@ public class APPWorkspace implements APPElement {
   }
 
   /**
-   * @param collection
-   *          the collection to set
+   * @param collections
+   *          the collections to set
    */
   public void setCollections(List<APPCollection> collections) {
     this.collection = collections;

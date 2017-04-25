@@ -39,7 +39,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 @Component
-public class ROLIEValidationVisitor implements RESTEventVisitor {
+public class ValidationVisitor implements RESTEventVisitor {
 
   // static ROLIEValidator validator = new DefaultROLIEValidator();
 

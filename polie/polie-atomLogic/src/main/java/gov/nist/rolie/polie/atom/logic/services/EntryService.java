@@ -55,6 +55,5 @@ public interface EntryService {
 
   AtomEntry cleanEntry(AtomEntry entry);
 
-
   AtomEntry addNewEntryLink(AtomEntry entry, String rel, String href) throws LinkAlreadyExistsException;
 }

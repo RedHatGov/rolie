@@ -38,8 +38,9 @@ import java.util.Map;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 /**
- * Handles incoming request validation. Should be placed first or very early in the execution list. Most of the request
- * validation is handled automatically by the server. This is for extra validation logic.
+ * Handles incoming request validation. Should be placed first or very early in the execution list.
+ * Most of the request validation is handled automatically by the server. This is for extra
+ * validation logic.
  */
 @Component
 public class RequestValidatorVisitor implements RESTEventVisitor {

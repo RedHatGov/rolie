@@ -60,7 +60,8 @@
 //
 // collection.setHref("here/there");
 //
-// entry.getXmlObject().addNewEntry().addNewTitle();// .set(XmlToken.Factory.newInstance().setStringValue("I'm
+// entry.getXmlObject().addNewEntry().addNewTitle();//
+// .set(XmlToken.Factory.newInstance().setStringValue("I'm
 // // a dummy entry"));
 // feed.getXmlObject().addNewFeed().addNewTitle();// .setTitle("I'm a
 // // feed-dummypersist");
@@ -73,7 +74,8 @@
 // @Override
 // public APPServiceDocument loadServiceDocument(URI iri) {
 // try {
-// return (APPServiceDocument) loadResource(new URI("http://localhost:8080/polie-core/serviceDocument"));
+// return (APPServiceDocument) loadResource(new
+// URI("http://localhost:8080/polie-core/serviceDocument"));
 // } catch (ResourceNotFoundException e) {
 // e.printStackTrace();
 // return null;
@@ -286,7 +288,8 @@
 // }
 //
 // @Override
-// public APPCategories updateCategoryDocument(APPCategories categoryDoc, URI uri) throws ResourceNotFoundException {
+// public APPCategories updateCategoryDocument(APPCategories categoryDoc, URI uri) throws
+// ResourceNotFoundException {
 // // TODO Auto-generated method stub
 // return null;
 // }

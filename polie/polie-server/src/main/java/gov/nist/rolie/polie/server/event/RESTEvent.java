@@ -31,6 +31,6 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 public interface RESTEvent {
 
-  public boolean accept(RESTEventVisitor RESTEventVisitor, ResponseBuilder rb, Map<String, Object> data);
+  public boolean accept(RESTEventVisitor visitor, ResponseBuilder rb, Map<String, Object> data);
 
 }

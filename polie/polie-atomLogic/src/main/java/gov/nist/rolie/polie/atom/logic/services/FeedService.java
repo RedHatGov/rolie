@@ -50,6 +50,6 @@ public interface FeedService extends Service {
 
   URI getServiceDocumentIRI(AtomFeed feed);
 
-AtomFeed updateEntryInFeed(AtomEntry entry, AtomFeed feed) throws MismatchedCategoriesException,
-		ResourceNotFoundException, InvalidResourceTypeException, URISyntaxException, EntryNotFoundException;
+  AtomFeed updateEntryInFeed(AtomEntry entry, AtomFeed feed) throws MismatchedCategoriesException,
+      ResourceNotFoundException, InvalidResourceTypeException, URISyntaxException, EntryNotFoundException;
 }

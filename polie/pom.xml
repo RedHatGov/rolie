@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>gov.nist.secauto</groupId>
 		<artifactId>oss-parent</artifactId>
-		<version>6-SNAPSHOT</version>
+		<version>7-SNAPSHOT</version>
 	</parent>
 
 	<groupId>gov.nist.rolie</groupId>
@@ -67,6 +67,11 @@
 				<artifactId>log4j-core</artifactId>
 				<version>${log4j.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-jul</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.resteasy</groupId>
@@ -78,9 +83,6 @@
 				<artifactId>resteasy-spring</artifactId>
 				<version>${resteasy.version}</version>
 			</dependency>
-
-
-
 		</dependencies>
 	</dependencyManagement>
 
@@ -99,10 +101,12 @@
 							</goals>
 						</execution>
 					</executions>
-					<inherited>true</inherited>
 					<configuration>
 						<javaSource>1.5</javaSource>
+						<noJavac>true</noJavac>
+						<classGenerationDirectory>${project.build.directory}/generated-sources/xmlbeans</classGenerationDirectory>
 					</configuration>
+
 				</plugin>
 			</plugins>
 		</pluginManagement>

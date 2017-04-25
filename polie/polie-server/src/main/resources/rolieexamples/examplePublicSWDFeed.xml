@@ -6,15 +6,15 @@
 	<updated>2016-05-04T18:13:51.0Z</updated>
 	<link href="http://localhost:8080/polie-server/rolie/feed/examplePublicSWDFeed" rel="self"/>
 	<link href="http://localhost:8080/polie-server/rolie/servicedocument" rel="service"/>
-	<entry>
-		<id>exampleSWDEntry1</id>
-		<title>Sample Software Descriptor</title>
-		<published>2015-08-04T18:13:51.0Z</published>
-		<updated>2015-08-05T18:13:51.0Z</updated>
-		<summary>A software descriptor created by software creator.</summary>
-		<link href="http://localhost:8080/polie-server/rolie/entry/exampleSWDEntry1" rel="self"/>
-		<rolie:format ns="urn:ietf:params:xml:ns:exampleformat" version="1.0"/>
-		<rolie:property name="urn:ietf:params:rolie:property:exampleformatSWID" value="1234"/>
-		<content src="http://localhost:8080/polie-server/rolie/entry/exampleVulnEntry1" type="application/xml"/>
-	</entry>
+<entry>
+	<id>exampleSWIDEntry</id>
+	<title>gov.nist.nsrl.steam.linux.windows.291550.1678990.-2.demo20170424 SWID tag ROLIE entry</title>
+	<published>2015-08-04T18:13:51.0Z</published>
+	<updated>2015-08-05T18:13:51.0Z</updated>
+	<summary>Hand generated example entry for a ISO SWID tag</summary>
+	<rolie:format ns="http://standards.iso.org/iso/19770/-2/2015/schema.xsd" tversion="1.0"/>
+	<rolie:property name="urn:ietf:params:rolie:property:swd:id" value="gov.nist.nsrl.steam.linux.windows.291550.1678990.-2.demo20170424"/>
+	<rolie:property name="urn:ietf:params:rolie:property:swd:swname" value="Brawlhalla"/>
+	<content src="http://localhost:8080/polie-server/rolie/data/exampleSWID" type="application/xml"/>
+</entry>
 </feed>

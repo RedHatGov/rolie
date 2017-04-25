@@ -20,8 +20,14 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.rolie.polie.atom.logic;
 
 public class EntryNotFoundException extends Exception {
+
+  /**
+   * The serial version UID.
+   */
+  private static final long serialVersionUID = 1L;
 
 }

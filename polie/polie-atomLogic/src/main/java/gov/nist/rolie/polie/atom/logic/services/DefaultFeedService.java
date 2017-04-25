@@ -138,11 +138,10 @@ public class DefaultFeedService implements FeedService {
   }
 
   private AtomFeed addEntry(AtomFeed feed, AtomEntry entry) {
-    
-    
+
     feed.getXmlObject().getFeed().addNewEntry().set(entry.getXmlObject().getEntry());
-    //feed.getXmlObject().getFeed().getEntryList()
-    //XmlCursor cursor = fir
+    // feed.getXmlObject().getFeed().getEntryList()
+    // XmlCursor cursor = fir
     return feed;
   }
 

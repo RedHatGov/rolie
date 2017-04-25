@@ -34,14 +34,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3.x2005.atom.AtomDateConstruct;
 import org.w3.x2005.atom.EntryDocument;
-import org.w3.x2005.atom.CategoryDocument.Category;
 import org.w3.x2005.atom.LinkDocument.Link;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 
 @Component
@@ -75,7 +72,6 @@ public class DefaultEntryService implements EntryService {
       id = entry.getXmlObject().getEntry().getIdList().get(0).getStringValue();
     }
 
-
     String entryLocation = iri.toString() + "entry/" + id;
 
     entry = addNewEntryLink(entry, "self", entryLocation);
@@ -93,8 +89,7 @@ public class DefaultEntryService implements EntryService {
   private boolean hasID(AtomEntry entry) {
     return (entry.getXmlObject().getEntry().getIdList() != null && entry.getXmlObject().getEntry().sizeOfIdArray() > 0);
   }
-  
-  
+
   @Override
   public AtomEntry addNewEntryLink(AtomEntry entry, String rel, String href) throws LinkAlreadyExistsException {
     Link link = hasLink(entry, rel, href);
@@ -162,8 +157,7 @@ public class DefaultEntryService implements EntryService {
     return persistenceMethod.deleteEntry(iri);
   }
 
-  private AtomEntry updateUpdatedDate(AtomEntry entry)
-  {
+  private AtomEntry updateUpdatedDate(AtomEntry entry) {
     if (entry.getXmlObject().getEntry().getUpdatedList().isEmpty()) {
       entry.getXmlObject().getEntry().addNewUpdated();
     }
@@ -174,7 +168,7 @@ public class DefaultEntryService implements EntryService {
     entry.getXmlObject().getEntry().getUpdatedList().set(0, date);
     return entry;
   }
-  
+
   @Override
   public AtomEntry updateDates(AtomEntry entry) {
     if (entry.getXmlObject().getEntry().getPublishedList().isEmpty()) {
@@ -223,12 +217,9 @@ public class DefaultEntryService implements EntryService {
 
   @Override
   public AtomEntry cleanEntry(AtomEntry entry) {
-    ArrayList<List> toBeCleared = new ArrayList<List>();
-    toBeCleared.add(entry.getXmlObject().getEntry().getPublishedList());
-    toBeCleared.add(entry.getXmlObject().getEntry().getUpdatedList());
-    for (List list : toBeCleared) {
-      list.clear();
-    }
+    entry.getXmlObject().getEntry().getPublishedList().clear();
+    entry.getXmlObject().getEntry().getUpdatedList().clear();
+
     if (!entry.getXmlObject().getEntry().getLinkList().isEmpty()) {
       entry = cleanEntryLinks(entry);
     }

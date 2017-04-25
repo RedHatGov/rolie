@@ -24,10 +24,10 @@
 package gov.nist.rolie.polie.server.servlet;
 
 import gov.nist.rolie.polie.server.visitors.AuthorizationVisitor;
-import gov.nist.rolie.polie.server.visitors.ROLIEValidationVisitor;
 import gov.nist.rolie.polie.server.visitors.RequestValidatorVisitor;
 import gov.nist.rolie.polie.server.visitors.ResourceEventVisitor;
 import gov.nist.rolie.polie.server.visitors.ResponseBuilderVisitor;
+import gov.nist.rolie.polie.server.visitors.ValidationVisitor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -45,7 +45,8 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
   // private static final RESTEventVisitor DEBUG_VISITOR = new DebugVisitor();
 
   /**
-   * Validates the request itself. Most of this is handled by the server, but extra logic may be included as needed.
+   * Validates the request itself. Most of this is handled by the server, but extra logic may be
+   * included as needed.
    */
   @Autowired
   private RequestValidatorVisitor requestValidator;
@@ -54,7 +55,7 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
    * Validates ROLIE XML content in the body of the request.
    */
   @Autowired
-  private ROLIEValidationVisitor rolieContentValidator;
+  private ValidationVisitor rolieContentValidator;
 
   /**
    * Handles the final steps of response construction, including header fields.
@@ -67,7 +68,8 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
   @Autowired
   private AuthorizationVisitor authorizationManager;
   /*
-   * Primary visitor for resource requests. Drives required Atom transformations, and starts persistence procedures.
+   * Primary visitor for resource requests. Drives required Atom transformations, and starts
+   * persistence procedures.
    */
   @Autowired
   private ResourceEventVisitor requestProcessor;
@@ -81,7 +83,7 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
   }
 
   @Override
-  public synchronized VisitorManager GetGetVisitorManager() {
+  public synchronized VisitorManager getGetVisitorManager() {
     if (getVisitorManagerInstance == null) {
       getVisitorManagerInstance = new DefaultVisitorManager();
 
@@ -95,7 +97,7 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
   }
 
   @Override
-  public synchronized VisitorManager GetPostVisitorManager() {
+  public synchronized VisitorManager getPostVisitorManager() {
     if (postVisitorManagerInstance == null) {
       // Adds visitors in order to the execution list. FIFO order.
       postVisitorManagerInstance = new DefaultVisitorManager();
@@ -110,7 +112,7 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
   }
 
   @Override
-  public synchronized VisitorManager GetPutVisitorManager() {
+  public synchronized VisitorManager getPutVisitorManager() {
     if (putVisitorManagerInstance == null) {
       // Adds visitors in order to the execution list. FIFO order.
       putVisitorManagerInstance = new DefaultVisitorManager();
@@ -124,7 +126,7 @@ public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
   }
 
   @Override
-  public synchronized VisitorManager GetDeleteVisitorManager() {
+  public synchronized VisitorManager getDeleteVisitorManager() {
     if (deleteVisitorManagerInstance == null) {
       // Adds visitors in order to the execution list. FIFO order.
       deleteVisitorManagerInstance = new DefaultVisitorManager();

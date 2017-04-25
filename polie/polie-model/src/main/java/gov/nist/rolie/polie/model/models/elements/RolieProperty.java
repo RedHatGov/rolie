@@ -28,8 +28,8 @@ import gov.nist.rolie.polie.model.models.constructs.AtomCommonAttributes;
 import java.net.URI;
 
 /**
- * rolieProperty = element rolie:property { atomCommonAttributes, attribute scheme { atomURI }, attribute term { text },
- * attribute label { text } ? empty
+ * rolieProperty = element rolie:property { atomCommonAttributes, attribute scheme { atomURI },
+ * attribute term { text }, attribute label { text } ? empty
  */
 
 public class RolieProperty implements RolieElement {
