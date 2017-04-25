@@ -40,10 +40,12 @@ import org.w3.x2005.atom.FeedDocument;
 import org.w3.x2007.app.ServiceDocument;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Scanner;
 
 @Component
 public class MapPersist implements PersistenceMethod {
@@ -408,21 +410,33 @@ public class MapPersist implements PersistenceMethod {
       File swdFeedFile = Paths.get(root + "examplePublicSWDFeed.xml").toFile();
 
       File incidentEntryFile = Paths.get(root + "exampleIncidentEntry1.xml").toFile();
-      File vulnEntryFile = Paths.get(root + "exampleVulnEntry1.xml").toFile();
-      File swdEntryFile = Paths.get(root + "exampleSWDEntry1.xml").toFile();
+      // File vulnEntryFile = Paths.get(root + "exampleVulnEntry1.xml").toFile();
+      // File swdEntryFile = Paths.get(root + "exampleSWDEntry1.xml").toFile();
+      File swidEntryFile = Paths.get(root + "exampleSWIDEntry.xml").toFile();
 
       File serviceDocFile = Paths.get(root + "exampleServiceDocument.xml").toFile();
+
+      File swidDataFile = Paths
+          .get(root + "data/gov.nist.nsrl.steam.linux.windows.291550.1678990.-2.demo20170424.swidtag").toFile();
 
       AtomFeed incidentFeed = null;
       AtomFeed vulnFeed = null;
       AtomFeed swdFeed = null;
 
       AtomEntry incidentEntry = null;
-      AtomEntry vulnEntry = null;
-      AtomEntry swdEntry = null;
+      // AtomEntry vulnEntry = null;
+      // AtomEntry swdEntry = null;
+      AtomEntry swidEntry = null;
 
       APPServiceDocument service = null;
       // APPCategories category = null;
+
+      String swidData;
+      try {
+        swidData = new Scanner(swidDataFile).useDelimiter("\\Z").next();
+      } catch (FileNotFoundException e) {
+        throw new RuntimeException(e);
+      }
 
       try {
         incidentFeed = new AtomFeed(FeedDocument.Factory.parse(incidentFeedFile));
@@ -430,8 +444,9 @@ public class MapPersist implements PersistenceMethod {
         vulnFeed = new AtomFeed(FeedDocument.Factory.parse(vulnFeedFile));
 
         incidentEntry = new AtomEntry(EntryDocument.Factory.parse(incidentEntryFile));
-        vulnEntry = new AtomEntry(EntryDocument.Factory.parse(vulnEntryFile));
-        swdEntry = new AtomEntry(EntryDocument.Factory.parse(swdEntryFile));
+        // vulnEntry = new AtomEntry(EntryDocument.Factory.parse(vulnEntryFile));
+        // swdEntry = new AtomEntry(EntryDocument.Factory.parse(swdEntryFile));
+        swidEntry = new AtomEntry(EntryDocument.Factory.parse(swidEntryFile));
 
         service = new APPServiceDocument(ServiceDocument.Factory.parse(serviceDocFile));
       } catch (XmlException e) {
@@ -446,9 +461,12 @@ public class MapPersist implements PersistenceMethod {
 
         createEntry(incidentEntry, "http://localhost:8080/polie-server/rolie/entry/exampleIncidentEntry1");
         // createEntry(vulnEntry, "http://localhost:8080/polie-server/rolie/entry/exampleVulnEntry1");
-        createEntry(swdEntry, "http://localhost:8080/polie-server/rolie/entry/exampleSWDEntry1");
+        // createEntry(swdEntry, "http://localhost:8080/polie-server/rolie/entry/exampleSWDEntry1");
+        createEntry(swidEntry, "http://localhost:8080/polie-server/rolie/entry/exampleSWIDEntry");
 
         createServiceDocument(service, "http://localhost:8080/polie-server/rolie/servicedocument");
+
+        createData(swidData, "http://localhost:8080/polie-server/rolie/data/exampleSWID");
 
       } catch (ResourceAlreadyExistsException e) {
         e.printStackTrace();

@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feed xml:lang="en-US" xmlns="http://www.w3.org/2005/Atom" xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0">
-	<id>examplePublicSWDFeed</id>
-	<title type="text">Atom formatted representation of a feed of software descriptor documents</title>
-	<category scheme="urn:ietf:params:rolie:category:information-type" term="software-descriptor"/>
-	<updated>2016-05-04T18:13:51.0Z</updated>
-	<link href="http://localhost:8080/polie-server/rolie/feed/examplePublicSWDFeed" rel="self"/>
-	<link href="http://localhost:8080/polie-server/rolie/servicedocument" rel="service"/>
-<entry>
+<entry xml:lang="en-US" xmlns="http://www.w3.org/2005/Atom" xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0">
 	<id>exampleSWIDEntry</id>
 	<title>gov.nist.nsrl.steam.linux.windows.291550.1678990.-2.demo20170424 SWID tag ROLIE entry</title>
 	<published>2015-08-04T18:13:51.0Z</published>
@@ -17,4 +10,3 @@
 	<rolie:property name="urn:ietf:params:rolie:property:swd:swname" value="Brawlhalla"/>
 	<content src="http://localhost:8080/polie-server/rolie/data/exampleSWID" type="application/xml"/>
 </entry>
-</feed>
