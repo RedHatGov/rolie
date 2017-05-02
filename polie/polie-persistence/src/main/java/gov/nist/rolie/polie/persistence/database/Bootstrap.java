@@ -224,7 +224,7 @@ public class Bootstrap {
 
     bootstrapServiceDocument(
         getClass().getClassLoader().getResourceAsStream("/rolieexamples/exampleServiceDocument.xml"),
-        "http://localhost:8080/polie-server/rolie/servicedocument", pm);
+        "http://localhost:8080/polie-server/rolie/.well-known/servicedocument", pm);
 
     String swidData;
     try (

@@ -5,7 +5,7 @@
 	<category scheme="urn:ietf:params:rolie:category:information-type" term="vulnerability"/>
 	<updated>2016-05-04T18:13:51.0Z</updated>
 	<link href="http://localhost:8080/polie-server/rolie/private/feed/examplePrivateIncidentFeed" rel="self"/>
-	<link href="http://localhost:8080/polie-server/rolie/servicedocument" rel="service"/>
+	<link href="http://localhost:8080/polie-server/rolie/.well-known/servicedocument" rel="service"/>
 	<entry>
 		<id>exampleIncidentEntry1</id>
 		<title>Sample Incident</title>

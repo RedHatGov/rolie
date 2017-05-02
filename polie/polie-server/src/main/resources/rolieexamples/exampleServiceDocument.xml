@@ -4,14 +4,14 @@
 		<atom:title>Public Security Information Sharing</atom:title>
 		<collection href="http://localhost:8080/polie-server/rolie/feed/examplePublicVulnFeed">
 			<atom:title>Public Vulnerabilities</atom:title>
-			<atom:link href="http://localhost:8080/polie-server/rolie/servicedocument" rel="service"/>
+			<atom:link href="http://localhost:8080/polie-server/rolie/.well-known/servicedocument" rel="service"/>
 			<categories fixed="yes">
 				<atom:category scheme="urn:ietf:params:rolie:category:information-type" term="vulnerability"/>
 			</categories>
 		</collection>
 		<collection href="http://localhost:8080/polie-server/rolie/feed/examplePublicSWDFeed">
 			<atom:title>Public Software Descriptors</atom:title>
-			<atom:link href="http://localhost:8080/polie-server/rolie/servicedocument" rel="service"/>
+			<atom:link href="http://localhost:8080/polie-server/rolie/.well-known/servicedocument" rel="service"/>
 			<categories fixed="no">
 				<atom:category scheme="urn:ietf:params:rolie:category:information-type" term="software-descriptor"/>
 			</categories>
@@ -21,7 +21,7 @@
 		<atom:title>Private Consortium Sharing</atom:title>
 		<collection href="http://localhost:8080/polie-server/rolie/private/feed/examplePrivateIncidentFeed">
 			<atom:title>Private Incidents</atom:title>
-			<atom:link href="http://localhost:8080/polie-server/rolie/servicedocument" rel="service"/>
+			<atom:link href="http://localhost:8080/polie-server/rolie/.well-known/servicedocument" rel="service"/>
 			<categories fixed="yes">
 				<atom:category scheme="urn:ietf:params:rolie:category:information-type" term="incident"/>
 			</categories>
