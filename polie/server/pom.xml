@@ -4,36 +4,35 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>gov.nist.rolie</groupId>
-		<artifactId>polie</artifactId>
+		<groupId>gov.nist.jrolie</groupId>
+		<artifactId>master</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>polie-server</artifactId>
+	<artifactId>server</artifactId>
+	<name>JROLIE Server</name>
 
 	<packaging>war</packaging>
 
 	<dependencies>
 
 		<dependency>
-			<groupId>gov.nist.rolie</groupId>
-			<artifactId>polie-model</artifactId>
+			<groupId>gov.nist.jrolie</groupId>
+			<artifactId>model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
-			<groupId>gov.nist.rolie</groupId>
-			<artifactId>polie-persistence</artifactId>
+			<groupId>gov.nist.jrolie</groupId>
+			<artifactId>persistence-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
-			<groupId>gov.nist.rolie</groupId>
-			<artifactId>polie-atomLogic</artifactId>
+			<groupId>gov.nist.jrolie</groupId>
+			<artifactId>logic</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
-
 
 		<dependency>
 			<groupId>org.springframework</groupId>

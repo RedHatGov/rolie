@@ -3,13 +3,15 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>gov.nist.rolie</groupId>
-		<artifactId>polie</artifactId>
+		<groupId>gov.nist.jrolie</groupId>
+		<artifactId>master</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 
-	<artifactId>polie-model</artifactId>
+	<artifactId>model</artifactId>
+	<name>JROLIE Shared Model</name>
+
 	<packaging>jar</packaging>
 
 	<dependencies>
@@ -51,8 +53,8 @@
 				<artifactId>xmlbeans-maven-plugin</artifactId>
 				<configuration>
 					<javaSource>1.5</javaSource>
-<!-- 					<noJavac>true</noJavac> -->
-<!-- 					<classGenerationDirectory>${project.build.directory}/generated-sources/xmlbeans</classGenerationDirectory> -->
+					<!-- <noJavac>true</noJavac> -->
+					<!-- <classGenerationDirectory>${project.build.directory}/generated-sources/xmlbeans</classGenerationDirectory> -->
 				</configuration>
 			</plugin>
 		</plugins>

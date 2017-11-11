@@ -8,12 +8,12 @@
 		<version>7</version>
 	</parent>
 
-	<groupId>gov.nist.rolie</groupId>
-	<artifactId>polie</artifactId>
+	<groupId>gov.nist.jrolie</groupId>
+	<artifactId>master</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>polie</name>
+	<name>JROLIE Build Master Project</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
