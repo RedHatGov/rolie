@@ -23,15 +23,15 @@
 
 package gov.nist.rolie.polie.server.visitors;
 
+import gov.nist.jrolie.model.resource.APPResource;
+import gov.nist.jrolie.model.resource.AtomEntry;
+import gov.nist.jrolie.model.resource.AtomFeed;
 import gov.nist.rolie.polie.atom.logic.EntryNotFoundException;
 import gov.nist.rolie.polie.atom.logic.LinkAlreadyExistsException;
 import gov.nist.rolie.polie.atom.logic.MismatchedCategoriesException;
 import gov.nist.rolie.polie.atom.logic.services.EntryService;
 import gov.nist.rolie.polie.atom.logic.services.FeedService;
 import gov.nist.rolie.polie.atom.logic.services.ResourceService;
-import gov.nist.rolie.polie.model.models.APPResource;
-import gov.nist.rolie.polie.model.models.AtomEntry;
-import gov.nist.rolie.polie.model.models.AtomFeed;
 import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
 import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
 import gov.nist.rolie.polie.persistence.ResourceNotFoundException;

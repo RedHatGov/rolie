@@ -23,12 +23,12 @@
 
 package gov.nist.rolie.polie.persistence.database;
 
-import gov.nist.rolie.polie.model.ResourceType;
-import gov.nist.rolie.polie.model.models.APPCategories;
-import gov.nist.rolie.polie.model.models.APPResource;
-import gov.nist.rolie.polie.model.models.APPServiceDocument;
-import gov.nist.rolie.polie.model.models.AtomEntry;
-import gov.nist.rolie.polie.model.models.AtomFeed;
+import gov.nist.jrolie.model.ResourceType;
+import gov.nist.jrolie.model.resource.APPCategories;
+import gov.nist.jrolie.model.resource.APPResource;
+import gov.nist.jrolie.model.resource.APPServiceDocument;
+import gov.nist.jrolie.model.resource.AtomEntry;
+import gov.nist.jrolie.model.resource.AtomFeed;
 import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
 import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
 import gov.nist.rolie.polie.persistence.ResourceNotFoundException;

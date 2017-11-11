@@ -21,28 +21,74 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.atom.logic.services;
-
-import gov.nist.jrolie.model.resource.AtomEntry;
-import gov.nist.rolie.polie.atom.logic.LinkAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
-import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
-
-import org.w3.x2005.atom.LinkDocument.Link;
+package gov.nist.jrolie.model.element;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
-public interface DataService {
+import gov.nist.jrolie.model.construct.AtomCommonAttributes;
 
-  String loadData(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException;
+/*
+ * 4.2.8.  The "atom:logo" Element
 
-  String createData(String data, URI iri)
-      throws ResourceAlreadyExistsException, LinkAlreadyExistsException, URISyntaxException;
+   The "atom:logo" element's content is an IRI reference [RFC3987] that
+   identifies an image that provides visual identification for a feed.
 
-  String updateData(String data, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+   atomLogo = element atom:logo {
+      atomCommonAttributes,
+      (atomUri)
+   }
 
-  boolean deleteData(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+   The image SHOULD have an aspect ratio of 2 (horizontal) to 1
+   (vertical).
+ */
+
+public class AtomLogo implements AtomElement {
+
+  private AtomCommonAttributes commonattributes;
+
+  private URI iri;
+
+  /**
+   * @param commonattributes
+   * @param iri
+   */
+  public AtomLogo(AtomCommonAttributes commonattributes, URI iri) {
+    super();
+    this.commonattributes = commonattributes;
+    this.iri = iri;
+  }
+
+  public AtomLogo() {
+  }
+
+  /**
+   * @return the commonattributes
+   */
+  public AtomCommonAttributes getCommonattributes() {
+    return commonattributes;
+  }
+
+  /**
+   * @return the iri
+   */
+  public URI getIri() {
+    return iri;
+  }
+
+  /**
+   * @param commonattributes
+   *          the commonattributes to set
+   */
+  public void setCommonattributes(AtomCommonAttributes commonattributes) {
+    this.commonattributes = commonattributes;
+  }
+
+  /**
+   * @param iri
+   *          the iri to set
+   */
+  public void setIri(URI iri) {
+    this.iri = iri;
+  }
 
 }

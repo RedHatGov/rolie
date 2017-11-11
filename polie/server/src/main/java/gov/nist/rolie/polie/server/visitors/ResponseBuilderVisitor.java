@@ -23,7 +23,7 @@
 
 package gov.nist.rolie.polie.server.visitors;
 
-import gov.nist.rolie.polie.model.models.APPResource;
+import gov.nist.jrolie.model.resource.APPResource;
 import gov.nist.rolie.polie.server.event.Delete;
 import gov.nist.rolie.polie.server.event.Get;
 import gov.nist.rolie.polie.server.event.Post;

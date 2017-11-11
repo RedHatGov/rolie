@@ -21,28 +21,58 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.atom.logic.services;
+package gov.nist.jrolie.model.construct;
 
-import gov.nist.jrolie.model.resource.AtomEntry;
-import gov.nist.rolie.polie.atom.logic.LinkAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
-import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
+/*
+ *    # Common attributes
 
-import org.w3.x2005.atom.LinkDocument.Link;
+   atomCommonAttributes =
+      attribute xml:base { atomUri }?,
+      attribute xml:lang { atomLanguageTag }?,
+      undefinedAttribute*
 
-import java.net.URI;
-import java.net.URISyntaxException;
+ */
+public class AtomCommonAttributes {
 
-public interface DataService {
+  private String xmlBase;
+  private String xmlLang;
 
-  String loadData(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException;
+  public AtomCommonAttributes(String xmlBase, String xmlLang) {
+    this.xmlBase = xmlBase;
+    this.xmlLang = xmlLang;
+  }
 
-  String createData(String data, URI iri)
-      throws ResourceAlreadyExistsException, LinkAlreadyExistsException, URISyntaxException;
+  public AtomCommonAttributes() {
+  }
 
-  String updateData(String data, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+  /**
+   * @return the xmlBase
+   */
+  public String getXmlBase() {
+    return xmlBase;
+  }
 
-  boolean deleteData(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+  /**
+   * @return the xmlLang
+   */
+  public String getXmlLang() {
+    return xmlLang;
+  }
+
+  /**
+   * @param xmlBase
+   *          the xmlBase to set
+   */
+  public void setXmlBase(String xmlBase) {
+    this.xmlBase = xmlBase;
+  }
+
+  /**
+   * @param xmlLang
+   *          the xmlLang to set
+   */
+  public void setXmlLang(String xmlLang) {
+    this.xmlLang = xmlLang;
+  }
 
 }

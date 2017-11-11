@@ -23,8 +23,8 @@
 
 package gov.nist.rolie.polie.atom.logic.services;
 
+import gov.nist.jrolie.model.resource.AtomEntry;
 import gov.nist.rolie.polie.atom.logic.LinkAlreadyExistsException;
-import gov.nist.rolie.polie.model.models.AtomEntry;
 import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
 import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
 import gov.nist.rolie.polie.persistence.ResourceNotFoundException;

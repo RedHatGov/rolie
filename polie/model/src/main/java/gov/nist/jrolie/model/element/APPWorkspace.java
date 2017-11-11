@@ -21,76 +21,79 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.persistence.database;
+package gov.nist.jrolie.model.element;
 
-import gov.nist.jrolie.model.ResourceType;
-import gov.nist.jrolie.model.resource.APPResource;
+import java.util.List;
 
-public class MappedResource {
+import gov.nist.jrolie.model.construct.APPCommonAttributes;
 
-  APPResource resource;
-  ResourceType type;
-  String data = null;
+public class APPWorkspace implements APPElement {
 
-  /**
-   * @param resource
-   * @param type
-   */
-  public MappedResource(APPResource resource, ResourceType type) {
-    this.resource = resource;
-    this.type = type;
-  }
+  private APPCommonAttributes appCommonAttributes;
 
-  public String getData() {
-    return data;
-  }
+  private String title;
 
-  public void setData(String data) {
-    this.data = data;
-  }
+  private List<APPCollection> collection;
 
   /**
-   * @return the resource
+   * @param appCommonAttributes
+   * @param title
+   * @param collection
    */
-  public APPResource getResource() {
-    return resource;
+  public APPWorkspace(APPCommonAttributes appCommonAttributes, String title, List<APPCollection> collections) {
+    super();
+    this.appCommonAttributes = appCommonAttributes;
+    this.title = title;
+    this.collection = collections;
+  }
+
+  public APPWorkspace() {
+    // TODO Auto-generated constructor stub
   }
 
   /**
-   * @return the type
+   * @return the aPPCommonAttributes
    */
-  public ResourceType getType() {
-    return type;
+  public APPCommonAttributes getAPPCommonAttributes() {
+    return appCommonAttributes;
   }
 
   /**
-   * @param resource
-   *          the resource to set
+   * @return the title
    */
-  public void setResource(APPResource resource) {
-    this.resource = resource;
+  public String getTitle() {
+    return title;
   }
 
   /**
-   * @param type
-   *          the type to set
+   * @return the collection
    */
-  public void setType(ResourceType type) {
-    this.type = type;
+  public List<APPCollection> getCollections() {
+    return collection;
   }
 
-  @Override
-  public boolean equals(Object other) {
-    if (!(other instanceof MappedResource)) {
-      return false;
-    }
-    MappedResource mrOther = (MappedResource) other;
-    if (mrOther.getType() != this.getType()) {
-      return false;
-    } else if (mrOther.getResource() != this.getResource()) {
-      return false;
-    }
-    return true;
+  /**
+   * @param appCommonAttributes
+   *          the aPPCommonAttributes to set
+   */
+  public void setAPPCommonAttributes(APPCommonAttributes appCommonAttributes) {
+    this.appCommonAttributes = appCommonAttributes;
+  }
+
+  /**
+   * @param title
+   *          the title to set
+   */
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  /**
+   * @param collections
+   *          the collections to set
+   */
+  public void setCollections(List<APPCollection> collections) {
+    this.collection = collections;
   }
 
 }

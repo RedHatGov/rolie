@@ -23,10 +23,10 @@
 
 package gov.nist.rolie.polie.atom.logic.services;
 
+import gov.nist.jrolie.model.resource.AtomEntry;
+import gov.nist.jrolie.model.resource.AtomFeed;
 import gov.nist.rolie.polie.atom.logic.EntryNotFoundException;
 import gov.nist.rolie.polie.atom.logic.MismatchedCategoriesException;
-import gov.nist.rolie.polie.model.models.AtomEntry;
-import gov.nist.rolie.polie.model.models.AtomFeed;
 import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
 import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
 import gov.nist.rolie.polie.persistence.ResourceNotFoundException;

@@ -23,9 +23,9 @@
 
 package gov.nist.rolie.polie.persistence.database;
 
-import gov.nist.rolie.polie.model.models.APPServiceDocument;
-import gov.nist.rolie.polie.model.models.AtomEntry;
-import gov.nist.rolie.polie.model.models.AtomFeed;
+import gov.nist.jrolie.model.resource.APPServiceDocument;
+import gov.nist.jrolie.model.resource.AtomEntry;
+import gov.nist.jrolie.model.resource.AtomFeed;
 import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
 
 import org.apache.xmlbeans.XmlException;

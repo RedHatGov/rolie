@@ -23,9 +23,9 @@
 
 package gov.nist.rolie.polie.atom.logic.services;
 
-import gov.nist.rolie.polie.model.models.APPServiceDocument;
-import gov.nist.rolie.polie.model.models.AtomFeed;
-import gov.nist.rolie.polie.model.models.elements.APPCollection;
+import gov.nist.jrolie.model.element.APPCollection;
+import gov.nist.jrolie.model.resource.APPServiceDocument;
+import gov.nist.jrolie.model.resource.AtomFeed;
 import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
 import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
 import gov.nist.rolie.polie.persistence.ResourceNotFoundException;

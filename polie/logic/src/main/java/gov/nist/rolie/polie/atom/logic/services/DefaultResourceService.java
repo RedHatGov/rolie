@@ -23,8 +23,8 @@
 
 package gov.nist.rolie.polie.atom.logic.services;
 
-import gov.nist.rolie.polie.model.ResourceType;
-import gov.nist.rolie.polie.model.models.APPResource;
+import gov.nist.jrolie.model.ResourceType;
+import gov.nist.jrolie.model.resource.APPResource;
 import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
 import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
 import gov.nist.rolie.polie.persistence.database.PersistenceMethod;

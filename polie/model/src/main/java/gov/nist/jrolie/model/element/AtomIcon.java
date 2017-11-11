@@ -21,28 +21,74 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.atom.logic.services;
+package gov.nist.jrolie.model.element;
+/*
+ * 4.2.5.  The "atom:icon" Element
 
-import gov.nist.jrolie.model.resource.AtomEntry;
-import gov.nist.rolie.polie.atom.logic.LinkAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
-import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
+   The "atom:icon" element's content is an IRI reference [RFC3987] that
+   identifies an image that provides iconic visual identification for a
+   feed.
 
-import org.w3.x2005.atom.LinkDocument.Link;
+   atomIcon = element atom:icon {
+      atomCommonAttributes,
+      (atomUri)
+   }
+
+   The image SHOULD have an aspect ratio of one (horizontal) to one
+   (vertical) and SHOULD be suitable for presentation at a small size.
+ */
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
-public interface DataService {
+import gov.nist.jrolie.model.construct.AtomCommonAttributes;
 
-  String loadData(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException;
+public class AtomIcon implements AtomElement {
 
-  String createData(String data, URI iri)
-      throws ResourceAlreadyExistsException, LinkAlreadyExistsException, URISyntaxException;
+  private AtomCommonAttributes commonAttributes;
 
-  String updateData(String data, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+  private URI iri;
 
-  boolean deleteData(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+  /**
+   * @param commonAttributes
+   * @param iri
+   */
+  public AtomIcon(AtomCommonAttributes commonAttributes, URI iri) {
+    super();
+    this.commonAttributes = commonAttributes;
+    this.iri = iri;
+  }
+
+  public AtomIcon() {
+  }
+
+  /**
+   * @return the commonAttributes
+   */
+  public AtomCommonAttributes getCommonAttributes() {
+    return commonAttributes;
+  }
+
+  /**
+   * @return the iri
+   */
+  public URI getIri() {
+    return iri;
+  }
+
+  /**
+   * @param commonAttributes
+   *          the commonAttributes to set
+   */
+  public void setCommonAttributes(AtomCommonAttributes commonAttributes) {
+    this.commonAttributes = commonAttributes;
+  }
+
+  /**
+   * @param iri
+   *          the iri to set
+   */
+  public void setIri(URI iri) {
+    this.iri = iri;
+  }
 
 }

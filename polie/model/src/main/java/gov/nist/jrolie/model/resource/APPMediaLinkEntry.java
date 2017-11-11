@@ -21,28 +21,8 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.atom.logic.services;
+package gov.nist.jrolie.model.resource;
 
-import gov.nist.jrolie.model.resource.AtomEntry;
-import gov.nist.rolie.polie.atom.logic.LinkAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
-import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
-
-import org.w3.x2005.atom.LinkDocument.Link;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
-public interface DataService {
-
-  String loadData(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException;
-
-  String createData(String data, URI iri)
-      throws ResourceAlreadyExistsException, LinkAlreadyExistsException, URISyntaxException;
-
-  String updateData(String data, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
-
-  boolean deleteData(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+public abstract class APPMediaLinkEntry extends APPEntryResource {
 
 }

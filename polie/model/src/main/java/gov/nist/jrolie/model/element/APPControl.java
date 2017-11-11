@@ -21,28 +21,28 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.atom.logic.services;
+package gov.nist.jrolie.model.element;
 
-import gov.nist.jrolie.model.resource.AtomEntry;
-import gov.nist.rolie.polie.atom.logic.LinkAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
-import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
+/**
+ * namespace app = "http://www.w3.org/2007/app"
+ * 
+ * pubControl = element app:control { atomCommonAttributes, pubDraft? & extensionElement }
+ * 
+ * pubDraft = element app:draft { "yes" | "no" }
+ * 
+ * The "app:control" element MAY appear as a child of an atom:entry that is being created or updated
+ * via the Atom Publishing Protocol. The app:control element MUST appear only once in an Entry. The
+ * app:control element is considered foreign markup as defined in Section 6 of [RFC4287].
+ * 
+ * The app:control element and its child elements MAY be included in Atom Feed or Entry Documents.
+ * 
+ * The app:control element can contain an "app:draft" element as defined below, and it can contain
+ * extension elements as defined in Section 6 of [RFC4287].
+ * 
+ * @author sab3
+ *
+ */
 
-import org.w3.x2005.atom.LinkDocument.Link;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
-public interface DataService {
-
-  String loadData(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException;
-
-  String createData(String data, URI iri)
-      throws ResourceAlreadyExistsException, LinkAlreadyExistsException, URISyntaxException;
-
-  String updateData(String data, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
-
-  boolean deleteData(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+public class APPControl implements APPElement {
 
 }

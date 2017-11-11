@@ -21,28 +21,40 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.atom.logic.services;
+package gov.nist.jrolie.model.resource;
 
-import gov.nist.jrolie.model.resource.AtomEntry;
-import gov.nist.rolie.polie.atom.logic.LinkAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
-import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
-
-import org.w3.x2005.atom.LinkDocument.Link;
+import org.apache.xmlbeans.XmlObject;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
-public interface DataService {
+public abstract class AbstractAPPResource<XML extends XmlObject> implements APPResource {
+  private URI iri;
+  private final XML xmlObject;
 
-  String loadData(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException;
+  /**
+   * @param xmlObject
+   */
+  public AbstractAPPResource(XML xmlObject) {
+    this.xmlObject = xmlObject;
+  }
 
-  String createData(String data, URI iri)
-      throws ResourceAlreadyExistsException, LinkAlreadyExistsException, URISyntaxException;
+  public XML getXmlObject() {
+    return xmlObject;
+  }
 
-  String updateData(String data, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+  /**
+   * @return the iri
+   */
+  public URI getIRI() {
+    return iri;
+  }
 
-  boolean deleteData(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
+  /**
+   * @param iri
+   *          the iri to set
+   */
+  public void setIRI(URI iri) {
+    this.iri = iri;
+  }
 
 }
