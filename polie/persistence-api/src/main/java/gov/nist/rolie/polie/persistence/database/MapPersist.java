@@ -29,9 +29,9 @@ import gov.nist.jrolie.model.resource.APPResource;
 import gov.nist.jrolie.model.resource.APPServiceDocument;
 import gov.nist.jrolie.model.resource.AtomEntry;
 import gov.nist.jrolie.model.resource.AtomFeed;
-import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
-import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
+import gov.nist.jrolie.persistence.api.InvalidResourceTypeException;
+import gov.nist.jrolie.persistence.api.ResourceAlreadyExistsException;
+import gov.nist.jrolie.persistence.api.ResourceNotFoundException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

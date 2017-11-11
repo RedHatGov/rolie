@@ -23,11 +23,11 @@
 
 package gov.nist.rolie.polie.server.visitors;
 
+import gov.nist.jrolie.persistence.api.InvalidResourceTypeException;
+import gov.nist.jrolie.persistence.api.ResourceAlreadyExistsException;
+import gov.nist.jrolie.persistence.api.ResourceNotFoundException;
 import gov.nist.rolie.polie.atom.logic.LinkAlreadyExistsException;
 import gov.nist.rolie.polie.atom.logic.services.DataService;
-import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
-import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
 import gov.nist.rolie.polie.server.event.Delete;
 import gov.nist.rolie.polie.server.event.Get;
 import gov.nist.rolie.polie.server.event.Post;
