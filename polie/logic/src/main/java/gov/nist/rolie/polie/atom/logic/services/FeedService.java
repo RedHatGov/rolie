@@ -25,11 +25,11 @@ package gov.nist.rolie.polie.atom.logic.services;
 
 import gov.nist.jrolie.model.resource.AtomEntry;
 import gov.nist.jrolie.model.resource.AtomFeed;
+import gov.nist.jrolie.persistence.api.InvalidResourceTypeException;
+import gov.nist.jrolie.persistence.api.ResourceAlreadyExistsException;
+import gov.nist.jrolie.persistence.api.ResourceNotFoundException;
 import gov.nist.rolie.polie.atom.logic.EntryNotFoundException;
 import gov.nist.rolie.polie.atom.logic.MismatchedCategoriesException;
-import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
-import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
 
 import java.net.URI;
 import java.net.URISyntaxException;

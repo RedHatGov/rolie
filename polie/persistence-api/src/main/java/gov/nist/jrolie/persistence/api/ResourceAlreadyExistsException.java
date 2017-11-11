@@ -21,13 +21,13 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.rolie.polie.persistence;
+package gov.nist.jrolie.persistence.api;
 
-public class InvalidResourceTypeException extends Exception {
+public class ResourceAlreadyExistsException extends Exception {
 
   /**
    * 
    */
-  private static final long serialVersionUID = 5184906154038943803L;
+  private static final long serialVersionUID = -1018349656084050888L;
 
 }

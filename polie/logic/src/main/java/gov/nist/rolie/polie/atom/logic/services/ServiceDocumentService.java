@@ -26,9 +26,9 @@ package gov.nist.rolie.polie.atom.logic.services;
 import gov.nist.jrolie.model.element.APPCollection;
 import gov.nist.jrolie.model.resource.APPServiceDocument;
 import gov.nist.jrolie.model.resource.AtomFeed;
-import gov.nist.rolie.polie.persistence.InvalidResourceTypeException;
-import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
+import gov.nist.jrolie.persistence.api.InvalidResourceTypeException;
+import gov.nist.jrolie.persistence.api.ResourceAlreadyExistsException;
+import gov.nist.jrolie.persistence.api.ResourceNotFoundException;
 
 import org.w3.x2005.atom.CategoryDocument.Category;
 import org.w3.x2007.app.CollectionType;

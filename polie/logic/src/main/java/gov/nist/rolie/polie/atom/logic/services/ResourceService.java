@@ -25,8 +25,8 @@ package gov.nist.rolie.polie.atom.logic.services;
 
 import gov.nist.jrolie.model.ResourceType;
 import gov.nist.jrolie.model.resource.APPResource;
-import gov.nist.rolie.polie.persistence.ResourceAlreadyExistsException;
-import gov.nist.rolie.polie.persistence.ResourceNotFoundException;
+import gov.nist.jrolie.persistence.api.ResourceAlreadyExistsException;
+import gov.nist.jrolie.persistence.api.ResourceNotFoundException;
 
 import java.net.URI;
 
