@@ -30,5 +30,4 @@ public enum ResourceType {
   SERVICE,
   RESOURCE,
   MEDIA;
-
 }
