@@ -26,13 +26,13 @@
     <param-value>/rolie</param-value>
   </context-param>
   <servlet>
-    <servlet-name>polie-server</servlet-name>
+    <servlet-name>server</servlet-name>
     <servlet-class>
             org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
         </servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>polie-server</servlet-name>
+    <servlet-name>server</servlet-name>
     <url-pattern>/rolie/*</url-pattern>
   </servlet-mapping>
 </web-app>

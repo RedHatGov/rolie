@@ -63,7 +63,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>polie-server</finalName>
+		<finalName>server</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>
