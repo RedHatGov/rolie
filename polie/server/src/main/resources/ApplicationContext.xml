@@ -7,7 +7,7 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	<context:annotation-config />
-	<context:component-scan base-package="gov.nist.rolie.polie" />
+	<context:component-scan base-package="gov.nist.jrolie" />
 	<!-- bean definitions go here -->
 	<!-- <bean id="resourceService" -->
 	<!-- class="gov.nist.rolie.polie.atomLogic.modelServices.DefaultResourceService" 
