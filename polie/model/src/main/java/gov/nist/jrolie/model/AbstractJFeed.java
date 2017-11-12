@@ -22,8 +22,15 @@
  */
 package gov.nist.jrolie.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
-public interface JCollection extends JResource {
-	List<JEntry> getEntries();
+public abstract class AbstractJFeed extends AbstractJResource implements JFeed {
+	private List<JEntry> entries = new LinkedList<JEntry>();
+
+	@Override
+	public List<JEntry> getEntries() {
+		return new ChangeTrackingListProxy<JEntry>(this, entries);
+	}
+	
 }

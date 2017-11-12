@@ -24,8 +24,8 @@ package gov.nist.jrolie.persistence.api;
 
 import java.net.URI;
 
-import gov.nist.jrolie.model.JCollection;
 import gov.nist.jrolie.model.JEntry;
+import gov.nist.jrolie.model.JFeed;
 
 public class APIExamples {
 	
@@ -37,7 +37,7 @@ public class APIExamples {
 //		// first save the entry
 //		newEntry = pc.save(newEntry);
 
-		JCollection col = pc.load(URI.create("location"), JCollection.class);
+		JFeed col = pc.load(URI.create("location"), JFeed.class);
 		// add the entry to the collection
 		col.getEntries().add(newEntry);
 		// now save the updated collection
@@ -49,7 +49,7 @@ public class APIExamples {
 	public void updateCollectionMetadata() {
 		PersistenceContext pc = null;
 
-		JCollection col = pc.load(URI.create("location"), JCollection.class);
+		JFeed col = pc.load(URI.create("location"), JFeed.class);
 		// Modify the collection metadata
 		// TODO: uncomment once the property is created
 		//		col.setTitle(Type.HTML, "<b>test</b>");
