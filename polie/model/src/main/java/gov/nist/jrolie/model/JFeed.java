@@ -22,14 +22,38 @@
  */
 package gov.nist.jrolie.model;
 
+import java.net.URI;
 import java.util.List;
 
 public interface JFeed extends JResource {
 	
-	List<JEntry> getEntries();
+	JPersonConstruct getAuthor();
 	
 	List<JCategory> getCategories();
 	
+	List<JPersonConstruct> getContributors();
+	
+	JGenerator getGenerator();
+	 
+	URI getIcon();
+	
+	String getID();
+	
+	JLink getLink();
+	
+	URI getLogo();
+	
+	JTextConstruct getRights();
+	
+	JTextConstruct getSubtitle();
+	
 	JTextConstruct getTitle();
+	
+	JDate getUpdated();
+	
+	List<JEntry> getEntries();
+	
+	//TODO:Extension element Handling??
+	
 	
 }
