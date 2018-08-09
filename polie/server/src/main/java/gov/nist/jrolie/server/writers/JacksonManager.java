@@ -20,14 +20,12 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
-package gov.nist.jrolie.model;
+package gov.nist.jrolie.server.writers;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-public interface JServiceDocument extends JResource {
+public class JacksonManager {
+
+	ObjectMapper bob;
 	
-	ArrayList<JWorkspace> getWorkspaces();
-	
-	void setWorkspaces(ArrayList<JWorkspace> workspaces);
-
 }

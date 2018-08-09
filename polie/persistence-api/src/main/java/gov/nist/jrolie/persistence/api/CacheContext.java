@@ -20,14 +20,16 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
-package gov.nist.jrolie.model;
+package gov.nist.jrolie.persistence.api;
 
-import java.util.ArrayList;
+import gov.nist.jrolie.model.JResource;
 
-public interface JServiceDocument extends JResource {
+public interface CacheContext {
 	
-	ArrayList<JWorkspace> getWorkspaces();
-	
-	void setWorkspaces(ArrayList<JWorkspace> workspaces);
+	boolean exists(String path);
+	JResource load(String path);
+	<X extends JResource> X load(String path, Class<X> clazz);
+	<X extends JResource> X save(String path, X resource);
+	<X extends JResource> X save(X resource);
 
 }

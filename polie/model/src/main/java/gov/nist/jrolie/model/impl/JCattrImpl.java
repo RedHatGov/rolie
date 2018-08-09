@@ -20,14 +20,10 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
-package gov.nist.jrolie.model;
+package gov.nist.jrolie.model.impl;
 
-import java.util.ArrayList;
+import gov.nist.jrolie.model.JCattr;
 
-public interface JServiceDocument extends JResource {
-	
-	ArrayList<JWorkspace> getWorkspaces();
-	
-	void setWorkspaces(ArrayList<JWorkspace> workspaces);
+public class JCattrImpl implements JCattr {
 
 }

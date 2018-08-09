@@ -20,14 +20,53 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
-package gov.nist.jrolie.model;
 
-import java.util.ArrayList;
+package gov.nist.jrolie.server.writers;
 
-public interface JServiceDocument extends JResource {
-	
-	ArrayList<JWorkspace> getWorkspaces();
-	
-	void setWorkspaces(ArrayList<JWorkspace> workspaces);
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+
+import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.ext.MessageBodyWriter;
+import javax.ws.rs.ext.Provider;
+
+import org.springframework.stereotype.Component;
+
+import gov.nist.jrolie.model.JResource;
+
+@Provider
+@Component
+@Produces({ "application/xml", "application/atom+xml;type=entry", "application/atom+xml" })
+public class zJResourceWriter implements MessageBodyWriter<JResource> {
+
+	@Context
+	UriInfo info;
+
+	@Override
+	public long getSize(JResource arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+		
+		return JResource.class.equals(type.getInterfaces()[0]);
+	}
+
+	@Override
+	public void writeTo(JResource r, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4,
+			MultivaluedMap<String, Object> arg5, OutputStream out) throws IOException, WebApplicationException {
+		String message = "Hi there! I'm a resource at: " + r.getPath() + " with id:" + r.getId();
+
+		out.write(message.getBytes());
+	}
 
 }

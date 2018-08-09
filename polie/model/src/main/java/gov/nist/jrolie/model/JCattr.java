@@ -22,12 +22,6 @@
  */
 package gov.nist.jrolie.model;
 
-import java.util.ArrayList;
-
-public interface JServiceDocument extends JResource {
-	
-	ArrayList<JWorkspace> getWorkspaces();
-	
-	void setWorkspaces(ArrayList<JWorkspace> workspaces);
+public interface JCattr {
 
 }

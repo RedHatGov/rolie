@@ -23,17 +23,17 @@
 
 package gov.nist.jrolie.server.visitors;
 
-import gov.nist.jrolie.model.resource.APPResource;
+import java.util.Map;
+
+import javax.ws.rs.core.Response.ResponseBuilder;
+
+import org.springframework.stereotype.Component;
+
+import gov.nist.jrolie.model.JResource;
 import gov.nist.jrolie.server.event.Delete;
 import gov.nist.jrolie.server.event.Get;
 import gov.nist.jrolie.server.event.Post;
 import gov.nist.jrolie.server.event.Put;
-
-import org.springframework.stereotype.Component;
-
-import java.util.Map;
-
-import javax.ws.rs.core.Response.ResponseBuilder;
 
 /**
  * This visitor provides the common final steps of response preparation before the request is sent
@@ -62,8 +62,8 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
    */
   @Override
   public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-    APPResource resource = (APPResource) data.get(RESOURCE_KEY);
-    rb.entity(resource.getXmlObject());
+    JResource resource =  (JResource) data.get(RESOURCE_KEY);
+    rb.entity(resource);
     return true;
   }
 
@@ -85,8 +85,8 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
    */
   @Override
   public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
-    APPResource resource = (APPResource) data.get(RESOURCE_KEY);
-    rb.entity(resource.getXmlObject());
+    JResource resource = (JResource) data.get(RESOURCE_KEY);
+    rb.entity(resource);
     return true;
   }
 
@@ -106,9 +106,9 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
    */
   @Override
   public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-    APPResource resource = (APPResource) data.get(RESOURCE_KEY);
-    rb.entity(resource.getXmlObject());
-    return true;
+	    JResource resource = (JResource) data.get(RESOURCE_KEY);
+	    rb.entity(resource);
+	    return true;
   }
 
   /**
@@ -126,7 +126,6 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
    */
   @Override
   public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
-    // rb.entity(data.get("ResponseBody"));
     return true;
   }
 

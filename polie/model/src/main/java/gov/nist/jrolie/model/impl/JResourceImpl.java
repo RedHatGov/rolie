@@ -20,14 +20,75 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
-package gov.nist.jrolie.model;
+package gov.nist.jrolie.model.impl;
 
 import java.util.ArrayList;
 
-public interface JServiceDocument extends JResource {
+import gov.nist.jrolie.model.JCattr;
+import gov.nist.jrolie.model.JElement;
+import gov.nist.jrolie.model.JResource;
+
+public class JResourceImpl implements JResource {
+
+	String path;
 	
-	ArrayList<JWorkspace> getWorkspaces();
-	
-	void setWorkspaces(ArrayList<JWorkspace> workspaces);
+	@Override
+	public String getPath() {
+		return path;
+	}
+
+	@Override
+	public boolean isChanged() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void markChanged() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setId(String path) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setPath(String path) {
+		this.path=path;
+
+	}
+
+	@Override
+	public ArrayList<JCattr> getCattr() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setCattr(ArrayList<JCattr> cattr) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ArrayList<JElement> getExtensions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setExtensions(ArrayList<JElement> extensions) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

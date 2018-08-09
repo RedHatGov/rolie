@@ -38,7 +38,7 @@ import javax.ws.rs.core.Response.Status;
 @Component
 public class AuthorizationVisitor implements RESTEventVisitor {
 
-  // TODO: SUPER WIP
+  // TODO: SUPER WIP!! Prevents access to all private resources.
 
   @Override
   public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
@@ -48,7 +48,6 @@ public class AuthorizationVisitor implements RESTEventVisitor {
     } else {
       return true;
     }
-    // AuthenticationService.dosomething();
   }
 
   @Override

@@ -22,12 +22,29 @@
  */
 package gov.nist.jrolie.model;
 
+import java.net.URI;
 import java.util.ArrayList;
 
-public interface JServiceDocument extends JResource {
-	
-	ArrayList<JWorkspace> getWorkspaces();
-	
-	void setWorkspaces(ArrayList<JWorkspace> workspaces);
+public interface JCollection extends JElement {
+
+	JTextConstruct getTitle();
+
+	void setTitle(JTextConstruct title);
+
+	ArrayList<JCategories> getCategories();
+
+	void setCategories(ArrayList<JCategories> categories);
+
+	URI getHref();
+
+	void setHref(URI href);
+
+	String getFeedPath();
+
+	void setFeedPath(String path);
+
+	ArrayList<JAccept> getAccepts();
+
+	void setAccepts(ArrayList<JAccept> accepts);
 
 }

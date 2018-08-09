@@ -23,37 +23,9 @@
 
 package gov.nist.jrolie.atom.logic.services;
 
-import gov.nist.jrolie.atom.logic.LinkAlreadyExistsException;
-import gov.nist.jrolie.model.resource.AtomEntry;
-import gov.nist.jrolie.persistence.api.InvalidResourceTypeException;
-import gov.nist.jrolie.persistence.api.ResourceAlreadyExistsException;
-import gov.nist.jrolie.persistence.api.ResourceNotFoundException;
+import gov.nist.jrolie.model.JEntry;
 
-import org.w3.x2005.atom.LinkDocument.Link;
+public interface EntryService extends Service<JEntry> {
 
-import java.net.URI;
-import java.net.URISyntaxException;
 
-public interface EntryService {
-
-  void publishEntry(AtomEntry entry);
-
-  AtomEntry loadEntry(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException;
-
-  AtomEntry createEntry(AtomEntry entry, URI iri)
-      throws ResourceAlreadyExistsException, LinkAlreadyExistsException, URISyntaxException;
-
-  AtomEntry updateEntry(AtomEntry entry, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
-
-  boolean deleteEntry(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
-
-  AtomEntry updateDates(AtomEntry localEntry);
-
-  AtomEntry stripEntry(AtomEntry localEntry);
-
-  Link hasLink(AtomEntry entry, String rel, String href);
-
-  AtomEntry cleanEntry(AtomEntry entry);
-
-  AtomEntry addNewEntryLink(AtomEntry entry, String rel, String href) throws LinkAlreadyExistsException;
 }

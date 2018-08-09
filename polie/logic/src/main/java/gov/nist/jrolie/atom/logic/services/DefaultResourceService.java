@@ -23,50 +23,44 @@
 
 package gov.nist.jrolie.atom.logic.services;
 
-import gov.nist.jrolie.model.ResourceType;
-import gov.nist.jrolie.model.resource.APPResource;
-import gov.nist.jrolie.persistence.api.ResourceAlreadyExistsException;
-import gov.nist.jrolie.persistence.api.ResourceNotFoundException;
-import gov.nist.jrolie.persistence.database.PersistenceMethod;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.net.URI;
+import gov.nist.jrolie.model.JResource;
+import gov.nist.jrolie.persistence.api.PersistenceContext;
+import gov.nist.jrolie.persistence.api.exceptions.InvalidResourceTypeException;
+import gov.nist.jrolie.persistence.api.exceptions.ResourceAlreadyExistsException;
+import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 
 @Component
 public class DefaultResourceService implements ResourceService {
 
-  @Autowired
-  PersistenceMethod persistenceMethod;
+	@Autowired
+	PersistenceContext pc;
 
-  @Override
-  public ResourceType identifyResouceType(URI iri) throws ResourceNotFoundException {
-    return persistenceMethod.identifyResouceType(iri);
-  }
+	@Override
+	public JResource load(String id) throws ResourceNotFoundException, InvalidResourceTypeException {
+		return pc.load(id, JResource.class);
+	}
 
-  @Override
-  public boolean resourceExists(URI iri) {
-    return persistenceMethod.resourceExists(iri);
-  }
+	@Override
+	public JResource create(JResource resource) throws ResourceAlreadyExistsException {
+		return pc.create(resource);
+	}
 
-  @Override
-  public APPResource loadResource(URI iri) throws ResourceNotFoundException {
-    return persistenceMethod.loadResource(iri);
-  }
+	@Override
+	public JResource delete(String id) throws ResourceNotFoundException {
+		return pc.delete(id);
+	}
 
-  @Override
-  public APPResource createResource(URI iri, APPResource resource) throws ResourceAlreadyExistsException {
-    return persistenceMethod.createResource(resource, iri);
-  }
+	@Override
+	public JResource update(JResource resource) throws ResourceNotFoundException {
+		return pc.update(resource);
+	}
 
-  @Override
-  public APPResource updateResource(URI iri, APPResource resource) throws ResourceNotFoundException {
-    return persistenceMethod.updateResource(resource, iri);
-  }
+	@Override
+	public String pathToId(String path) {
+		return pc.pathToId(path);
+	}
 
-  @Override
-  public boolean deleteResource(URI iri) throws ResourceNotFoundException {
-    return persistenceMethod.deleteResource(iri);
-  }
 }

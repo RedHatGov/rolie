@@ -25,9 +25,9 @@ package gov.nist.jrolie.server.visitors;
 
 import gov.nist.jrolie.atom.logic.LinkAlreadyExistsException;
 import gov.nist.jrolie.atom.logic.services.DataService;
-import gov.nist.jrolie.persistence.api.InvalidResourceTypeException;
-import gov.nist.jrolie.persistence.api.ResourceAlreadyExistsException;
-import gov.nist.jrolie.persistence.api.ResourceNotFoundException;
+import gov.nist.jrolie.persistence.api.exceptions.InvalidResourceTypeException;
+import gov.nist.jrolie.persistence.api.exceptions.ResourceAlreadyExistsException;
+import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 import gov.nist.jrolie.server.event.Delete;
 import gov.nist.jrolie.server.event.Get;
 import gov.nist.jrolie.server.event.Post;

@@ -20,14 +20,38 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
-package gov.nist.jrolie.model;
+package gov.nist.jrolie.model.impl;
 
-import java.util.ArrayList;
+import gov.nist.jrolie.model.JCattr;
+import gov.nist.jrolie.model.JTextConstruct;
 
-public interface JServiceDocument extends JResource {
+public class JTextConstructImpl implements JTextConstruct {
+	String text;
+
+	public JTextConstructImpl(String text)
+	{
+		this.text=text;
+	}
 	
-	ArrayList<JWorkspace> getWorkspaces();
-	
-	void setWorkspaces(ArrayList<JWorkspace> workspaces);
+	@Override
+	public JCattr getCattr() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text=text;
+	}
 
 }

@@ -20,53 +20,57 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+package gov.nist.jrolie.server.writers;
 
-package gov.nist.jrolie.atom.logic.services;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+
+import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.ext.MessageBodyWriter;
+import javax.ws.rs.ext.Provider;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import gov.nist.jrolie.atom.logic.services.ServiceDocumentService;
 import gov.nist.jrolie.model.JServiceDocument;
 import gov.nist.jrolie.model.JWorkspace;
-import gov.nist.jrolie.persistence.api.PersistenceContext;
-import gov.nist.jrolie.persistence.api.exceptions.InvalidResourceTypeException;
-import gov.nist.jrolie.persistence.api.exceptions.ResourceAlreadyExistsException;
-import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 
+@Provider
 @Component
-public class DefaultServiceDocumentService implements ServiceDocumentService {
+@Produces({ "application/xml", "application/atom+xml;type=entry", "application/atom+xml" })
+public class JServiceDocumentWriter implements MessageBodyWriter<JServiceDocument>{
 
 	@Autowired
-	FeedService fs;
-
-	@Autowired
-	PersistenceContext pc;
-
-
+	ServiceDocumentService ss;
+	
 	@Override
-	public JServiceDocument load(String id)
-			throws ResourceNotFoundException, InvalidResourceTypeException {
-		return pc.load(id, JServiceDocument.class);
+	public long getSize(JServiceDocument arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
-	public JServiceDocument create(JServiceDocument resource) throws ResourceAlreadyExistsException {
-		return pc.create(resource);
+	public boolean isWriteable(Class<?> type, Type generic, Annotation[] arg2, MediaType arg3) {
+		return JServiceDocument.class.equals(type.getInterfaces()[0]);
+	
 	}
 
 	@Override
-	public JServiceDocument delete(String id) throws ResourceNotFoundException {
-		return pc.delete(id);
-	}
-
-	@Override
-	public JServiceDocument update(JServiceDocument resource) throws ResourceNotFoundException {
-		return pc.update(resource);
-	}
-
-	@Override
-	public void addWorkspace(JServiceDocument s, JWorkspace w) {
-		s.getWorkspaces().add(w);
+	public void writeTo(JServiceDocument s, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4,
+			MultivaluedMap<String, Object> arg5, OutputStream out) throws IOException, WebApplicationException {
+		String message = "Hi there! I'm servdoc at: " + s.getPath() + " And here are my workspaces:\n";
+		for (JWorkspace w: s.getWorkspaces())
+		{
+			message+= "Im workspace : "+ w.getTitle()+" and here are my collections:" +w.getCollections()+"\n";
+		}
+		out.write(message.getBytes());
+		
 	}
 
 }

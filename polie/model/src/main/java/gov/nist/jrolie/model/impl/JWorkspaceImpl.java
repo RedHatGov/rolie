@@ -20,14 +20,57 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
-package gov.nist.jrolie.model;
+package gov.nist.jrolie.model.impl;
 
 import java.util.ArrayList;
 
-public interface JServiceDocument extends JResource {
+import gov.nist.jrolie.model.JCattr;
+import gov.nist.jrolie.model.JCollection;
+import gov.nist.jrolie.model.JElement;
+import gov.nist.jrolie.model.JTextConstruct;
+import gov.nist.jrolie.model.JWorkspace;
+
+public class JWorkspaceImpl implements JWorkspace {
+
+	ArrayList<JCattr> cattr;
+	ArrayList<JCollection> collections;
+	JTextConstruct title;
+	ArrayList<JElement> extensions;
+
+	public ArrayList<JCattr> getCattr() {
+		return cattr;
+	}
+
+	public void setCattr(ArrayList<JCattr> cattr) {
+		this.cattr = cattr;
+	}
+
+	public ArrayList<JCollection> getCollections() {
+		return collections;
+	}
+
+	public JTextConstruct getTitle() {
+		return title;
+	}
+
+	public void setTitle(JTextConstruct title) {
+		this.title = title;
+	}
+
+	@Override
+	public ArrayList<JElement> getExtensions() {
+		return extensions;
+	}
+
+	@Override
+	public void setExtensions(ArrayList<JElement> extensions) {
+		this.extensions = extensions;
+	}
+
+	@Override
+	public void setCollections(ArrayList<JCollection> collections) {
+		this.collections = collections;
+	}
 	
-	ArrayList<JWorkspace> getWorkspaces();
-	
-	void setWorkspaces(ArrayList<JWorkspace> workspaces);
 
 }

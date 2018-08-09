@@ -22,16 +22,16 @@
  */
 package gov.nist.jrolie.model;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public interface JWorkspace extends JElement{
-	
-	//TODO: Atompub <categories> element handling. Special object or List<category>?
-	//Investigate information lost by just using a list.
-	//JCategories getCategories();
-	
-	List<JFeed> getFeeds();
-	
+public interface JWorkspace extends JElement {
+
+	ArrayList<JCollection> getCollections();
+
+	void setCollections(ArrayList<JCollection> collections);
+
 	JTextConstruct getTitle();
+
+	void setTitle(JTextConstruct title);
 
 }

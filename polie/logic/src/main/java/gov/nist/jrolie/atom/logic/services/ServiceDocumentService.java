@@ -23,35 +23,12 @@
 
 package gov.nist.jrolie.atom.logic.services;
 
-import gov.nist.jrolie.model.element.APPCollection;
-import gov.nist.jrolie.model.resource.APPServiceDocument;
-import gov.nist.jrolie.model.resource.AtomFeed;
-import gov.nist.jrolie.persistence.api.InvalidResourceTypeException;
-import gov.nist.jrolie.persistence.api.ResourceAlreadyExistsException;
-import gov.nist.jrolie.persistence.api.ResourceNotFoundException;
+import gov.nist.jrolie.model.JServiceDocument;
+import gov.nist.jrolie.model.JWorkspace;
 
-import org.w3.x2005.atom.CategoryDocument.Category;
-import org.w3.x2007.app.CollectionType;
+public interface ServiceDocumentService extends Service<JServiceDocument> {
+	
+	void addWorkspace(JServiceDocument s, JWorkspace w);
+	
 
-import java.net.URI;
-
-public interface ServiceDocumentService {
-  CollectionType getCollectionFromFeed(AtomFeed feed, APPServiceDocument serviceDoc);
-
-  APPCollection buildCollectionFromFeed(AtomFeed feed);
-
-  APPCollection addTitleToCollection(APPCollection collection, String title);
-
-  String readTitleFromCollection(APPCollection collection);
-
-  APPServiceDocument loadServiceDocument(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException;
-
-  APPServiceDocument createServiceDocument(APPServiceDocument service, URI iri) throws ResourceAlreadyExistsException;
-
-  APPServiceDocument updateServiceDocument(APPServiceDocument service, URI iri)
-      throws ResourceNotFoundException, InvalidResourceTypeException;
-
-  boolean deleteServiceDocument(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
-
-  void updateCollectionCategories(Category cat, AtomFeed feed);
 }

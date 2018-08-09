@@ -23,206 +23,238 @@
 
 package gov.nist.jrolie.atom.logic.services;
 
-import gov.nist.jrolie.atom.logic.EntryNotFoundException;
-import gov.nist.jrolie.atom.logic.MismatchedCategoriesException;
-import gov.nist.jrolie.model.resource.APPServiceDocument;
-import gov.nist.jrolie.model.resource.AtomEntry;
-import gov.nist.jrolie.model.resource.AtomFeed;
-import gov.nist.jrolie.persistence.api.InvalidResourceTypeException;
-import gov.nist.jrolie.persistence.api.ResourceAlreadyExistsException;
-import gov.nist.jrolie.persistence.api.ResourceNotFoundException;
-import gov.nist.jrolie.persistence.database.PersistenceMethod;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.w3.x2005.atom.AtomDateConstruct;
-import org.w3.x2005.atom.CategoryDocument.Category;
-import org.w3.x2005.atom.EntryDocument;
-import org.w3.x2005.atom.LinkDocument.Link;
-import org.w3.x2007.app.CategoriesType;
-import org.w3.x2007.app.CollectionType;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Calendar;
-import java.util.List;
+import gov.nist.jrolie.model.JEntry;
+import gov.nist.jrolie.model.JFeed;
+import gov.nist.jrolie.persistence.api.PersistenceContext;
+import gov.nist.jrolie.persistence.api.exceptions.InvalidResourceTypeException;
+import gov.nist.jrolie.persistence.api.exceptions.ResourceAlreadyExistsException;
+import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 
 @Component
 public class DefaultFeedService implements FeedService {
 
-  @Autowired
-  PersistenceMethod persistenceMethod;
+	@Autowired
+	PersistenceContext pc;
 
-  @Autowired
-  EntryService entryService;
+	@Override
+	public JFeed load(String id) throws ResourceNotFoundException, InvalidResourceTypeException {
+		return pc.load(id, JFeed.class);
+	}
 
-  @Autowired
-  ServiceDocumentService serviceDocumentService;
+	@Override
+	public JFeed create(JFeed resource) throws ResourceAlreadyExistsException {
+		return pc.create(resource);
+	}
 
-  public DefaultFeedService() {
-  }
+	@Override
+	public JFeed delete(String id) throws ResourceNotFoundException {
+		return pc.delete(id);
+	}
 
-  /**
-   * 
-   * @param entry
-   * @param feed
-   * @return
-   * @throws MismatchedCategoriesException
-   * @throws ResourceNotFoundException
-   * @throws InvalidResourceTypeException
-   * @throws URISyntaxException
-   * @throws EntryNotFoundException
-   */
-  @Override
-  public AtomFeed updateEntryInFeed(AtomEntry entry, AtomFeed feed) throws MismatchedCategoriesException,
-      ResourceNotFoundException, InvalidResourceTypeException, URISyntaxException, EntryNotFoundException {
-    matchingCategories(entry, feed);
-    feed = removeEntryFromFeed(entry, feed);
-    feed = addEntryToFeed(entry, feed);
-    feed = updateFeedDates(feed);
-    return feed;
-  }
+	@Override
+	public void addEntry(JFeed f, JEntry e) {
+		f.getEntries().add(0, e.getId());
 
-  private AtomFeed removeEntryFromFeed(AtomEntry entry, AtomFeed feed) throws EntryNotFoundException {
-    return removeEntryFromFeedById(entry.getXmlObject().getEntry().getIdList().get(0).getStringValue(), feed);
-  }
+	}
 
-  private AtomFeed removeEntryFromFeedById(String id, AtomFeed feed) throws EntryNotFoundException {
-    AtomFeed localFeed = feed;
-    boolean success = false;
-    List<EntryDocument.Entry> entries = localFeed.getXmlObject().getFeed().getEntryList();
-    for (int i = 0; i < entries.size(); i++) {
-      EntryDocument.Entry innerEntry = entries.get(i);
-      if (innerEntry.getIdList().get(0).getStringValue().equals(id)) {
-        localFeed.getXmlObject().getFeed().getEntryList().remove(i);
-        success = true;
-        break;
-      }
-    }
-    if (success) {
-      return localFeed;
-    } else {
-      throw new EntryNotFoundException();
-    }
-  }
+	@Override
+	public JFeed update(JFeed resource) throws ResourceNotFoundException {
+		return pc.update(resource);
+	}
 
-  @Override
-  public AtomFeed addEntryToFeed(AtomEntry entry, AtomFeed feed)
-      throws MismatchedCategoriesException, ResourceNotFoundException, InvalidResourceTypeException {
-    // make local copies
-    AtomEntry localEntry = entry;
-    AtomFeed localFeed = feed;
-
-    matchingCategories(entry, feed);
-
-    localEntry = entryService.stripEntry(localEntry);
-
-    // Add the entry to the feed
-    localFeed = addEntry(localFeed, localEntry);
-
-    // Make server mods to the feed
-    localFeed = updateFeedDates(localFeed);
-
-    return localFeed;
-  }
-
-  private AtomFeed updateFeedDates(AtomFeed localFeed) {
-
-    AtomDateConstruct date = localFeed.getXmlObject().getFeed().getUpdatedArray(0);
-
-    date.setDateValue(Calendar.getInstance().getTime());
-
-    localFeed.getXmlObject().getFeed().setUpdatedArray(0, date);
-
-    return localFeed;
-  }
-
-  private AtomFeed addEntry(AtomFeed feed, AtomEntry entry) {
-
-    feed.getXmlObject().getFeed().addNewEntry().set(entry.getXmlObject().getEntry());
-    // feed.getXmlObject().getFeed().getEntryList()
-    // XmlCursor cursor = fir
-    return feed;
-  }
-
-  private boolean categoryEquals(Category cat1, Category cat2) {
-    return cat1.getScheme().equals(cat2.getScheme()) && cat1.getTerm().equals(cat2.getTerm());
-  }
-
-  private boolean matchingCategories(AtomEntry entry, AtomFeed feed)
-      throws ResourceNotFoundException, InvalidResourceTypeException, MismatchedCategoriesException {
-
-    APPServiceDocument service = null;
-    service = serviceDocumentService.loadServiceDocument(getServiceDocumentIRI(feed));
-    CollectionType collection = serviceDocumentService.getCollectionFromFeed(feed, service);
-    List<CategoriesType> categories = collection.getCategoriesList();
-    CategoriesType singleCategories = categories.get(0);
-    List<Category> feedCats = singleCategories.getCategoryList();
-    List<Category> entryCats = entry.getXmlObject().getEntry().getCategoryList();
-
-    String fixedString = collection.getCategoriesList().get(0).getFixed();
-    boolean found = true;
-    if (fixedString.equals("yes")) {
-      for (Category ecat : entryCats) {
-        found = false;
-        if (!ecat.getScheme().equals("urn:ietf:params:rolie:category:information-type")) {
-          continue;
-        }
-        for (Category fcat : feedCats) {
-          if (categoryEquals(ecat, fcat)) {
-            found = true;
-            break;
-          }
-        }
-        if (!found) {
-          throw new MismatchedCategoriesException(ecat);
-        }
-      }
-    }
-    return found;
-  }
-
-  public URI getServiceDocumentIRI(AtomFeed feed) {
-    List<Link> links = feed.getXmlObject().getFeed().getLinkList();
-    for (Link link : links) {
-      if (link.getRel().equals("service")) {
-        try {
-          return new URI(link.getHref());
-        } catch (URISyntaxException e) {
-          e.printStackTrace();
-        }
-      }
-    }
-    return null;
-  }
-
-  public String searchFeedLinksForRel(AtomFeed feed, String rel) {
-    for (Link link : feed.getXmlObject().getFeed().getLinkList()) {
-      if (link.getRel().equals(rel)) {
-        return link.getHref();
-      }
-    }
-    return null;
-  }
-
-  @Override
-  public AtomFeed loadFeed(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException {
-    return persistenceMethod.loadFeed(uri);
-  }
-
-  @Override
-  public AtomFeed createFeed(AtomFeed feed, URI iri) throws ResourceAlreadyExistsException {
-    return persistenceMethod.createFeed(feed, iri);
-  }
-
-  @Override
-  public AtomFeed updateFeed(AtomFeed feed, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException {
-    return persistenceMethod.updateFeed(feed, iri);
-  }
-
-  @Override
-  public boolean deleteFeed(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException {
-    return persistenceMethod.deleteFeed(iri);
-  }
+	//
+	// @Autowired
+	// EntryService entryService;
+	//
+	// @Autowired
+	// ServiceDocumentService serviceDocumentService;
+	//
+	// public DefaultFeedService() {
+	// }
+	//
+	// /**
+	// *
+	// * @param entry
+	// * @param feed
+	// * @return
+	// * @throws MismatchedCategoriesException
+	// * @throws ResourceNotFoundException
+	// * @throws InvalidResourceTypeException
+	// * @throws URISyntaxException
+	// * @throws EntryNotFoundException
+	// */
+	// @Override
+	// public AtomFeed updateEntryInFeed(AtomEntry entry, AtomFeed feed) throws
+	// MismatchedCategoriesException,
+	// ResourceNotFoundException, InvalidResourceTypeException, URISyntaxException,
+	// EntryNotFoundException {
+	// matchingCategories(entry, feed);
+	// feed = removeEntryFromFeed(entry, feed);
+	// feed = addEntryToFeed(entry, feed);
+	// feed = updateFeedDates(feed);
+	// return feed;
+	// }
+	//
+	// private AtomFeed removeEntryFromFeed(AtomEntry entry, AtomFeed feed) throws
+	// EntryNotFoundException {
+	// return
+	// removeEntryFromFeedById(entry.getXmlObject().getEntry().getIdList().get(0).getStringValue(),
+	// feed);
+	// }
+	//
+	// private AtomFeed removeEntryFromFeedById(String id, AtomFeed feed) throws
+	// EntryNotFoundException {
+	// AtomFeed localFeed = feed;
+	// boolean success = false;
+	// List<EntryDocument.Entry> entries =
+	// localFeed.getXmlObject().getFeed().getEntryList();
+	// for (int i = 0; i < entries.size(); i++) {
+	// EntryDocument.Entry innerEntry = entries.get(i);
+	// if (innerEntry.getIdList().get(0).getStringValue().equals(id)) {
+	// localFeed.getXmlObject().getFeed().getEntryList().remove(i);
+	// success = true;
+	// break;
+	// }
+	// }
+	// if (success) {
+	// return localFeed;
+	// } else {
+	// throw new EntryNotFoundException();
+	// }
+	// }
+	//
+	// @Override
+	// public AtomFeed addEntryToFeed(AtomEntry entry, AtomFeed feed)
+	// throws MismatchedCategoriesException, ResourceNotFoundException,
+	// InvalidResourceTypeException {
+	// // make local copies
+	// AtomEntry localEntry = entry;
+	// AtomFeed localFeed = feed;
+	//
+	// matchingCategories(entry, feed);
+	//
+	// localEntry = entryService.stripEntry(localEntry);
+	//
+	// // Add the entry to the feed
+	// localFeed = addEntry(localFeed, localEntry);
+	//
+	// // Make server mods to the feed
+	// localFeed = updateFeedDates(localFeed);
+	//
+	// return localFeed;
+	// }
+	//
+	// private AtomFeed updateFeedDates(AtomFeed localFeed) {
+	//
+	// AtomDateConstruct date =
+	// localFeed.getXmlObject().getFeed().getUpdatedArray(0);
+	//
+	// date.setDateValue(Calendar.getInstance().getTime());
+	//
+	// localFeed.getXmlObject().getFeed().setUpdatedArray(0, date);
+	//
+	// return localFeed;
+	// }
+	//
+	// private AtomFeed addEntry(AtomFeed feed, AtomEntry entry) {
+	//
+	// feed.getXmlObject().getFeed().addNewEntry().set(entry.getXmlObject().getEntry());
+	// // feed.getXmlObject().getFeed().getEntryList()
+	// // XmlCursor cursor = fir
+	// return feed;
+	// }
+	//
+	// private boolean categoryEquals(Category cat1, Category cat2) {
+	// return cat1.getScheme().equals(cat2.getScheme()) &&
+	// cat1.getTerm().equals(cat2.getTerm());
+	// }
+	//
+	// private boolean matchingCategories(AtomEntry entry, AtomFeed feed)
+	// throws ResourceNotFoundException, InvalidResourceTypeException,
+	// MismatchedCategoriesException {
+	//
+	// APPServiceDocument service = null;
+	// service =
+	// serviceDocumentService.loadServiceDocument(getServiceDocumentIRI(feed));
+	// CollectionType collection =
+	// serviceDocumentService.getCollectionFromFeed(feed, service);
+	// List<CategoriesType> categories = collection.getCategoriesList();
+	// CategoriesType singleCategories = categories.get(0);
+	// List<Category> feedCats = singleCategories.getCategoryList();
+	// List<Category> entryCats = entry.getXmlObject().getEntry().getCategoryList();
+	//
+	// String fixedString = collection.getCategoriesList().get(0).getFixed();
+	// boolean found = true;
+	// if (fixedString.equals("yes")) {
+	// for (Category ecat : entryCats) {
+	// found = false;
+	// if
+	// (!ecat.getScheme().equals("urn:ietf:params:rolie:category:information-type"))
+	// {
+	// continue;
+	// }
+	// for (Category fcat : feedCats) {
+	// if (categoryEquals(ecat, fcat)) {
+	// found = true;
+	// break;
+	// }
+	// }
+	// if (!found) {
+	// throw new MismatchedCategoriesException(ecat);
+	// }
+	// }
+	// }
+	// return found;
+	// }
+	//
+	// public URI getServiceDocumentIRI(AtomFeed feed) {
+	// List<Link> links = feed.getXmlObject().getFeed().getLinkList();
+	// for (Link link : links) {
+	// if (link.getRel().equals("service")) {
+	// try {
+	// return new URI(link.getHref());
+	// } catch (URISyntaxException e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// }
+	// return null;
+	// }
+	//
+	// public String searchFeedLinksForRel(AtomFeed feed, String rel) {
+	// for (Link link : feed.getXmlObject().getFeed().getLinkList()) {
+	// if (link.getRel().equals(rel)) {
+	// return link.getHref();
+	// }
+	// }
+	// return null;
+	// }
+	//
+	// @Override
+	// public AtomFeed loadFeed(URI uri) throws ResourceNotFoundException,
+	// InvalidResourceTypeException {
+	// return null; //persistenceMethod.loadFeed(uri);
+	// }
+	//
+	// @Override
+	// public AtomFeed createFeed(AtomFeed feed, URI iri) throws
+	// ResourceAlreadyExistsException {
+	// return null; //persistenceMethod.createFeed(feed, iri);
+	// }
+	//
+	// @Override
+	// public AtomFeed updateFeed(AtomFeed feed, URI iri) throws
+	// ResourceNotFoundException, InvalidResourceTypeException {
+	// return null; //persistenceMethod.updateFeed(feed, iri);
+	// }
+	//
+	// @Override
+	// public boolean deleteFeed(URI iri) throws ResourceNotFoundException,
+	// InvalidResourceTypeException {
+	// return false; //persistenceMethod.deleteFeed(iri);
+	// }
 
 }

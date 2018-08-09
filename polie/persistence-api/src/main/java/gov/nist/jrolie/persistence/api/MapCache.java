@@ -20,14 +20,40 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
-package gov.nist.jrolie.model;
+package gov.nist.jrolie.persistence.api;
 
-import java.util.ArrayList;
+import gov.nist.jrolie.model.JResource;
 
-public interface JServiceDocument extends JResource {
-	
-	ArrayList<JWorkspace> getWorkspaces();
-	
-	void setWorkspaces(ArrayList<JWorkspace> workspaces);
+public class MapCache implements CacheContext {
+
+	@Override
+	public boolean exists(String path) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public JResource load(String path) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <X extends JResource> X load(String path, Class<X> clazz) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <X extends JResource> X save(String path, X resource) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <X extends JResource> X save(X resource) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

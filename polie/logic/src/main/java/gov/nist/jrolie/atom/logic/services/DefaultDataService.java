@@ -24,10 +24,10 @@
 package gov.nist.jrolie.atom.logic.services;
 
 import gov.nist.jrolie.atom.logic.LinkAlreadyExistsException;
-import gov.nist.jrolie.persistence.api.InvalidResourceTypeException;
-import gov.nist.jrolie.persistence.api.ResourceAlreadyExistsException;
-import gov.nist.jrolie.persistence.api.ResourceNotFoundException;
-import gov.nist.jrolie.persistence.database.PersistenceMethod;
+import gov.nist.jrolie.persistence.api.PersistenceContext;
+import gov.nist.jrolie.persistence.api.exceptions.InvalidResourceTypeException;
+import gov.nist.jrolie.persistence.api.exceptions.ResourceAlreadyExistsException;
+import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,30 +39,30 @@ import java.net.URISyntaxException;
 public class DefaultDataService implements DataService {
 
   @Autowired
-  PersistenceMethod persistenceMethod;
+  PersistenceContext persistenceMethod;
 
   public DefaultDataService() {
   }
 
   @Override
   public String loadData(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException {
-    return persistenceMethod.loadData(uri);
+    return null; //persistenceMethod.loadData(uri);
   }
 
   @Override
   public String createData(String data, URI iri)
       throws ResourceAlreadyExistsException, LinkAlreadyExistsException, URISyntaxException {
-    return persistenceMethod.createData(data, iri);
+    return null; //persistenceMethod.createData(data, iri);
   }
 
   @Override
   public String updateData(String data, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException {
-    return persistenceMethod.updateData(data, iri);
+    return null; //persistenceMethod.updateData(data, iri);
   }
 
   @Override
   public boolean deleteData(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException {
-    return persistenceMethod.deleteEntry(iri);
+    return false; //persistenceMethod.deleteEntry(iri);
   }
 
 }

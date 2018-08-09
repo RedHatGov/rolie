@@ -23,33 +23,11 @@
 
 package gov.nist.jrolie.atom.logic.services;
 
-import gov.nist.jrolie.atom.logic.EntryNotFoundException;
-import gov.nist.jrolie.atom.logic.MismatchedCategoriesException;
-import gov.nist.jrolie.model.resource.AtomEntry;
-import gov.nist.jrolie.model.resource.AtomFeed;
-import gov.nist.jrolie.persistence.api.InvalidResourceTypeException;
-import gov.nist.jrolie.persistence.api.ResourceAlreadyExistsException;
-import gov.nist.jrolie.persistence.api.ResourceNotFoundException;
+import gov.nist.jrolie.model.JEntry;
+import gov.nist.jrolie.model.JFeed;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+public interface FeedService extends Service<JFeed> {
 
-public interface FeedService extends Service {
-  String searchFeedLinksForRel(AtomFeed feed, String rel);
+	void addEntry(JFeed f,JEntry e);
 
-  AtomFeed addEntryToFeed(AtomEntry entry, AtomFeed feed)
-      throws MismatchedCategoriesException, ResourceNotFoundException, InvalidResourceTypeException;
-
-  AtomFeed loadFeed(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException;
-
-  AtomFeed createFeed(AtomFeed feed, URI iri) throws ResourceAlreadyExistsException;
-
-  AtomFeed updateFeed(AtomFeed feed, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
-
-  boolean deleteFeed(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException;
-
-  URI getServiceDocumentIRI(AtomFeed feed);
-
-  AtomFeed updateEntryInFeed(AtomEntry entry, AtomFeed feed) throws MismatchedCategoriesException,
-      ResourceNotFoundException, InvalidResourceTypeException, URISyntaxException, EntryNotFoundException;
 }

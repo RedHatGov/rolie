@@ -22,36 +22,51 @@
  */
 package gov.nist.jrolie.model;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface JEntry extends JResource {
-	
-	JPersonConstruct getAuthor();
-	
-	List<JCategory> getCategories();
-	
+
+	ArrayList<JPersonConstruct> getAuthors();
+
+	void setAuthors(ArrayList<JPersonConstruct> authors);
+
+	ArrayList<JCategory> getCategorys();
+
+	void setCategorys(ArrayList<JCategory> categorys);
+
 	JContent getContent();
-	
-	List<JPersonConstruct> getContributor();
-	
-	String getID();
-	
-	List<JLink> getLinks();
-	
+
+	void setContent(JContent content);
+
+	ArrayList<JPersonConstruct> getContributors();
+
+	void setContributors(ArrayList<JPersonConstruct> contributors);
+
+	ArrayList<JLink> getLinks();
+
+	void setLinks(ArrayList<JLink> links);
+
 	JDate getPublished();
-	
+
+	void setPublished(JDate published);
+
 	JTextConstruct getRights();
-	
-	//TODO: Is it valid to use a feed here?
-	//Or should this be a restricted object?
+
+	void setRights(JTextConstruct rights);
+
 	JFeed getSource();
-	
+
+	void setSource(JFeed source);
+
 	JTextConstruct getSummary();
-	
+
+	void setSummary(JTextConstruct summary);
+
 	JTextConstruct getTitle();
-	
+
+	void setTitle(JTextConstruct title);
+
 	JDate getUpdated();
 
-	//TODO: Extensions / anyElement handling.
-	//List<JExtensionElement> getExtensionElements();
+	void setUpdated(JDate updated);
 }

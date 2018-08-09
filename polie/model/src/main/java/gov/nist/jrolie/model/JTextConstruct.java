@@ -23,5 +23,9 @@
 package gov.nist.jrolie.model;
 
 public interface JTextConstruct {
+	
+	JCattr getCattr();
+	String getType();
+	String getText();
 
 }

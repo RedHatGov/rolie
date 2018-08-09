@@ -22,11 +22,20 @@
  */
 package gov.nist.jrolie.model;
 
-import java.net.URI;
+public interface JResource extends JElement {
 
-public interface JResource {
-	ResourceType getResourceType();
-	URI getLocation();
+	String getPath();
+	
+	void setPath(String path);
+
 	boolean isChanged();
+
 	void markChanged();
+
+	String getId();
+
+	void setId(String path);
+
+
+
 }

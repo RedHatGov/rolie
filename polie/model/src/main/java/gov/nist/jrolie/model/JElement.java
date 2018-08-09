@@ -22,7 +22,14 @@
  */
 package gov.nist.jrolie.model;
 
+import java.util.ArrayList;
+
 public interface JElement {
 	
-	//TODO determine method for namespacing
+	ArrayList<JCattr> getCattr();
+	void setCattr(ArrayList<JCattr> cattr);
+	
+	ArrayList<JElement> getExtensions();
+	void setExtensions(ArrayList<JElement> extensions);
+	
 }

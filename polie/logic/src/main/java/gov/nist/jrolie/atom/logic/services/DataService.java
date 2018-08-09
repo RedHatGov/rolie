@@ -23,16 +23,13 @@
 
 package gov.nist.jrolie.atom.logic.services;
 
-import gov.nist.jrolie.atom.logic.LinkAlreadyExistsException;
-import gov.nist.jrolie.model.resource.AtomEntry;
-import gov.nist.jrolie.persistence.api.InvalidResourceTypeException;
-import gov.nist.jrolie.persistence.api.ResourceAlreadyExistsException;
-import gov.nist.jrolie.persistence.api.ResourceNotFoundException;
-
-import org.w3.x2005.atom.LinkDocument.Link;
-
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import gov.nist.jrolie.atom.logic.LinkAlreadyExistsException;
+import gov.nist.jrolie.persistence.api.exceptions.InvalidResourceTypeException;
+import gov.nist.jrolie.persistence.api.exceptions.ResourceAlreadyExistsException;
+import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 
 public interface DataService {
 

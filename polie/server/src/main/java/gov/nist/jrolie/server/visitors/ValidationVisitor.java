@@ -23,20 +23,19 @@
 
 package gov.nist.jrolie.server.visitors;
 
-import gov.nist.jrolie.model.resource.AtomEntry;
+import java.util.Map;
+
+import javax.ws.rs.core.Response.ResponseBuilder;
+
+import org.springframework.stereotype.Component;
+
+import gov.nist.jrolie.model.JEntry;
+import gov.nist.jrolie.model.impl.JEntryImpl;
+import gov.nist.jrolie.model.impl.JTextConstructImpl;
 import gov.nist.jrolie.server.event.Delete;
 import gov.nist.jrolie.server.event.Get;
 import gov.nist.jrolie.server.event.Post;
 import gov.nist.jrolie.server.event.Put;
-
-import org.apache.xmlbeans.XmlException;
-import org.springframework.stereotype.Component;
-import org.w3.x2005.atom.EntryDocument;
-
-import java.util.Map;
-
-import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
 
 @Component
 public class ValidationVisitor implements RESTEventVisitor {
@@ -45,34 +44,37 @@ public class ValidationVisitor implements RESTEventVisitor {
 
   @Override
   public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
-    try {
-      AtomEntry entry = new AtomEntry(EntryDocument.Factory.parse(post.getBody()));
-      if (entry.getXmlObject().getEntry().getContentList().isEmpty()) {
-        throw new XmlException("Missing Content Element.");
-      }
-      data.put(RESOURCE_KEY, entry);
-    } catch (XmlException e) {
-      rb.status(Status.NOT_ACCEPTABLE);
-      rb.entity("The resource you are posting is invalid.\n" + e.getMessage() + "\n" + e.getError());
-      return false;
-    }
+	  JEntry e = new JEntryImpl();
+	  e.setId(post.getBody());
+	  data.put(RESOURCE_KEY, e);
+//    try {
+//      AtomEntry entry = new AtomEntry(EntryDocument.Factory.parse(post.getBody()));
+//      if (entry.getXmlObject().getEntry().getContentList().isEmpty()) {
+//        throw new XmlException("Missing Content Element.");
+//      }
+//      data.put(RESOURCE_KEY, entry);
+//    } catch (XmlException e) {
+//      rb.status(Status.NOT_ACCEPTABLE);
+//      rb.entity("The resource you are posting is invalid.\n" + e.getMessage() + "\n" + e.getError());
+//      return false;
+//    }
 
     return true;
   }
 
   @Override
   public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-    try {
-      AtomEntry entry = new AtomEntry(EntryDocument.Factory.parse(put.getBody()));
-      if (entry.getXmlObject().getEntry().getContentList().isEmpty()) {
-        throw new XmlException("Missing Content Element.");
-      }
-      data.put(RESOURCE_KEY, entry);
-    } catch (XmlException e) {
-      rb.status(Status.NOT_ACCEPTABLE);
-      rb.entity("The resource you are posting is invalid.\n" + e.getMessage() + "\n" + e.getError());
-      return false;
-    }
+//    try {
+//      AtomEntry entry = new AtomEntry(EntryDocument.Factory.parse(put.getBody()));
+//      if (entry.getXmlObject().getEntry().getContentList().isEmpty()) {
+//        throw new XmlException("Missing Content Element.");
+//      }
+//      data.put(RESOURCE_KEY, entry);
+//    } catch (XmlException e) {
+//      rb.status(Status.NOT_ACCEPTABLE);
+//      rb.entity("The resource you are posting is invalid.\n" + e.getMessage() + "\n" + e.getError());
+//      return false;
+//    }
 
     return true;
   }

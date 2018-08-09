@@ -20,14 +20,82 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
-package gov.nist.jrolie.model;
+package gov.nist.jrolie.model.impl;
 
+import java.net.URI;
 import java.util.ArrayList;
 
-public interface JServiceDocument extends JResource {
-	
-	ArrayList<JWorkspace> getWorkspaces();
-	
-	void setWorkspaces(ArrayList<JWorkspace> workspaces);
+import gov.nist.jrolie.model.JAccept;
+import gov.nist.jrolie.model.JCategories;
+import gov.nist.jrolie.model.JCattr;
+import gov.nist.jrolie.model.JCollection;
+import gov.nist.jrolie.model.JElement;
+import gov.nist.jrolie.model.JTextConstruct;
+
+public class JCollectionImpl implements JCollection {
+
+	ArrayList<JCattr> cattr;
+	ArrayList<JElement> extensions;
+	JTextConstruct title;
+	URI href;
+	String feedPath;
+	ArrayList<JAccept> accepts;
+	ArrayList<JCategories> categories;
+
+	public ArrayList<JCattr> getCattr() {
+		return cattr;
+	}
+
+	public void setCattr(ArrayList<JCattr> cattr) {
+		this.cattr = cattr;
+	}
+
+	public ArrayList<JElement> getExtensions() {
+		return extensions;
+	}
+
+	public void setExtensions(ArrayList<JElement> extensions) {
+		this.extensions = extensions;
+	}
+
+	public JTextConstruct getTitle() {
+		return title;
+	}
+
+	public void setTitle(JTextConstruct title) {
+		this.title = title;
+	}
+
+	public URI getHref() {
+		return href;
+	}
+
+	public void setHref(URI href) {
+		this.href = href;
+	}
+
+	public String getFeedPath() {
+		return feedPath;
+	}
+
+	public void setFeedPath(String feedPath) {
+		this.feedPath = feedPath;
+	}
+
+	public ArrayList<JAccept> getAccepts() {
+		return accepts;
+	}
+
+	public void setAccepts(ArrayList<JAccept> accepts) {
+		this.accepts = accepts;
+	}
+
+	public ArrayList<JCategories> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(ArrayList<JCategories> categories) {
+		this.categories = categories;
+	}
 
 }

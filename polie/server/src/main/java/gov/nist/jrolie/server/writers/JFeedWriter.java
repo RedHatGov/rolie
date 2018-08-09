@@ -21,52 +21,69 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 
-package gov.nist.jrolie.atom.logic.services;
+package gov.nist.jrolie.server.writers;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+
+import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.ext.MessageBodyWriter;
+import javax.ws.rs.ext.Provider;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import gov.nist.jrolie.model.JServiceDocument;
-import gov.nist.jrolie.model.JWorkspace;
-import gov.nist.jrolie.persistence.api.PersistenceContext;
+import gov.nist.jrolie.atom.logic.services.EntryService;
+import gov.nist.jrolie.model.JEntry;
+import gov.nist.jrolie.model.JFeed;
 import gov.nist.jrolie.persistence.api.exceptions.InvalidResourceTypeException;
-import gov.nist.jrolie.persistence.api.exceptions.ResourceAlreadyExistsException;
 import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 
+@Provider
 @Component
-public class DefaultServiceDocumentService implements ServiceDocumentService {
+@Produces({ "application/xml", "application/atom+xml;type=entry", "application/atom+xml" })
+public class JFeedWriter implements MessageBodyWriter<JFeed> {
 
+	@Context
+	UriInfo info;
+	
 	@Autowired
-	FeedService fs;
-
-	@Autowired
-	PersistenceContext pc;
-
+	EntryService es;
 
 	@Override
-	public JServiceDocument load(String id)
-			throws ResourceNotFoundException, InvalidResourceTypeException {
-		return pc.load(id, JServiceDocument.class);
+	public long getSize(JFeed arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
-	public JServiceDocument create(JServiceDocument resource) throws ResourceAlreadyExistsException {
-		return pc.create(resource);
+	public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+		return JFeed.class.equals(type.getInterfaces()[0]);
 	}
 
 	@Override
-	public JServiceDocument delete(String id) throws ResourceNotFoundException {
-		return pc.delete(id);
-	}
-
-	@Override
-	public JServiceDocument update(JServiceDocument resource) throws ResourceNotFoundException {
-		return pc.update(resource);
-	}
-
-	@Override
-	public void addWorkspace(JServiceDocument s, JWorkspace w) {
-		s.getWorkspaces().add(w);
+	public void writeTo(JFeed f, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4,
+			MultivaluedMap<String, Object> arg5, OutputStream out) throws IOException, WebApplicationException {
+		String message = "Hi there! I'm feed at: " + f.getPath() + " And here are my entries:\n";
+		for (String e: f.getEntries())
+		{
+			JEntry er = null;
+			try {
+				er = es.load(e);
+			} catch (ResourceNotFoundException | InvalidResourceTypeException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			message+="Entry BOI : " + er.getId() + "\n";
+		}
+		out.write(message.getBytes());
 	}
 
 }

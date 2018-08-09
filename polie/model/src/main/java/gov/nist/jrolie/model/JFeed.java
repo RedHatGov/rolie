@@ -23,37 +23,56 @@
 package gov.nist.jrolie.model;
 
 import java.net.URI;
-import java.util.List;
+import java.util.ArrayList;
 
 public interface JFeed extends JResource {
-	
-	JPersonConstruct getAuthor();
-	
-	List<JCategory> getCategories();
-	
-	List<JPersonConstruct> getContributors();
-	
+
+	ArrayList<JPersonConstruct> getAuthors();
+
+	ArrayList<JCategory> getCategorys();
+
+	ArrayList<JPersonConstruct> getContributors();
+
+	ArrayList<String> getEntries();
+
 	JGenerator getGenerator();
-	 
+
 	URI getIcon();
-	
-	String getID();
-	
-	JLink getLink();
-	
+
+	ArrayList<JLink> getLinks();
+
 	URI getLogo();
-	
+
 	JTextConstruct getRights();
-	
+
 	JTextConstruct getSubtitle();
-	
+
 	JTextConstruct getTitle();
-	
+
 	JDate getUpdated();
-	
-	List<JEntry> getEntries();
-	
-	//TODO:Extension element Handling??
-	
-	
+
+	void setAuthors(ArrayList<JPersonConstruct> authors);
+
+	void setEntries(ArrayList<String> entries);
+
+	void setTitle(JTextConstruct title);
+
+	void setCategorys(ArrayList<JCategory> categorys);
+
+	void setContributors(ArrayList<JPersonConstruct> contributors);
+
+	void setGenerator(JGenerator generator);
+
+	void setIcon(URI uri);
+
+	void setLinks(ArrayList<JLink> links);
+
+	void setLogo(URI uri);
+
+	void setRights(JTextConstruct rights);
+
+	void setSubtitle(JTextConstruct subtitle);
+
+	void setUpdated(JDate date);
+
 }

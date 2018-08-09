@@ -23,9 +23,13 @@
 
 package gov.nist.jrolie.server.servlet;
 
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import gov.nist.jrolie.persistence.api.PersistenceContext;
 import gov.nist.jrolie.server.visitors.AuthorizationVisitor;
 import gov.nist.jrolie.server.visitors.DataEventVisitor;
 import gov.nist.jrolie.server.visitors.RequestValidatorVisitor;
@@ -39,6 +43,8 @@ public class DefaultDataVisitorManagerFactory implements DataVisitorManagerFacto
   // written it can be swapped here
   // to apply to all requests.
 
+
+	
   /**
    * Provides debug functions. DISABLED.
    */
