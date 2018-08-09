@@ -24,51 +24,46 @@ package gov.nist.jrolie.server.writers;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
+import java.io.Writer;
 
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.MessageBodyWriter;
-import javax.ws.rs.ext.Provider;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.dataformat.xml.XmlFactory;
+import com.fasterxml.jackson.dataformat.xml.util.StaxUtil;
 
-import com.ctc.wstx.stax.WstxInputFactory;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+public class XmlFactoryNS extends XmlFactory {
 
-import gov.nist.jrolie.model.JEntry;
-
-@Provider
-@Component
-@Produces({ "application/xml", "application/atom+xml;type=entry", "application/atom+xml" })
-public class JEntryWriter implements MessageBodyWriter<JEntry> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2270320614946626080L;
 
 	@Override
-	public long getSize(JEntry arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    protected XMLStreamWriter _createXmlWriter(OutputStream out) throws IOException
+    {
+        XMLStreamWriter sw;
+        try {
+            sw = _xmlOutputFactory.createXMLStreamWriter(out, "UTF-8");
+            sw.setPrefix("atom", "www.atomuri.com");
+        } catch (XMLStreamException e) {
+            return StaxUtil.throwAsGenerationException(e, null);
+        }
+        return _initializeXmlWriter(sw);
+    }
 
 	@Override
-	public boolean isWriteable(Class<?> type, Type arg1, Annotation[] arg2, MediaType arg3) {
-		return JEntry.class.equals(type.getInterfaces()[0]);
-	}
+    protected XMLStreamWriter _createXmlWriter(Writer w) throws IOException
+    {
+        XMLStreamWriter sw;
+        try {
+            sw = _xmlOutputFactory.createXMLStreamWriter(w);
+            sw.setPrefix("atom", "www.atomuri.com");
+        } catch (XMLStreamException e) {
+            return StaxUtil.throwAsGenerationException(e, null);
+        }
+        return _initializeXmlWriter(sw);
+    }
 
-	@Override
-	public void writeTo(JEntry e, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4,
-			MultivaluedMap<String, Object> arg5, OutputStream out) throws IOException, WebApplicationException {
-		String message = "Hi there! I'm a entry at: " + e.getPath() + " with id:" + e.getId();
-		XmlMapper mapper = new XmlMapper();
-		// override default instance of WstxOutputFactory
-		WstxOutputFactoryCustom wof = new WstxOutputFactoryCustom();
-		wof.setProperty(wof.IS_REPAIRING_NAMESPACES, true);
-		mapper.getFactory().setXMLOutputFactory(wof);
-		mapper.getFactory().setXMLInputFactory(new WstxInputFactory());
-		out.write(mapper.writeValueAsBytes(e));
-
-	}
 
 }

@@ -41,10 +41,9 @@ import gov.nist.jrolie.model.JPersonConstruct;
 import gov.nist.jrolie.model.JTextConstruct;
 
 @JsonPropertyOrder()
-@JacksonXmlRootElement(localName="entry",namespace="atom")
+@JacksonXmlRootElement(namespace="http://www.w3.org/2005/Atom")
 public class JEntryImpl implements JEntry {
 
-	
 	String path;
 
 	ArrayList<JPersonConstruct> authors;
@@ -53,7 +52,7 @@ public class JEntryImpl implements JEntry {
 	ArrayList<JPersonConstruct> contributors;
 	
 	@JsonProperty("id")
-	@JacksonXmlProperty(localName="id",namespace="atom")
+	@JacksonXmlProperty(namespace="http://www.w3.org/2005/Atom")
 	String id;
 	
 	
@@ -63,18 +62,18 @@ public class JEntryImpl implements JEntry {
 	JFeed source;
 	
 	@JsonProperty("summary")
-	@JacksonXmlProperty(localName="summary",namespace="atom")
+	@JacksonXmlProperty(namespace="urn:ietf:params:xml:ns:rolie-1.0")
 	JTextConstruct summary;
 	
 	@JsonProperty("title")
-	@JacksonXmlProperty(localName="title",namespace="rolie:urn:ns")
+	@JacksonXmlProperty(namespace="http://www.w3.org/2005/Atom")
 	JTextConstruct title;
 	JDate updated;
 
 	ArrayList<JElement> extensions;
 	
 	@JsonProperty("changed")
-	@JacksonXmlProperty(localName="changed",namespace="rolie:urn:ns")
+	@JacksonXmlProperty(namespace="urn:ietf:params:xml:ns:rolie-1.0")
 	boolean changed;
 	ArrayList<JCattr> cattr;
 
