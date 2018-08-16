@@ -20,10 +20,11 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model;
 
 public interface JLang {
 
-	//As defined in RFC 3066
-	String getTag();
+  // As defined in RFC 3066
+  String getTag();
 }

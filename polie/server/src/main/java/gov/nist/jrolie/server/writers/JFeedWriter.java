@@ -36,54 +36,60 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ctc.wstx.stax.WstxOutputFactory;
+
 import gov.nist.jrolie.atom.logic.services.EntryService;
-import gov.nist.jrolie.model.JEntry;
 import gov.nist.jrolie.model.JFeed;
-import gov.nist.jrolie.persistence.api.exceptions.InvalidResourceTypeException;
-import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
+import gov.nist.jrolie.model.impl.JFeedImpl;
 
 @Provider
 @Component
 @Produces({ "application/xml", "application/atom+xml;type=entry", "application/atom+xml" })
 public class JFeedWriter implements MessageBodyWriter<JFeed> {
 
-	@Context
-	UriInfo info;
-	
-	@Autowired
-	EntryService es;
+  @Context
+  UriInfo info;
 
-	@Override
-	public long getSize(JFeed arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+  @Autowired
+  EntryService es;
 
-	@Override
-	public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-		return JFeed.class.equals(type.getInterfaces()[0]);
-	}
+  @Override
+  public long getSize(JFeed arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
+    // TODO Auto-generated method stub
+    return 0;
+  }
 
-	@Override
-	public void writeTo(JFeed f, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4,
-			MultivaluedMap<String, Object> arg5, OutputStream out) throws IOException, WebApplicationException {
-		String message = "Hi there! I'm feed at: " + f.getPath() + " And here are my entries:\n";
-		for (String e: f.getEntries())
-		{
-			JEntry er = null;
-			try {
-				er = es.load(e);
-			} catch (ResourceNotFoundException | InvalidResourceTypeException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			message+="Entry BOI : " + er.getId() + "\n";
-		}
-		out.write(message.getBytes());
-	}
+  @Override
+  public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+    return JFeed.class.equals(type.getInterfaces()[0]);
+  }
+
+  @Override
+  public void writeTo(JFeed f, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4,
+      MultivaluedMap<String, Object> arg5, OutputStream out) throws IOException, WebApplicationException {
+    JAXBContext jaxbContext;
+    try {
+      jaxbContext = JAXBContext.newInstance(JFeedImpl.class);
+      WstxOutputFactory wstx = new WstxOutputFactory();
+      wstx.setProperty(wstx.XSP_NAMESPACE_AWARE, true);
+      wstx.setProperty(wstx.IS_REPAIRING_NAMESPACES, true);
+      XMLStreamWriter xmlStreamWriter = wstx.createXMLStreamWriter(out);
+      Marshaller marshaller = jaxbContext.createMarshaller();
+      marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+      marshaller.marshal(f, xmlStreamWriter);
+    } catch (JAXBException | XMLStreamException e1) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+  }
 
 }

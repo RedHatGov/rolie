@@ -20,14 +20,10 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
-package gov.nist.jrolie.model;
+@javax.xml.bind.annotation.XmlSchema(namespace = gov.nist.jrolie.model.Constants.ATOM_NS,
+    xmlns = { @XmlNs(prefix = "rolie", namespaceURI = gov.nist.jrolie.model.Constants.ROLIE_NS),
+        @XmlNs(prefix = "", namespaceURI = gov.nist.jrolie.model.Constants.ATOM_NS) },
+    elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+package gov.nist.jrolie.model.impl;
 
-import java.net.URI;
-
-public interface JPersonConstruct {
-	
-	String getName();
-	URI getURI();
-	JEmail getEmail();
-
-}
+import javax.xml.bind.annotation.XmlNs;

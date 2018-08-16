@@ -46,27 +46,27 @@ import gov.nist.jrolie.model.JResource;
 @Produces({ "application/xml", "application/atom+xml;type=entry", "application/atom+xml" })
 public class zJResourceWriter implements MessageBodyWriter<JResource> {
 
-	@Context
-	UriInfo info;
+  @Context
+  UriInfo info;
 
-	@Override
-	public long getSize(JResource arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+  @Override
+  public long getSize(JResource arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
+    // TODO Auto-generated method stub
+    return 0;
+  }
 
-	@Override
-	public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-		
-		return JResource.class.equals(type.getInterfaces()[0]);
-	}
+  @Override
+  public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
 
-	@Override
-	public void writeTo(JResource r, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4,
-			MultivaluedMap<String, Object> arg5, OutputStream out) throws IOException, WebApplicationException {
-		String message = "Hi there! I'm a resource at: " + r.getPath() + " with id:" + r.getId();
+    return JResource.class.equals(type.getInterfaces()[0]);
+  }
 
-		out.write(message.getBytes());
-	}
+  @Override
+  public void writeTo(JResource r, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4,
+      MultivaluedMap<String, Object> arg5, OutputStream out) throws IOException, WebApplicationException {
+    String message = "Hi there! I'm a resource at: " + r.getPath() + " with id:" + r.getId();
+
+    out.write(message.getBytes());
+  }
 
 }

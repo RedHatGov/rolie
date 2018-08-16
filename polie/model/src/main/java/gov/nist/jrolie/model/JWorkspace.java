@@ -20,18 +20,19 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model;
 
 import java.util.ArrayList;
 
 public interface JWorkspace extends JElement {
 
-	ArrayList<JCollection> getCollections();
+  ArrayList<JCollection> getCollections();
 
-	void setCollections(ArrayList<JCollection> collections);
+  void setCollections(ArrayList<JCollection> collections);
 
-	JTextConstruct getTitle();
+  JTextConstruct getTitle();
 
-	void setTitle(JTextConstruct title);
+  void setTitle(JTextConstruct title);
 
 }

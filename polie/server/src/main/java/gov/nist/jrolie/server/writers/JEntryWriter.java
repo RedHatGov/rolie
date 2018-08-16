@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.server.writers;
 
 import java.io.IOException;
@@ -33,42 +34,53 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
 import org.springframework.stereotype.Component;
 
-import com.ctc.wstx.stax.WstxInputFactory;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.ctc.wstx.stax.WstxOutputFactory;
 
 import gov.nist.jrolie.model.JEntry;
+import gov.nist.jrolie.model.impl.JEntryImpl;
 
 @Provider
 @Component
 @Produces({ "application/xml", "application/atom+xml;type=entry", "application/atom+xml" })
 public class JEntryWriter implements MessageBodyWriter<JEntry> {
 
-	@Override
-	public long getSize(JEntry arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+  @Override
+  public long getSize(JEntry arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
+    // TODO Auto-generated method stub
+    return 0;
+  }
 
-	@Override
-	public boolean isWriteable(Class<?> type, Type arg1, Annotation[] arg2, MediaType arg3) {
-		return JEntry.class.equals(type.getInterfaces()[0]);
-	}
+  @Override
+  public boolean isWriteable(Class<?> type, Type arg1, Annotation[] arg2, MediaType arg3) {
+    return JEntry.class.equals(type.getInterfaces()[0]);
+  }
 
-	@Override
-	public void writeTo(JEntry e, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4,
-			MultivaluedMap<String, Object> arg5, OutputStream out) throws IOException, WebApplicationException {
-		String message = "Hi there! I'm a entry at: " + e.getPath() + " with id:" + e.getId();
-		XmlMapper mapper = new XmlMapper();
-		// override default instance of WstxOutputFactory
-		WstxOutputFactoryCustom wof = new WstxOutputFactoryCustom();
-		wof.setProperty(wof.IS_REPAIRING_NAMESPACES, true);
-		mapper.getFactory().setXMLOutputFactory(wof);
-		mapper.getFactory().setXMLInputFactory(new WstxInputFactory());
-		out.write(mapper.writeValueAsBytes(e));
+  @Override
+  public void writeTo(JEntry e, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4,
+      MultivaluedMap<String, Object> arg5, OutputStream out) throws IOException, WebApplicationException {
+    JAXBContext jaxbContext;
+    try {
+      jaxbContext = JAXBContext.newInstance(JEntryImpl.class);
+      WstxOutputFactory wstx = new WstxOutputFactory();
+      wstx.setProperty(wstx.XSP_NAMESPACE_AWARE, true);
+      wstx.setProperty(wstx.IS_REPAIRING_NAMESPACES, true);
+      XMLStreamWriter xmlStreamWriter = wstx.createXMLStreamWriter(out);
+      Marshaller marshaller = jaxbContext.createMarshaller();
+      marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+      marshaller.marshal(e, xmlStreamWriter);
+    } catch (JAXBException | XMLStreamException e1) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
 
-	}
+  }
 
 }

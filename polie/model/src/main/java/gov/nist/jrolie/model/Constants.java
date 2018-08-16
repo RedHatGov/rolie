@@ -20,8 +20,13 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model;
 
-public interface JCattr {
+public final class Constants {
+
+  public static final String ATOM_NS = "http://www.w3.org/2005/Atom";
+  public static final String ROLIE_NS = "urn:ietf:params:xml:ns:rolie-1.0";
+  public static final String APP_NS = "http://www.w3.org/2007/app";
 
 }

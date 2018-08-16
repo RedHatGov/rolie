@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.persistence.api;
 
 import org.springframework.stereotype.Component;
@@ -30,7 +31,8 @@ import gov.nist.jrolie.persistence.api.exceptions.ResourceAlreadyExistsException
 import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 
 /**
- * Provides the API used for persistent CRUD operations 
+ * Provides the API used for persistent CRUD operations
+ * 
  * @author sab3
  *
  */
@@ -42,65 +44,65 @@ import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
  */
 public interface PersistenceContext {
 
-	/**
-	 * 
-	 * @param path
-	 *            A resource path as given by JAXRS, generated from the request
-	 * @return The unique ID value of the resource at that path. Null if none.
-	 */
-	String pathToId(String path);
+  /**
+   * 
+   * @param path
+   *          A resource path as given by JAXRS, generated from the request
+   * @return The unique ID value of the resource at that path. Null if none.
+   */
+  String pathToId(String path);
 
-	/**
-	 * 
-	 * @param id
-	 *            Unique ID value to check
-	 * @return True if ID is in database, false if not
-	 */
-	boolean idExists(String id);
+  /**
+   * 
+   * @param id
+   *          Unique ID value to check
+   * @return True if ID is in database, false if not
+   */
+  boolean idExists(String id);
 
-	/**
-	 * 
-	 * @param id
-	 *            Unique ID value of resource to load
-	 * @param clazz
-	 *            Expected class of resource
-	 * @return The Resource associated with the given ID
-	 * @throws InvalidResourceTypeException
-	 *             Thrown if expected class does not match actual class
-	 * 
-	 * @throws ResourceNotFoundException
-	 *             Thrown if there is no resource associated with this id
-	 */
-	<X extends JResource> X load(String id, Class<X> clazz)
-			throws InvalidResourceTypeException, ResourceNotFoundException;
+  /**
+   * 
+   * @param id
+   *          Unique ID value of resource to load
+   * @param clazz
+   *          Expected class of resource
+   * @return The Resource associated with the given ID
+   * @throws InvalidResourceTypeException
+   *           Thrown if expected class does not match actual class
+   * 
+   * @throws ResourceNotFoundException
+   *           Thrown if there is no resource associated with this id
+   */
+  <X extends JResource> X load(String id, Class<X> clazz)
+      throws InvalidResourceTypeException, ResourceNotFoundException;
 
-	/**
-	 * 
-	 * @param resource
-	 *            The resource to create
-	 * @return The resource exactly as it was created
-	 * @throws ResourceAlreadyExistsException
-	 *             Thrown if another resource with the same ID already exists.
-	 */
-	<X extends JResource> X create(X resource) throws ResourceAlreadyExistsException;
+  /**
+   * 
+   * @param resource
+   *          The resource to create
+   * @return The resource exactly as it was created
+   * @throws ResourceAlreadyExistsException
+   *           Thrown if another resource with the same ID already exists.
+   */
+  <X extends JResource> X create(X resource) throws ResourceAlreadyExistsException;
 
-	/**
-	 * 
-	 * @param id
-	 *            The ID value to delete from the database
-	 * @return The deleted resource
-	 * @throws ResourceNotFoundException
-	 *             Thrown if there is no resource associated with this id
-	 */
-	<X extends JResource> X delete(String id) throws ResourceNotFoundException;
+  /**
+   * 
+   * @param id
+   *          The ID value to delete from the database
+   * @return The deleted resource
+   * @throws ResourceNotFoundException
+   *           Thrown if there is no resource associated with this id
+   */
+  <X extends JResource> X delete(String id) throws ResourceNotFoundException;
 
-	/**
-	 * 
-	 * @param r
-	 *            The resource to update
-	 * @return The old resource at this ID value.
-	 * @throws ResourceNotFoundException
-	 *             Thrown if there is no resource associated with this id
-	 */
-	<X extends JResource> X update(X r) throws ResourceNotFoundException;
+  /**
+   * 
+   * @param r
+   *          The resource to update
+   * @return The old resource at this ID value.
+   * @throws ResourceNotFoundException
+   *           Thrown if there is no resource associated with this id
+   */
+  <X extends JResource> X update(X r) throws ResourceNotFoundException;
 }

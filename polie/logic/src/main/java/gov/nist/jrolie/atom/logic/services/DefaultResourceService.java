@@ -35,32 +35,37 @@ import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 @Component
 public class DefaultResourceService implements ResourceService {
 
-	@Autowired
-	PersistenceContext pc;
+  @Autowired
+  PersistenceContext pc;
 
-	@Override
-	public JResource load(String id) throws ResourceNotFoundException, InvalidResourceTypeException {
-		return pc.load(id, JResource.class);
-	}
+  @Override
+  public JResource load(String id) throws ResourceNotFoundException, InvalidResourceTypeException {
+    return pc.load(id, JResource.class);
+  }
 
-	@Override
-	public JResource create(JResource resource) throws ResourceAlreadyExistsException {
-		return pc.create(resource);
-	}
+  @Override
+  public JResource create(JResource resource) throws ResourceAlreadyExistsException {
+    return pc.create(resource);
+  }
 
-	@Override
-	public JResource delete(String id) throws ResourceNotFoundException {
-		return pc.delete(id);
-	}
+  @Override
+  public JResource delete(String id) throws ResourceNotFoundException {
+    return pc.delete(id);
+  }
 
-	@Override
-	public JResource update(JResource resource) throws ResourceNotFoundException {
-		return pc.update(resource);
-	}
+  @Override
+  public JResource update(JResource resource) throws ResourceNotFoundException {
+    return pc.update(resource);
+  }
 
-	@Override
-	public String pathToId(String path) {
-		return pc.pathToId(path);
-	}
+  @Override
+  public String pathToId(String path) {
+    return pc.pathToId(path);
+  }
+
+  @Override
+  public String generateArchiveSuffix() {
+    return "-old"; // TODO
+  }
 
 }

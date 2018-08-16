@@ -20,82 +20,97 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model.impl;
 
 import java.net.URI;
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+
 import gov.nist.jrolie.model.JAccept;
+import gov.nist.jrolie.model.JAttribute;
 import gov.nist.jrolie.model.JCategories;
-import gov.nist.jrolie.model.JCattr;
 import gov.nist.jrolie.model.JCollection;
-import gov.nist.jrolie.model.JElement;
 import gov.nist.jrolie.model.JTextConstruct;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class JCollectionImpl implements JCollection {
+  @XmlAttribute
+  URI base;
+  @XmlAttribute
+  String lang;
+  ArrayList<JAttribute> extensions;
+  JTextConstruct title;
+  URI href;
+  String feedPath;
+  ArrayList<JAccept> accepts;
+  ArrayList<JCategories> categories;
 
-	ArrayList<JCattr> cattr;
-	ArrayList<JElement> extensions;
-	JTextConstruct title;
-	URI href;
-	String feedPath;
-	ArrayList<JAccept> accepts;
-	ArrayList<JCategories> categories;
+  public JTextConstruct getTitle() {
+    return title;
+  }
 
-	public ArrayList<JCattr> getCattr() {
-		return cattr;
-	}
+  public void setTitle(JTextConstruct title) {
+    this.title = title;
+  }
 
-	public void setCattr(ArrayList<JCattr> cattr) {
-		this.cattr = cattr;
-	}
+  public URI getHref() {
+    return href;
+  }
 
-	public ArrayList<JElement> getExtensions() {
-		return extensions;
-	}
+  public void setHref(URI href) {
+    this.href = href;
+  }
 
-	public void setExtensions(ArrayList<JElement> extensions) {
-		this.extensions = extensions;
-	}
+  public String getFeedPath() {
+    return feedPath;
+  }
 
-	public JTextConstruct getTitle() {
-		return title;
-	}
+  public void setFeedPath(String feedPath) {
+    this.feedPath = feedPath;
+  }
 
-	public void setTitle(JTextConstruct title) {
-		this.title = title;
-	}
+  public ArrayList<JAccept> getAccepts() {
+    return accepts;
+  }
 
-	public URI getHref() {
-		return href;
-	}
+  public void setAccepts(ArrayList<JAccept> accepts) {
+    this.accepts = accepts;
+  }
 
-	public void setHref(URI href) {
-		this.href = href;
-	}
+  public ArrayList<JCategories> getCategories() {
+    return categories;
+  }
 
-	public String getFeedPath() {
-		return feedPath;
-	}
+  public void setCategories(ArrayList<JCategories> categories) {
+    this.categories = categories;
+  }
 
-	public void setFeedPath(String feedPath) {
-		this.feedPath = feedPath;
-	}
+  public URI getBase() {
+    return base;
+  }
 
-	public ArrayList<JAccept> getAccepts() {
-		return accepts;
-	}
+  public void setBase(URI base) {
+    this.base = base;
+  }
 
-	public void setAccepts(ArrayList<JAccept> accepts) {
-		this.accepts = accepts;
-	}
+  public String getLang() {
+    return lang;
+  }
 
-	public ArrayList<JCategories> getCategories() {
-		return categories;
-	}
+  public void setLang(String lang) {
+    this.lang = lang;
+  }
 
-	public void setCategories(ArrayList<JCategories> categories) {
-		this.categories = categories;
-	}
+  public ArrayList<JAttribute> getExtensions() {
+    return extensions;
+  }
+
+  public void setExtensions(ArrayList<JAttribute> extensions) {
+    this.extensions = extensions;
+  }
 
 }

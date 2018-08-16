@@ -20,24 +20,41 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model;
 
 import java.net.URI;
 
 public interface JLink extends JElement {
 
-	URI getHref();
-	
-	JRel getRel();
-	
-	JMediaType getMediatype();
-	
-	JLang getLang();
-	
-	String getTitle();
-	
-	String getLength();
-	
-	//TODO: UndefinedContent
-	
+  URI getHref();
+
+  String getRel();
+
+  String getLang();
+
+  String getTitle();
+
+  String getLength();
+
+  void setLength(String length);
+
+  void setTitle(String title);
+
+  void setHreflang(String hreflang);
+
+  void setType(String type);
+
+  void setRel(String rel);
+
+  void setHref(URI href);
+
+  String getHreflang();
+
+  String getType();
+
+JLink clone();
+
+  // TODO: UndefinedContent
+
 }

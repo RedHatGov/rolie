@@ -20,8 +20,23 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model;
 
-public interface JPerson extends JElement {
+import java.net.URI;
 
+public interface JPerson extends JElement {
+  String getName();
+
+  String getEmail();
+
+  void setEmail(String email);
+
+  void setUri(URI uri);
+
+  void setName(String name);
+
+  URI getUri();
+  
+JPerson clone();
 }

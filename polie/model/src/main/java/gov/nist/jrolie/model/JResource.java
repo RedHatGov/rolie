@@ -20,22 +20,21 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model;
 
 public interface JResource extends JElement {
 
-	String getPath();
-	
-	void setPath(String path);
+  String getPath();
 
-	boolean isChanged();
+  void setPath(String path);
 
-	void markChanged();
+  boolean isChanged();
 
-	String getId();
+  void setChanged(boolean changed);
 
-	void setId(String path);
+  String getId();
 
-
+  void setId(String path);
 
 }

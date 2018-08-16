@@ -26,6 +26,16 @@
 
 package gov.nist.jrolie.server.servlet;
 
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,18 +46,6 @@ import gov.nist.jrolie.server.event.Get;
 import gov.nist.jrolie.server.event.Post;
 import gov.nist.jrolie.server.event.Put;
 import gov.nist.jrolie.server.event.RESTEvent;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 
 //import gov.nist.rolie.polie.server.visitors.DebugVisitor;
 /**
@@ -83,11 +81,10 @@ public class DataEvent {
    * 
    * As of this version, here are some used keys:
    * 
-   * "IRI" - a string of the absolute IRI. "path" - a string of the relative IRI. "headers" - the
-   * map of headers from the request. "body" - the body content from the request.
-   * "RetrievedResource" - a resource loaded from persistence "CreatedResource" - representation of
-   * a resource in persistence after creation "UpdatedResource" - representation of a resource in
-   * persistence after update
+   * "IRI" - a string of the absolute IRI. "path" - a string of the relative IRI. "headers" - the map
+   * of headers from the request. "body" - the body content from the request. "RetrievedResource" - a
+   * resource loaded from persistence "CreatedResource" - representation of a resource in persistence
+   * after creation "UpdatedResource" - representation of a resource in persistence after update
    * 
    * These are examples and pose no requirements or limitations, but investigate before overwritting
    * them.
@@ -123,7 +120,7 @@ public class DataEvent {
 
     // Generates a new Get event.
     RESTEvent get = new Get(headers, uriInfo);
-    
+
     // Starts the execution chain, returns a built response
     log.debug("Visitor chain init, executing data request.");
 
@@ -149,7 +146,7 @@ public class DataEvent {
     RESTEvent post = new Post(headers, uriInfo, body);
 
     VisitorManager vm = vmFactory.getPostVisitorManager();
-    
+
     return vm.execute(post);
   }
 

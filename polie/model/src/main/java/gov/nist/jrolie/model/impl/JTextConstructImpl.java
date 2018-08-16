@@ -20,38 +20,64 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model.impl;
 
-import gov.nist.jrolie.model.JCattr;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlValue;
+
+import gov.nist.jrolie.model.JPerson;
 import gov.nist.jrolie.model.JTextConstruct;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class JTextConstructImpl implements JTextConstruct {
-	String text;
+  @XmlValue
+  String text;
+  @XmlAttribute
+  String type;
 
-	public JTextConstructImpl(String text)
-	{
-		this.text=text;
-	}
-	
-	@Override
-	public JCattr getCattr() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  public JTextConstructImpl() {
+  }
 
-	@Override
-	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  public JTextConstructImpl(String text) {
+    this.text = text;
+  }
 
-	@Override
-	public String getText() {
-		return text;
-	}
+  @Override
+  public String getType() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-	public void setText(String text) {
-		this.text=text;
-	}
+  @Override
+  public String getText() {
+    return text;
+  }
+
+  @Override
+  public void setText(String text) {
+    this.text = text;
+  }
+  
+  @Override
+  public void setType(String type) {
+    this.type = type;
+  }
+  
+  public JTextConstruct clone()
+  {
+	  JTextConstruct retval = new JTextConstructImpl();
+		retval.setText(text);
+		retval.setType(type);
+
+		return retval;
+  }
 
 }

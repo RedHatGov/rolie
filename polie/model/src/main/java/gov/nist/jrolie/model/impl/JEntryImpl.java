@@ -20,222 +20,255 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model.impl;
 
+import java.net.URI;
 import java.util.ArrayList;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+import gov.nist.jrolie.model.Constants;
+import gov.nist.jrolie.model.JAttribute;
 import gov.nist.jrolie.model.JCategory;
-import gov.nist.jrolie.model.JCattr;
 import gov.nist.jrolie.model.JContent;
 import gov.nist.jrolie.model.JDate;
-import gov.nist.jrolie.model.JElement;
 import gov.nist.jrolie.model.JEntry;
 import gov.nist.jrolie.model.JFeed;
 import gov.nist.jrolie.model.JLink;
-import gov.nist.jrolie.model.JPersonConstruct;
+import gov.nist.jrolie.model.JPerson;
 import gov.nist.jrolie.model.JTextConstruct;
 
-@JsonPropertyOrder()
-@JacksonXmlRootElement(namespace="http://www.w3.org/2005/Atom")
+@XmlRootElement(name = "entry", namespace = Constants.ATOM_NS)
+@XmlAccessorType(XmlAccessType.FIELD)
 public class JEntryImpl implements JEntry {
 
-	String path;
+  @XmlTransient
+  String path;
 
-	ArrayList<JPersonConstruct> authors;
-	ArrayList<JCategory> categorys;
-	JContent content;
-	ArrayList<JPersonConstruct> contributors;
-	
-	@JsonProperty("id")
-	@JacksonXmlProperty(namespace="http://www.w3.org/2005/Atom")
-	String id;
-	
-	
-	ArrayList<JLink> links;
-	JDate published;
-	JTextConstruct rights;
-	JFeed source;
-	
-	@JsonProperty("summary")
-	@JacksonXmlProperty(namespace="urn:ietf:params:xml:ns:rolie-1.0")
-	JTextConstruct summary;
-	
-	@JsonProperty("title")
-	@JacksonXmlProperty(namespace="http://www.w3.org/2005/Atom")
-	JTextConstruct title;
-	JDate updated;
+  @XmlElement(type = JPersonImpl.class, namespace = Constants.ATOM_NS)
+  ArrayList<JPerson> authors;
 
-	ArrayList<JElement> extensions;
-	
-	@JsonProperty("changed")
-	@JacksonXmlProperty(namespace="urn:ietf:params:xml:ns:rolie-1.0")
-	boolean changed;
-	ArrayList<JCattr> cattr;
+  @XmlElement(type = JCategoryImpl.class, namespace = Constants.ATOM_NS)
+  ArrayList<JCategory> categorys;
 
-	@Override
-	public String getPath() {
-		return path;
-	}
+  @XmlElement(type = JContentImpl.class, namespace = Constants.ATOM_NS)
+  JContent content;
 
-	@Override
-	public void setPath(String path) {
-		this.path = path;
-	}
+  @XmlElement(type = JPersonImpl.class, namespace = Constants.ATOM_NS)
+  ArrayList<JPerson> contributors;
 
-	@Override
-	public ArrayList<JPersonConstruct> getAuthors() {
-		return authors;
-	}
+  @XmlElement(namespace = Constants.ATOM_NS, required = true)
+  String id;
 
-	@Override
-	public void setAuthors(ArrayList<JPersonConstruct> authors) {
-		this.authors = authors;
-	}
+  @XmlElement(type = JLinkImpl.class, namespace = Constants.ATOM_NS, name = "link")
+  ArrayList<JLink> links;
 
-	@Override
-	public ArrayList<JCategory> getCategorys() {
-		return categorys;
-	}
+  @XmlElement(type = JDateImpl.class, namespace = Constants.ATOM_NS)
+  JDate published;
 
-	@Override
-	public void setCategorys(ArrayList<JCategory> categorys) {
-		this.categorys = categorys;
-	}
+  @XmlElement(type = JTextConstructImpl.class, namespace = Constants.ATOM_NS)
+  JTextConstruct rights;
 
-	@Override
-	public JContent getContent() {
-		return content;
-	}
+  @XmlElement(type = JFeedImpl.class, namespace = Constants.ATOM_NS)
+  JFeed source;
 
-	@Override
-	public void setContent(JContent content) {
-		this.content = content;
-	}
+  @XmlElement(type = JTextConstructImpl.class, namespace = Constants.ATOM_NS)
+  JTextConstruct summary;
 
-	@Override
-	public ArrayList<JPersonConstruct> getContributors() {
-		return contributors;
-	}
+  @XmlElement(type = JTextConstructImpl.class, namespace = Constants.ATOM_NS)
+  JTextConstruct title;
 
-	@Override
-	public void setContributors(ArrayList<JPersonConstruct> contributors) {
-		this.contributors = contributors;
-	}
+  @XmlElement(type = JDateImpl.class, namespace = Constants.ATOM_NS)
+  JDate updated;
 
-	@Override
-	public String getId() {
-		return id;
-	}
+  @XmlTransient
+  ArrayList<JAttribute> extensions;
 
-	@Override
-	public void setId(String id) {
-		this.id = id;
-	}
+  @XmlTransient
+  boolean changed;
 
-	@Override
-	public ArrayList<JLink> getLinks() {
-		return links;
-	}
+  @XmlAttribute
+  String lang;
 
-	@Override
-	public void setLinks(ArrayList<JLink> links) {
-		this.links = links;
-	}
+  @XmlAttribute
+  URI base;
 
-	@Override
-	public JDate getPublished() {
-		return published;
-	}
+  @Override
+  public String getPath() {
+    return path;
+  }
 
-	@Override
-	public void setPublished(JDate published) {
-		this.published = published;
-	}
+  @Override
+  public void setPath(String path) {
+    this.path = path;
+  }
 
-	@Override
-	public JTextConstruct getRights() {
-		return rights;
-	}
+  @Override
+  public ArrayList<JPerson> getAuthors() {
+    return authors;
+  }
 
-	@Override
-	public void setRights(JTextConstruct rights) {
-		this.rights = rights;
-	}
+  @Override
+  public void setAuthors(ArrayList<JPerson> authors) {
+    this.authors = authors;
+  }
 
-	@Override
-	public JFeed getSource() {
-		return source;
-	}
+  @Override
+  public ArrayList<JCategory> getCategorys() {
+    return categorys;
+  }
 
-	@Override
-	public void setSource(JFeed source) {
-		this.source = source;
-	}
+  @Override
+  public void setCategorys(ArrayList<JCategory> categorys) {
+    this.categorys = categorys;
+  }
 
-	@Override
-	public JTextConstruct getSummary() {
-		return summary;
-	}
+  @Override
+  public JContent getContent() {
+    return content;
+  }
 
-	@Override
-	public void setSummary(JTextConstruct summary) {
-		this.summary = summary;
-	}
+  @Override
+  public void setContent(JContent content) {
+    this.content = content;
+  }
 
-	@Override
-	public JTextConstruct getTitle() {
-		return title;
-	}
+  @Override
+  public ArrayList<JPerson> getContributors() {
+    return contributors;
+  }
 
-	@Override
-	public void setTitle(JTextConstruct title) {
-		this.title = title;
-	}
+  @Override
+  public void setContributors(ArrayList<JPerson> contributors) {
+    this.contributors = contributors;
+  }
 
-	@Override
-	public JDate getUpdated() {
-		return updated;
-	}
+  @Override
+  public String getId() {
+    return id;
+  }
 
-	@Override
-	public void setUpdated(JDate updated) {
-		this.updated = updated;
-	}
+  @Override
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	@Override
-	public ArrayList<JElement> getExtensions() {
-		return extensions;
-	}
+  @Override
+  public ArrayList<JLink> getLinks() {
+    return links;
+  }
 
-	@Override
-	public void setExtensions(ArrayList<JElement> extensions) {
-		this.extensions = extensions;
-	}
+  @Override
+  public void setLinks(ArrayList<JLink> links) {
+    this.links = links;
+  }
 
-	@Override
-	public boolean isChanged() {
-		return changed;
-	}
+  @Override
+  public JDate getPublished() {
+    return published;
+  }
 
-	@Override
-	public void markChanged() {
-		changed = true;
-	}
+  @Override
+  public void setPublished(JDate published) {
+    this.published = published;
+  }
 
-	@Override
-	public ArrayList<JCattr> getCattr() {
-		return cattr;
-	}
+  @Override
+  public JTextConstruct getRights() {
+    return rights;
+  }
 
-	@Override
-	public void setCattr(ArrayList<JCattr> cattr) {
-		this.cattr = cattr;
+  @Override
+  public void setRights(JTextConstruct rights) {
+    this.rights = rights;
+  }
 
-	}
-	
+  @Override
+  public JFeed getSource() {
+    return source;
+  }
+
+  @Override
+  public void setSource(JFeed source) {
+    this.source = source;
+  }
+
+  @Override
+  public JTextConstruct getSummary() {
+    return summary;
+  }
+
+  @Override
+  public void setSummary(JTextConstruct summary) {
+    this.summary = summary;
+  }
+
+  @Override
+  public JTextConstruct getTitle() {
+    return title;
+  }
+
+  @Override
+  public void setTitle(JTextConstruct title) {
+    this.title = title;
+  }
+
+  @Override
+  public JDate getUpdated() {
+    return updated;
+  }
+
+  @Override
+  public void setUpdated(JDate updated) {
+    this.updated = updated;
+  }
+
+  @Override
+  public ArrayList<JAttribute> getExtensions() {
+    return extensions;
+  }
+
+  @Override
+  public void setExtensions(ArrayList<JAttribute> extensions) {
+    this.extensions = extensions;
+  }
+
+  @Override
+  public boolean isChanged() {
+    return changed;
+  }
+
+  @Override
+  public URI getBase() {
+    return base;
+  }
+
+  @Override
+  public void setBase(URI base) {
+    this.base = base;
+
+  }
+
+  @Override
+  public String getLang() {
+    return lang;
+  }
+
+  @Override
+  public void setLang(String lang) {
+    this.lang = lang;
+
+  }
+
+  @Override
+  public void setChanged(boolean changed) {
+    this.changed = changed;
+  }
+
 }

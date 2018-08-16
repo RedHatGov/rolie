@@ -20,43 +20,128 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model.impl;
 
 import java.net.URI;
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import gov.nist.jrolie.model.Constants;
+import gov.nist.jrolie.model.JAttribute;
 import gov.nist.jrolie.model.JCategory;
-import gov.nist.jrolie.model.JCattr;
 import gov.nist.jrolie.model.JDate;
-import gov.nist.jrolie.model.JElement;
 import gov.nist.jrolie.model.JFeed;
 import gov.nist.jrolie.model.JGenerator;
 import gov.nist.jrolie.model.JLink;
-import gov.nist.jrolie.model.JPersonConstruct;
+import gov.nist.jrolie.model.JPerson;
 import gov.nist.jrolie.model.JTextConstruct;
 
+@XmlRootElement(name = "feed", namespace = Constants.ATOM_NS)
+@XmlAccessorType(XmlAccessType.FIELD)
 public class JFeedImpl implements JFeed {
+	@XmlAttribute
+	String lang;
+	@XmlAttribute
+	URI base;
 
-	ArrayList<JCattr> cattr;
+	@XmlTransient
 	boolean changed;
+
+	@XmlElement(namespace = Constants.ATOM_NS)
 	String id;
+
+	@XmlTransient
 	String path;
 
-	ArrayList<JPersonConstruct> authors;
-	ArrayList<JCategory> categorys;
-	ArrayList<JPersonConstruct> contributors;
+	@XmlElement(type = JPersonImpl.class, namespace = Constants.ATOM_NS)
+	ArrayList<JPerson> authors;
 
+	@XmlElement(type = JCategoryImpl.class, namespace = Constants.ATOM_NS)
+	ArrayList<JCategory> categorys;
+
+	@XmlElement(type = JPersonImpl.class, namespace = Constants.ATOM_NS)
+	ArrayList<JPerson> contributors;
+
+	@XmlElement(type = JGeneratorImpl.class, namespace = Constants.ATOM_NS)
 	JGenerator generator;
+
+	@XmlElement(namespace = Constants.ATOM_NS)
 	URI icon;
+
+	@XmlElement(type = JLinkImpl.class, namespace = Constants.ATOM_NS)
 	ArrayList<JLink> link;
+
+	@XmlElement(namespace = Constants.ATOM_NS)
 	URI logo;
+
+	@XmlElement(type = JTextConstructImpl.class, namespace = Constants.ATOM_NS)
 	JTextConstruct rights;
+
+	@XmlElement(type = JTextConstructImpl.class, namespace = Constants.ATOM_NS)
 	JTextConstruct subtitle;
+
+	@XmlElement(type = JTextConstructImpl.class, namespace = Constants.ATOM_NS)
 	JTextConstruct title;
+
+	@XmlElement(type = JDateImpl.class, namespace = Constants.ATOM_NS)
 	JDate updated;
 
-	ArrayList<JElement> extensions;
+	@XmlTransient
+	ArrayList<JAttribute> extensions;
+
+	@XmlElement(type = JEntryImpl.class, namespace = Constants.ATOM_NS)
 	ArrayList<String> entries;
+
+
+	public JFeedImpl(JFeed f) { // DEEP COPY
+		this.lang = f.getLang();
+		if (f.getBase() != null) {
+			this.base = URI.create(f.getBase().toString());
+		}
+		this.changed = f.isChanged();
+		this.id = f.getId();
+		this.path = f.getPath();
+		this.authors = new ArrayList<JPerson>();
+		for (JPerson p : f.getAuthors()) {
+			authors.add(p.clone());
+		}
+		this.categorys = new ArrayList<JCategory>();
+		for (JCategory c : f.getCategorys()) {
+			categorys.add(c.clone());
+		}
+		this.contributors = new ArrayList<JPerson>();
+		for (JPerson p : f.getContributors()) {
+			contributors.add(p.clone());
+		}
+		this.generator = f.getGenerator().clone();
+		this.icon = URI.create(f.getIcon().toString());
+		this.link = new ArrayList<JLink>();
+		for (JLink l : f.getLinks()) {
+			link.add(l.clone());
+		}
+		this.logo = URI.create(f.getLogo().toString());
+		this.rights = f.getRights().clone();
+		this.subtitle = f.getSubtitle().clone();
+		this.title = f.getTitle().clone();
+		this.updated = f.getUpdated().clone();
+		// this.extensions = f.getExtensions();
+		this.entries = new ArrayList<String>();
+		for (String e : f.getEntries()) {
+			entries.add(e);
+		}
+
+	}
+
+	public JFeedImpl() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public String getId() {
@@ -79,12 +164,12 @@ public class JFeedImpl implements JFeed {
 	}
 
 	@Override
-	public ArrayList<JPersonConstruct> getAuthors() {
+	public ArrayList<JPerson> getAuthors() {
 		return authors;
 	}
 
 	@Override
-	public void setAuthors(ArrayList<JPersonConstruct> authors) {
+	public void setAuthors(ArrayList<JPerson> authors) {
 		this.authors = authors;
 	}
 
@@ -99,12 +184,12 @@ public class JFeedImpl implements JFeed {
 	}
 
 	@Override
-	public ArrayList<JPersonConstruct> getContributors() {
+	public ArrayList<JPerson> getContributors() {
 		return contributors;
 	}
 
 	@Override
-	public void setContributors(ArrayList<JPersonConstruct> contributors) {
+	public void setContributors(ArrayList<JPerson> contributors) {
 		this.contributors = contributors;
 	}
 
@@ -189,12 +274,12 @@ public class JFeedImpl implements JFeed {
 	}
 
 	@Override
-	public ArrayList<JElement> getExtensions() {
+	public ArrayList<JAttribute> getExtensions() {
 		return extensions;
 	}
 
 	@Override
-	public void setExtensions(ArrayList<JElement> extensions) {
+	public void setExtensions(ArrayList<JAttribute> extensions) {
 		this.extensions = extensions;
 	}
 
@@ -214,18 +299,31 @@ public class JFeedImpl implements JFeed {
 	}
 
 	@Override
-	public void markChanged() {
-		changed = true;
+	public URI getBase() {
+		return base;
 	}
 
 	@Override
-	public ArrayList<JCattr> getCattr() {
-		return cattr;
+	public void setBase(URI base) {
+		this.base = base;
 	}
 
 	@Override
-	public void setCattr(ArrayList<JCattr> cattr) {
-		this.cattr = cattr;
+	public String getLang() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setLang(String lang) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setChanged(boolean changed) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

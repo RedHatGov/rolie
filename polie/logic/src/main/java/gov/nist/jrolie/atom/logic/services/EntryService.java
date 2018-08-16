@@ -23,9 +23,12 @@
 
 package gov.nist.jrolie.atom.logic.services;
 
+import gov.nist.jrolie.atom.logic.InternalServerError;
 import gov.nist.jrolie.model.JEntry;
+import gov.nist.jrolie.model.JFeed;
 
 public interface EntryService extends Service<JEntry> {
 
+  void addFeedLink(JEntry e, JFeed f) throws InternalServerError;
 
 }

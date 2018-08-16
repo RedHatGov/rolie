@@ -46,23 +46,23 @@ public class DefaultDataService implements DataService {
 
   @Override
   public String loadData(URI uri) throws ResourceNotFoundException, InvalidResourceTypeException {
-    return null; //persistenceMethod.loadData(uri);
+    return null; // persistenceMethod.loadData(uri);
   }
 
   @Override
   public String createData(String data, URI iri)
       throws ResourceAlreadyExistsException, LinkAlreadyExistsException, URISyntaxException {
-    return null; //persistenceMethod.createData(data, iri);
+    return null; // persistenceMethod.createData(data, iri);
   }
 
   @Override
   public String updateData(String data, URI iri) throws ResourceNotFoundException, InvalidResourceTypeException {
-    return null; //persistenceMethod.updateData(data, iri);
+    return null; // persistenceMethod.updateData(data, iri);
   }
 
   @Override
   public boolean deleteData(URI iri) throws ResourceNotFoundException, InvalidResourceTypeException {
-    return false; //persistenceMethod.deleteEntry(iri);
+    return false; // persistenceMethod.deleteEntry(iri);
   }
 
 }

@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model;
 
 import java.net.URI;
@@ -27,52 +28,52 @@ import java.util.ArrayList;
 
 public interface JFeed extends JResource {
 
-	ArrayList<JPersonConstruct> getAuthors();
+  ArrayList<JPerson> getAuthors();
 
-	ArrayList<JCategory> getCategorys();
+  ArrayList<JCategory> getCategorys();
 
-	ArrayList<JPersonConstruct> getContributors();
+  ArrayList<JPerson> getContributors();
 
-	ArrayList<String> getEntries();
+  ArrayList<String> getEntries();
 
-	JGenerator getGenerator();
+  JGenerator getGenerator();
 
-	URI getIcon();
+  URI getIcon();
 
-	ArrayList<JLink> getLinks();
+  ArrayList<JLink> getLinks();
 
-	URI getLogo();
+  URI getLogo();
 
-	JTextConstruct getRights();
+  JTextConstruct getRights();
 
-	JTextConstruct getSubtitle();
+  JTextConstruct getSubtitle();
 
-	JTextConstruct getTitle();
+  JTextConstruct getTitle();
 
-	JDate getUpdated();
+  JDate getUpdated();
 
-	void setAuthors(ArrayList<JPersonConstruct> authors);
+  void setAuthors(ArrayList<JPerson> authors);
 
-	void setEntries(ArrayList<String> entries);
+  void setEntries(ArrayList<String> entries);
 
-	void setTitle(JTextConstruct title);
+  void setTitle(JTextConstruct title);
 
-	void setCategorys(ArrayList<JCategory> categorys);
+  void setCategorys(ArrayList<JCategory> categorys);
 
-	void setContributors(ArrayList<JPersonConstruct> contributors);
+  void setContributors(ArrayList<JPerson> contributors);
 
-	void setGenerator(JGenerator generator);
+  void setGenerator(JGenerator generator);
 
-	void setIcon(URI uri);
+  void setIcon(URI uri);
 
-	void setLinks(ArrayList<JLink> links);
+  void setLinks(ArrayList<JLink> links);
 
-	void setLogo(URI uri);
+  void setLogo(URI uri);
 
-	void setRights(JTextConstruct rights);
+  void setRights(JTextConstruct rights);
 
-	void setSubtitle(JTextConstruct subtitle);
+  void setSubtitle(JTextConstruct subtitle);
 
-	void setUpdated(JDate date);
+  void setUpdated(JDate date);
 
 }

@@ -20,16 +20,21 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.persistence.api;
 
 import gov.nist.jrolie.model.JResource;
 
 public interface CacheContext {
-	
-	boolean exists(String path);
-	JResource load(String path);
-	<X extends JResource> X load(String path, Class<X> clazz);
-	<X extends JResource> X save(String path, X resource);
-	<X extends JResource> X save(X resource);
+
+  boolean exists(String path);
+
+  JResource load(String path);
+
+  <X extends JResource> X load(String path, Class<X> clazz);
+
+  <X extends JResource> X save(String path, X resource);
+
+  <X extends JResource> X save(X resource);
 
 }

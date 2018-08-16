@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model;
 
 import java.net.URI;
@@ -27,24 +28,24 @@ import java.util.ArrayList;
 
 public interface JCollection extends JElement {
 
-	JTextConstruct getTitle();
+  JTextConstruct getTitle();
 
-	void setTitle(JTextConstruct title);
+  void setTitle(JTextConstruct title);
 
-	ArrayList<JCategories> getCategories();
+  ArrayList<JCategories> getCategories();
 
-	void setCategories(ArrayList<JCategories> categories);
+  void setCategories(ArrayList<JCategories> categories);
 
-	URI getHref();
+  URI getHref();
 
-	void setHref(URI href);
+  void setHref(URI href);
 
-	String getFeedPath();
+  String getFeedPath();
 
-	void setFeedPath(String path);
+  void setFeedPath(String path);
 
-	ArrayList<JAccept> getAccepts();
+  ArrayList<JAccept> getAccepts();
 
-	void setAccepts(ArrayList<JAccept> accepts);
+  void setAccepts(ArrayList<JAccept> accepts);
 
 }

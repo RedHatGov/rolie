@@ -20,53 +20,54 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model;
 
 import java.util.ArrayList;
 
 public interface JEntry extends JResource {
 
-	ArrayList<JPersonConstruct> getAuthors();
+  ArrayList<JPerson> getAuthors();
 
-	void setAuthors(ArrayList<JPersonConstruct> authors);
+  void setAuthors(ArrayList<JPerson> authors);
 
-	ArrayList<JCategory> getCategorys();
+  ArrayList<JCategory> getCategorys();
 
-	void setCategorys(ArrayList<JCategory> categorys);
+  void setCategorys(ArrayList<JCategory> categorys);
 
-	JContent getContent();
+  JContent getContent();
 
-	void setContent(JContent content);
+  void setContent(JContent content);
 
-	ArrayList<JPersonConstruct> getContributors();
+  ArrayList<JPerson> getContributors();
 
-	void setContributors(ArrayList<JPersonConstruct> contributors);
+  void setContributors(ArrayList<JPerson> contributors);
 
-	ArrayList<JLink> getLinks();
+  ArrayList<JLink> getLinks();
 
-	void setLinks(ArrayList<JLink> links);
+  void setLinks(ArrayList<JLink> links);
 
-	JDate getPublished();
+  JDate getPublished();
 
-	void setPublished(JDate published);
+  void setPublished(JDate published);
 
-	JTextConstruct getRights();
+  JTextConstruct getRights();
 
-	void setRights(JTextConstruct rights);
+  void setRights(JTextConstruct rights);
 
-	JFeed getSource();
+  JFeed getSource();
 
-	void setSource(JFeed source);
+  void setSource(JFeed source);
 
-	JTextConstruct getSummary();
+  JTextConstruct getSummary();
 
-	void setSummary(JTextConstruct summary);
+  void setSummary(JTextConstruct summary);
 
-	JTextConstruct getTitle();
+  JTextConstruct getTitle();
 
-	void setTitle(JTextConstruct title);
+  void setTitle(JTextConstruct title);
 
-	JDate getUpdated();
+  JDate getUpdated();
 
-	void setUpdated(JDate updated);
+  void setUpdated(JDate updated);
 }

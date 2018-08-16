@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.persistence.api;
 
 import java.net.URI;
@@ -32,59 +33,72 @@ import org.apache.logging.log4j.Logger;
 import gov.nist.jrolie.model.JCollection;
 import gov.nist.jrolie.model.JEntry;
 import gov.nist.jrolie.model.JFeed;
+import gov.nist.jrolie.model.JLink;
 import gov.nist.jrolie.model.JServiceDocument;
 import gov.nist.jrolie.model.JWorkspace;
 import gov.nist.jrolie.model.impl.JCollectionImpl;
 import gov.nist.jrolie.model.impl.JEntryImpl;
 import gov.nist.jrolie.model.impl.JFeedImpl;
+import gov.nist.jrolie.model.impl.JLinkImpl;
 import gov.nist.jrolie.model.impl.JServiceDocumentImpl;
 import gov.nist.jrolie.model.impl.JTextConstructImpl;
 import gov.nist.jrolie.model.impl.JWorkspaceImpl;
 import gov.nist.jrolie.persistence.api.exceptions.ResourceAlreadyExistsException;
 
 public class DemoBootstrap {
-	private static final Logger log = LogManager.getLogger(DemoBootstrap.class);
+  private static final Logger log = LogManager.getLogger(DemoBootstrap.class);
 
-	public DemoBootstrap(PersistenceContext pc) throws ResourceAlreadyExistsException {
-		log.debug("Starting bootstrap");
+  public DemoBootstrap(PersistenceContext pc) throws ResourceAlreadyExistsException {
+    log.debug("Starting bootstrap");
 
-		JEntry e = new JEntryImpl();
-		e.setPath("/e/demoentry");
-		e.setId("demoEntry");
-		e.setTitle(new JTextConstructImpl("I'm a demo entry!"));
-		pc.create(e);
+    JEntry e = new JEntryImpl();
+    e.setPath("/e/demoentry");
+    e.setId("demoEntry");
+    e.setTitle(new JTextConstructImpl("I'm a demo entry!"));
+    pc.create(e);
 
-		JFeed f = new JFeedImpl();
-		f.setPath("/f/demofeed");
-		f.setId("demoFeed");
-		f.setTitle(new JTextConstructImpl("I'm a demo feed!"));
+    JFeed f = new JFeedImpl();
+    f.setPath("/f/demofeed");
+    f.setId("demoFeed");
+    f.setTitle(new JTextConstructImpl("I'm a demo feed!"));
+    ArrayList<JLink> ls = new ArrayList<JLink>();
+    JLink sl = new JLinkImpl();
+    try {
+      sl.setHref(new URI("www.imaservicedocument.com"));
+    } catch (URISyntaxException e2) {
+      // TODO Auto-generated catch block
+      e2.printStackTrace();
+    }
+    sl.setRel("service");
+    ls.add(sl);
+    f.setLinks(ls);
 
-		ArrayList<String> entries = new ArrayList<String>();
-		entries.add(e.getId());
-		f.setEntries(entries);
-		pc.create(f);
+    ArrayList<String> entries = new ArrayList<String>();
+    entries.add(e.getId());
+    f.setEntries(entries);
+    pc.create(f);
 
-		JCollection c = new JCollectionImpl();
-		c.setTitle(new JTextConstructImpl("I'm a demo collection!"));
-		try {
-			c.setHref(new URI(f.getPath()));
-		} catch (URISyntaxException e1) {
-			//  Auto-generated catch block
-			e1.printStackTrace();
-		}
+    JCollection c = new JCollectionImpl();
+    c.setTitle(new JTextConstructImpl("I'm a demo collection!"));
+    try {
+      c.setHref(new URI(f.getPath()));
+    } catch (URISyntaxException e1) {
+      // Auto-generated catch block
+      e1.printStackTrace();
+    }
 
-		JWorkspace w = new JWorkspaceImpl();
-		w.setCollections(new ArrayList<JCollection>());
-		w.setTitle(new JTextConstructImpl("demoworkspace"));
-		w.getCollections().add(c);
+    JWorkspace w = new JWorkspaceImpl();
+    w.setCollections(new ArrayList<JCollection>());
+    w.setTitle(new JTextConstructImpl("demoworkspace"));
+    w.getCollections().add(c);
 
-		JServiceDocument s = new JServiceDocumentImpl();
-		s.setId("demoservice");
-		s.setPath("/s/demoservice");
-		s.setWorkspaces(new ArrayList<JWorkspace>());
-		s.getWorkspaces().add(w);
-		pc.create(s);
+    JServiceDocument s = new JServiceDocumentImpl();
+    s.setId("demoservice");
+    s.setPath("/s/demoservice");
+    s.setWorkspaces(new ArrayList<JWorkspace>());
+    s.getWorkspaces().add(w);
+    pc.create(s);
 
-	}
+  }
 
 }

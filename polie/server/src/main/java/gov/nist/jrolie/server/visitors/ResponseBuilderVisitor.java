@@ -62,7 +62,7 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
    */
   @Override
   public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-    JResource resource =  (JResource) data.get(RESOURCE_KEY);
+    JResource resource = (JResource) data.get(RESOURCE_KEY);
     rb.entity(resource);
     return true;
   }
@@ -91,8 +91,8 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
   }
 
   /**
-   * When this visitor encounters a PUT request, it gets the resource that has been updated and
-   * places it in the body of the request.
+   * When this visitor encounters a PUT request, it gets the resource that has been updated and places
+   * it in the body of the request.
    * 
    * DATA MAP CONTRACT: BEFORE: "UpdatedResource" is an APPResource AFTER: NONE
    * 
@@ -106,9 +106,9 @@ public class ResponseBuilderVisitor implements RESTEventVisitor {
    */
   @Override
   public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-	    JResource resource = (JResource) data.get(RESOURCE_KEY);
-	    rb.entity(resource);
-	    return true;
+    JResource resource = (JResource) data.get(RESOURCE_KEY);
+    rb.entity(resource);
+    return true;
   }
 
   /**

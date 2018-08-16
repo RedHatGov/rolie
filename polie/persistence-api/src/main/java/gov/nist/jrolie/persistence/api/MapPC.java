@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.persistence.api;
 
 import java.util.HashMap;
@@ -35,63 +36,63 @@ import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 
 @Component
 public class MapPC implements PersistenceContext {
-	private static final Logger log = LogManager.getLogger(MapPC.class);
-	HashMap<String, JResource> idtor = new HashMap<String, JResource>();
-	HashMap<String,String> ptoid = new HashMap<String,String>();
+  private static final Logger log = LogManager.getLogger(MapPC.class);
+  HashMap<String, JResource> idtor = new HashMap<String, JResource>();
+  HashMap<String, String> ptoid = new HashMap<String, String>();
 
-	public MapPC() throws ResourceAlreadyExistsException {
-		new DemoBootstrap(this);
-	}
+  public MapPC() throws ResourceAlreadyExistsException {
+    new DemoBootstrap(this);
+  }
 
-	@Override
-	public boolean idExists(String id) {
-		return idtor.get(id) != null;
-	}
+  @Override
+  public boolean idExists(String id) {
+    return idtor.get(id) != null;
+  }
 
-	public <X extends JResource> X load(String id, Class<X> clazz)
-			throws InvalidResourceTypeException, ResourceNotFoundException {
-		if (id == null || !idExists(id)) {
-			throw new ResourceNotFoundException(id);
-		}
-		X r = (X) idtor.get(id);
-		if (clazz.isAssignableFrom(r.getClass())) {
-			return r;
-		} else {
-			throw new InvalidResourceTypeException();
-		}
-	}
+  public <X extends JResource> X load(String id, Class<X> clazz)
+      throws InvalidResourceTypeException, ResourceNotFoundException {
+    if (id == null || !idExists(id)) {
+      throw new ResourceNotFoundException(id);
+    }
+    X r = (X) idtor.get(id);
+    if (clazz.isAssignableFrom(r.getClass())) {
+      return r;
+    } else {
+      throw new InvalidResourceTypeException();
+    }
+  }
 
-	@Override
-	public <X extends JResource> X create(X r) throws ResourceAlreadyExistsException {
-		if (!idExists(r.getId())) {
-			idtor.put(r.getId(), r);
-			ptoid.put(r.getPath(), r.getId());
-			return r;
-		} else {
-			throw new ResourceAlreadyExistsException();
-		}
-	}
-	
-	@Override
-	public <X extends JResource> X update(X r) throws ResourceNotFoundException {
-		if (!idExists(r.getId())) {
-			throw new ResourceNotFoundException("todo");
-		}
-		ptoid.put(r.getPath(), r.getId());
-		return (X) idtor.put(r.getId(), r);
-	}
+  @Override
+  public <X extends JResource> X create(X r) throws ResourceAlreadyExistsException {
+    if (!idExists(r.getId())) {
+      idtor.put(r.getId(), r);
+      ptoid.put(r.getPath(), r.getId());
+      return r;
+    } else {
+      throw new ResourceAlreadyExistsException();
+    }
+  }
 
-	@Override
-	public <X extends JResource> X delete(String id) throws ResourceNotFoundException {
-		if (!idExists(id)) {
-			throw new ResourceNotFoundException(id);
-		}
-		X r = (X) idtor.remove(id);
-		return r;
-	}
+  @Override
+  public <X extends JResource> X update(X r) throws ResourceNotFoundException {
+    if (!idExists(r.getId())) {
+      throw new ResourceNotFoundException("todo");
+    }
+    ptoid.put(r.getPath(), r.getId());
+    return (X) idtor.put(r.getId(), r);
+  }
 
-	@Override
-	public String pathToId(String path) {
-		return ptoid.get(path);
-	}
+  @Override
+  public <X extends JResource> X delete(String id) throws ResourceNotFoundException {
+    if (!idExists(id)) {
+      throw new ResourceNotFoundException(id);
+    }
+    X r = (X) idtor.remove(id);
+    return r;
+  }
+
+  @Override
+  public String pathToId(String path) {
+    return ptoid.get(path);
+  }
 }

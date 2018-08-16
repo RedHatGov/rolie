@@ -20,83 +20,104 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model.impl;
 
+import java.net.URI;
 import java.util.ArrayList;
 
-import gov.nist.jrolie.model.JCattr;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
+import gov.nist.jrolie.model.JAttribute;
 import gov.nist.jrolie.model.JElement;
 import gov.nist.jrolie.model.JServiceDocument;
 import gov.nist.jrolie.model.JWorkspace;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class JServiceDocumentImpl implements JServiceDocument {
 
-	String path;
-	String id;
-	boolean isChanged;
-	ArrayList<JWorkspace> workspaces;
-	ArrayList<JElement> extensions;
-	ArrayList<JCattr> cattr;
+  String path;
+  String id;
+  boolean isChanged;
+  ArrayList<JWorkspace> workspaces;
+  ArrayList<JElement> extensions;
 
-	@Override
-	public String getPath() {
-		return path;
-	}
+  @Override
+  public String getPath() {
+    return path;
+  }
 
-	@Override
-	public void setPath(String path) {
-		this.path = path;
-	}
+  @Override
+  public void setPath(String path) {
+    this.path = path;
+  }
 
-	@Override
-	public String getId() {
-		return id;
-	}
+  @Override
+  public String getId() {
+    return id;
+  }
 
-	@Override
-	public void setId(String id) {
-		this.id = id;
-	}
+  @Override
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	@Override
-	public boolean isChanged() {
-		return isChanged;
-	}
+  @Override
+  public boolean isChanged() {
+    return isChanged;
+  }
 
-	@Override
-	public void markChanged() {
-		this.isChanged = true;
-	}
+  @Override
+  public ArrayList<JWorkspace> getWorkspaces() {
+    return workspaces;
+  }
 
-	@Override
-	public ArrayList<JWorkspace> getWorkspaces() {
-		return workspaces;
-	}
+  @Override
+  public void setWorkspaces(ArrayList<JWorkspace> workspaces) {
+    this.workspaces = workspaces;
+  }
 
-	@Override
-	public void setWorkspaces(ArrayList<JWorkspace> workspaces) {
-		this.workspaces = workspaces;
-	}
+  @Override
+  public void setChanged(boolean changed) {
+    // TODO Auto-generated method stub
 
-	@Override
-	public ArrayList<JElement> getExtensions() {
-		return extensions;
-	}
+  }
 
-	@Override
-	public void setExtensions(ArrayList<JElement> extensions) {
-		this.extensions = extensions;
-	}
+  @Override
+  public String getLang() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-	@Override
-	public ArrayList<JCattr> getCattr() {
-		return cattr;
-	}
+  @Override
+  public void setLang(String lang) {
+    // TODO Auto-generated method stub
 
-	@Override
-	public void setCattr(ArrayList<JCattr> cattr) {
-		this.cattr = cattr;
-	}
+  }
 
+  @Override
+  public URI getBase() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public void setBase(URI base) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public ArrayList<JAttribute> getExtensions() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public void setExtensions(ArrayList<JAttribute> extensions) {
+    // TODO Auto-generated method stub
+
+  }
 
 }

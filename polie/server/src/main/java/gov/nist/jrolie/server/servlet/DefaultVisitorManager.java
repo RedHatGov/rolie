@@ -26,12 +26,6 @@
 
 package gov.nist.jrolie.server.servlet;
 
-import gov.nist.jrolie.server.event.RESTEvent;
-import gov.nist.jrolie.server.visitors.RESTEventVisitor;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,6 +34,12 @@ import java.util.Map;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import gov.nist.jrolie.server.event.RESTEvent;
+import gov.nist.jrolie.server.visitors.RESTEventVisitor;
 
 /**
  * The default implementation of the visitor manager. Provides basic capabilities.

@@ -20,10 +20,9 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
-package gov.nist.jrolie.model.impl;
 
-import gov.nist.jrolie.model.JCattr;
+package gov.nist.jrolie.model;
 
-public class JCattrImpl implements JCattr {
+public interface JAttribute {
 
 }

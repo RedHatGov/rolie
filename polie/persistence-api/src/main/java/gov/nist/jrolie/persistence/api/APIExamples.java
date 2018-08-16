@@ -20,7 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
-///**
+/// **
 // * Portions of this software was developed by employees of the National Institute
 // * of Standards and Technology (NIST), an agency of the Federal Government.
 // * Pursuant to title 17 United States Code Section 105, works of NIST employees are
@@ -42,42 +42,42 @@
 // * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
 // * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
 // */
-//package gov.nist.jrolie.persistence.api;
+// package gov.nist.jrolie.persistence.api;
 //
-//import java.net.URI;
+// import java.net.URI;
 //
-//import gov.nist.jrolie.model.JEntry;
-//import gov.nist.jrolie.model.JFeed;
+// import gov.nist.jrolie.model.JEntry;
+// import gov.nist.jrolie.model.JFeed;
 //
-//public class APIExamples {
-//	
-//	
-//	public void addNewEntryToCollection() {
-//		JEntry newEntry = null; // should be instantiated as a new Entry
+// public class APIExamples {
 //
-//		PersistenceContext pc = null;
-////		// first save the entry
-////		newEntry = pc.save(newEntry);
 //
-//		JFeed col = pc.load(URI.create("location"), JFeed.class);
-//		// add the entry to the collection
-//		col.getEntries().add(newEntry);
-//		// now save the updated collection
-//		pc.save(col);
+// public void addNewEntryToCollection() {
+// JEntry newEntry = null; // should be instantiated as a new Entry
 //
-//		
-//	}
-//	
-//	public void updateCollectionMetadata() {
-//		PersistenceContext pc = null;
+// PersistenceContext pc = null;
+//// // first save the entry
+//// newEntry = pc.save(newEntry);
 //
-//		JFeed col = pc.load(URI.create("location"), JFeed.class);
-//		// Modify the collection metadata
-//		// TODO: uncomment once the property is created
-//		//		col.setTitle(Type.HTML, "<b>test</b>");
-//		// now save the updated collection
-//		pc.save(col);
+// JFeed col = pc.load(URI.create("location"), JFeed.class);
+// // add the entry to the collection
+// col.getEntries().add(newEntry);
+// // now save the updated collection
+// pc.save(col);
 //
-//		
-//	}
-//}
+//
+// }
+//
+// public void updateCollectionMetadata() {
+// PersistenceContext pc = null;
+//
+// JFeed col = pc.load(URI.create("location"), JFeed.class);
+// // Modify the collection metadata
+// // TODO: uncomment once the property is created
+// // col.setTitle(Type.HTML, "<b>test</b>");
+// // now save the updated collection
+// pc.save(col);
+//
+//
+// }
+// }

@@ -20,75 +20,121 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model.impl;
 
+import java.net.URI;
 import java.util.ArrayList;
 
-import gov.nist.jrolie.model.JCattr;
-import gov.nist.jrolie.model.JElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+
+import gov.nist.jrolie.model.JAttribute;
 import gov.nist.jrolie.model.JResource;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class JResourceImpl implements JResource {
+  @XmlAttribute
+  String lang;
 
-	String path;
-	
-	@Override
-	public String getPath() {
-		return path;
-	}
+  @XmlAttribute
+  URI base;
 
-	@Override
-	public boolean isChanged() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+  @XmlAttribute
+  String path;
 
-	@Override
-	public void markChanged() {
-		// TODO Auto-generated method stub
+  @XmlAttribute
+  String id;
 
-	}
+  @XmlAttribute
+  boolean changed;
 
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  /**
+   * @return the lang
+   */
+  public String getLang() {
+    return lang;
+  }
 
-	@Override
-	public void setId(String path) {
-		// TODO Auto-generated method stub
+  /**
+   * @return the base
+   */
+  public URI getBase() {
+    return base;
+  }
 
-	}
+  /**
+   * @return the path
+   */
+  public String getPath() {
+    return path;
+  }
 
-	@Override
-	public void setPath(String path) {
-		this.path=path;
+  /**
+   * @return the id
+   */
+  public String getId() {
+    return id;
+  }
 
-	}
+  /**
+   * @return the changed
+   */
+  public boolean isChanged() {
+    return changed;
+  }
 
-	@Override
-	public ArrayList<JCattr> getCattr() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  /**
+   * @param lang
+   *          the lang to set
+   */
+  public void setLang(String lang) {
+    this.lang = lang;
+  }
 
-	@Override
-	public void setCattr(ArrayList<JCattr> cattr) {
-		// TODO Auto-generated method stub
-		
-	}
+  /**
+   * @param base
+   *          the base to set
+   */
+  public void setBase(URI base) {
+    this.base = base;
+  }
 
-	@Override
-	public ArrayList<JElement> getExtensions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  /**
+   * @param path
+   *          the path to set
+   */
+  public void setPath(String path) {
+    this.path = path;
+  }
 
-	@Override
-	public void setExtensions(ArrayList<JElement> extensions) {
-		// TODO Auto-generated method stub
-		
-	}
+  /**
+   * @param id
+   *          the id to set
+   */
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  /**
+   * @param changed
+   *          the changed to set
+   */
+  public void setChanged(boolean changed) {
+    this.changed = changed;
+  }
+
+  @Override
+  public ArrayList<JAttribute> getExtensions() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public void setExtensions(ArrayList<JAttribute> extensions) {
+    // TODO Auto-generated method stub
+
+  }
 
 }

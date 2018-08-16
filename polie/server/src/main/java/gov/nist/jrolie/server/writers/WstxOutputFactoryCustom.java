@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.server.writers;
 
 import javax.xml.namespace.NamespaceContext;
@@ -28,6 +29,7 @@ import javax.xml.stream.XMLStreamException;
 import org.codehaus.stax2.XMLStreamWriter2;
 
 import com.ctc.wstx.api.WriterConfig;
+import com.ctc.wstx.sr.CompactNsContext;
 import com.ctc.wstx.stax.WstxOutputFactory;
 import com.ctc.wstx.sw.NonNsStreamWriter;
 import com.ctc.wstx.sw.RepairingNsStreamWriter;
@@ -36,26 +38,25 @@ import com.ctc.wstx.sw.XmlWriter;
 
 public class WstxOutputFactoryCustom extends WstxOutputFactory {
 
-	@Override
-	protected XMLStreamWriter2 createSW(String enc, WriterConfig cfg, XmlWriter xw) {
-		System.out.println("ASSUMING DIRECT CONTROL");
-		if (cfg.willSupportNamespaces()) {
-			if (cfg.automaticNamespacesEnabled()) {
-				RepairingNsStreamWriter rnsw = new RepairingNsStreamWriter(xw, enc, cfg);
-				try {
-					rnsw.doSetPrefix("atom", "http://www.w3.org/2005/Atom");
-					rnsw.doSetPrefix("rolie", "urn:ietf:params:xml:ns:rolie-1.0");
-					rnsw.setDefaultNamespace("http://www.w3.org/2005/Atom");
-					rnsw.setNamespaceContext();
-				} catch (XMLStreamException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				return rnsw;
-			}
-			return new SimpleNsStreamWriter(xw, enc, cfg);
-		}
-		return new NonNsStreamWriter(xw, enc, cfg);
-	}
+  @Override
+  protected XMLStreamWriter2 createSW(String enc, WriterConfig cfg, XmlWriter xw) {
+    System.out.println("ASSUMING DIRECT CONTROL");
+    if (cfg.willSupportNamespaces()) {
+      if (cfg.automaticNamespacesEnabled()) {
+        RepairingNsStreamWriter rnsw = new RepairingNsStreamWriter(xw, enc, cfg);
+        return rnsw;
+      }
+      SimpleNsStreamWriter snsw = new SimpleNsStreamWriter(xw, enc, cfg);
+      try {
+        snsw.doSetPrefix("rolie", "urn:ietf:params:xml:ns:rolie-1.0");
+        snsw.setDefaultNamespace("http://www.w3.org/2005/Atom");
+      } catch (XMLStreamException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      return snsw;
+    }
+    return new NonNsStreamWriter(xw, enc, cfg);
+  }
 
 }

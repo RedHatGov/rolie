@@ -23,15 +23,19 @@
 
 package gov.nist.jrolie.atom.logic.services;
 
+import gov.nist.jrolie.atom.logic.InternalServerError;
 import gov.nist.jrolie.persistence.api.exceptions.InvalidResourceTypeException;
 import gov.nist.jrolie.persistence.api.exceptions.ResourceAlreadyExistsException;
 import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 
 public interface Service<X> {
 
-	X load(String id) throws ResourceNotFoundException, InvalidResourceTypeException;
-	X create(X resource) throws ResourceAlreadyExistsException;
-	X update(X resource) throws ResourceNotFoundException;
-	X delete(String path) throws ResourceNotFoundException;
-	
+  X load(String id) throws ResourceNotFoundException, InvalidResourceTypeException, InternalServerError;
+
+  X create(X resource) throws ResourceAlreadyExistsException, InternalServerError;
+
+  X update(X resource) throws ResourceNotFoundException, InternalServerError;
+
+  X delete(String path) throws ResourceNotFoundException, InternalServerError;
+
 }

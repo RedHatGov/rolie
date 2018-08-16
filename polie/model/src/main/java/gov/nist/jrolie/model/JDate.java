@@ -20,8 +20,17 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model;
 
-public interface JDate {
+import java.util.Date;
+
+public interface JDate extends JElement {
+
+  void setDate(Date date);
+
+  Date getDate();
+
+JDate clone();
 
 }

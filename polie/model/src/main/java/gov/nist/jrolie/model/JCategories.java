@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model;
 
 import java.net.URI;
@@ -27,20 +28,20 @@ import java.util.ArrayList;
 
 public interface JCategories extends JElement {
 
-	String getFixed();
+  String getFixed();
 
-	URI getScheme();
+  URI getScheme();
 
-	ArrayList<JCategory> getCategorys();
+  ArrayList<JCategory> getCategorys();
 
-	URI getHref();
+  URI getHref();
 
-	void setFixed(String fixed);
+  void setFixed(String fixed);
 
-	void setScheme(URI scheme);
+  void setScheme(URI scheme);
 
-	void setCategorys(ArrayList<JCategory> categorys);
+  void setCategorys(ArrayList<JCategory> categorys);
 
-	void setHref(URI href);
+  void setHref(URI href);
 
 }

@@ -28,6 +28,6 @@ import gov.nist.jrolie.model.JFeed;
 
 public interface FeedService extends Service<JFeed> {
 
-	void addEntry(JFeed f,JEntry e);
+  void addEntry(JFeed f, JEntry e);
 
 }

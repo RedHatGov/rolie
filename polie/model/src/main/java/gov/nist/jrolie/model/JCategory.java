@@ -20,15 +20,25 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.model;
 
 import java.net.URI;
 
-public interface JCategory extends JElement{
+public interface JCategory extends JElement {
 
-	String getTerm();
-	String getLabel();
-	
-	URI getScheme();
-	
+  String getTerm();
+
+  String getLabel();
+
+  URI getScheme();
+
+  void setTerm(String term);
+
+  void setLabel(String label);
+
+  void setScheme(URI scheme);
+
+JCategory clone();
+
 }

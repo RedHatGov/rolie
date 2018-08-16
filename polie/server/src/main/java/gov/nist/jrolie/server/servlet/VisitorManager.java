@@ -77,10 +77,10 @@ public interface VisitorManager {
 
   /**
    * Visitor Execution loop. All visitors that are currently in the visitor list are executed in
-   * order. The data map and the response builder are passed by reference and used to pass
-   * information from visitor to visitor and to incrementally build the response, respectively. A
-   * visitor may cease the execution chain at any time if an error occurs. Later visitors may
-   * overwrite response characteristics.
+   * order. The data map and the response builder are passed by reference and used to pass information
+   * from visitor to visitor and to incrementally build the response, respectively. A visitor may
+   * cease the execution chain at any time if an error occurs. Later visitors may overwrite response
+   * characteristics.
    * 
    * This means that if a visitor encounters a non-recoverable error, it will most likely overwrite
    * the work of all previous visitors, and prevent any further visitors from executing.

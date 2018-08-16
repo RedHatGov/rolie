@@ -20,6 +20,7 @@
  * PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
+
 package gov.nist.jrolie.server.writers;
 
 import java.io.IOException;
@@ -44,33 +45,32 @@ import gov.nist.jrolie.model.JWorkspace;
 @Provider
 @Component
 @Produces({ "application/xml", "application/atom+xml;type=entry", "application/atom+xml" })
-public class JServiceDocumentWriter implements MessageBodyWriter<JServiceDocument>{
+public class JServiceDocumentWriter implements MessageBodyWriter<JServiceDocument> {
 
-	@Autowired
-	ServiceDocumentService ss;
-	
-	@Override
-	public long getSize(JServiceDocument arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+  @Autowired
+  ServiceDocumentService ss;
 
-	@Override
-	public boolean isWriteable(Class<?> type, Type generic, Annotation[] arg2, MediaType arg3) {
-		return JServiceDocument.class.equals(type.getInterfaces()[0]);
-	
-	}
+  @Override
+  public long getSize(JServiceDocument arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
+    // TODO Auto-generated method stub
+    return 0;
+  }
 
-	@Override
-	public void writeTo(JServiceDocument s, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4,
-			MultivaluedMap<String, Object> arg5, OutputStream out) throws IOException, WebApplicationException {
-		String message = "Hi there! I'm servdoc at: " + s.getPath() + " And here are my workspaces:\n";
-		for (JWorkspace w: s.getWorkspaces())
-		{
-			message+= "Im workspace : "+ w.getTitle()+" and here are my collections:" +w.getCollections()+"\n";
-		}
-		out.write(message.getBytes());
-		
-	}
+  @Override
+  public boolean isWriteable(Class<?> type, Type generic, Annotation[] arg2, MediaType arg3) {
+    return JServiceDocument.class.equals(type.getInterfaces()[0]);
+
+  }
+
+  @Override
+  public void writeTo(JServiceDocument s, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4,
+      MultivaluedMap<String, Object> arg5, OutputStream out) throws IOException, WebApplicationException {
+    String message = "Hi there! I'm servdoc at: " + s.getPath() + " And here are my workspaces:\n";
+    for (JWorkspace w : s.getWorkspaces()) {
+      message += "Im workspace : " + w.getTitle() + " and here are my collections:" + w.getCollections() + "\n";
+    }
+    out.write(message.getBytes());
+
+  }
 
 }

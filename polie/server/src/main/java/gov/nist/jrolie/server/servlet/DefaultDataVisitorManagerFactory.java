@@ -23,13 +23,9 @@
 
 package gov.nist.jrolie.server.servlet;
 
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import gov.nist.jrolie.persistence.api.PersistenceContext;
 import gov.nist.jrolie.server.visitors.AuthorizationVisitor;
 import gov.nist.jrolie.server.visitors.DataEventVisitor;
 import gov.nist.jrolie.server.visitors.RequestValidatorVisitor;
@@ -43,15 +39,14 @@ public class DefaultDataVisitorManagerFactory implements DataVisitorManagerFacto
   // written it can be swapped here
   // to apply to all requests.
 
-
-	
   /**
    * Provides debug functions. DISABLED.
    */
   // private static final RESTEventVisitor DEBUG_VISITOR = new DebugVisitor();
 
   /**
-   * Validates the request itself. Most of this is handled by the server, but extra logic may be included as needed.
+   * Validates the request itself. Most of this is handled by the server, but extra logic may be
+   * included as needed.
    */
   @Autowired
   private RequestValidatorVisitor requestValidator;
@@ -73,7 +68,8 @@ public class DefaultDataVisitorManagerFactory implements DataVisitorManagerFacto
   @Autowired
   private AuthorizationVisitor authorizationManager;
   /*
-   * Primary visitor for resource requests. Drives required Atom transformations, and starts persistence procedures.
+   * Primary visitor for resource requests. Drives required Atom transformations, and starts
+   * persistence procedures.
    */
   @Autowired
   private DataEventVisitor requestProcessor;
@@ -95,7 +91,7 @@ public class DefaultDataVisitorManagerFactory implements DataVisitorManagerFacto
       getVisitorManagerInstance.addVisitor(requestValidator);
       getVisitorManagerInstance.addVisitor(authorizationManager);
       getVisitorManagerInstance.addVisitor(requestProcessor);
-      //getVisitorManagerInstance.addVisitor(responseBuilder);
+      // getVisitorManagerInstance.addVisitor(responseBuilder);
     }
     return getVisitorManagerInstance;
   }
@@ -110,7 +106,7 @@ public class DefaultDataVisitorManagerFactory implements DataVisitorManagerFacto
       postVisitorManagerInstance.addVisitor(authorizationManager);
       // postVisitorManagerInstance.addVisitor(rolieContentValidator);
       postVisitorManagerInstance.addVisitor(requestProcessor);
-      //postVisitorManagerInstance.addVisitor(responseBuilder);
+      // postVisitorManagerInstance.addVisitor(responseBuilder);
     }
     return postVisitorManagerInstance;
   }
@@ -124,7 +120,7 @@ public class DefaultDataVisitorManagerFactory implements DataVisitorManagerFacto
       putVisitorManagerInstance.addVisitor(authorizationManager);
       // F putVisitorManagerInstance.addVisitor(rolieContentValidator);
       putVisitorManagerInstance.addVisitor(requestProcessor);
-      //putVisitorManagerInstance.addVisitor(responseBuilder);
+      // putVisitorManagerInstance.addVisitor(responseBuilder);
     }
     return putVisitorManagerInstance;
   }
@@ -137,7 +133,7 @@ public class DefaultDataVisitorManagerFactory implements DataVisitorManagerFacto
       deleteVisitorManagerInstance.addVisitor(requestValidator);
       deleteVisitorManagerInstance.addVisitor(authorizationManager);
       deleteVisitorManagerInstance.addVisitor(requestProcessor);
-      //deleteVisitorManagerInstance.addVisitor(responseBuilder);
+      // deleteVisitorManagerInstance.addVisitor(responseBuilder);
 
     }
     return deleteVisitorManagerInstance;

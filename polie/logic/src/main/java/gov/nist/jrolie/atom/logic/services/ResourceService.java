@@ -27,6 +27,8 @@ import gov.nist.jrolie.model.JResource;
 
 public interface ResourceService extends Service<JResource> {
 
-	String pathToId(String path);
+  String pathToId(String path);
+
+  String generateArchiveSuffix();
 
 }
