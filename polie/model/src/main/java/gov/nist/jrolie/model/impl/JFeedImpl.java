@@ -120,13 +120,16 @@ public class JFeedImpl implements JFeed {
 		for (JPerson p : f.getContributors()) {
 			contributors.add(p.clone());
 		}
-		this.generator = f.getGenerator().clone();
-		this.icon = URI.create(f.getIcon().toString());
+		if (f.getGenerator()!=null) {
+		this.generator = f.getGenerator().clone();}
+		if (f.getIcon()!=null) {
+		this.icon = URI.create(f.getIcon().toString());}
 		this.link = new ArrayList<JLink>();
 		for (JLink l : f.getLinks()) {
 			link.add(l.clone());
 		}
-		this.logo = URI.create(f.getLogo().toString());
+		if(f.getLogo()!=null) {
+		this.logo = URI.create(f.getLogo().toString());}
 		this.rights = f.getRights().clone();
 		this.subtitle = f.getSubtitle().clone();
 		this.title = f.getTitle().clone();
@@ -140,7 +143,16 @@ public class JFeedImpl implements JFeed {
 	}
 
 	public JFeedImpl() {
-		// TODO Auto-generated constructor stub
+		this.authors = new ArrayList<JPerson>();
+		this.categorys = new ArrayList<JCategory>();
+		this.contributors = new ArrayList<JPerson>();
+		this.link = new ArrayList<JLink>();
+		this.entries = new ArrayList<String>();
+		//this.generator=new JGeneratorImpl();
+		this.rights=new JTextConstructImpl();
+		this.subtitle=new JTextConstructImpl();
+		this.title = new JTextConstructImpl();
+		this.updated=new JDateImpl();
 	}
 
 	@Override

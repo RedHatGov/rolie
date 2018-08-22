@@ -49,6 +49,7 @@ public class JGeneratorImpl implements JGenerator {
   @XmlValue
   String text;
 
+  
   /**
    * @return the uri
    */

@@ -72,24 +72,31 @@ public class DefaultFeedService implements FeedService {
     f.setUpdated(new JDateImpl());
   }
 
+  @Override 
+  public JFeed archive(JFeed f) throws InternalServerError {
+	    String context = System.getProperty("srvroot");
+	    JFeed old = new JFeedImpl(f);
+
+	    old.setId(old.getId() + rs.generateArchiveSuffix());
+	    old.setPath("/f/" + old.getId());
+
+	    setLink(f, "prev-archive", context + old.getPath());
+	    setLink(old, "current", context + f.getPath());
+	    setLink(old, "prev-archive", "");
+	    setLink(old, "next-archive", "");
+	    try {
+	    	System.out.println("created old" + old.getId());
+	      pc.create(old);
+	    } catch (ResourceAlreadyExistsException e) {
+	      // TODO Auto-generated catch block
+	      e.printStackTrace();
+	    }
+	    return old;
+  }
+  
   @Override
   public JFeed update(JFeed f) throws ResourceNotFoundException, InternalServerError {
-    String context = System.getProperty("srvroot");
-    JFeed old = new JFeedImpl(f);
 
-    old.setId(old.getId() + rs.generateArchiveSuffix());
-    old.setPath("/f/" + old.getId());
-
-    setLink(f, "prev-archive", context + old.getPath());
-    setLink(old, "current", context + f.getPath());
-    setLink(old, "prev-archive", "");
-    setLink(old, "next-archive", "");
-    try {
-      pc.create(old);
-    } catch (ResourceAlreadyExistsException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
     return pc.update(f);
   }
 
