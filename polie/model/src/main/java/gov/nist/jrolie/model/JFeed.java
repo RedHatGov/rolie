@@ -26,6 +26,8 @@ package gov.nist.jrolie.model;
 import java.net.URI;
 import java.util.ArrayList;
 
+import gov.nist.jrolie.model.impl.JEntryWrapper;
+
 public interface JFeed extends JResource {
 
   ArrayList<JPerson> getAuthors();
@@ -34,7 +36,7 @@ public interface JFeed extends JResource {
 
   ArrayList<JPerson> getContributors();
 
-  ArrayList<String> getEntries();
+  ArrayList<JEntryWrapper> getEntries();
 
   JGenerator getGenerator();
 
@@ -54,7 +56,7 @@ public interface JFeed extends JResource {
 
   void setAuthors(ArrayList<JPerson> authors);
 
-  void setEntries(ArrayList<String> entries);
+  void setEntries(ArrayList<JEntryWrapper> entries);
 
   void setTitle(JTextConstruct title);
 

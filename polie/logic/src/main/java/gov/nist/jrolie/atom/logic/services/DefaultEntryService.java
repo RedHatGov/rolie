@@ -35,6 +35,7 @@ import gov.nist.jrolie.model.JEntry;
 import gov.nist.jrolie.model.JFeed;
 import gov.nist.jrolie.model.JLink;
 import gov.nist.jrolie.model.impl.JLinkImpl;
+import gov.nist.jrolie.persistence.api.CacheContext;
 import gov.nist.jrolie.persistence.api.PersistenceContext;
 import gov.nist.jrolie.persistence.api.exceptions.InvalidResourceTypeException;
 import gov.nist.jrolie.persistence.api.exceptions.ResourceAlreadyExistsException;
@@ -43,99 +44,92 @@ import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 @Component
 public class DefaultEntryService implements EntryService {
 
-  @Autowired
-  PersistenceContext pc;
+	@Autowired
+	PersistenceContext pc;
 
-  @Autowired
-  ResourceService rs;
+	@Autowired
+	ResourceService rs;
 
-  @Override
-  public JEntry load(String id) throws ResourceNotFoundException, InvalidResourceTypeException {
-    return pc.load(id, JEntry.class);
-  }
+	String context = System.getProperty("srvroot");
 
-  @Override
-  public JEntry create(JEntry e) throws ResourceAlreadyExistsException, InternalServerError {
-    addSelfLink(e);
-    return pc.create(e);
-  }
+	@Override
+	public JEntry load(String id) throws ResourceNotFoundException, InvalidResourceTypeException {
+		return pc.load(id, JEntry.class);
+	}
 
-  @Override
-  public void addFeedLink(JEntry e, JFeed f) throws InternalServerError {
-    int linkIndex = hasLink(e, "feed");
-    if (linkIndex != -1) {
-      try {
-        e.getLinks().get(1).setHref(new URI(System.getProperty("srvroot") + f.getPath()));
-      } catch (URISyntaxException e1) {
-        throw new InternalServerError(e1);
-      }
-    } else {
-      JLink l = new JLinkImpl();
-      try {
-        l.setHref(new URI(System.getProperty("srvroot") + f.getPath()));
-        l.setRel("feed");
-        e.getLinks().add(l);
-      } catch (URISyntaxException e1) {
-        throw new InternalServerError(e1);
-      }
-    }
-  }
+	@Override
+	public JEntry create(JEntry e) throws ResourceAlreadyExistsException, InternalServerError {
+		setLink(e, "self", context + e.getPath());
+		return pc.create(e);
+	}
 
-  private void addSelfLink(JEntry e) throws InternalServerError {
-    int linkIndex = hasLink(e, "self");
-    if (linkIndex != -1) {
-      try {
-        e.getLinks().get(1).setHref(new URI(System.getProperty("srvroot") + e.getPath()));
-      } catch (URISyntaxException e1) {
-        throw new InternalServerError(e1);
-      }
-    } else {
-      JLink l = new JLinkImpl();
-      try {
-        l.setHref(new URI(System.getProperty("srvroot") + e.getPath()));
-        l.setRel("self");
-        e.getLinks().add(l);
-      } catch (URISyntaxException e1) {
-        throw new InternalServerError(e1);
-      }
-    }
-  }
+	@Override
+	public JEntry delete(String id) throws ResourceNotFoundException {
+		return pc.delete(id);
+	}
 
-  private int hasLink(JEntry e, String s) {
-    ArrayList<JLink> ls = e.getLinks();
-    for (int i = 0; i < ls.size(); i++) {
-      if (ls.get(i).getRel().equals(s)) {
-        return i;
-      }
-    }
-    return -1;
-  }
+	@Override
+	public JEntry update(JEntry e) throws ResourceNotFoundException {
+		String id = e.getId();
+		JEntry old = null;
+		System.out.println(System.getProperty("srvroot"));
+		try {
+			old = load(id);
+		} catch (InvalidResourceTypeException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		old.setId(id + rs.generateArchiveSuffix());
+		old.setPath("/e/" + old.getId());
+		try {
+			pc.create(old);
+		} catch (ResourceAlreadyExistsException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return pc.update(e);
+	}
 
-  @Override
-  public JEntry delete(String id) throws ResourceNotFoundException {
-    return pc.delete(id);
-  }
+	@Override
+	public void setLink(JEntry e, String rel, String href) throws InternalServerError {
+		int linkIndex = hasLink(e, rel);
+		if (linkIndex != -1) {
+			try {
+				e.getLinks().get(linkIndex).setHref(new URI(href));
+			} catch (URISyntaxException e1) {
+				throw new InternalServerError(e1);
+			}
+		} else {
+			JLink l = new JLinkImpl();
+			try {
+				l.setHref(new URI(href));
+				l.setRel(rel);
+				e.getLinks().add(l);
+			} catch (URISyntaxException e1) {
+				throw new InternalServerError(e1);
+			}
+		}
+	}
 
-  @Override
-  public JEntry update(JEntry e) throws ResourceNotFoundException {
-    String id = e.getId();
-    JEntry old = null;
-    System.out.println(System.getProperty("srvroot"));
-    try {
-      old = load(id);
-    } catch (InvalidResourceTypeException e1) {
-      // TODO Auto-generated catch block
-      e1.printStackTrace();
-    }
-    old.setId(id + rs.generateArchiveSuffix());
-    old.setPath("/e/" + old.getId());
-    try {
-      pc.create(old);
-    } catch (ResourceAlreadyExistsException e1) {
-      // TODO Auto-generated catch block
-      e1.printStackTrace();
-    }
-    return pc.update(e);
-  }
+	@Override
+	public int hasLink(JEntry e, String rel) {
+		ArrayList<JLink> ls = e.getLinks();
+		for (int i = 0; i < ls.size(); i++) {
+			if (ls.get(i).getRel().equals(rel)) {
+				return i;
+			}
+		}
+		return -1;
+	}
 
+	@Override
+	public int hasValidLink(JEntry e, String rel) {
+		ArrayList<JLink> ls = e.getLinks();
+		for (int i = 0; i < ls.size(); i++) {
+			if (ls.get(i).getRel().equals(rel) && !ls.get(i).getHref().equals("")) {
+				return i;
+			}
+		}
+		return -1;
+	}
 }

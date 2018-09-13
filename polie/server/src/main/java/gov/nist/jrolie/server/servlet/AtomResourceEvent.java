@@ -91,7 +91,9 @@ public class AtomResourceEvent {
    */
 
   public AtomResourceEvent() {
-    System.setProperty("srvroot", config.SERVER_ROOT);
+    System.setProperty("SERVER_ROOT", config.SERVER_ROOT);
+    System.setProperty("ENTRY_PREFIX", config.ENTRY_PREFIX);
+    System.setProperty("FEED_PREFIX", config.FEED_PREFIX);
     System.out.println(config.SERVER_ROOT);
   }
 

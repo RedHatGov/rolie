@@ -37,11 +37,6 @@ import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
  *
  */
 @Component
-/**
- * 
- * @author sab3
- *
- */
 public interface PersistenceContext {
 
   /**

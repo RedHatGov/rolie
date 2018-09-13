@@ -23,6 +23,8 @@
 
 package gov.nist.jrolie.atom.logic.services;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -65,7 +67,7 @@ public class DefaultResourceService implements ResourceService {
 
   @Override
   public String generateArchiveSuffix() {
-    return "-old"; // TODO
+    return "/archive/" + UUID.randomUUID().toString();
   }
 
 }

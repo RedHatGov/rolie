@@ -24,13 +24,35 @@
 package gov.nist.jrolie.atom.logic.services;
 
 import gov.nist.jrolie.atom.logic.InternalServerError;
+import gov.nist.jrolie.atom.logic.MismatchedCategoriesException;
 import gov.nist.jrolie.model.JEntry;
 import gov.nist.jrolie.model.JFeed;
+import gov.nist.jrolie.persistence.api.exceptions.InvalidResourceTypeException;
+import gov.nist.jrolie.persistence.api.exceptions.ResourceAlreadyExistsException;
+import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 
 public interface FeedService extends Service<JFeed> {
 
-  void addEntry(JFeed f, JEntry e);
+	/**
+	 * Adds an Entry to the feed and does needed operations
+	 * @param f
+	 * @param e
+	 * @throws InternalServerError 
+	 * @throws MismatchedCategoriesException 
+	 */
+  void addEntry(JFeed f, JEntry e) throws InternalServerError, MismatchedCategoriesException;
 
-JFeed archive(JFeed f) throws InternalServerError;
+  /**
+   * 
+   * Generates and saves an archive version of a feed. This should be called before any important changes to the feed.
+   * 
+   * @param f
+   * @return
+   * @throws InternalServerError
+   * @throws ResourceNotFoundException
+   * @throws InvalidResourceTypeException
+   * @throws ResourceAlreadyExistsException
+   */
+JFeed archive(JFeed f) throws InternalServerError, ResourceNotFoundException, InvalidResourceTypeException, ResourceAlreadyExistsException;
 
 }

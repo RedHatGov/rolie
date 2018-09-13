@@ -31,10 +31,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import gov.nist.jrolie.atom.logic.InternalServerError;
+import gov.nist.jrolie.atom.logic.MismatchedCategoriesException;
+import gov.nist.jrolie.model.JCategory;
 import gov.nist.jrolie.model.JEntry;
 import gov.nist.jrolie.model.JFeed;
 import gov.nist.jrolie.model.JLink;
 import gov.nist.jrolie.model.impl.JDateImpl;
+import gov.nist.jrolie.model.impl.JEntryWrapper;
 import gov.nist.jrolie.model.impl.JFeedImpl;
 import gov.nist.jrolie.model.impl.JLinkImpl;
 import gov.nist.jrolie.persistence.api.PersistenceContext;
@@ -44,282 +47,161 @@ import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 
 @Component
 public class DefaultFeedService implements FeedService {
+	String root = System.getProperty("SERVER_ROOT");
+	String feedRoot = System.getProperty("FEED_PREFIX");
+	String prefix = root + feedRoot;
+	@Autowired
+	ResourceService rs;
 
-  @Autowired
-  ResourceService rs;
+	@Autowired
+	PersistenceContext pc;
 
-  @Autowired
-  PersistenceContext pc;
+	@Autowired
+	EntryService es;
 
-  @Override
-  public JFeed load(String id) throws ResourceNotFoundException, InvalidResourceTypeException {
-    return pc.load(id, JFeed.class);
-  }
+	@Override
+	public JFeed load(String id) throws ResourceNotFoundException, InvalidResourceTypeException {
+		return pc.load(id, JFeed.class);
+	}
 
-  @Override
-  public JFeed create(JFeed f) throws ResourceAlreadyExistsException {
-    return pc.create(f);
-  }
+	@Override
+	public JFeed create(JFeed f) throws ResourceAlreadyExistsException {
+		f.setUpdated(new JDateImpl());
+		return pc.create(f);
+	}
 
-  @Override
-  public JFeed delete(String id) throws ResourceNotFoundException {
-    return pc.delete(id);
-  }
+	@Override
+	public JFeed delete(String id) throws ResourceNotFoundException {
+		return pc.delete(id);
+	}
 
-  @Override
-  public void addEntry(JFeed f, JEntry e) {
-    f.getEntries().add(0, e.getId());
-    f.setUpdated(new JDateImpl());
-  }
+	@Override
+	public void addEntry(JFeed f, JEntry e) throws InternalServerError, MismatchedCategoriesException {
+		if (categoriesCheck(f, e)) {
+			f.getEntries().add(0, new JEntryWrapper(e.getId()));
+			es.setLink(e, "feed", root + f.getPath());
+			f.setUpdated(new JDateImpl());
+		} else {
+			throw new MismatchedCategoriesException();
+		}
+	}
 
-  @Override 
-  public JFeed archive(JFeed f) throws InternalServerError {
-	    String context = System.getProperty("srvroot");
-	    JFeed old = new JFeedImpl(f);
+	private boolean categoriesCheck(JFeed f, JEntry e) {
+		for (JCategory c : f.getCategorys()) { //TODO Fix the null pointers that is going ort happen if you do this,
+			for (JCategory ec : e.getCategorys()) {
+				if (c.equals(ec))
+				{
+					continue;
+				}
+				return false;
+			}
+		}
+		return true;
+	}
 
-	    old.setId(old.getId() + rs.generateArchiveSuffix());
-	    old.setPath("/f/" + old.getId());
+	@Override
+	public JFeed archive(JFeed f) throws InternalServerError, ResourceNotFoundException, InvalidResourceTypeException,
+			ResourceAlreadyExistsException {
 
-	    setLink(f, "prev-archive", context + old.getPath());
-	    setLink(old, "current", context + f.getPath());
-	    setLink(old, "prev-archive", "");
-	    setLink(old, "next-archive", "");
-	    try {
-	    	System.out.println("created old" + old.getId());
-	      pc.create(old);
-	    } catch (ResourceAlreadyExistsException e) {
-	      // TODO Auto-generated catch block
-	      e.printStackTrace();
-	    }
-	    return old;
-  }
-  
-  @Override
-  public JFeed update(JFeed f) throws ResourceNotFoundException, InternalServerError {
+		JFeed archive = new JFeedImpl(f);
+		if (hasValidLink(f, "next-archive") == -1) { // No next archive, this is the most current ver
 
-    return pc.update(f);
-  }
+			archive.setId(archive.getId() + rs.generateArchiveSuffix());
+			archive.setPath(feedRoot + archive.getId());
+			setLink(archive, "current", root + f.getPath());
+			setLink(archive, "next-archive", root + f.getPath());
+			if (hasValidLink(f, "prev-archive") == -1) { // No prev archive, this is most current, but has never been
+															// archived before
+				setLink(archive, "prev-archive", "");
+				setLink(f, "prev-archive", root + archive.getPath());
+			} else {// Does have a prev-archive, most current ver but has been archived before
+				JFeed lastArchive = load(rs.pathToId(getLinkRel(f, "prev-archive").getHref().toString()));
+				setLink(lastArchive, "next-archive", root + archive.getPath());
+				setLink(archive, "prev-archive", root + lastArchive.getPath());
+			}
 
-  private void setLink(JFeed f, String rel, String href) throws InternalServerError {
-    int linkIndex = hasLink(f, rel);
-    if (linkIndex != -1) {
-      try {
-        f.getLinks().get(linkIndex).setHref(new URI(href));
-      } catch (URISyntaxException e1) {
-        throw new InternalServerError(e1);
-      }
-    } else {
-      JLink l = new JLinkImpl();
-      try {
-        l.setHref(new URI(href));
-        l.setRel(rel);
-        f.getLinks().add(l);
-      } catch (URISyntaxException e1) {
-        throw new InternalServerError(e1);
-      }
-    }
-  }
+		}
+		create(archive);
+		return null;
+	}
 
-  private int hasLink(JFeed f, String s) {
-    ArrayList<JLink> ls = f.getLinks();
-    for (int i = 0; i < ls.size(); i++) {
-      if (ls.get(i).getRel().equals(s)) {
-        return i;
-      }
-    }
-    return -1;
-  }
+	@Override
+	public JFeed update(JFeed f) throws ResourceNotFoundException, InternalServerError {
+		f.setUpdated(new JDateImpl());
+		return pc.update(f);
+	}
 
-  //
-  // @Autowired
-  // EntryService entryService;
-  //
-  // @Autowired
-  // ServiceDocumentService serviceDocumentService;
-  //
-  // public DefaultFeedService() {
-  // }
-  //
-  // /**
-  // *
-  // * @param entry
-  // * @param feed
-  // * @return
-  // * @throws MismatchedCategoriesException
-  // * @throws ResourceNotFoundException
-  // * @throws InvalidResourceTypeException
-  // * @throws URISyntaxException
-  // * @throws EntryNotFoundException
-  // */
-  // @Override
-  // public AtomFeed updateEntryInFeed(AtomEntry entry, AtomFeed feed) throws
-  // MismatchedCategoriesException,
-  // ResourceNotFoundException, InvalidResourceTypeException, URISyntaxException,
-  // EntryNotFoundException {
-  // matchingCategories(entry, feed);
-  // feed = removeEntryFromFeed(entry, feed);
-  // feed = addEntryToFeed(entry, feed);
-  // feed = updateFeedDates(feed);
-  // return feed;
-  // }
-  //
-  // private AtomFeed removeEntryFromFeed(AtomEntry entry, AtomFeed feed) throws
-  // EntryNotFoundException {
-  // return
-  // removeEntryFromFeedById(entry.getXmlObject().getEntry().getIdList().get(0).getStringValue(),
-  // feed);
-  // }
-  //
-  // private AtomFeed removeEntryFromFeedById(String id, AtomFeed feed) throws
-  // EntryNotFoundException {
-  // AtomFeed localFeed = feed;
-  // boolean success = false;
-  // List<EntryDocument.Entry> entries =
-  // localFeed.getXmlObject().getFeed().getEntryList();
-  // for (int i = 0; i < entries.size(); i++) {
-  // EntryDocument.Entry innerEntry = entries.get(i);
-  // if (innerEntry.getIdList().get(0).getStringValue().equals(id)) {
-  // localFeed.getXmlObject().getFeed().getEntryList().remove(i);
-  // success = true;
-  // break;
-  // }
-  // }
-  // if (success) {
-  // return localFeed;
-  // } else {
-  // throw new EntryNotFoundException();
-  // }
-  // }
-  //
-  // @Override
-  // public AtomFeed addEntryToFeed(AtomEntry entry, AtomFeed feed)
-  // throws MismatchedCategoriesException, ResourceNotFoundException,
-  // InvalidResourceTypeException {
-  // // make local copies
-  // AtomEntry localEntry = entry;
-  // AtomFeed localFeed = feed;
-  //
-  // matchingCategories(entry, feed);
-  //
-  // localEntry = entryService.stripEntry(localEntry);
-  //
-  // // Add the entry to the feed
-  // localFeed = addEntry(localFeed, localEntry);
-  //
-  // // Make server mods to the feed
-  // localFeed = updateFeedDates(localFeed);
-  //
-  // return localFeed;
-  // }
-  //
-  // private AtomFeed updateFeedDates(AtomFeed localFeed) {
-  //
-  // AtomDateConstruct date =
-  // localFeed.getXmlObject().getFeed().getUpdatedArray(0);
-  //
-  // date.setDateValue(Calendar.getInstance().getTime());
-  //
-  // localFeed.getXmlObject().getFeed().setUpdatedArray(0, date);
-  //
-  // return localFeed;
-  // }
-  //
-  // private AtomFeed addEntry(AtomFeed feed, AtomEntry entry) {
-  //
-  // feed.getXmlObject().getFeed().addNewEntry().set(entry.getXmlObject().getEntry());
-  // // feed.getXmlObject().getFeed().getEntryList()
-  // // XmlCursor cursor = fir
-  // return feed;
-  // }
-  //
-  // private boolean categoryEquals(Category cat1, Category cat2) {
-  // return cat1.getScheme().equals(cat2.getScheme()) &&
-  // cat1.getTerm().equals(cat2.getTerm());
-  // }
-  //
-  // private boolean matchingCategories(AtomEntry entry, AtomFeed feed)
-  // throws ResourceNotFoundException, InvalidResourceTypeException,
-  // MismatchedCategoriesException {
-  //
-  // APPServiceDocument service = null;
-  // service =
-  // serviceDocumentService.loadServiceDocument(getServiceDocumentIRI(feed));
-  // CollectionType collection =
-  // serviceDocumentService.getCollectionFromFeed(feed, service);
-  // List<CategoriesType> categories = collection.getCategoriesList();
-  // CategoriesType singleCategories = categories.get(0);
-  // List<Category> feedCats = singleCategories.getCategoryList();
-  // List<Category> entryCats = entry.getXmlObject().getEntry().getCategoryList();
-  //
-  // String fixedString = collection.getCategoriesList().get(0).getFixed();
-  // boolean found = true;
-  // if (fixedString.equals("yes")) {
-  // for (Category ecat : entryCats) {
-  // found = false;
-  // if
-  // (!ecat.getScheme().equals("urn:ietf:params:rolie:category:information-type"))
-  // {
-  // continue;
-  // }
-  // for (Category fcat : feedCats) {
-  // if (categoryEquals(ecat, fcat)) {
-  // found = true;
-  // break;
-  // }
-  // }
-  // if (!found) {
-  // throw new MismatchedCategoriesException(ecat);
-  // }
-  // }
-  // }
-  // return found;
-  // }
-  //
-  // public URI getServiceDocumentIRI(AtomFeed feed) {
-  // List<Link> links = feed.getXmlObject().getFeed().getLinkList();
-  // for (Link link : links) {
-  // if (link.getRel().equals("service")) {
-  // try {
-  // return new URI(link.getHref());
-  // } catch (URISyntaxException e) {
-  // e.printStackTrace();
-  // }
-  // }
-  // }
-  // return null;
-  // }
-  //
-  // public String searchFeedLinksForRel(AtomFeed feed, String rel) {
-  // for (Link link : feed.getXmlObject().getFeed().getLinkList()) {
-  // if (link.getRel().equals(rel)) {
-  // return link.getHref();
-  // }
-  // }
-  // return null;
-  // }
-  //
-  // @Override
-  // public AtomFeed loadFeed(URI uri) throws ResourceNotFoundException,
-  // InvalidResourceTypeException {
-  // return null; //persistenceMethod.loadFeed(uri);
-  // }
-  //
-  // @Override
-  // public AtomFeed createFeed(AtomFeed feed, URI iri) throws
-  // ResourceAlreadyExistsException {
-  // return null; //persistenceMethod.createFeed(feed, iri);
-  // }
-  //
-  // @Override
-  // public AtomFeed updateFeed(AtomFeed feed, URI iri) throws
-  // ResourceNotFoundException, InvalidResourceTypeException {
-  // return null; //persistenceMethod.updateFeed(feed, iri);
-  // }
-  //
-  // @Override
-  // public boolean deleteFeed(URI iri) throws ResourceNotFoundException,
-  // InvalidResourceTypeException {
-  // return false; //persistenceMethod.deleteFeed(iri);
-  // }
+	/**
+	 * Changes a link if it exists, creates it and sets it if it doesnt exist.
+	 * 
+	 * @param f
+	 * @param rel
+	 * @param href
+	 * @throws InternalServerError
+	 */
+	private void setLink(JFeed f, String rel, String href) throws InternalServerError {
+		int linkIndex = hasLink(f, rel);
+		if (linkIndex != -1) {
+			try {
+				f.getLinks().get(linkIndex).setHref(new URI(href));
+			} catch (URISyntaxException e1) {
+				throw new InternalServerError(e1);
+			}
+		} else {
+			JLink l = new JLinkImpl();
+			try {
+				l.setHref(new URI(href));
+				l.setRel(rel);
+				f.getLinks().add(l);
+			} catch (URISyntaxException e1) {
+				throw new InternalServerError(e1);
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param f
+	 * @param rel
+	 *            The relation to search
+	 * @return index of link if present, -1 if not present
+	 */
+	private int hasLink(JFeed f, String rel) {
+		ArrayList<JLink> ls = f.getLinks();
+		for (int i = 0; i < ls.size(); i++) {
+			if (ls.get(i).getRel().equals(rel)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	private int hasValidLink(JFeed f, String rel) {
+		ArrayList<JLink> ls = f.getLinks();
+		for (int i = 0; i < ls.size(); i++) {
+			if (ls.get(i).getRel().equals(rel) && !ls.get(i).getHref().equals("")) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Similar to above but returns the Link object directly instead of an index
+	 * 
+	 * @param f
+	 * @param rel
+	 * @return
+	 */
+	private JLink getLinkRel(JFeed f, String rel) {
+		ArrayList<JLink> ls = f.getLinks();
+		for (JLink l : ls) {
+			if (l.getRel().equals(rel)) {
+				return l;
+			}
+		}
+		return null;
+
+	}
 
 }

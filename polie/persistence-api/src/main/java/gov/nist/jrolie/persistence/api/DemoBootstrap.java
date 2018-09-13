@@ -38,6 +38,7 @@ import gov.nist.jrolie.model.JServiceDocument;
 import gov.nist.jrolie.model.JWorkspace;
 import gov.nist.jrolie.model.impl.JCollectionImpl;
 import gov.nist.jrolie.model.impl.JEntryImpl;
+import gov.nist.jrolie.model.impl.JEntryWrapper;
 import gov.nist.jrolie.model.impl.JFeedImpl;
 import gov.nist.jrolie.model.impl.JLinkImpl;
 import gov.nist.jrolie.model.impl.JServiceDocumentImpl;
@@ -73,8 +74,8 @@ public class DemoBootstrap {
     ls.add(sl);
     f.setLinks(ls);
 
-    ArrayList<String> entries = new ArrayList<String>();
-    entries.add(e.getId());
+    ArrayList<JEntryWrapper> entries = new ArrayList<JEntryWrapper>();
+    entries.add(new JEntryWrapper(e.getId()));
     f.setEntries(entries);
     pc.create(f);
 

@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
@@ -47,9 +49,15 @@ import org.springframework.stereotype.Component;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
 
+import gov.nist.jrolie.atom.logic.InternalServerError;
 import gov.nist.jrolie.atom.logic.services.EntryService;
 import gov.nist.jrolie.model.JFeed;
+import gov.nist.jrolie.model.impl.EntryAdapter;
+import gov.nist.jrolie.model.impl.JEntryImpl;
+import gov.nist.jrolie.model.impl.JEntryWrapper;
 import gov.nist.jrolie.model.impl.JFeedImpl;
+import gov.nist.jrolie.persistence.api.exceptions.InvalidResourceTypeException;
+import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 
 @Provider
 @Component
@@ -85,11 +93,22 @@ public class JFeedWriter implements MessageBodyWriter<JFeed> {
       XMLStreamWriter xmlStreamWriter = wstx.createXMLStreamWriter(out);
       Marshaller marshaller = jaxbContext.createMarshaller();
       marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+      EntryAdapter ea = new EntryAdapter(loadEntries(f.getEntries()));
+      marshaller.setAdapter(ea);
       marshaller.marshal(f, xmlStreamWriter);
-    } catch (JAXBException | XMLStreamException e1) {
+    } catch (JAXBException | XMLStreamException | ResourceNotFoundException | InvalidResourceTypeException | InternalServerError e1) {
       // TODO Auto-generated catch block
       e1.printStackTrace();
     }
   }
+
+private HashMap<String,JEntryImpl> loadEntries(ArrayList<JEntryWrapper> entries) throws ResourceNotFoundException, InvalidResourceTypeException, InternalServerError {
+	HashMap<String,JEntryImpl> map = new HashMap<String,JEntryImpl>();
+	for (JEntryWrapper e : entries)
+	{
+		map.put(e.getId(), (JEntryImpl) es.load(e.getId()));
+	}
+	return map;	
+}
 
 }

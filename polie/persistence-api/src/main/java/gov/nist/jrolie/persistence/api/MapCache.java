@@ -23,8 +23,11 @@
 
 package gov.nist.jrolie.persistence.api;
 
+import org.springframework.stereotype.Component;
+
 import gov.nist.jrolie.model.JResource;
 
+@Component
 public class MapCache implements CacheContext {
 
   @Override

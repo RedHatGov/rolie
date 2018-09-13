@@ -47,6 +47,9 @@ public class JDateImpl implements gov.nist.jrolie.model.JDate {
 	@XmlValue
 	Date date;
 
+	/*
+	 * Default constructor creates an object with the current time.
+	 */
 	public JDateImpl() {
 		this.date = Calendar.getInstance().getTime();
 	}

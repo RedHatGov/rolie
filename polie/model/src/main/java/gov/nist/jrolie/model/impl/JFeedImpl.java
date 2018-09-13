@@ -28,10 +28,13 @@ import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import gov.nist.jrolie.model.Constants;
 import gov.nist.jrolie.model.JAttribute;
@@ -44,7 +47,8 @@ import gov.nist.jrolie.model.JPerson;
 import gov.nist.jrolie.model.JTextConstruct;
 
 @XmlRootElement(name = "feed", namespace = Constants.ATOM_NS)
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlSeeAlso(JEntryImpl.class)
 public class JFeedImpl implements JFeed {
 	@XmlAttribute
 	String lang;
@@ -96,8 +100,10 @@ public class JFeedImpl implements JFeed {
 	@XmlTransient
 	ArrayList<JAttribute> extensions;
 
-	@XmlElement(type = JEntryImpl.class, namespace = Constants.ATOM_NS)
-	ArrayList<String> entries;
+	
+	@XmlAnyElement(lax = true)
+	@XmlJavaTypeAdapter(EntryAdapter.class)
+	ArrayList<JEntryWrapper> entries;
 
 
 	public JFeedImpl(JFeed f) { // DEEP COPY
@@ -135,9 +141,9 @@ public class JFeedImpl implements JFeed {
 		this.title = f.getTitle().clone();
 		this.updated = f.getUpdated().clone();
 		// this.extensions = f.getExtensions();
-		this.entries = new ArrayList<String>();
-		for (String e : f.getEntries()) {
-			entries.add(e);
+		this.entries = new ArrayList<JEntryWrapper>();
+		for (JEntryWrapper e : f.getEntries()) {
+			entries.add(new JEntryWrapper(e.getId()));
 		}
 
 	}
@@ -147,7 +153,7 @@ public class JFeedImpl implements JFeed {
 		this.categorys = new ArrayList<JCategory>();
 		this.contributors = new ArrayList<JPerson>();
 		this.link = new ArrayList<JLink>();
-		this.entries = new ArrayList<String>();
+		this.entries = new ArrayList<JEntryWrapper>();
 		//this.generator=new JGeneratorImpl();
 		this.rights=new JTextConstructImpl();
 		this.subtitle=new JTextConstructImpl();
@@ -296,12 +302,12 @@ public class JFeedImpl implements JFeed {
 	}
 
 	@Override
-	public ArrayList<String> getEntries() {
+	public ArrayList<JEntryWrapper> getEntries() {
 		return entries;
 	}
 
 	@Override
-	public void setEntries(ArrayList<String> entries) {
+	public void setEntries(ArrayList<JEntryWrapper> entries) {
 		this.entries = entries;
 	}
 
@@ -338,4 +344,6 @@ public class JFeedImpl implements JFeed {
 
 	}
 
+
+	
 }

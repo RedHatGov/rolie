@@ -29,6 +29,18 @@ import gov.nist.jrolie.model.JFeed;
 
 public interface EntryService extends Service<JEntry> {
 
-  void addFeedLink(JEntry e, JFeed f) throws InternalServerError;
+/**
+ * 
+ * 
+ * @param e
+ * @param rel
+ * @param href
+ * @throws InternalServerError
+ */
+void setLink(JEntry e, String rel, String href) throws InternalServerError;
+
+int hasValidLink(JEntry e, String rel);
+
+int hasLink(JEntry e, String rel);
 
 }

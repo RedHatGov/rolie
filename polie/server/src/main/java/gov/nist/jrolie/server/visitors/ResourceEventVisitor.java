@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import gov.nist.jrolie.atom.logic.InternalServerError;
+import gov.nist.jrolie.atom.logic.MismatchedCategoriesException;
 import gov.nist.jrolie.atom.logic.services.EntryService;
 import gov.nist.jrolie.atom.logic.services.FeedService;
 import gov.nist.jrolie.atom.logic.services.ResourceService;
@@ -42,6 +43,7 @@ import gov.nist.jrolie.model.JFeed;
 import gov.nist.jrolie.model.JResource;
 import gov.nist.jrolie.model.impl.JEntryImpl;
 import gov.nist.jrolie.model.impl.JFeedImpl;
+import gov.nist.jrolie.persistence.api.CacheContext;
 import gov.nist.jrolie.persistence.api.exceptions.InvalidResourceTypeException;
 import gov.nist.jrolie.persistence.api.exceptions.ResourceAlreadyExistsException;
 import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
@@ -62,7 +64,8 @@ import gov.nist.jrolie.server.servlet.config;
 @Component
 public class ResourceEventVisitor implements RESTEventVisitor {
 	private static final Logger log = LogManager.getLogger(ResourceEventVisitor.class);
-
+	private String context = System.getProperty("srvroot");
+	
 	@Autowired
 	ResourceService rs;
 
@@ -72,6 +75,8 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 	@Autowired
 	EntryService es;
 
+	@Autowired
+	CacheContext cc;
 	/**
 	 * When this visitor encounters a get request, the resource at the given IRI can
 	 * be loaded. There is no needed consideration at this point as to what the
@@ -101,7 +106,7 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 			log.debug("Loaded!" + resource.getPath());
 		} catch (ResourceNotFoundException e) {
 			rb.status(Status.NOT_FOUND);
-			rb.entity("Resource not found at database location: " + e.getResourceLocation());
+			rb.entity("Resource not found at database location: " + path);
 			return false;
 		} catch (InvalidResourceTypeException e) {
 			rb.status(Status.METHOD_NOT_ALLOWED);
@@ -168,9 +173,9 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 		e = (JEntryImpl) data.get(RESOURCE_KEY);
 		try {
 			e.setPath(config.ENTRY_PREFIX + e.getId());
-			es.addFeedLink(e, f);
+			es.setLink(e, "feed",context+f.getPath());
 			es.create(e);
-			rb.header("Location", config.SERVER_ROOT + e.getPath());
+			rb.header("Location", context + e.getPath());
 		} catch (ResourceAlreadyExistsException e1) {
 			rb.status(Status.METHOD_NOT_ALLOWED);
 			rb.entity("This entry already exists");
@@ -183,11 +188,15 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 
 		try {
 			fs.archive(f);
-		} catch (InternalServerError e2) {
+			fs.addEntry(f, e);
+		} catch (InternalServerError | ResourceNotFoundException | InvalidResourceTypeException | ResourceAlreadyExistsException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
+		} catch (MismatchedCategoriesException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-		fs.addEntry(f, e);
+		
 
 		try {
 
