@@ -28,16 +28,16 @@ import java.util.ArrayList;
 
 public interface JElement {
 
-  URI getBase();
+	URI getBase();
 
-  void setBase(URI base);
+	void setBase(URI base);
 
-  String getLang();
+	String getLang();
 
-  void setLang(String lang);
+	void setLang(String lang);
 
-  ArrayList<JAttribute> getExtensions();
+	ArrayList<JAttribute> getExtensions();
 
-  void setExtensions(ArrayList<JAttribute> extensions);
+	void setExtensions(ArrayList<JAttribute> extensions);
 
 }

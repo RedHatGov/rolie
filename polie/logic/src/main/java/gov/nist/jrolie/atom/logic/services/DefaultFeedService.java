@@ -47,9 +47,12 @@ import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 
 @Component
 public class DefaultFeedService implements FeedService {
+
 	String root = System.getProperty("SERVER_ROOT");
 	String feedRoot = System.getProperty("FEED_PREFIX");
-	String prefix = root + feedRoot;
+	String prefix = this.root + this.feedRoot;
+	String context = System.getProperty("SERVER_ROOT");
+
 	@Autowired
 	ResourceService rs;
 
@@ -60,114 +63,101 @@ public class DefaultFeedService implements FeedService {
 	EntryService es;
 
 	@Override
-	public JFeed load(String id) throws ResourceNotFoundException, InvalidResourceTypeException {
-		return pc.load(id, JFeed.class);
-	}
-
-	@Override
-	public JFeed create(JFeed f) throws ResourceAlreadyExistsException {
-		f.setUpdated(new JDateImpl());
-		return pc.create(f);
-	}
-
-	@Override
-	public JFeed delete(String id) throws ResourceNotFoundException {
-		return pc.delete(id);
-	}
-
-	@Override
 	public void addEntry(JFeed f, JEntry e) throws InternalServerError, MismatchedCategoriesException {
-		if (categoriesCheck(f, e)) {
+		if (this.categoriesCheck(f, e)) {
 			f.getEntries().add(0, new JEntryWrapper(e.getId()));
-			es.setLink(e, "feed", root + f.getPath());
+			this.es.setLink(e, "feed", this.root + f.getPath());
 			f.setUpdated(new JDateImpl());
 		} else {
 			throw new MismatchedCategoriesException();
 		}
 	}
 
+	@Override
+	public JFeed archive(JFeed f) throws InternalServerError, ResourceNotFoundException, InvalidResourceTypeException,
+			ResourceAlreadyExistsException {
+
+		final JFeed archive = new JFeedImpl(f);
+		if (this.hasValidLink(f, "next-archive") == -1) { // No next archive, this is the most current ver
+
+			archive.setId(archive.getId() + this.rs.generateArchiveSuffix());
+			archive.setPath(this.feedRoot + archive.getId());
+			this.setLink(archive, "current", this.root + f.getPath());
+			this.setLink(archive, "next-archive", this.root + f.getPath());
+			if (this.hasValidLink(f, "prev-archive") == -1) { // No prev archive, this is most current, but has never
+																// been
+																// archived before
+				this.setLink(archive, "prev-archive", "");
+				this.setLink(f, "prev-archive", this.root + archive.getPath());
+			} else {// Does have a prev-archive, most current ver but has been archived before
+				final JFeed lastArchive = this
+						.load(this.rs.pathToId(this.getLinkRel(f, "prev-archive").getHref().toString()));
+				this.setLink(lastArchive, "next-archive", this.root + archive.getPath());
+				this.setLink(archive, "prev-archive", this.root + lastArchive.getPath());
+			}
+
+		}
+		this.create(archive);
+		return archive;
+	}
+
 	private boolean categoriesCheck(JFeed f, JEntry e) {
-		for (JCategory c : f.getCategorys()) { //TODO Fix the null pointers that is going ort happen if you do this,
-			for (JCategory ec : e.getCategorys()) {
-				if (c.equals(ec))
-				{
-					continue;
+		if (System.getProperty("STRICT_CATEGORY_MATCHING").equals("TRUE")) {
+			for (final JCategory c : f.getCategorys()) { // TODO: This throws null pointers in cases of malformed XML.
+				for (final JCategory ec : e.getCategorys()) {
+					if ((ec != null) && c.equals(ec)) {
+						continue;
+					}
+					return false;
 				}
-				return false;
 			}
 		}
 		return true;
 	}
 
 	@Override
-	public JFeed archive(JFeed f) throws InternalServerError, ResourceNotFoundException, InvalidResourceTypeException,
-			ResourceAlreadyExistsException {
+	public JFeed create(JFeed f) throws ResourceAlreadyExistsException, InternalServerError {
 
-		JFeed archive = new JFeedImpl(f);
-		if (hasValidLink(f, "next-archive") == -1) { // No next archive, this is the most current ver
-
-			archive.setId(archive.getId() + rs.generateArchiveSuffix());
-			archive.setPath(feedRoot + archive.getId());
-			setLink(archive, "current", root + f.getPath());
-			setLink(archive, "next-archive", root + f.getPath());
-			if (hasValidLink(f, "prev-archive") == -1) { // No prev archive, this is most current, but has never been
-															// archived before
-				setLink(archive, "prev-archive", "");
-				setLink(f, "prev-archive", root + archive.getPath());
-			} else {// Does have a prev-archive, most current ver but has been archived before
-				JFeed lastArchive = load(rs.pathToId(getLinkRel(f, "prev-archive").getHref().toString()));
-				setLink(lastArchive, "next-archive", root + archive.getPath());
-				setLink(archive, "prev-archive", root + lastArchive.getPath());
-			}
-
+		if (f.getPath() == null) {
+			f.setPath(System.getProperty("FEED_PREFIX") + this.rs.sanitize(f.getId()));
 		}
-		create(archive);
-		return null;
+
+		setLink(f, "self", this.context + f.getPath());
+		f.setUpdated(new JDateImpl());
+		return this.pc.create(f);
 	}
 
 	@Override
-	public JFeed update(JFeed f) throws ResourceNotFoundException, InternalServerError {
-		f.setUpdated(new JDateImpl());
-		return pc.update(f);
+	public JFeed delete(String id) throws ResourceNotFoundException {
+		return this.pc.delete(id);
 	}
 
 	/**
-	 * Changes a link if it exists, creates it and sets it if it doesnt exist.
-	 * 
+	 * Similar to above but returns the Link object directly instead of an index
+	 *
 	 * @param f
 	 * @param rel
-	 * @param href
-	 * @throws InternalServerError
+	 * @return
 	 */
-	private void setLink(JFeed f, String rel, String href) throws InternalServerError {
-		int linkIndex = hasLink(f, rel);
-		if (linkIndex != -1) {
-			try {
-				f.getLinks().get(linkIndex).setHref(new URI(href));
-			} catch (URISyntaxException e1) {
-				throw new InternalServerError(e1);
-			}
-		} else {
-			JLink l = new JLinkImpl();
-			try {
-				l.setHref(new URI(href));
-				l.setRel(rel);
-				f.getLinks().add(l);
-			} catch (URISyntaxException e1) {
-				throw new InternalServerError(e1);
+	private JLink getLinkRel(JFeed f, String rel) {
+		final ArrayList<JLink> ls = f.getLinks();
+		for (final JLink l : ls) {
+			if (l.getRel().equals(rel)) {
+				return l;
 			}
 		}
+		return null;
+
 	}
 
 	/**
-	 * 
+	 *
 	 * @param f
-	 * @param rel
-	 *            The relation to search
+	 * @param rel The relation to search
 	 * @return index of link if present, -1 if not present
 	 */
 	private int hasLink(JFeed f, String rel) {
-		ArrayList<JLink> ls = f.getLinks();
+		final ArrayList<JLink> ls = f.getLinks();
 		for (int i = 0; i < ls.size(); i++) {
 			if (ls.get(i).getRel().equals(rel)) {
 				return i;
@@ -177,7 +167,7 @@ public class DefaultFeedService implements FeedService {
 	}
 
 	private int hasValidLink(JFeed f, String rel) {
-		ArrayList<JLink> ls = f.getLinks();
+		final ArrayList<JLink> ls = f.getLinks();
 		for (int i = 0; i < ls.size(); i++) {
 			if (ls.get(i).getRel().equals(rel) && !ls.get(i).getHref().equals("")) {
 				return i;
@@ -186,22 +176,43 @@ public class DefaultFeedService implements FeedService {
 		return -1;
 	}
 
+	@Override
+	public JFeed load(String id) throws ResourceNotFoundException, InvalidResourceTypeException {
+		return this.pc.load(id, JFeed.class);
+	}
+
 	/**
-	 * Similar to above but returns the Link object directly instead of an index
-	 * 
+	 * Changes a link if it exists, creates it and sets it if it doesnt exist.
+	 *
 	 * @param f
 	 * @param rel
-	 * @return
+	 * @param href
+	 * @throws InternalServerError
 	 */
-	private JLink getLinkRel(JFeed f, String rel) {
-		ArrayList<JLink> ls = f.getLinks();
-		for (JLink l : ls) {
-			if (l.getRel().equals(rel)) {
-				return l;
+	private void setLink(JFeed f, String rel, String href) throws InternalServerError {
+		final int linkIndex = this.hasLink(f, rel);
+		if (linkIndex != -1) {
+			try {
+				f.getLinks().get(linkIndex).setHref(new URI(href));
+			} catch (final URISyntaxException e1) {
+				throw new InternalServerError(e1);
+			}
+		} else {
+			final JLink l = new JLinkImpl();
+			try {
+				l.setHref(new URI(href));
+				l.setRel(rel);
+				f.getLinks().add(l);
+			} catch (final URISyntaxException e1) {
+				throw new InternalServerError(e1);
 			}
 		}
-		return null;
+	}
 
+	@Override
+	public JFeed update(JFeed f) throws ResourceNotFoundException, InternalServerError {
+		f.setUpdated(new JDateImpl());
+		return this.pc.update(f);
 	}
 
 }

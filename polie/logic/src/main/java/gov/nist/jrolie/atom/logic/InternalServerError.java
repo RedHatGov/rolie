@@ -25,13 +25,13 @@ package gov.nist.jrolie.atom.logic;
 
 public class InternalServerError extends Exception {
 
-  /**
-   * The serial version UID.
-   */
-  private static final long serialVersionUID = 1L;
+	/**
+	 * The serial version UID.
+	 */
+	private static final long serialVersionUID = 1L;
 
-  public InternalServerError(Exception e) {
-    setStackTrace(e.getStackTrace());
-  }
+	public InternalServerError(Exception e) {
+		this.setStackTrace(e.getStackTrace());
+	}
 
 }

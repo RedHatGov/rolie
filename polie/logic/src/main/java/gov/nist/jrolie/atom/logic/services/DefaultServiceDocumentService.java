@@ -36,35 +36,35 @@ import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 @Component
 public class DefaultServiceDocumentService implements ServiceDocumentService {
 
-  @Autowired
-  FeedService fs;
+	@Autowired
+	FeedService fs;
 
-  @Autowired
-  PersistenceContext pc;
+	@Autowired
+	PersistenceContext pc;
 
-  @Override
-  public JServiceDocument load(String id) throws ResourceNotFoundException, InvalidResourceTypeException {
-    return pc.load(id, JServiceDocument.class);
-  }
+	@Override
+	public void addWorkspace(JServiceDocument s, JWorkspace w) {
+		s.getWorkspaces().add(w);
+	}
 
-  @Override
-  public JServiceDocument create(JServiceDocument resource) throws ResourceAlreadyExistsException {
-    return pc.create(resource);
-  }
+	@Override
+	public JServiceDocument create(JServiceDocument resource) throws ResourceAlreadyExistsException {
+		return this.pc.create(resource);
+	}
 
-  @Override
-  public JServiceDocument delete(String id) throws ResourceNotFoundException {
-    return pc.delete(id);
-  }
+	@Override
+	public JServiceDocument delete(String id) throws ResourceNotFoundException {
+		return this.pc.delete(id);
+	}
 
-  @Override
-  public JServiceDocument update(JServiceDocument resource) throws ResourceNotFoundException {
-    return pc.update(resource);
-  }
+	@Override
+	public JServiceDocument load(String id) throws ResourceNotFoundException, InvalidResourceTypeException {
+		return this.pc.load(id, JServiceDocument.class);
+	}
 
-  @Override
-  public void addWorkspace(JServiceDocument s, JWorkspace w) {
-    s.getWorkspaces().add(w);
-  }
+	@Override
+	public JServiceDocument update(JServiceDocument resource) throws ResourceNotFoundException {
+		return this.pc.update(resource);
+	}
 
 }

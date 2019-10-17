@@ -25,16 +25,16 @@ package gov.nist.jrolie.model;
 
 public interface JResource extends JElement {
 
-  String getPath();
+	String getPath();
 
-  void setPath(String path);
+	void setPath(String path);
 
-  boolean isChanged();
+	boolean isChanged();
 
-  void setChanged(boolean changed);
+	void setChanged(boolean changed);
 
-  String getId();
+	String getId();
 
-  void setId(String path);
+	void setId(String id);
 
 }

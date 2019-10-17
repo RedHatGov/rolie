@@ -28,96 +28,112 @@ import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 
+import gov.nist.jrolie.model.Constants;
 import gov.nist.jrolie.model.JAttribute;
 import gov.nist.jrolie.model.JElement;
 import gov.nist.jrolie.model.JServiceDocument;
 import gov.nist.jrolie.model.JWorkspace;
 
+@XmlRootElement(name = "service", namespace = Constants.APP_NS)
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlSeeAlso(JWorkspaceImpl.class)
 public class JServiceDocumentImpl implements JServiceDocument {
 
-  String path;
-  String id;
-  boolean isChanged;
-  ArrayList<JWorkspace> workspaces;
-  ArrayList<JElement> extensions;
+	@XmlTransient
+	String path;
 
-  @Override
-  public String getPath() {
-    return path;
-  }
+	@XmlTransient
+	String id;
 
-  @Override
-  public void setPath(String path) {
-    this.path = path;
-  }
+	@XmlTransient
+	boolean isChanged;
 
-  @Override
-  public String getId() {
-    return id;
-  }
+	@XmlElement(type = JWorkspaceImpl.class, namespace = Constants.APP_NS, name = "workspace")
+	ArrayList<JWorkspace> workspaces;
 
-  @Override
-  public void setId(String id) {
-    this.id = id;
-  }
+	@XmlTransient
+	ArrayList<JElement> extensions;
 
-  @Override
-  public boolean isChanged() {
-    return isChanged;
-  }
+	@Override
+	public String getPath() {
+		return this.path;
+	}
 
-  @Override
-  public ArrayList<JWorkspace> getWorkspaces() {
-    return workspaces;
-  }
+	@Override
+	public void setPath(String path) {
+		this.path = path;
+	}
 
-  @Override
-  public void setWorkspaces(ArrayList<JWorkspace> workspaces) {
-    this.workspaces = workspaces;
-  }
+	@Override
+	public String getId() {
+		return this.id;
+	}
 
-  @Override
-  public void setChanged(boolean changed) {
-    // TODO Auto-generated method stub
+	@Override
+	public void setId(String id) {
+		this.id = id;
+	}
 
-  }
+	@Override
+	public boolean isChanged() {
+		return this.isChanged;
+	}
 
-  @Override
-  public String getLang() {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	@Override
+	public ArrayList<JWorkspace> getWorkspaces() {
+		return this.workspaces;
+	}
 
-  @Override
-  public void setLang(String lang) {
-    // TODO Auto-generated method stub
+	@Override
+	public void setWorkspaces(ArrayList<JWorkspace> workspaces) {
+		this.workspaces = workspaces;
+	}
 
-  }
+	@Override
+	public void setChanged(boolean changed) {
+		// TODO Auto-generated method stub
 
-  @Override
-  public URI getBase() {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	}
 
-  @Override
-  public void setBase(URI base) {
-    // TODO Auto-generated method stub
+	@Override
+	public String getLang() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  }
+	@Override
+	public void setLang(String lang) {
+		// TODO Auto-generated method stub
 
-  @Override
-  public ArrayList<JAttribute> getExtensions() {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	}
 
-  @Override
-  public void setExtensions(ArrayList<JAttribute> extensions) {
-    // TODO Auto-generated method stub
+	@Override
+	public URI getBase() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  }
+	@Override
+	public void setBase(URI base) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ArrayList<JAttribute> getExtensions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setExtensions(ArrayList<JAttribute> extensions) {
+		// TODO Auto-generated method stub
+
+	}
 
 }

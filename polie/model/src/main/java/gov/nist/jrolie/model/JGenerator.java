@@ -27,17 +27,17 @@ import java.net.URI;
 
 public interface JGenerator extends JElement {
 
-  URI getUri();
+	URI getUri();
 
-  String getVersion();
+	String getVersion();
 
-  void setText(String text);
+	void setText(String text);
 
-  void setVersion(String version);
+	void setVersion(String version);
 
-  void setUri(URI uri);
+	void setUri(URI uri);
 
-  String getText();
+	String getText();
 
-JGenerator clone();
+	JGenerator clone();
 }

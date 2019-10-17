@@ -3,18 +3,13 @@
 <Configuration>
 	<Appenders>
 		<Console name="console">
-			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p %c{1}:%L - %m%n" />
+			<PatternLayout
+				pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p %c{1}:%L - %m%n" />
 		</Console>
 	</Appenders>
 	<Loggers>
 		<Root level="DEBUG">
 			<AppenderRef ref="console" />
 		</Root>
-		<logger name="org.jboss.resteasy" level="trace">
-			<AppenderRef ref="console" />
-		</logger>
-		<logger name="org.springframework" level="trace">
-			<AppenderRef ref="console" />
-		</logger>
 	</Loggers>
 </Configuration>

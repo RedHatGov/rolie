@@ -25,9 +25,9 @@ package gov.nist.jrolie.persistence.api.exceptions;
 
 public class InvalidResourceTypeException extends Exception {
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 5184906154038943803L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5184906154038943803L;
 
 }

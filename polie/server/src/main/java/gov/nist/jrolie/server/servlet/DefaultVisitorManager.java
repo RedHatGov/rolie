@@ -21,7 +21,7 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 /*
- * 
+ *
  */
 
 package gov.nist.jrolie.server.servlet;
@@ -42,59 +42,64 @@ import gov.nist.jrolie.server.event.RESTEvent;
 import gov.nist.jrolie.server.visitors.RESTEventVisitor;
 
 /**
- * The default implementation of the visitor manager. Provides basic capabilities.
+ * The default implementation of the visitor manager. Provides basic
+ * capabilities.
  */
 public class DefaultVisitorManager implements VisitorManager {
-  private static final Logger log = LogManager.getLogger(DefaultVisitorManager.class);
+	private static final Logger log = LogManager.getLogger(DefaultVisitorManager.class);
 
-  private List<RESTEventVisitor> visitors = new LinkedList<>();
+	private final List<RESTEventVisitor> visitors = new LinkedList<>();
 
-  public void addVisitor(RESTEventVisitor visitor) {
-    visitors.add(visitor);
-  }
+	@Override
+	public void addVisitor(RESTEventVisitor visitor) {
+		this.visitors.add(visitor);
+	}
 
-  public void addVisitor(int index, RESTEventVisitor visitor) {
-    visitors.add(index, visitor);
-  }
+	@Override
+	public void addVisitor(int index, RESTEventVisitor visitor) {
+		this.visitors.add(index, visitor);
+	}
 
-  public List<RESTEventVisitor> getVisitors() {
-    return visitors;
-  }
+	@Override
+	public List<RESTEventVisitor> getVisitors() {
+		return this.visitors;
+	}
 
-  public void clearVisitors() {
-    visitors.clear();
-  }
+	public void clearVisitors() {
+		this.visitors.clear();
+	}
 
-  @Override
-  public Response execute(RESTEvent event) {
-    return execute(event, new HashMap<String, Object>());
-  }
+	@Override
+	public Response execute(RESTEvent event) {
+		return this.execute(event, new HashMap<String, Object>());
+	}
 
-  public Response execute(RESTEvent event, Map<String, Object> data) {
-    // If something goes wrong, set the default Response to a server error
-    // response.
-    // TODO: set to a resonable default status that doesn't need to be
-    // changed
-    // TODO: use a call to the event to get the default status by request
-    // method
-    ResponseBuilder rb = Response.status(Status.INTERNAL_SERVER_ERROR);
+	@Override
+	public Response execute(RESTEvent event, Map<String, Object> data) {
+		// If something goes wrong, set the default Response to a server error
+		// response.
+		// TODO: set to a reasonable default status that doesn't need to be
+		// changed
+		// TODO: use a call to the event to get the default status by request
+		// method
+		final ResponseBuilder rb = Response.status(Status.INTERNAL_SERVER_ERROR);
 
-    // Basic for loop to execute all visitors. If a visitor returns false,
-    // the loop is terminated
-    // right away and the response is built as-is.
-    for (RESTEventVisitor visitor : this.visitors) {
-      // log.debug("Processing visitor: {}",
-      // visitor.getClass().getName());
-      boolean processNext = event.accept(visitor, rb, data);
-      if (!processNext) {
-        break;
-      }
-    }
+		// Basic for loop to execute all visitors. If a visitor returns false,
+		// the loop is terminated
+		// right away and the response is built as-is.
+		for (final RESTEventVisitor visitor : this.visitors) {
+			log.debug("Executing visitor " + visitor.getClass().getTypeName() + " on Event "
+					+ event.getClass().getTypeName());
+			final boolean processNext = event.accept(visitor, rb, data);
+			if (!processNext) {
+				break;
+			}
+		}
 
-    // The response builder has incrementally gathered information, this
-    // constructs a single response
-    // with that information and returns it.
-    return rb.build();
-  }
+		// The response builder has incrementally gathered information, this
+		// constructs a single response
+		// with that information and returns it.
+		return rb.build();
+	}
 
 }

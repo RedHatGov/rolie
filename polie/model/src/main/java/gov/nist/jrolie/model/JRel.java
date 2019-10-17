@@ -25,5 +25,5 @@ package gov.nist.jrolie.model;
 
 public interface JRel {
 
-  // TODO: How to split this up between URI and NCNAME
+	// TODO: How to split this up between URI and NCNAME
 }

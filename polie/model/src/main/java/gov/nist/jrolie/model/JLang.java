@@ -25,6 +25,6 @@ package gov.nist.jrolie.model;
 
 public interface JLang {
 
-  // As defined in RFC 3066
-  String getTag();
+	// As defined in RFC 3066
+	String getTag();
 }

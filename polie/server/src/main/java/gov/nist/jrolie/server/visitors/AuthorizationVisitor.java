@@ -23,6 +23,11 @@
 
 package gov.nist.jrolie.server.visitors;
 
+import java.util.Map;
+
+import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
+
 import org.springframework.stereotype.Component;
 
 import gov.nist.jrolie.server.event.Delete;
@@ -30,54 +35,55 @@ import gov.nist.jrolie.server.event.Get;
 import gov.nist.jrolie.server.event.Post;
 import gov.nist.jrolie.server.event.Put;
 
-import java.util.Map;
-
-import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
-
+/**
+ * Visitor that provides authorization support. Should trigger first in the visitor to not waste resources on unauthorized requests.
+ * 
+ * TODO: Implement HTTPS/SSL
+ * 
+ * @author sab3
+ *
+ */
 @Component
 public class AuthorizationVisitor implements RESTEventVisitor {
 
-  // TODO: SUPER WIP!! Prevents access to all private resources.
+	@Override
+	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
+		if (get.getURIInfo().getAbsolutePath().toString().indexOf("private") != -1) {
+			rb.status(Status.UNAUTHORIZED);
+			return false;
+		} else {
+			return true;
+		}
+	}
 
-  @Override
-  public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-    if (get.getURIInfo().getAbsolutePath().toString().indexOf("private") != -1) {
-      rb.status(Status.UNAUTHORIZED);
-      return false;
-    } else {
-      return true;
-    }
-  }
+	@Override
+	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
+		if (post.getURIInfo().getAbsolutePath().toString().indexOf("private") != -1) {
+			rb.status(Status.UNAUTHORIZED);
+			return false;
+		} else {
+			return true;
+		}
+	}
 
-  @Override
-  public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
-    if (post.getURIInfo().getAbsolutePath().toString().indexOf("private") != -1) {
-      rb.status(Status.UNAUTHORIZED);
-      return false;
-    } else {
-      return true;
-    }
-  }
+	@Override
+	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
+		if (put.getURIInfo().getAbsolutePath().toString().indexOf("private") != -1) {
+			rb.status(Status.UNAUTHORIZED);
+			return false;
+		} else {
+			return true;
+		}
+	}
 
-  @Override
-  public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-    if (put.getURIInfo().getAbsolutePath().toString().indexOf("private") != -1) {
-      rb.status(Status.UNAUTHORIZED);
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  @Override
-  public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
-    if (delete.getURIInfo().getAbsolutePath().toString().indexOf("private") != -1) {
-      rb.status(Status.UNAUTHORIZED);
-      return false;
-    } else {
-      return true;
-    }
-  }
+	@Override
+	public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
+		if (delete.getURIInfo().getAbsolutePath().toString().indexOf("private") != -1) {
+			rb.status(Status.UNAUTHORIZED);
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 }

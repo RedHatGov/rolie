@@ -23,61 +23,57 @@
 
 package gov.nist.jrolie.model.impl;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 
-import gov.nist.jrolie.model.JPerson;
 import gov.nist.jrolie.model.JTextConstruct;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class JTextConstructImpl implements JTextConstruct {
-  @XmlValue
-  String text;
-  @XmlAttribute
-  String type;
+	@XmlValue
+	String text;
+	@XmlAttribute
+	String type;
 
-  public JTextConstructImpl() {
-  }
+	public JTextConstructImpl() {
+	}
 
-  public JTextConstructImpl(String text) {
-    this.text = text;
-  }
+	public JTextConstructImpl(String text) {
+		this.text = text;
+	}
 
-  @Override
-  public String getType() {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  @Override
-  public String getText() {
-    return text;
-  }
+	@Override
+	public String getText() {
+		return this.text;
+	}
 
-  @Override
-  public void setText(String text) {
-    this.text = text;
-  }
-  
-  @Override
-  public void setType(String type) {
-    this.type = type;
-  }
-  
-  public JTextConstruct clone()
-  {
-	  JTextConstruct retval = new JTextConstructImpl();
-		retval.setText(text);
-		retval.setType(type);
+	@Override
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	@Override
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	@Override
+	public JTextConstruct clone() {
+		final JTextConstruct retval = new JTextConstructImpl();
+		retval.setText(this.text);
+		retval.setType(this.type);
 
 		return retval;
-  }
+	}
 
 }

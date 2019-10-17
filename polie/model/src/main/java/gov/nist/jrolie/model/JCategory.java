@@ -27,18 +27,18 @@ import java.net.URI;
 
 public interface JCategory extends JElement {
 
-  String getTerm();
+	String getTerm();
 
-  String getLabel();
+	String getLabel();
 
-  URI getScheme();
+	URI getScheme();
 
-  void setTerm(String term);
+	void setTerm(String term);
 
-  void setLabel(String label);
+	void setLabel(String label);
 
-  void setScheme(URI scheme);
+	void setScheme(URI scheme);
 
-JCategory clone();
+	JCategory clone();
 
 }

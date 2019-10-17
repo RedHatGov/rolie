@@ -21,7 +21,7 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 /*
- * 
+ *
  */
 
 package gov.nist.jrolie.server.visitors;
@@ -37,23 +37,26 @@ import gov.nist.jrolie.server.event.Put;
 
 /**
  * The Interface RESTEventVisitor.
- * 
+ *
  * All visitors MUST implement this interface and MUST adhere to this contract:
- * 
- * 1.The visitor must only return false if there is an unrecoverable error during execution. In this
- * case the visitor must set the response builder with a reasonable error status and description.
+ *
+ * 1.The visitor must only return false if there is an unrecoverable error
+ * during execution. In this case the visitor must set the response builder with
+ * a reasonable error status and description.
  */
 public interface RESTEventVisitor {
-  public static final String CREATED_RESOURCE_KEY = "createdresource";
-  public static final String VALIDATED_RESOURCE_KEY = "validresource";
-  public static final String UPDATED_RESOURCE_KEY = "updatedresource";
-  public static final String RESOURCE_KEY = "resource";
 
-  public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data);
+	public static final String CREATED_RESOURCE_KEY = "createdresource";
+	public static final String VALIDATED_RESOURCE_KEY = "validresource";
+	public static final String UPDATED_RESOURCE_KEY = "updatedresource";
+	public static final String RESOURCE_KEY = "resource";
 
-  public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data);
+	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data);
 
-  public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data);
+	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data);
 
-  public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data);
+	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data);
+
+	public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data);
+
 }

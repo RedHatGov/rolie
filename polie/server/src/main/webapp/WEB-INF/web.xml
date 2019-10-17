@@ -18,8 +18,22 @@
          org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
       </listener-class>
   </listener>
+      <context-param>
+        <param-name>resteasy.server.cache.maxsize</param-name>
+        <param-value>1000</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>resteasy.server.cache.eviction.wakeup.interval</param-name>
+        <param-value>5000</param-value>
+    </context-param>
+
+ 
   <listener>
     <listener-class>org.jboss.resteasy.plugins.spring.SpringContextLoaderListener</listener-class>
+  </listener>
+  <listener>
+  <listener-class>gov.nist.jrolie.server.servlet.init</listener-class>
   </listener>
   <context-param>
     <param-name>resteasy.servlet.mapping.prefix</param-name>

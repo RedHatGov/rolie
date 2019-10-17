@@ -25,12 +25,12 @@ package gov.nist.jrolie.model;
 
 public interface JEmail {
 
-  /**
-   * 
-   * This string must have one '@'.
-   * 
-   * @return
-   */
-  String getAddress();
+	/**
+	 * 
+	 * This string must have one '@'.
+	 * 
+	 * @return
+	 */
+	String getAddress();
 
 }

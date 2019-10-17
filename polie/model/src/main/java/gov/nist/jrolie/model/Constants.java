@@ -25,8 +25,8 @@ package gov.nist.jrolie.model;
 
 public final class Constants {
 
-  public static final String ATOM_NS = "http://www.w3.org/2005/Atom";
-  public static final String ROLIE_NS = "urn:ietf:params:xml:ns:rolie-1.0";
-  public static final String APP_NS = "http://www.w3.org/2007/app";
+	public static final String ATOM_NS = "http://www.w3.org/2005/Atom";
+	public static final String ROLIE_NS = "urn:ietf:params:xml:ns:rolie-1.0";
+	public static final String APP_NS = "http://www.w3.org/2007/app";
 
 }

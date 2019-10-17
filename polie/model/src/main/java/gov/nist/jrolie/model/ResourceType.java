@@ -24,10 +24,5 @@
 package gov.nist.jrolie.model;
 
 public enum ResourceType {
-  ENTRY,
-  FEED,
-  CATEGORY,
-  SERVICE,
-  RESOURCE,
-  MEDIA;
+	ENTRY, FEED, CATEGORY, SERVICE, RESOURCE, MEDIA;
 }

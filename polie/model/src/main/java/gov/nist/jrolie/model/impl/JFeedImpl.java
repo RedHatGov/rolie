@@ -64,13 +64,13 @@ public class JFeedImpl implements JFeed {
 	@XmlTransient
 	String path;
 
-	@XmlElement(type = JPersonImpl.class, namespace = Constants.ATOM_NS)
+	@XmlElement(type = JPersonImpl.class, namespace = Constants.ATOM_NS, name = "author")
 	ArrayList<JPerson> authors;
 
-	@XmlElement(type = JCategoryImpl.class, namespace = Constants.ATOM_NS)
+	@XmlElement(type = JCategoryImpl.class, namespace = Constants.ATOM_NS, name = "category")
 	ArrayList<JCategory> categorys;
 
-	@XmlElement(type = JPersonImpl.class, namespace = Constants.ATOM_NS)
+	@XmlElement(type = JPersonImpl.class, namespace = Constants.ATOM_NS, name = "contributor")
 	ArrayList<JPerson> contributors;
 
 	@XmlElement(type = JGeneratorImpl.class, namespace = Constants.ATOM_NS)
@@ -79,7 +79,7 @@ public class JFeedImpl implements JFeed {
 	@XmlElement(namespace = Constants.ATOM_NS)
 	URI icon;
 
-	@XmlElement(type = JLinkImpl.class, namespace = Constants.ATOM_NS)
+	@XmlElement(type = JLinkImpl.class, namespace = Constants.ATOM_NS, name = "link")
 	ArrayList<JLink> link;
 
 	@XmlElement(namespace = Constants.ATOM_NS)
@@ -100,11 +100,12 @@ public class JFeedImpl implements JFeed {
 	@XmlTransient
 	ArrayList<JAttribute> extensions;
 
-	
 	@XmlAnyElement(lax = true)
 	@XmlJavaTypeAdapter(EntryAdapter.class)
 	ArrayList<JEntryWrapper> entries;
-
+	
+	@XmlAnyElement(lax=true)
+	ArrayList<Object> elements;
 
 	public JFeedImpl(JFeed f) { // DEEP COPY
 		this.lang = f.getLang();
@@ -115,35 +116,38 @@ public class JFeedImpl implements JFeed {
 		this.id = f.getId();
 		this.path = f.getPath();
 		this.authors = new ArrayList<JPerson>();
-		for (JPerson p : f.getAuthors()) {
-			authors.add(p.clone());
+		for (final JPerson p : f.getAuthors()) {
+			this.authors.add(p.clone());
 		}
 		this.categorys = new ArrayList<JCategory>();
-		for (JCategory c : f.getCategorys()) {
-			categorys.add(c.clone());
+		for (final JCategory c : f.getCategorys()) {
+			this.categorys.add(c.clone());
 		}
 		this.contributors = new ArrayList<JPerson>();
-		for (JPerson p : f.getContributors()) {
-			contributors.add(p.clone());
+		for (final JPerson p : f.getContributors()) {
+			this.contributors.add(p.clone());
 		}
-		if (f.getGenerator()!=null) {
-		this.generator = f.getGenerator().clone();}
-		if (f.getIcon()!=null) {
-		this.icon = URI.create(f.getIcon().toString());}
+		if (f.getGenerator() != null) {
+			this.generator = f.getGenerator().clone();
+		}
+		if (f.getIcon() != null) {
+			this.icon = URI.create(f.getIcon().toString());
+		}
 		this.link = new ArrayList<JLink>();
-		for (JLink l : f.getLinks()) {
-			link.add(l.clone());
+		for (final JLink l : f.getLinks()) {
+			this.link.add(l.clone());
 		}
-		if(f.getLogo()!=null) {
-		this.logo = URI.create(f.getLogo().toString());}
+		if (f.getLogo() != null) {
+			this.logo = URI.create(f.getLogo().toString());
+		}
 		this.rights = f.getRights().clone();
 		this.subtitle = f.getSubtitle().clone();
 		this.title = f.getTitle().clone();
 		this.updated = f.getUpdated().clone();
 		// this.extensions = f.getExtensions();
 		this.entries = new ArrayList<JEntryWrapper>();
-		for (JEntryWrapper e : f.getEntries()) {
-			entries.add(new JEntryWrapper(e.getId()));
+		for (final JEntryWrapper e : f.getEntries()) {
+			this.entries.add(new JEntryWrapper(e.getId()));
 		}
 
 	}
@@ -154,16 +158,16 @@ public class JFeedImpl implements JFeed {
 		this.contributors = new ArrayList<JPerson>();
 		this.link = new ArrayList<JLink>();
 		this.entries = new ArrayList<JEntryWrapper>();
-		//this.generator=new JGeneratorImpl();
-		this.rights=new JTextConstructImpl();
-		this.subtitle=new JTextConstructImpl();
+		// this.generator=new JGeneratorImpl();
+		this.rights = new JTextConstructImpl();
+		this.subtitle = new JTextConstructImpl();
 		this.title = new JTextConstructImpl();
-		this.updated=new JDateImpl();
+		this.updated = new JDateImpl();
 	}
 
 	@Override
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	@Override
@@ -173,7 +177,7 @@ public class JFeedImpl implements JFeed {
 
 	@Override
 	public String getPath() {
-		return path;
+		return this.path;
 	}
 
 	@Override
@@ -183,7 +187,7 @@ public class JFeedImpl implements JFeed {
 
 	@Override
 	public ArrayList<JPerson> getAuthors() {
-		return authors;
+		return this.authors;
 	}
 
 	@Override
@@ -193,7 +197,7 @@ public class JFeedImpl implements JFeed {
 
 	@Override
 	public ArrayList<JCategory> getCategorys() {
-		return categorys;
+		return this.categorys;
 	}
 
 	@Override
@@ -203,7 +207,7 @@ public class JFeedImpl implements JFeed {
 
 	@Override
 	public ArrayList<JPerson> getContributors() {
-		return contributors;
+		return this.contributors;
 	}
 
 	@Override
@@ -213,7 +217,7 @@ public class JFeedImpl implements JFeed {
 
 	@Override
 	public JGenerator getGenerator() {
-		return generator;
+		return this.generator;
 	}
 
 	@Override
@@ -223,7 +227,7 @@ public class JFeedImpl implements JFeed {
 
 	@Override
 	public URI getIcon() {
-		return icon;
+		return this.icon;
 	}
 
 	@Override
@@ -233,7 +237,7 @@ public class JFeedImpl implements JFeed {
 
 	@Override
 	public ArrayList<JLink> getLinks() {
-		return link;
+		return this.link;
 	}
 
 	@Override
@@ -243,7 +247,7 @@ public class JFeedImpl implements JFeed {
 
 	@Override
 	public URI getLogo() {
-		return logo;
+		return this.logo;
 	}
 
 	@Override
@@ -253,7 +257,7 @@ public class JFeedImpl implements JFeed {
 
 	@Override
 	public JTextConstruct getRights() {
-		return rights;
+		return this.rights;
 	}
 
 	@Override
@@ -263,7 +267,7 @@ public class JFeedImpl implements JFeed {
 
 	@Override
 	public JTextConstruct getSubtitle() {
-		return subtitle;
+		return this.subtitle;
 	}
 
 	@Override
@@ -273,7 +277,7 @@ public class JFeedImpl implements JFeed {
 
 	@Override
 	public JTextConstruct getTitle() {
-		return title;
+		return this.title;
 	}
 
 	@Override
@@ -283,7 +287,7 @@ public class JFeedImpl implements JFeed {
 
 	@Override
 	public JDate getUpdated() {
-		return updated;
+		return this.updated;
 	}
 
 	@Override
@@ -293,7 +297,7 @@ public class JFeedImpl implements JFeed {
 
 	@Override
 	public ArrayList<JAttribute> getExtensions() {
-		return extensions;
+		return this.extensions;
 	}
 
 	@Override
@@ -303,7 +307,7 @@ public class JFeedImpl implements JFeed {
 
 	@Override
 	public ArrayList<JEntryWrapper> getEntries() {
-		return entries;
+		return this.entries;
 	}
 
 	@Override
@@ -313,12 +317,12 @@ public class JFeedImpl implements JFeed {
 
 	@Override
 	public boolean isChanged() {
-		return changed;
+		return this.changed;
 	}
 
 	@Override
 	public URI getBase() {
-		return base;
+		return this.base;
 	}
 
 	@Override
@@ -344,6 +348,4 @@ public class JFeedImpl implements JFeed {
 
 	}
 
-
-	
 }

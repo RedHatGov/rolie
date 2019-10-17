@@ -6,7 +6,8 @@
 	<parent>
 		<groupId>gov.nist.secauto</groupId>
 		<artifactId>oss-parent</artifactId>
-		<version>11-SNAPSHOT</version>
+		<version>10</version>
+		<relativePath>../oss-maven-10/oss-parent</relativePath>
 	</parent>
 
 	<groupId>gov.nist.jrolie</groupId>
@@ -22,11 +23,12 @@
 		<rdf4j.version>2.0M3</rdf4j.version>
 		<log4j.version>2.11.1</log4j.version>
 		<netty.version>4.0.0.Alpha8</netty.version>
-		<spring.version>5.1.0.RC1</spring.version>
+		<spring.version>5.1.5.RELEASE</spring.version>
 		<resteasy.version>4.0.0.Beta5</resteasy.version>
 		<junit.version>4.12</junit.version>
 		<jackson.version>2.9.6</jackson.version>
 		<woodstox.version>5.1.0</woodstox.version>
+		<jmock.version>2.8.4</jmock.version>
 	</properties>
 
 
@@ -46,6 +48,19 @@
 				<version>${junit.version}</version>
 				<scope>test</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.jmock</groupId>
+				<artifactId>jmock-junit4</artifactId>
+				<version>${jmock.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jmock</groupId>
+				<artifactId>jmock-legacy</artifactId>
+				<version>${jmock.version}</version>
+				<scope>test</scope>
+			</dependency>
+
 			<dependency>
 				<groupId>com.fasterxml.woodstox</groupId>
 				<artifactId>woodstox-core</artifactId>
@@ -93,6 +108,11 @@
 				<artifactId>jackson-dataformat-xml</artifactId>
 				<version>${jackson.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-cache-core</artifactId>
+				<version>${resteasy.version}</version>
+			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
@@ -101,7 +121,15 @@
 	<build>
 		<pluginManagement>
 			<plugins>
-
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${version.plugin.surefire}</version>
+					<configuration>
+						<skipAfterFailureCount>1</skipAfterFailureCount>
+						<argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>

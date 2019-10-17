@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<feed xml:lang="en-US" xmlns="http://www.w3.org/2005/Atom" xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0">
-	<id>examplePublicVulnFeed</id>
-	<title type="text">Atom formatted representation of a feed of XML vulnerability documents</title>
-	<category scheme="urn:ietf:params:rolie:category:information-type" term="vulnerability"/>
-	<updated>2016-05-04T18:13:51.0Z</updated>
-	<link href="http://localhost:8080/polie-server/rolie/feed/examplePublicVulnFeed" rel="self"/>
-	<link href="http://localhost:8080/polie-server/rolie/.well-known/servicedocument" rel="service"/>
-</feed>

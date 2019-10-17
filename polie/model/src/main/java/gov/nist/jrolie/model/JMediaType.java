@@ -25,7 +25,7 @@ package gov.nist.jrolie.model;
 
 public interface JMediaType {
 
-  // TODO: Whatever a media type is, it contains at least one slash
-  String getType();
+	// TODO: Whatever a media type is, it contains at least one slash
+	String getType();
 
 }

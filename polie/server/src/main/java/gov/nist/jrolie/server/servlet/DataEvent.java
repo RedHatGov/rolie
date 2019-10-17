@@ -21,7 +21,7 @@
  * OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
  */
 /*
- * 
+ *
  */
 
 package gov.nist.jrolie.server.servlet;
@@ -49,13 +49,14 @@ import gov.nist.jrolie.server.event.RESTEvent;
 
 //import gov.nist.rolie.polie.server.visitors.DebugVisitor;
 /**
- * One of three entry point Classes for the webapp. This class handles ALL resource requests that
- * are not category or service documents. The Path annotation is a regex expression that should
- * match all valid paths.
- * 
- * In this case the path is everything after the server root "{server}/polie-core/{path}"
- * 
- * 
+ * One of three entry point Classes for the webapp. This class handles ALL
+ * resource requests that are not category or service documents. The Path
+ * annotation is a regex expression that should match all valid paths.
+ *
+ * In this case the path is everything after the server root
+ * "{server}/polie-core/{path}"
+ *
+ *
  * @author sab3
  *
  */
@@ -63,135 +64,105 @@ import gov.nist.jrolie.server.event.RESTEvent;
 @Path("/{exp: (data).+}")
 
 public class DataEvent {
-  private static final Logger log = LogManager.getLogger(DataEvent.class);
+	private static final Logger log = LogManager.getLogger(DataEvent.class);
 
-  /**
-   * The visitor manager is declared here. If a new visitor manager is written is can be swapped out
-   * here To apply to all requests.
-   */
-  @Autowired
-  private DataVisitorManagerFactory vmFactory;
+	/**
+	 * The visitor manager is declared here. If a new visitor manager is written is
+	 * can be swapped out here To apply to all requests.
+	 */
+	@Autowired
+	private DataVisitorManagerFactory vmFactory;
 
-  /**
-   * TODO:Move to RESTEventVisitor
-   * 
-   * Provides a map for storing data to be transfered between visitors. There are no requirements or
-   * static definitions for keys and values. Each visitor should document what values it uses and
-   * which it places in the map.
-   * 
-   * As of this version, here are some used keys:
-   * 
-   * "IRI" - a string of the absolute IRI. "path" - a string of the relative IRI. "headers" - the map
-   * of headers from the request. "body" - the body content from the request. "RetrievedResource" - a
-   * resource loaded from persistence "CreatedResource" - representation of a resource in persistence
-   * after creation "UpdatedResource" - representation of a resource in persistence after update
-   * 
-   * These are examples and pose no requirements or limitations, but investigate before overwritting
-   * them.
-   * 
-   */
 
-  public DataEvent() {
+	public DataEvent() {
 
-  }
+	}
 
-  // public AtomResourceEvent(VisitorManagerFactory vmFactory) {
-  // log.info("Constructing AtomResourceEvent");
-  // this.vmFactory = vmFactory;
-  // }
 
-  /**
-   * Code that executes when the server receives a GET request on anything other than
-   * rolie/servicedocument and rolie/categorydocument.
-   * 
-   * @param headers
-   *          Automatically populated with a map of all headers.
-   * @param uriInfo
-   *          Automatically populated with a variety of URI data fields
-   * @return Returns the completed Response that is passed off to the server to be sent back to the
-   *         requester. At this point, the response is completed and is handled all by the webapp.
-   */
-  @GET
-  public Response get(@Context HttpHeaders headers, @Context UriInfo uriInfo) {
+	/**
+	 * Code that executes when the server receives a GET request on the /data path.
+	 * 
+	 * @param headers Automatically populated with a map of all headers.
+	 * @param uriInfo Automatically populated with a variety of URI data fields
+	 * @return Returns the completed Response that is passed off to the server to be
+	 *         sent back to the requester. At this point, the response is completed
+	 *         and is handled all by the webapp.
+	 */
+	@GET
+	public Response get(@Context HttpHeaders headers, @Context UriInfo uriInfo) {
 
-    log.debug("Processing GET request, access through data resource.");
+		log.debug("Processing GET request, access through data resource.");
 
-    VisitorManager vm = vmFactory.getGetVisitorManager();
+		final VisitorManager vm = this.vmFactory.getGetVisitorManager();
 
-    // Generates a new Get event.
-    RESTEvent get = new Get(headers, uriInfo);
+		// Generates a new Get event.
+		final RESTEvent get = new Get(headers, uriInfo);
 
-    // Starts the execution chain, returns a built response
-    log.debug("Visitor chain init, executing data request.");
+		// Starts the execution chain, returns a built response
+		log.debug("Visitor chain init, executing data request.");
 
-    return vm.execute(get);
-  }
+		return vm.execute(get);
+	}
 
-  /**
-   * Code that executes when the server receives a POST request on anything other than
-   * rolie/servicedocument and rolie/categorydocument.
-   * 
-   * @param headers
-   *          Automatically populated with a map of all headers.
-   * @param uriInfo
-   *          Automatically populated with a variety of URI data fields
-   * @param body
-   *          Text from the content of the request. This is automatically populated.
-   * @return Returns the completed Response that is passed off to the server to be sent back to the
-   *         requester. At this point, the response is completed and is handled all by the webapp.
-   */
-  @POST // TODO: Add atomsvc type support
-  public Response post(@Context HttpHeaders headers, @Context UriInfo uriInfo, String body) {
-    log.debug("Processing POST request");
-    RESTEvent post = new Post(headers, uriInfo, body);
+	/**
+	 * Code that executes when the server receives a POST request on the /data path.
+	 * 
+	 * @param headers Automatically populated with a map of all headers.
+	 * @param uriInfo Automatically populated with a variety of URI data fields
+	 * @param body    Text from the content of the request. This is automatically
+	 *                populated.
+	 * @return Returns the completed Response that is passed off to the server to be
+	 *         sent back to the requester. At this point, the response is completed
+	 *         and is handled all by the webapp.
+	 */
+	@POST // TODO: Add atomsvc type support
+	public Response post(@Context HttpHeaders headers, @Context UriInfo uriInfo, String body) {
+		log.debug("Processing POST request");
+		final RESTEvent post = new Post(headers, uriInfo, body);
 
-    VisitorManager vm = vmFactory.getPostVisitorManager();
+		final VisitorManager vm = this.vmFactory.getPostVisitorManager();
 
-    return vm.execute(post);
-  }
+		return vm.execute(post);
+	}
 
-  /**
-   * Code that executes when the server receives a PUT request on anything other than
-   * rolie/servicedocument and rolie/categorydocument.
-   * 
-   * @param headers
-   *          Automatically populated with a map of all headers.
-   * @param uriInfo
-   *          Automatically populated with a variety of URI data fields
-   * @param body
-   *          Text from the content of the request. This is automatically populated.
-   * @return Returns the completed Response that is passed off to the server to be sent back to the
-   *         requester. At this point, the response is completed and is handled all by the webapp.
-   */
-  @PUT
-  public Response put(@Context HttpHeaders headers, @Context UriInfo uriInfo, String body) {
-    log.debug("Processing PUT request");
-    RESTEvent put = new Put(headers, uriInfo, body);
+	/**
+	 * Code that executes when the server receives a PUT request on the /data path.
+	 * 
+	 * @param headers Automatically populated with a map of all headers.
+	 * @param uriInfo Automatically populated with a variety of URI data fields
+	 * @param body    Text from the content of the request. This is automatically
+	 *                populated.
+	 * @return Returns the completed Response that is passed off to the server to be
+	 *         sent back to the requester. At this point, the response is completed
+	 *         and is handled all by the webapp.
+	 */
+	@PUT
+	public Response put(@Context HttpHeaders headers, @Context UriInfo uriInfo, String body) {
+		log.debug("Processing PUT request");
+		final RESTEvent put = new Put(headers, uriInfo, body);
 
-    VisitorManager vm = vmFactory.getPutVisitorManager();
+		final VisitorManager vm = this.vmFactory.getPutVisitorManager();
 
-    return vm.execute(put);
-  }
+		return vm.execute(put);
+	}
 
-  /**
-   * Code that executes when the server receives a DELETE request on anything other than
-   * rolie/servicedocument and rolie/categorydocument.
-   * 
-   * @param headers
-   *          Automatically populated with a map of all headers.
-   * @param uriInfo
-   *          Automatically populated with a variety of URI data fields
-   * @return Returns the completed Response that is passed off to the server to be sent back to the
-   *         requester. At this point, the response is completed and is handled all by the webapp.
-   */
-  @DELETE
-  public Response delete(@Context HttpHeaders headers, @Context UriInfo uriInfo) {
-    log.debug("Processing DELETE request");
-    RESTEvent delete = new Delete(headers, uriInfo);
+	/**
+	 * Code that executes when the server receives a DELETE request on the /data path.
+	 * 
+	 * @param headers Automatically populated with a map of all headers.
+	 * @param uriInfo Automatically populated with a variety of URI data fields
+	 * @return Returns the completed Response that is passed off to the server to be
+	 *         sent back to the requester. At this point, the response is completed
+	 *         and is handled all by the webapp.
+	 */
+	@DELETE
+	public Response delete(@Context HttpHeaders headers, @Context UriInfo uriInfo) {
+		log.debug("Processing DELETE request");
+		final RESTEvent delete = new Delete(headers, uriInfo);
 
-    VisitorManager vm = vmFactory.getDeleteVisitorManager();
+		final VisitorManager vm = this.vmFactory.getDeleteVisitorManager();
 
-    return vm.execute(delete);
-  }
+		return vm.execute(delete);
+	}
 
 }

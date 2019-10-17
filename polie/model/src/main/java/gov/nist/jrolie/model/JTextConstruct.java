@@ -25,14 +25,14 @@ package gov.nist.jrolie.model;
 
 public interface JTextConstruct {
 
-  String getType();
+	String getType();
 
-  String getText();
+	String getText();
 
-JTextConstruct clone();
+	JTextConstruct clone();
 
-void setText(String text);
+	void setText(String text);
 
-void setType(String type);
+	void setType(String type);
 
 }

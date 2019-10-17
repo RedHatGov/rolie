@@ -27,10 +27,9 @@ import java.util.Map;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import gov.nist.jrolie.server.visitors.RESTEventVisitor;
-
-import javax.ws.rs.core.UriInfo;
 
 /**
  * @author sab3
@@ -38,13 +37,13 @@ import javax.ws.rs.core.UriInfo;
  */
 public class Get extends AbstractRESTEvent implements RESTEvent {
 
-  public Get(HttpHeaders headers, UriInfo uriInfo) {
-    super(headers, uriInfo);
-  }
+	public Get(HttpHeaders headers, UriInfo uriInfo) {
+		super(headers, uriInfo);
+	}
 
-  @Override
-  public boolean accept(RESTEventVisitor restEventVisitor, ResponseBuilder rb, Map<String, Object> data) {
-    return restEventVisitor.visit(this, rb, data);
-  }
+	@Override
+	public boolean accept(RESTEventVisitor restEventVisitor, ResponseBuilder rb, Map<String, Object> data) {
+		return restEventVisitor.visit(this, rb, data);
+	}
 
 }

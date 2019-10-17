@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xml:lang="en-US" xmlns="http://www.w3.org/2005/Atom"
+	xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0">
+	<id>exampleVulnEntry2</id>
+	<title>Second Sample Vulnerability</title>
+	<published>2015-08-04T18:13:51.0Z</published>
+	<updated>2015-08-05T18:13:51.0Z</updated>
+	<link
+		href="http://localhost:8080/polie-server/rolie/feed/examplePublicVulnFeed"
+		rel="feed" />
+	<link
+		href="http://localhost:8080/polie-server/rolie/entry/exampleVulnEntry2"
+		rel="self" />
+	<link
+		href="http://localhost:8080/polie-server/rolie/entry/exampleVulnEntry2"
+		rel="edit" />
+	<summary>A second vulnerability issue identified by CVE-...</summary>
+	<rolie:format ns="urn:ietf:params:xml:ns:exampleformat"
+		version="1.0" />
+	<rolie:property
+		name="urn:ietf:params:rolie:property:exampleformatID" value="1234" />
+	<content
+		src="http://localhost:8080/polie-server/data/exampleVuln2"
+		type="application/xml" />
+</entry>

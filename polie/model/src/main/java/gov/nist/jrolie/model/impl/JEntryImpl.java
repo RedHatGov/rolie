@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -40,235 +41,285 @@ import gov.nist.jrolie.model.JContent;
 import gov.nist.jrolie.model.JDate;
 import gov.nist.jrolie.model.JEntry;
 import gov.nist.jrolie.model.JFeed;
+import gov.nist.jrolie.model.JFormat;
 import gov.nist.jrolie.model.JLink;
 import gov.nist.jrolie.model.JPerson;
+import gov.nist.jrolie.model.JProperty;
 import gov.nist.jrolie.model.JTextConstruct;
 
 @XmlRootElement(name = "entry", namespace = Constants.ATOM_NS)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class JEntryImpl implements JEntry {
 
-  @XmlTransient
-  String path;
+	@XmlTransient
+	String path;
 
-  @XmlElement(type = JPersonImpl.class, namespace = Constants.ATOM_NS)
-  ArrayList<JPerson> authors;
+	@XmlElement(type = JPersonImpl.class, namespace = Constants.ATOM_NS, name = "author")
+	ArrayList<JPerson> authors;
 
-  @XmlElement(type = JCategoryImpl.class, namespace = Constants.ATOM_NS)
-  ArrayList<JCategory> categorys;
+	@XmlElement(type = JCategoryImpl.class, namespace = Constants.ATOM_NS, name = "category")
+	ArrayList<JCategory> categorys;
 
-  @XmlElement(type = JContentImpl.class, namespace = Constants.ATOM_NS)
-  JContent content;
+	@XmlElement(type = JContentImpl.class, namespace = Constants.ATOM_NS)
+	JContent content;
 
-  @XmlElement(type = JPersonImpl.class, namespace = Constants.ATOM_NS)
-  ArrayList<JPerson> contributors;
+	@XmlElement(type = JPersonImpl.class, namespace = Constants.ATOM_NS)
+	ArrayList<JPerson> contributors;
 
-  @XmlElement(namespace = Constants.ATOM_NS, required = true)
-  String id;
+	@XmlElement(namespace = Constants.ATOM_NS, required = true)
+	String id;
 
-  @XmlElement(type = JLinkImpl.class, namespace = Constants.ATOM_NS, name = "link")
-  ArrayList<JLink> links;
+	@XmlElement(type = JLinkImpl.class, namespace = Constants.ATOM_NS, name = "link")
+	ArrayList<JLink> links;
 
-  @XmlElement(type = JDateImpl.class, namespace = Constants.ATOM_NS)
-  JDate published;
+	@XmlElement(type = JDateImpl.class, namespace = Constants.ATOM_NS)
+	JDate published;
 
-  @XmlElement(type = JTextConstructImpl.class, namespace = Constants.ATOM_NS)
-  JTextConstruct rights;
+	@XmlElement(type = JTextConstructImpl.class, namespace = Constants.ATOM_NS)
+	JTextConstruct rights;
 
-  @XmlElement(type = JFeedImpl.class, namespace = Constants.ATOM_NS)
-  JFeed source;
+	@XmlElement(type = JFeedImpl.class, namespace = Constants.ATOM_NS)
+	JFeed source;
 
-  @XmlElement(type = JTextConstructImpl.class, namespace = Constants.ATOM_NS)
-  JTextConstruct summary;
+	@XmlElement(type = JTextConstructImpl.class, namespace = Constants.ATOM_NS)
+	JTextConstruct summary;
 
-  @XmlElement(type = JTextConstructImpl.class, namespace = Constants.ATOM_NS)
-  JTextConstruct title;
+	@XmlElement(type = JTextConstructImpl.class, namespace = Constants.ATOM_NS)
+	JTextConstruct title;
 
-  @XmlElement(type = JDateImpl.class, namespace = Constants.ATOM_NS)
-  JDate updated;
+	@XmlElement(type = JDateImpl.class, namespace = Constants.ATOM_NS)
+	JDate updated;
 
-  @XmlTransient
-  ArrayList<JAttribute> extensions;
+	@XmlElement(type = JFormatImpl.class, namespace = Constants.ROLIE_NS, name = "format")
+	JFormat format;
 
-  @XmlTransient
-  boolean changed;
+	@XmlElement(type = JPropertyImpl.class, namespace = Constants.ROLIE_NS, name = "property")
+	ArrayList<JProperty> properties;
 
-  @XmlAttribute
-  String lang;
+	@XmlTransient
+	ArrayList<JAttribute> extensions;
 
-  @XmlAttribute
-  URI base;
+	@XmlTransient
+	boolean changed;
 
-  @Override
-  public String getPath() {
-    return path;
-  }
+	@XmlAttribute
+	String lang;
 
-  @Override
-  public void setPath(String path) {
-    this.path = path;
-  }
+	@XmlAttribute
+	URI base;
+	
+	@XmlAnyElement(lax=true)
+	ArrayList<Object> elements;
+	
+	@XmlTransient
+	private
+	String feedID;
 
-  @Override
-  public ArrayList<JPerson> getAuthors() {
-    return authors;
-  }
+	public JEntryImpl() {
+		this.links = new ArrayList<JLink>();
+	}
 
-  @Override
-  public void setAuthors(ArrayList<JPerson> authors) {
-    this.authors = authors;
-  }
+	@Override
+	public String getPath() {
+		return this.path;
+	}
 
-  @Override
-  public ArrayList<JCategory> getCategorys() {
-    return categorys;
-  }
+	@Override
+	public void setPath(String path) {
+		this.path = path;
+	}
 
-  @Override
-  public void setCategorys(ArrayList<JCategory> categorys) {
-    this.categorys = categorys;
-  }
+	@Override
+	public ArrayList<JPerson> getAuthors() {
+		return this.authors;
+	}
 
-  @Override
-  public JContent getContent() {
-    return content;
-  }
+	@Override
+	public void setAuthors(ArrayList<JPerson> authors) {
+		this.authors = authors;
+	}
 
-  @Override
-  public void setContent(JContent content) {
-    this.content = content;
-  }
+	@Override
+	public ArrayList<JCategory> getCategorys() {
+		return this.categorys;
+	}
 
-  @Override
-  public ArrayList<JPerson> getContributors() {
-    return contributors;
-  }
+	@Override
+	public void setCategorys(ArrayList<JCategory> categorys) {
+		this.categorys = categorys;
+	}
 
-  @Override
-  public void setContributors(ArrayList<JPerson> contributors) {
-    this.contributors = contributors;
-  }
+	@Override
+	public JContent getContent() {
+		return this.content;
+	}
 
-  @Override
-  public String getId() {
-    return id;
-  }
+	@Override
+	public void setContent(JContent content) {
+		this.content = content;
+	}
 
-  @Override
-  public void setId(String id) {
-    this.id = id;
-  }
+	@Override
+	public ArrayList<JPerson> getContributors() {
+		return this.contributors;
+	}
 
-  @Override
-  public ArrayList<JLink> getLinks() {
-    return links;
-  }
+	@Override
+	public void setContributors(ArrayList<JPerson> contributors) {
+		this.contributors = contributors;
+	}
 
-  @Override
-  public void setLinks(ArrayList<JLink> links) {
-    this.links = links;
-  }
+	@Override
+	public String getId() {
+		return this.id;
+	}
 
-  @Override
-  public JDate getPublished() {
-    return published;
-  }
+	@Override
+	public void setId(String id) {
+		this.id = id;
+	}
 
-  @Override
-  public void setPublished(JDate published) {
-    this.published = published;
-  }
+	@Override
+	public ArrayList<JLink> getLinks() {
+		return this.links;
+	}
 
-  @Override
-  public JTextConstruct getRights() {
-    return rights;
-  }
+	@Override
+	public void setLinks(ArrayList<JLink> links) {
+		this.links = links;
+	}
 
-  @Override
-  public void setRights(JTextConstruct rights) {
-    this.rights = rights;
-  }
+	@Override
+	public JDate getPublished() {
+		return this.published;
+	}
 
-  @Override
-  public JFeed getSource() {
-    return source;
-  }
+	@Override
+	public void setPublished(JDate published) {
+		this.published = published;
+	}
 
-  @Override
-  public void setSource(JFeed source) {
-    this.source = source;
-  }
+	@Override
+	public JTextConstruct getRights() {
+		return this.rights;
+	}
 
-  @Override
-  public JTextConstruct getSummary() {
-    return summary;
-  }
+	@Override
+	public void setRights(JTextConstruct rights) {
+		this.rights = rights;
+	}
 
-  @Override
-  public void setSummary(JTextConstruct summary) {
-    this.summary = summary;
-  }
+	@Override
+	public JFeed getSource() {
+		return this.source;
+	}
 
-  @Override
-  public JTextConstruct getTitle() {
-    return title;
-  }
+	@Override
+	public void setSource(JFeed source) {
+		this.source = source;
+	}
 
-  @Override
-  public void setTitle(JTextConstruct title) {
-    this.title = title;
-  }
+	@Override
+	public JTextConstruct getSummary() {
+		return this.summary;
+	}
 
-  @Override
-  public JDate getUpdated() {
-    return updated;
-  }
+	@Override
+	public void setSummary(JTextConstruct summary) {
+		this.summary = summary;
+	}
 
-  @Override
-  public void setUpdated(JDate updated) {
-    this.updated = updated;
-  }
+	@Override
+	public JTextConstruct getTitle() {
+		return this.title;
+	}
 
-  @Override
-  public ArrayList<JAttribute> getExtensions() {
-    return extensions;
-  }
+	@Override
+	public void setTitle(JTextConstruct title) {
+		this.title = title;
+	}
 
-  @Override
-  public void setExtensions(ArrayList<JAttribute> extensions) {
-    this.extensions = extensions;
-  }
+	@Override
+	public JDate getUpdated() {
+		return this.updated;
+	}
 
-  @Override
-  public boolean isChanged() {
-    return changed;
-  }
+	@Override
+	public void setUpdated(JDate updated) {
+		this.updated = updated;
+	}
 
-  @Override
-  public URI getBase() {
-    return base;
-  }
+	@Override
+	public ArrayList<JAttribute> getExtensions() {
+		return this.extensions;
+	}
 
-  @Override
-  public void setBase(URI base) {
-    this.base = base;
+	@Override
+	public void setExtensions(ArrayList<JAttribute> extensions) {
+		this.extensions = extensions;
+	}
 
-  }
+	@Override
+	public boolean isChanged() {
+		return this.changed;
+	}
 
-  @Override
-  public String getLang() {
-    return lang;
-  }
+	@Override
+	public URI getBase() {
+		return this.base;
+	}
 
-  @Override
-  public void setLang(String lang) {
-    this.lang = lang;
+	@Override
+	public void setBase(URI base) {
+		this.base = base;
 
-  }
+	}
 
-  @Override
-  public void setChanged(boolean changed) {
-    this.changed = changed;
-  }
+	@Override
+	public String getLang() {
+		return this.lang;
+	}
+
+	@Override
+	public void setLang(String lang) {
+		this.lang = lang;
+
+	}
+
+	@Override
+	public void setChanged(boolean changed) {
+		this.changed = changed;
+	}
+
+	@Override
+	public ArrayList<JProperty> getProperties() {
+		return this.properties;
+	}
+
+	@Override
+	public void setProperties(ArrayList<JProperty> properties) {
+		this.properties = properties;
+
+	}
+
+	@Override
+	public JFormat getFormat() {
+		// TODO Auto-generated method stub
+		return this.format;
+	}
+
+	@Override
+	public void setFormat(JFormat format) {
+		this.format = format;
+
+	}
+
+	public String getFeedID() {
+		return feedID;
+	}
+
+	public void setFeedID(String feedID) {
+		this.feedID = feedID;
+	}
 
 }

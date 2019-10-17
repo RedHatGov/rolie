@@ -25,7 +25,7 @@ package gov.nist.jrolie.model;
 
 public interface JXHTMLTextConstruct extends JTextConstruct {
 
-  // TODO: Is there a more suitable data type for this??
-  String getContent();
+	// TODO: Is there a more suitable data type for this??
+	String getContent();
 
 }

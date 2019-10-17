@@ -23,8 +23,21 @@
 
 package gov.nist.jrolie.server.visitors;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Map;
+
+import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import gov.nist.jrolie.atom.logic.InternalServerError;
 import gov.nist.jrolie.atom.logic.LinkAlreadyExistsException;
-import gov.nist.jrolie.atom.logic.services.DataService;
+import gov.nist.jrolie.atom.logic.services.ResourceService;
+import gov.nist.jrolie.model.JData;
+import gov.nist.jrolie.model.JResource;
 import gov.nist.jrolie.persistence.api.exceptions.InvalidResourceTypeException;
 import gov.nist.jrolie.persistence.api.exceptions.ResourceAlreadyExistsException;
 import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
@@ -33,201 +46,103 @@ import gov.nist.jrolie.server.event.Get;
 import gov.nist.jrolie.server.event.Post;
 import gov.nist.jrolie.server.event.Put;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Map;
-
-import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
-
 /**
- * Primary driver of resource requests in POLIE. Consolidated in one visitor because the request
- * type implies the valid resource types.
- * 
+ * Primary driver of data actions. Fired from the DataEvent.
+ *
  * @author sab3
  *
  */
 @Component
 public class DataEventVisitor implements RESTEventVisitor { // TODO:
-  private static final Logger log = LogManager.getLogger(DataEventVisitor.class);
 
-  @Autowired
-  DataService dataService;
+	@Autowired
+	ResourceService rs;
 
-  /**
-   * When this visitor encounters a get request, the resource at the given IRI can be loaded. There is
-   * no needed consideration at this point as to what the resource is.
-   * 
-   * It then places the Retrieved resource in the data map and returns.
-   * 
-   * DATA MAP CONTRACT: BEFORE: "IRI" is an absolute path to the resource. AFTER: "resource" holds the
-   * APPResource at the IRI.
-   * 
-   * @param get
-   *          The event type.
-   * @param rb
-   *          The passed response builder
-   * @param data
-   *          The passed data map
-   * @returns Boolean value indicating whether or not execution should continue.
-   */
-  @Override
-  public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> dataMap) {
-    log.debug("Processing GET request");
-    URI iri = get.getURIInfo().getAbsolutePath();
-    String data = null;
-    try {
-      data = dataService.loadData(iri);
-    } catch (ResourceNotFoundException e) {
-      rb.status(Status.NOT_FOUND);
-      rb.entity("Resource not found at database location: " + e.getResourceLocation());
-      return false;
-    } catch (InvalidResourceTypeException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+	/**
+	 * When this visitor encounters a get request, the resource at the given IRI can
+	 * be loaded. There is no needed consideration at this point as to what the
+	 * resource is.
+	 * 
+	 * It then places the Retrieved resource in the data map and returns.
+	 * 
+	 * 
+	 * @param get  The event type.
+	 * @param rb   The passed response builder
+	 * @param data The passed data map
+	 * @returns Boolean value indicating whether or not execution should continue.
+	 */
+	@Override
+	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
+		
+		final String path = get.getURIInfo().getPath();
+		JResource resource;
 
-    dataMap.put(RESOURCE_KEY, data);
-    rb.status(Status.OK);
-    rb.entity(data);
-    return true;
-  }
+		// A GET request only triggers one operation: load the resource at the given
+		// path
+		try {
+			resource = this.rs.load(this.rs.pathToId(path)); //TODO: Pull media type from "content" element OR store original media type
+		//TODO: Add mismatched content type warnings
+		} catch (final ResourceNotFoundException e) {
+			rb.status(Status.NOT_FOUND);
+			rb.entity("Resource not found at location: " + path);
+			return false;
+		} catch (final InvalidResourceTypeException e) {
+			rb.status(Status.METHOD_NOT_ALLOWED);
+			rb.entity("Wrong resource tpye");
+			return false;
+		} catch (final InternalServerError e) {
+			rb.status(Status.INTERNAL_SERVER_ERROR);
+			rb.entity("Unexpected Error:\n" + e.getStackTrace());
+			return false;
+		}
+		data.put(RESOURCE_KEY, resource); // Store the retrieved resource for processing by the next visitor
+		rb.status(Status.OK);
+		return true;
+	}
 
-  /**
-   * When this visitor encounters a POST request, we can assume that the target is a collection. The
-   * body of the request needs to be created and added to the Collection as a member resource.
-   * 
-   * Header Considerations: "Location" is set to the location the resource was created at.
-   * 
-   * DATA MAP CONTRACT: BEFORE: "IRI" is an absolute path to the collection that the resource will be
-   * under. "resource" holds a valid APPResource to be posted to a collection. AFTER:
-   * "CreatedResourceLocationIRI" holds the actual location the resource was created at. NOTE: This
-   * MUST be set by the createResource() method. "CreatedResource" holds the actual created
-   * representation of the resource.
-   * 
-   * @param post
-   *          The event type.
-   * @param rb
-   *          The passed response builder
-   * @param data
-   *          The passed data map
-   * @returns Boolean value indicating whether or not execution should continue.
-   */
-  @Override
-  public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> dataMap) {
+	/**
+	 * Store the body of the POST request at the given target URL
+	 * 
+	 * @param post The event type.
+	 * @param rb   The passed response builder
+	 * @param data The passed data map
+	 * @returns Boolean value indicating whether or not execution should continue.
+	 */
+	@Override
+	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> dataMap) {
 
-    URI targetURI = post.getURIInfo().getAbsolutePath();
-    String data = null;
+		JResource jr = null;
 
-    data = post.getBody();
+		final String path = post.getURIInfo().getPath();
 
-    try {
-      dataService.createData(data, targetURI);
-    } catch (ResourceAlreadyExistsException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (LinkAlreadyExistsException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (URISyntaxException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    // Report success, store resource, and return
-    rb.status(Status.CREATED);
-    rb = rb.header("Location", targetURI);
+		JData data = new JData();
+		data.setData(post.getBody());
+		data.setId(path);
+		data.setPath(path);
+		
+		try {
+			rs.create(data);
+		} catch (ResourceAlreadyExistsException | InternalServerError e) {
+			rb.status(Status.INTERNAL_SERVER_ERROR);
+			rb.entity("Unexpected Error:\n" + e.getStackTrace());
+			return false;
+		}
+		rb.status(Status.CREATED);
+		dataMap.put(RESOURCE_KEY, data);
+		return true;
 
-    dataMap.put(RESOURCE_KEY, data);
-    rb.entity(data);
-    return true;
+	}
 
-  }
+	@Override
+	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-  /**
-   * When this visitor encounters a PUT request, we can assume that the target is a resource. The body
-   * of the request will be used to overwrite the target resource.
-   * <p>
-   * Header Considerations: "Location" is set to the location the resource was created at.
-   * <p>
-   * DATA MAP CONTRACT: BEFORE: "IRI" is an absolute path to the resource to be updated "resource"
-   * holds a valid APPResource that will overwrite the target AFTER: "UpdatedResource" holds the
-   * actual updated representation of the resource.
-   * 
-   * @param put
-   *          The event type.
-   * @param rb
-   *          The passed response builder
-   * @param data
-   *          The passed data map
-   * @returns Boolean value indicating whether or not execution should continue.
-   */
-  @Override
-  public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> dataMap) {
-    URI targetURI = put.getURIInfo().getAbsolutePath();
-    String data = null;
-
-    data = put.getBody();
-
-    try {
-      dataService.createData(data, targetURI);
-    } catch (ResourceAlreadyExistsException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (LinkAlreadyExistsException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (URISyntaxException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    // Report success, store resource, and return
-    rb.status(Status.CREATED);
-    rb = rb.header("Location", targetURI);
-    rb.entity(data);
-    dataMap.put(RESOURCE_KEY, data);
-    return true;
-
-  }
-
-  /**
-   * When this visitor encounters a DELETE request, the resource at the given IRI will be deleted.
-   * There is no needed consideration at this point as to what the resource is.
-   * 
-   * 
-   * DATA MAP CONTRACT: BEFORE: "IRI" is an absolute path to the resource. AFTER: NONE
-   * 
-   * @param delete
-   *          The event type.
-   * @param rb
-   *          The passed response builder
-   * @param data
-   *          The passed data map
-   * @returns Boolean value indicating whether or not execution should continue.
-   */
-  @Override
-  public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> dataMap) {
-    log.debug("Processing GET request");
-    URI iri = delete.getURIInfo().getAbsolutePath();
-    String data = null;
-    try {
-      dataService.deleteData(iri);
-    } catch (ResourceNotFoundException e) {
-      rb.status(Status.NOT_FOUND);
-      rb.entity("Resource not found at database location: " + e.getResourceLocation());
-      return false;
-    } catch (InvalidResourceTypeException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    rb.entity(data);
-    dataMap.put(RESOURCE_KEY, data);
-    rb.status(Status.OK);
-    return true;
-  }
+	@Override
+	public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

@@ -29,10 +29,16 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.codehaus.stax2.XMLStreamProperties;
 import org.springframework.stereotype.Component;
 
 import com.ctc.wstx.stax.WstxInputFactory;
@@ -45,65 +51,77 @@ import gov.nist.jrolie.server.event.Put;
 
 @Component
 public class ValidationVisitor implements RESTEventVisitor {
+	private static final Logger log = LogManager.getLogger(ValidationVisitor.class);
 
-  // static ROLIEValidator validator = new DefaultROLIEValidator();
+	@Override
+	/**
+	 * When the request is a POST, read the body of the request and unmarshal it
+	 * into a java object On failure, send the unmarshalling error back as the
+	 * response and stop processing
+	 */
+	public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
+		JEntryImpl e = null;
+		try {
+			final JAXBContext jaxbContext = JAXBContext.newInstance(JEntryImpl.class);
+			final WstxInputFactory wstx = new WstxInputFactory();
+			wstx.setProperty(XMLStreamProperties.XSP_NAMESPACE_AWARE, true);
+			final InputStream stream = new ByteArrayInputStream(post.getBody().getBytes(StandardCharsets.UTF_8));
+			final XMLStreamReader xmlStreamReader = wstx.createXMLStreamReader(stream);
+			final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			e = (JEntryImpl) unmarshaller.unmarshal(xmlStreamReader);
+		} catch (final JAXBException e2) {
+			log.error(e2.toString());
+			rb.entity(e2.toString());
+			rb.status(Status.BAD_REQUEST);
+			return false;
+		} catch (final XMLStreamException e1) {
+			log.error(e1.toString());
+			log.error(e1.getLocation().toString());
+			rb.entity(e1.toString() + e1.getLocation().toString());
+			rb.status(Status.BAD_REQUEST);
+			return false;
+		}
+		data.put(RESOURCE_KEY, e);
+		return true;
+	}
 
-  @Override
-  public boolean visit(Post post, ResponseBuilder rb, Map<String, Object> data) {
-    JEntryImpl e = null;
-    try {
-      JAXBContext jaxbContext = JAXBContext.newInstance(JEntryImpl.class);
-      WstxInputFactory wstx = new WstxInputFactory();
-      wstx.setProperty(WstxInputFactory.XSP_NAMESPACE_AWARE, true);
-      InputStream stream = new ByteArrayInputStream(post.getBody().getBytes(StandardCharsets.UTF_8));
-      XMLStreamReader xmlStreamReader = wstx.createXMLStreamReader(stream);
-      Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-      e = (JEntryImpl) unmarshaller.unmarshal(xmlStreamReader);
-    } catch (Exception e1) {
-      e1.printStackTrace(System.out);
-    }
-    data.put(RESOURCE_KEY, e);
-    // try {
-    // AtomEntry entry = new AtomEntry(EntryDocument.Factory.parse(post.getBody()));
-    // if (entry.getXmlObject().getEntry().getContentList().isEmpty()) {
-    // throw new XmlException("Missing Content Element.");
-    // }
-    // data.put(RESOURCE_KEY, entry);
-    // } catch (XmlException e) {
-    // rb.status(Status.NOT_ACCEPTABLE);
-    // rb.entity("The resource you are posting is invalid.\n" + e.getMessage() +
-    // "\n" + e.getError());
-    // return false;
-    // }
+	@Override
+	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
+		Object obj = null;
+		try {
+			final JAXBContext jaxbContext = JAXBContext.newInstance(JEntryImpl.class);
+			final WstxInputFactory wstx = new WstxInputFactory();
+			wstx.setProperty(XMLStreamProperties.XSP_NAMESPACE_AWARE, true);
+			final InputStream stream = new ByteArrayInputStream(put.getBody().getBytes(StandardCharsets.UTF_8));
+			final XMLStreamReader xmlStreamReader = wstx.createXMLStreamReader(stream);
+			final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			obj = unmarshaller.unmarshal(xmlStreamReader);
+		} catch (final JAXBException e2) {
+			log.error(e2.toString());
+			rb.entity(e2.toString());
+			rb.status(Status.BAD_REQUEST);
+			return false;
+		} catch (final XMLStreamException e1) {
+			log.error(e1.toString());
+			log.error(e1.getLocation().toString());
+			rb.entity(e1.toString() + e1.getLocation().toString());
+			rb.status(Status.BAD_REQUEST);
+			return false;
+		}
+		
+		
+		data.put(RESOURCE_KEY, obj);
+		return true;
 
-    return true;
-  }
+	}
 
-  @Override
-  public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-    // try {
-    // AtomEntry entry = new AtomEntry(EntryDocument.Factory.parse(put.getBody()));
-    // if (entry.getXmlObject().getEntry().getContentList().isEmpty()) {
-    // throw new XmlException("Missing Content Element.");
-    // }
-    // data.put(RESOURCE_KEY, entry);
-    // } catch (XmlException e) {
-    // rb.status(Status.NOT_ACCEPTABLE);
-    // rb.entity("The resource you are posting is invalid.\n" + e.getMessage() +
-    // "\n" + e.getError());
-    // return false;
-    // }
+	@Override
+	public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
+		return false;
+	}
 
-    return true;
-  }
-
-  @Override
-  public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
-    return true;
-  }
-
-  @Override
-  public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-    return false;
-  }
+	@Override
+	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
+		return false;
+	}
 }

@@ -24,7 +24,6 @@
 package gov.nist.jrolie.model.impl;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,7 +35,6 @@ import javax.xml.bind.annotation.XmlValue;
 
 import gov.nist.jrolie.model.JAttribute;
 import gov.nist.jrolie.model.JDate;
-import gov.nist.jrolie.model.JPerson;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class JDateImpl implements gov.nist.jrolie.model.JDate {
@@ -59,7 +57,7 @@ public class JDateImpl implements gov.nist.jrolie.model.JDate {
 	 */
 	@Override
 	public String getLang() {
-		return lang;
+		return this.lang;
 	}
 
 	/**
@@ -67,7 +65,7 @@ public class JDateImpl implements gov.nist.jrolie.model.JDate {
 	 */
 	@Override
 	public URI getBase() {
-		return base;
+		return this.base;
 	}
 
 	/**
@@ -75,12 +73,11 @@ public class JDateImpl implements gov.nist.jrolie.model.JDate {
 	 */
 	@Override
 	public Date getDate() {
-		return date;
+		return this.date;
 	}
 
 	/**
-	 * @param lang
-	 *            the lang to set
+	 * @param lang the lang to set
 	 */
 	@Override
 	public void setLang(String lang) {
@@ -88,8 +85,7 @@ public class JDateImpl implements gov.nist.jrolie.model.JDate {
 	}
 
 	/**
-	 * @param base
-	 *            the base to set
+	 * @param base the base to set
 	 */
 	@Override
 	public void setBase(URI base) {
@@ -97,8 +93,7 @@ public class JDateImpl implements gov.nist.jrolie.model.JDate {
 	}
 
 	/**
-	 * @param date
-	 *            the date to set
+	 * @param date the date to set
 	 */
 	@Override
 	public void setDate(Date date) {
@@ -117,12 +112,13 @@ public class JDateImpl implements gov.nist.jrolie.model.JDate {
 
 	}
 
+	@Override
 	public JDate clone() {
-		JDate retval = new JDateImpl();
-		retval.setBase(base);
-		retval.setDate((Date) date.clone());
+		final JDate retval = new JDateImpl();
+		retval.setBase(this.base);
+		retval.setDate((Date) this.date.clone());
 
-		retval.setLang(lang);
+		retval.setLang(this.lang);
 
 		return retval;
 	}

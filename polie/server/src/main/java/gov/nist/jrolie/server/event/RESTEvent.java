@@ -29,8 +29,36 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import gov.nist.jrolie.server.visitors.RESTEventVisitor;
 
+/**
+ * Each RESTEvent object represents one "REST Event". This /should/ be a RESTful
+ * request (ex. GET POST PUT DELETE). This event object contains the base level
+ * information about the request: HTTP headers and a break down of the request
+ * URI.
+ *
+ * Each visitor represents a group of operations that are executed against this
+ * information. When a RESTEvent accepts a visitor, some operation will occur
+ * that may or may not result in changes being made to the response builder and
+ * the data map.
+ *
+ * @author sab3
+ *
+ */
 public interface RESTEvent {
 
-  public boolean accept(RESTEventVisitor visitor, ResponseBuilder rb, Map<String, Object> data);
+	/**
+	 * Execute the given visitor in the context of this REST operation.
+	 *
+	 * @param visitor The visitor to be executed, these are provided by the
+	 *                gov.nist.jrolie.server.visitors package.
+	 * @param rb      A persistence response builder object. Each visitor MAY change
+	 *                the data stored in this object as a way to modify the eventual
+	 *                response.
+	 * @param data    A keyed map of objects to allow persistence of miscellaneous
+	 *                information between visitors
+	 * @return Will return false if the response should be sent right away. This
+	 *         could be becuase of an error, or if the visitor has completed all
+	 *         needed processing.
+	 */
+	public boolean accept(RESTEventVisitor visitor, ResponseBuilder rb, Map<String, Object> data);
 
 }

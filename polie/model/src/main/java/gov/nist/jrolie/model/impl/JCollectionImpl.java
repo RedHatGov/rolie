@@ -29,88 +29,115 @@ import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+import gov.nist.jrolie.model.Constants;
 import gov.nist.jrolie.model.JAccept;
 import gov.nist.jrolie.model.JAttribute;
 import gov.nist.jrolie.model.JCategories;
 import gov.nist.jrolie.model.JCollection;
-import gov.nist.jrolie.model.JTextConstruct;
+import gov.nist.jrolie.model.JLink;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class JCollectionImpl implements JCollection {
-  @XmlAttribute
-  URI base;
-  @XmlAttribute
-  String lang;
-  ArrayList<JAttribute> extensions;
-  JTextConstruct title;
-  URI href;
-  String feedPath;
-  ArrayList<JAccept> accepts;
-  ArrayList<JCategories> categories;
+	@XmlAttribute
+	URI base;
+	@XmlAttribute
+	String lang;
+	@XmlTransient
+	ArrayList<JAttribute> extensions;
+	@XmlElement
+	String title;
+	@XmlAttribute
+	URI href;
+	@XmlTransient
+	String feedPath;
+	@XmlTransient
+	ArrayList<JAccept> accepts;
+	@XmlElement(type = JCategoryImpl.class, namespace = Constants.APP_NS, name = "categories")
+	ArrayList<JCategories> categories;
+	@XmlElement(type = JLinkImpl.class, namespace = Constants.ATOM_NS, name = "link")
+	ArrayList<JLink> links;
 
-  public JTextConstruct getTitle() {
-    return title;
-  }
+	@Override
+	public String getTitle() {
+		return this.title;
+	}
 
-  public void setTitle(JTextConstruct title) {
-    this.title = title;
-  }
+	@Override
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-  public URI getHref() {
-    return href;
-  }
+	@Override
+	public URI getHref() {
+		return this.href;
+	}
 
-  public void setHref(URI href) {
-    this.href = href;
-  }
+	@Override
+	public void setHref(URI href) {
+		this.href = href;
+	}
 
-  public String getFeedPath() {
-    return feedPath;
-  }
+	@Override
+	public String getFeedPath() {
+		return this.feedPath;
+	}
 
-  public void setFeedPath(String feedPath) {
-    this.feedPath = feedPath;
-  }
+	@Override
+	public void setFeedPath(String feedPath) {
+		this.feedPath = feedPath;
+	}
 
-  public ArrayList<JAccept> getAccepts() {
-    return accepts;
-  }
+	@Override
+	public ArrayList<JAccept> getAccepts() {
+		return this.accepts;
+	}
 
-  public void setAccepts(ArrayList<JAccept> accepts) {
-    this.accepts = accepts;
-  }
+	@Override
+	public void setAccepts(ArrayList<JAccept> accepts) {
+		this.accepts = accepts;
+	}
 
-  public ArrayList<JCategories> getCategories() {
-    return categories;
-  }
+	@Override
+	public ArrayList<JCategories> getCategories() {
+		return this.categories;
+	}
 
-  public void setCategories(ArrayList<JCategories> categories) {
-    this.categories = categories;
-  }
+	@Override
+	public void setCategories(ArrayList<JCategories> categories) {
+		this.categories = categories;
+	}
 
-  public URI getBase() {
-    return base;
-  }
+	@Override
+	public URI getBase() {
+		return this.base;
+	}
 
-  public void setBase(URI base) {
-    this.base = base;
-  }
+	@Override
+	public void setBase(URI base) {
+		this.base = base;
+	}
 
-  public String getLang() {
-    return lang;
-  }
+	@Override
+	public String getLang() {
+		return this.lang;
+	}
 
-  public void setLang(String lang) {
-    this.lang = lang;
-  }
+	@Override
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
 
-  public ArrayList<JAttribute> getExtensions() {
-    return extensions;
-  }
+	@Override
+	public ArrayList<JAttribute> getExtensions() {
+		return this.extensions;
+	}
 
-  public void setExtensions(ArrayList<JAttribute> extensions) {
-    this.extensions = extensions;
-  }
+	@Override
+	public void setExtensions(ArrayList<JAttribute> extensions) {
+		this.extensions = extensions;
+	}
 
 }

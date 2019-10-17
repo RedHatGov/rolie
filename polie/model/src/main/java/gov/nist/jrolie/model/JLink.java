@@ -27,34 +27,35 @@ import java.net.URI;
 
 public interface JLink extends JElement {
 
-  URI getHref();
+	URI getHref();
 
-  String getRel();
+	String getRel();
 
-  String getLang();
+	@Override
+	String getLang();
 
-  String getTitle();
+	String getTitle();
 
-  String getLength();
+	String getLength();
 
-  void setLength(String length);
+	void setLength(String length);
 
-  void setTitle(String title);
+	void setTitle(String title);
 
-  void setHreflang(String hreflang);
+	void setHreflang(String hreflang);
 
-  void setType(String type);
+	void setType(String type);
 
-  void setRel(String rel);
+	void setRel(String rel);
 
-  void setHref(URI href);
+	void setHref(URI href);
 
-  String getHreflang();
+	String getHreflang();
 
-  String getType();
+	String getType();
 
-JLink clone();
+	JLink clone();
 
-  // TODO: UndefinedContent
+	// TODO: UndefinedContent
 
 }

@@ -33,200 +33,191 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 import gov.nist.jrolie.model.JAttribute;
 import gov.nist.jrolie.model.JLink;
-import gov.nist.jrolie.model.JPerson;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class JLinkImpl implements JLink {
-  @XmlAttribute
-  URI base;
+	@XmlAttribute
+	URI base;
 
-  @XmlAttribute
-  String lang;
+	@XmlAttribute
+	String lang;
 
-  @XmlAttribute
-  URI href;
-  @XmlAttribute
-  String rel;
+	@XmlAttribute
+	URI href;
+	@XmlAttribute
+	String rel;
 
-  @XmlAttribute
-  String type;
+	@XmlAttribute
+	String type;
 
-  @XmlAttribute
-  String hreflang;
+	@XmlAttribute
+	String hreflang;
 
-  @XmlAttribute
-  String title;
+	@XmlAttribute
+	String title;
 
-  @XmlAttribute
-  String length;
+	@XmlAttribute
+	String length;
 
-  /**
-   * @return the base
-   */
-  @Override
-  public URI getBase() {
-    return base;
-  }
+	/**
+	 * @return the base
+	 */
+	@Override
+	public URI getBase() {
+		return this.base;
+	}
 
-  /**
-   * @return the lang
-   */
-  @Override
-  public String getLang() {
-    return lang;
-  }
+	/**
+	 * @return the lang
+	 */
+	@Override
+	public String getLang() {
+		return this.lang;
+	}
 
-  /**
-   * @return the href
-   */
-  @Override
-  public URI getHref() {
-    return href;
-  }
+	/**
+	 * @return the href
+	 */
+	@Override
+	public URI getHref() {
+		return this.href;
+	}
 
-  /**
-   * @return the rel
-   */
-  @Override
-  public String getRel() {
-    return rel;
-  }
+	/**
+	 * @return the rel
+	 */
+	@Override
+	public String getRel() {
+		return this.rel;
+	}
 
-  /**
-   * @return the type
-   */
-  @Override
-  public String getType() {
-    return type;
-  }
+	/**
+	 * @return the type
+	 */
+	@Override
+	public String getType() {
+		return this.type;
+	}
 
-  /**
-   * @return the hreflang
-   */
-  @Override
-  public String getHreflang() {
-    return hreflang;
-  }
+	/**
+	 * @return the hreflang
+	 */
+	@Override
+	public String getHreflang() {
+		return this.hreflang;
+	}
 
-  /**
-   * @return the title
-   */
-  @Override
-  public String getTitle() {
-    return title;
-  }
+	/**
+	 * @return the title
+	 */
+	@Override
+	public String getTitle() {
+		return this.title;
+	}
 
-  /**
-   * @return the length
-   */
-  @Override
-  public String getLength() {
-    return length;
-  }
+	/**
+	 * @return the length
+	 */
+	@Override
+	public String getLength() {
+		return this.length;
+	}
 
-  /**
-   * @param base
-   *          the base to set
-   */
-  @Override
-  public void setBase(URI base) {
-    this.base = base;
-  }
+	/**
+	 * @param base the base to set
+	 */
+	@Override
+	public void setBase(URI base) {
+		this.base = base;
+	}
 
-  /**
-   * @param lang
-   *          the lang to set
-   */
-  @Override
-  public void setLang(String lang) {
-    this.lang = lang;
-  }
+	/**
+	 * @param lang the lang to set
+	 */
+	@Override
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
 
-  /**
-   * @param href
-   *          the href to set
-   */
-  @Override
-  public void setHref(URI href) {
-    this.href = href;
-  }
+	/**
+	 * @param href the href to set
+	 */
+	@Override
+	public void setHref(URI href) {
+		this.href = href;
+	}
 
-  /**
-   * @param rel
-   *          the rel to set
-   */
-  @Override
-  public void setRel(String rel) {
-    this.rel = rel;
-  }
+	/**
+	 * @param rel the rel to set
+	 */
+	@Override
+	public void setRel(String rel) {
+		this.rel = rel;
+	}
 
-  /**
-   * @param type
-   *          the type to set
-   */
-  @Override
-  public void setType(String type) {
-    this.type = type;
-  }
+	/**
+	 * @param type the type to set
+	 */
+	@Override
+	public void setType(String type) {
+		this.type = type;
+	}
 
-  /**
-   * @param hreflang
-   *          the hreflang to set
-   */
-  @Override
-  public void setHreflang(String hreflang) {
-    this.hreflang = hreflang;
-  }
+	/**
+	 * @param hreflang the hreflang to set
+	 */
+	@Override
+	public void setHreflang(String hreflang) {
+		this.hreflang = hreflang;
+	}
 
-  /**
-   * @param title
-   *          the title to set
-   */
-  @Override
-  public void setTitle(String title) {
-    this.title = title;
-  }
+	/**
+	 * @param title the title to set
+	 */
+	@Override
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-  /**
-   * @param length
-   *          the length to set
-   */
-  @Override
-  public void setLength(String length) {
-    this.length = length;
-  }
+	/**
+	 * @param length the length to set
+	 */
+	@Override
+	public void setLength(String length) {
+		this.length = length;
+	}
 
-  @Override
-  public ArrayList<JAttribute> getExtensions() {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	@Override
+	public ArrayList<JAttribute> getExtensions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  @Override
-  public void setExtensions(ArrayList<JAttribute> extensions) {
-    // TODO Auto-generated method stub
+	@Override
+	public void setExtensions(ArrayList<JAttribute> extensions) {
+		// TODO Auto-generated method stub
 
-  }
-  
-  public JLink clone()
-  {
-		JLink retval = new JLinkImpl();
-		retval.setBase(base);
-		retval.setHreflang(hreflang);
-		retval.setLength(length);
-		retval.setRel(rel);
-		retval.setTitle(title);
-		retval.setType(type);
-		//retval.setExtensions(extensions);
-		retval.setLang(lang);
+	}
+
+	@Override
+	public JLink clone() {
+		final JLink retval = new JLinkImpl();
+		retval.setBase(this.base);
+		retval.setHreflang(this.hreflang);
+		retval.setLength(this.length);
+		retval.setRel(this.rel);
+		retval.setTitle(this.title);
+		retval.setType(this.type);
+		// retval.setExtensions(extensions);
+		retval.setLang(this.lang);
 
 		try {
-			retval.setHref(new URI(href.toString()));
-		} catch (URISyntaxException e) {
+			retval.setHref(new URI(this.href.toString()));
+		} catch (final URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return retval;
-  }
+	}
 
 }

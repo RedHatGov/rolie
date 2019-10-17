@@ -27,12 +27,12 @@ import java.net.URI;
 
 public interface JContent extends JElement {
 
-  String getMediaType();
+	String getMediaType();
 
-  URI getSrc();
+	URI getSrc();
 
-  void setMediaType(String mediaType);
+	void setMediaType(String mediaType);
 
-  void setSrc(URI src);
+	void setSrc(URI src);
 
 }

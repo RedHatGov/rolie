@@ -28,20 +28,20 @@ import javax.ws.rs.core.UriInfo;
 
 public abstract class AbstractRESTEvent implements RESTEvent {
 
-  private UriInfo uriInfo;
-  private HttpHeaders headers;
+	private final UriInfo uriInfo;
+	private final HttpHeaders headers;
 
-  public AbstractRESTEvent(HttpHeaders headers, UriInfo uriInfo) {
-    this.uriInfo = uriInfo;
-    this.headers = headers;
-  }
+	public AbstractRESTEvent(HttpHeaders headers, UriInfo uriInfo) {
+		this.uriInfo = uriInfo;
+		this.headers = headers;
+	}
 
-  public UriInfo getURIInfo() {
-    return this.uriInfo;
-  }
+	public UriInfo getURIInfo() {
+		return this.uriInfo;
+	}
 
-  public HttpHeaders getHeaders() {
-    return this.headers;
-  }
+	public HttpHeaders getHeaders() {
+		return this.headers;
+	}
 
 }

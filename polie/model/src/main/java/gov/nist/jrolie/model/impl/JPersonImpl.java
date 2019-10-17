@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 
 import gov.nist.jrolie.model.JAttribute;
 import gov.nist.jrolie.model.JPerson;
@@ -42,13 +43,13 @@ public class JPersonImpl implements JPerson, Cloneable {
 	@XmlAttribute
 	URI base;
 
-	@XmlAttribute
+	@XmlElement
 	String name;
 
-	@XmlAttribute
+	@XmlElement
 	URI uri;
 
-	@XmlAttribute
+	@XmlElement
 	String email;
 
 	/**
@@ -56,7 +57,7 @@ public class JPersonImpl implements JPerson, Cloneable {
 	 */
 	@Override
 	public String getLang() {
-		return lang;
+		return this.lang;
 	}
 
 	/**
@@ -64,7 +65,7 @@ public class JPersonImpl implements JPerson, Cloneable {
 	 */
 	@Override
 	public URI getBase() {
-		return base;
+		return this.base;
 	}
 
 	/**
@@ -72,7 +73,7 @@ public class JPersonImpl implements JPerson, Cloneable {
 	 */
 	@Override
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	/**
@@ -80,7 +81,7 @@ public class JPersonImpl implements JPerson, Cloneable {
 	 */
 	@Override
 	public URI getUri() {
-		return uri;
+		return this.uri;
 	}
 
 	/**
@@ -88,12 +89,11 @@ public class JPersonImpl implements JPerson, Cloneable {
 	 */
 	@Override
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	/**
-	 * @param lang
-	 *            the lang to set
+	 * @param lang the lang to set
 	 */
 	@Override
 	public void setLang(String lang) {
@@ -101,8 +101,7 @@ public class JPersonImpl implements JPerson, Cloneable {
 	}
 
 	/**
-	 * @param base
-	 *            the base to set
+	 * @param base the base to set
 	 */
 	@Override
 	public void setBase(URI base) {
@@ -110,8 +109,7 @@ public class JPersonImpl implements JPerson, Cloneable {
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
 	 */
 	@Override
 	public void setName(String name) {
@@ -119,8 +117,7 @@ public class JPersonImpl implements JPerson, Cloneable {
 	}
 
 	/**
-	 * @param uri
-	 *            the uri to set
+	 * @param uri the uri to set
 	 */
 	@Override
 	public void setUri(URI uri) {
@@ -128,8 +125,7 @@ public class JPersonImpl implements JPerson, Cloneable {
 	}
 
 	/**
-	 * @param email
-	 *            the email to set
+	 * @param email the email to set
 	 */
 	@Override
 	public void setEmail(String email) {
@@ -148,18 +144,22 @@ public class JPersonImpl implements JPerson, Cloneable {
 
 	}
 
+	@Override
 	public JPerson clone() {
-		JPerson retval = new JPersonImpl();
-		retval.setBase(base);
-		retval.setEmail(email);
-		//retval.setExtensions(extensions);
-		retval.setLang(lang);
-		retval.setName(name);
+		final JPerson retval = new JPersonImpl();
+		retval.setBase(this.base);
+		retval.setEmail(this.email);
+		// retval.setExtensions(extensions);
+		retval.setLang(this.lang);
+		retval.setName(this.name);
 		try {
-			retval.setUri(new URI(uri.toString()));
-		} catch (URISyntaxException e) {
+			retval.setUri(new URI(this.uri.toString()));
+		} catch (final URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch(NullPointerException np)
+		{
+			
 		}
 		return retval;
 	}

@@ -34,133 +34,126 @@ import javax.xml.bind.annotation.XmlValue;
 
 import gov.nist.jrolie.model.JAttribute;
 import gov.nist.jrolie.model.JGenerator;
-import gov.nist.jrolie.model.JPerson;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class JGeneratorImpl implements JGenerator {
-  @XmlAttribute
-  URI uri;
-  @XmlAttribute
-  String version;
-  @XmlAttribute
-  String lang;
-  @XmlAttribute
-  URI base;
-  @XmlValue
-  String text;
+	@XmlAttribute
+	URI uri;
+	@XmlAttribute
+	String version;
+	@XmlAttribute
+	String lang;
+	@XmlAttribute
+	URI base;
+	@XmlValue
+	String text;
 
-  
-  /**
-   * @return the uri
-   */
-  @Override
-  public URI getUri() {
-    return uri;
-  }
+	/**
+	 * @return the uri
+	 */
+	@Override
+	public URI getUri() {
+		return this.uri;
+	}
 
-  /**
-   * @return the version
-   */
-  @Override
-  public String getVersion() {
-    return version;
-  }
+	/**
+	 * @return the version
+	 */
+	@Override
+	public String getVersion() {
+		return this.version;
+	}
 
-  /**
-   * @return the lang
-   */
-  @Override
-  public String getLang() {
-    return lang;
-  }
+	/**
+	 * @return the lang
+	 */
+	@Override
+	public String getLang() {
+		return this.lang;
+	}
 
-  /**
-   * @return the base
-   */
-  @Override
-  public URI getBase() {
-    return base;
-  }
+	/**
+	 * @return the base
+	 */
+	@Override
+	public URI getBase() {
+		return this.base;
+	}
 
-  /**
-   * @return the text
-   */
-  @Override
-  public String getText() {
-    return text;
-  }
+	/**
+	 * @return the text
+	 */
+	@Override
+	public String getText() {
+		return this.text;
+	}
 
-  /**
-   * @param uri
-   *          the uri to set
-   */
-  @Override
-  public void setUri(URI uri) {
-    this.uri = uri;
-  }
+	/**
+	 * @param uri the uri to set
+	 */
+	@Override
+	public void setUri(URI uri) {
+		this.uri = uri;
+	}
 
-  /**
-   * @param version
-   *          the version to set
-   */
-  @Override
-  public void setVersion(String version) {
-    this.version = version;
-  }
+	/**
+	 * @param version the version to set
+	 */
+	@Override
+	public void setVersion(String version) {
+		this.version = version;
+	}
 
-  /**
-   * @param lang
-   *          the lang to set
-   */
-  @Override
-  public void setLang(String lang) {
-    this.lang = lang;
-  }
+	/**
+	 * @param lang the lang to set
+	 */
+	@Override
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
 
-  /**
-   * @param base
-   *          the base to set
-   */
-  @Override
-  public void setBase(URI base) {
-    this.base = base;
-  }
+	/**
+	 * @param base the base to set
+	 */
+	@Override
+	public void setBase(URI base) {
+		this.base = base;
+	}
 
-  /**
-   * @param text
-   *          the text to set
-   */
-  @Override
-  public void setText(String text) {
-    this.text = text;
-  }
+	/**
+	 * @param text the text to set
+	 */
+	@Override
+	public void setText(String text) {
+		this.text = text;
+	}
 
-  @Override
-  public ArrayList<JAttribute> getExtensions() {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	@Override
+	public ArrayList<JAttribute> getExtensions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  @Override
-  public void setExtensions(ArrayList<JAttribute> extensions) {
-    // TODO Auto-generated method stub
+	@Override
+	public void setExtensions(ArrayList<JAttribute> extensions) {
+		// TODO Auto-generated method stub
 
-  }
-  
-  public JGenerator clone()
-  {
-		JGenerator retval = new JGeneratorImpl();
-		retval.setBase(base);
-		retval.setLang(lang);
-		retval.setText(text);
-		retval.setVersion(version);
+	}
+
+	@Override
+	public JGenerator clone() {
+		final JGenerator retval = new JGeneratorImpl();
+		retval.setBase(this.base);
+		retval.setLang(this.lang);
+		retval.setText(this.text);
+		retval.setVersion(this.version);
 		try {
-			retval.setUri(new URI(uri.toString()));
-		} catch (URISyntaxException e) {
+			retval.setUri(new URI(this.uri.toString()));
+		} catch (final URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return retval;
-  }
+	}
 
 }

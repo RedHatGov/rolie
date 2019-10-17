@@ -27,10 +27,10 @@ import java.util.Date;
 
 public interface JDate extends JElement {
 
-  void setDate(Date date);
+	void setDate(Date date);
 
-  Date getDate();
+	Date getDate();
 
-JDate clone();
+	JDate clone();
 
 }

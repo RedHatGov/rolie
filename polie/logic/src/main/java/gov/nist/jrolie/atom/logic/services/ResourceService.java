@@ -28,16 +28,29 @@ import gov.nist.jrolie.model.JResource;
 public interface ResourceService extends Service<JResource> {
 
 	/**
-	 *  Queries the persistence system to determine a resource ID associated with the given path
+	 * Generates a suffix for archived resources. This needs to be unique, but can
+	 * integrate other information (i.e. timestamps + GUID)
+	 * 
+	 * @return
+	 */
+	String generateArchiveSuffix();
+
+	/**
+	 * Queries the persistence system to determine a resource ID associated with the
+	 * given path
+	 * 
 	 * @param path
 	 * @return
 	 */
-  String pathToId(String path);
+	String pathToId(String path);
 
-  /**
-   * Generates a suffix for archived resources. This needs to be unique, but can integrate other information (i.e. timestamps + GUID)
-   * @return
-   */
-  String generateArchiveSuffix();
+	/**
+	 * Removes all http URL characters from the string. Allows a URL to be used as
+	 * part of an ID (Sometimes IDs are used in URL generation)
+	 * 
+	 * @param string The string to sanitize
+	 * @return The sanitized string
+	 */
+	String sanitize(String string);
 
 }

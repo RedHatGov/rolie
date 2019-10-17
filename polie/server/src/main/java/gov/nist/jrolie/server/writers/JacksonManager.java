@@ -27,6 +27,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JacksonManager {
 
-  ObjectMapper bob;
+	ObjectMapper bob;
 
 }

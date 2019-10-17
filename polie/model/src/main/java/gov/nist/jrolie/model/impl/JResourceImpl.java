@@ -35,106 +35,111 @@ import gov.nist.jrolie.model.JResource;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class JResourceImpl implements JResource {
-  @XmlAttribute
-  String lang;
+	@XmlAttribute
+	String lang;
 
-  @XmlAttribute
-  URI base;
+	@XmlAttribute
+	URI base;
 
-  @XmlAttribute
-  String path;
+	@XmlAttribute
+	String path;
 
-  @XmlAttribute
-  String id;
+	@XmlAttribute
+	String id;
 
-  @XmlAttribute
-  boolean changed;
+	@XmlAttribute
+	boolean changed;
 
-  /**
-   * @return the lang
-   */
-  public String getLang() {
-    return lang;
-  }
+	/**
+	 * @return the lang
+	 */
+	@Override
+	public String getLang() {
+		return this.lang;
+	}
 
-  /**
-   * @return the base
-   */
-  public URI getBase() {
-    return base;
-  }
+	/**
+	 * @return the base
+	 */
+	@Override
+	public URI getBase() {
+		return this.base;
+	}
 
-  /**
-   * @return the path
-   */
-  public String getPath() {
-    return path;
-  }
+	/**
+	 * @return the path
+	 */
+	@Override
+	public String getPath() {
+		return this.path;
+	}
 
-  /**
-   * @return the id
-   */
-  public String getId() {
-    return id;
-  }
+	/**
+	 * @return the id
+	 */
+	@Override
+	public String getId() {
+		return this.id;
+	}
 
-  /**
-   * @return the changed
-   */
-  public boolean isChanged() {
-    return changed;
-  }
+	/**
+	 * @return the changed
+	 */
+	@Override
+	public boolean isChanged() {
+		return this.changed;
+	}
 
-  /**
-   * @param lang
-   *          the lang to set
-   */
-  public void setLang(String lang) {
-    this.lang = lang;
-  }
+	/**
+	 * @param lang the lang to set
+	 */
+	@Override
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
 
-  /**
-   * @param base
-   *          the base to set
-   */
-  public void setBase(URI base) {
-    this.base = base;
-  }
+	/**
+	 * @param base the base to set
+	 */
+	@Override
+	public void setBase(URI base) {
+		this.base = base;
+	}
 
-  /**
-   * @param path
-   *          the path to set
-   */
-  public void setPath(String path) {
-    this.path = path;
-  }
+	/**
+	 * @param path the path to set
+	 */
+	@Override
+	public void setPath(String path) {
+		this.path = path;
+	}
 
-  /**
-   * @param id
-   *          the id to set
-   */
-  public void setId(String id) {
-    this.id = id;
-  }
+	/**
+	 * @param id the id to set
+	 */
+	@Override
+	public void setId(String id) {
+		this.id = id;
+	}
 
-  /**
-   * @param changed
-   *          the changed to set
-   */
-  public void setChanged(boolean changed) {
-    this.changed = changed;
-  }
+	/**
+	 * @param changed the changed to set
+	 */
+	@Override
+	public void setChanged(boolean changed) {
+		this.changed = changed;
+	}
 
-  @Override
-  public ArrayList<JAttribute> getExtensions() {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	@Override
+	public ArrayList<JAttribute> getExtensions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  @Override
-  public void setExtensions(ArrayList<JAttribute> extensions) {
-    // TODO Auto-generated method stub
+	@Override
+	public void setExtensions(ArrayList<JAttribute> extensions) {
+		// TODO Auto-generated method stub
 
-  }
+	}
 
 }

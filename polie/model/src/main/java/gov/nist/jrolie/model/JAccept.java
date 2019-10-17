@@ -24,8 +24,8 @@
 package gov.nist.jrolie.model;
 
 public interface JAccept extends JElement {
-  String getText();
+	String getText();
 
-  void setText();
+	void setText();
 
 }

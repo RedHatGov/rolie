@@ -25,22 +25,50 @@ package gov.nist.jrolie.atom.logic.services;
 
 import gov.nist.jrolie.atom.logic.InternalServerError;
 import gov.nist.jrolie.model.JEntry;
-import gov.nist.jrolie.model.JFeed;
-
-public interface EntryService extends Service<JEntry> {
 
 /**
- * 
- * 
- * @param e
- * @param rel
- * @param href
- * @throws InternalServerError
+ * Extends the service interface, providing specialized functionality for Entry
+ * mangement
+ *
+ * @author sab3
+ *
  */
-void setLink(JEntry e, String rel, String href) throws InternalServerError;
+public interface EntryService extends Service<JEntry> {
 
-int hasValidLink(JEntry e, String rel);
+	/**
+	 * Checks to see if the given entry has a link with Rel rel Used to drive
+	 * setLink(), since that function doesnt care what the href value actually is If
+	 * more than one link with Rel rel exists (It shouldn't) it picks the first one.
+	 *
+	 * @param e   The entry to check. Will not be modified.
+	 * @param rel the rel to search for
+	 * @return the index of the link in the entry link array
+	 */
+	int hasLink(JEntry e, String rel);
 
-int hasLink(JEntry e, String rel);
+	/**
+	 *
+	 * Checks to see if the given entry has a link with Rel rel, and that it has a
+	 * valid Href set. If more than one link with Rel rel exists (It shouldn't) it
+	 * picks the first one.
+	 *
+	 * @param e   The entry to check. Will not be modified.
+	 * @param rel The rel to search for
+	 * @return the index of the link in the entry link array
+	 */
+	int hasValidLink(JEntry e, String rel);
+
+	/**
+	 * Given Entry e, set the Href of the link with Rel rel, to href. If no such
+	 * link exists, create it. If more than one link with Rel rel exists (It
+	 * shouldn't) it picks the first one.
+	 *
+	 * @param e    The entry to modify
+	 * @param rel  The rel to "search" for, or create if none found
+	 * @param href The href value Href will be set to
+	 * @throws InternalServerError Shouldn't be thrown, but if it is, it's because
+	 *                             of some URL generation edge case
+	 */
+	void setLink(JEntry e, String rel, String href) throws InternalServerError;
 
 }

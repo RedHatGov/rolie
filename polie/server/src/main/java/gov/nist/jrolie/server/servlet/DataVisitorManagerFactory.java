@@ -24,11 +24,11 @@
 package gov.nist.jrolie.server.servlet;
 
 public interface DataVisitorManagerFactory {
-  VisitorManager getGetVisitorManager();
+	VisitorManager getGetVisitorManager();
 
-  VisitorManager getPostVisitorManager();
+	VisitorManager getPostVisitorManager();
 
-  VisitorManager getPutVisitorManager();
+	VisitorManager getPutVisitorManager();
 
-  VisitorManager getDeleteVisitorManager();
+	VisitorManager getDeleteVisitorManager();
 }

@@ -35,111 +35,111 @@ import gov.nist.jrolie.server.visitors.ValidationVisitor;
 @Component
 public class DefaultVisitorManagerFactory implements VisitorManagerFactory {
 
-  // Visitors are declared here by their intended purpose. If a new visitor is
-  // written it can be swapped here
-  // to apply to all requests.
+	// Visitors are declared here by their intended purpose. If a new visitor is
+	// written it can be swapped here
+	// to apply to all requests.
 
-  /**
-   * Provides debug functions. DISABLED.
-   */
-  // private static final RESTEventVisitor DEBUG_VISITOR = new DebugVisitor();
+	/**
+	 * Provides debug functions. DISABLED.
+	 */
+	// private static final RESTEventVisitor DEBUG_VISITOR = new DebugVisitor();
 
-  /**
-   * Validates the request itself. Most of this is handled by the server, but extra logic may be
-   * included as needed.
-   */
-  @Autowired
-  private RequestValidatorVisitor requestValidator;
+	/**
+	 * Validates the request itself. Most of this is handled by the server, but
+	 * extra logic may be included as needed.
+	 */
+	@Autowired
+	private RequestValidatorVisitor requestValidator;
 
-  /**
-   * Validates ROLIE XML content in the body of the request.
-   */
-  @Autowired
-  private ValidationVisitor rolieContentValidator;
+	/**
+	 * Validates ROLIE XML content in the body of the request.
+	 */
+	@Autowired
+	private ValidationVisitor rolieContentValidator;
 
-  /**
-   * Handles the final steps of response construction, including header fields.
-   */
-  @Autowired
-  private ResponseBuilderVisitor responseBuilder;
+	/**
+	 * Handles the final steps of response construction, including header fields.
+	 */
+	@Autowired
+	private ResponseBuilderVisitor responseBuilder;
 
-  // private static final RESTEventVisitor DEBUGPROCESSOR = new
+	// private static final RESTEventVisitor DEBUGPROCESSOR = new
 
-  @Autowired
-  private AuthorizationVisitor authorizationManager;
-  /*
-   * Primary visitor for resource requests. Drives required Atom transformations, and starts
-   * persistence procedures.
-   */
-  @Autowired
-  private ResourceEventVisitor requestProcessor;
+	@Autowired
+	private AuthorizationVisitor authorizationManager;
+	/*
+	 * Primary visitor for resource requests. Drives required Atom transformations,
+	 * and starts persistence procedures.
+	 */
+	@Autowired
+	private ResourceEventVisitor requestProcessor;
 
-  private VisitorManager getVisitorManagerInstance;
-  private VisitorManager postVisitorManagerInstance;
-  private VisitorManager putVisitorManagerInstance;
-  private VisitorManager deleteVisitorManagerInstance;
+	private VisitorManager getVisitorManagerInstance;
+	private VisitorManager postVisitorManagerInstance;
+	private VisitorManager putVisitorManagerInstance;
+	private VisitorManager deleteVisitorManagerInstance;
 
-  public DefaultVisitorManagerFactory() {
-  }
+	public DefaultVisitorManagerFactory() {
+	}
 
-  @Override
-  public synchronized VisitorManager getGetVisitorManager() {
-    if (getVisitorManagerInstance == null) {
-      getVisitorManagerInstance = new DefaultVisitorManager();
+	@Override
+	public synchronized VisitorManager getGetVisitorManager() {
+		if (this.getVisitorManagerInstance == null) {
+			this.getVisitorManagerInstance = new DefaultVisitorManager();
 
-      // Adds visitors in order to the execution list. FIFO order.
-      getVisitorManagerInstance.addVisitor(requestValidator);
-      getVisitorManagerInstance.addVisitor(authorizationManager);
-      getVisitorManagerInstance.addVisitor(requestProcessor);
-      getVisitorManagerInstance.addVisitor(responseBuilder);
-    }
-    return getVisitorManagerInstance;
-  }
+			// Adds visitors in order to the execution list. FIFO order.
+			this.getVisitorManagerInstance.addVisitor(this.requestValidator);
+			this.getVisitorManagerInstance.addVisitor(this.authorizationManager);
+			this.getVisitorManagerInstance.addVisitor(this.requestProcessor);
+			this.getVisitorManagerInstance.addVisitor(this.responseBuilder);
+		}
+		return this.getVisitorManagerInstance;
+	}
 
-  @Override
-  public synchronized VisitorManager getPostVisitorManager() {
-    if (postVisitorManagerInstance == null) {
-      // Adds visitors in order to the execution list. FIFO order.
-      postVisitorManagerInstance = new DefaultVisitorManager();
+	@Override
+	public synchronized VisitorManager getPostVisitorManager() {
+		if (this.postVisitorManagerInstance == null) {
+			// Adds visitors in order to the execution list. FIFO order.
+			this.postVisitorManagerInstance = new DefaultVisitorManager();
 
-      postVisitorManagerInstance.addVisitor(requestValidator);
-      postVisitorManagerInstance.addVisitor(authorizationManager);
-      postVisitorManagerInstance.addVisitor(rolieContentValidator);
-      postVisitorManagerInstance.addVisitor(requestProcessor);
-      postVisitorManagerInstance.addVisitor(responseBuilder);
-    }
-    return postVisitorManagerInstance;
-  }
+			this.postVisitorManagerInstance.addVisitor(this.requestValidator);
+			this.postVisitorManagerInstance.addVisitor(this.authorizationManager);
+			this.postVisitorManagerInstance.addVisitor(this.rolieContentValidator);
+			this.postVisitorManagerInstance.addVisitor(this.requestProcessor);
+			this.postVisitorManagerInstance.addVisitor(this.responseBuilder);
+		}
+		return this.postVisitorManagerInstance;
+	}
 
-  @Override
-  public synchronized VisitorManager getPutVisitorManager() {
-    if (putVisitorManagerInstance == null) {
-      // Adds visitors in order to the execution list. FIFO order.
-      putVisitorManagerInstance = new DefaultVisitorManager();
-      putVisitorManagerInstance.addVisitor(requestValidator);
-      putVisitorManagerInstance.addVisitor(authorizationManager);
-      putVisitorManagerInstance.addVisitor(rolieContentValidator);
-      putVisitorManagerInstance.addVisitor(requestProcessor);
-      putVisitorManagerInstance.addVisitor(responseBuilder);
-    }
-    return putVisitorManagerInstance;
-  }
+	@Override
+	public synchronized VisitorManager getPutVisitorManager() {
+		if (this.putVisitorManagerInstance == null) {
+			// Adds visitors in order to the execution list. FIFO order.
+			this.putVisitorManagerInstance = new DefaultVisitorManager();
+			this.putVisitorManagerInstance.addVisitor(this.requestValidator);
+			this.putVisitorManagerInstance.addVisitor(this.authorizationManager);
+			this.putVisitorManagerInstance.addVisitor(this.rolieContentValidator);
+			this.putVisitorManagerInstance.addVisitor(this.requestProcessor);
+			this.putVisitorManagerInstance.addVisitor(this.responseBuilder);
+		}
+		return this.putVisitorManagerInstance;
+	}
 
-  @Override
-  public synchronized VisitorManager getDeleteVisitorManager() {
-    if (deleteVisitorManagerInstance == null) {
-      // Adds visitors in order to the execution list. FIFO order.
-      deleteVisitorManagerInstance = new DefaultVisitorManager();
-      deleteVisitorManagerInstance.addVisitor(requestValidator);
-      deleteVisitorManagerInstance.addVisitor(authorizationManager);
-      deleteVisitorManagerInstance.addVisitor(requestProcessor);
-      deleteVisitorManagerInstance.addVisitor(responseBuilder);
+	@Override
+	public synchronized VisitorManager getDeleteVisitorManager() {
+		if (this.deleteVisitorManagerInstance == null) {
+			// Adds visitors in order to the execution list. FIFO order.
+			this.deleteVisitorManagerInstance = new DefaultVisitorManager();
+			this.deleteVisitorManagerInstance.addVisitor(this.requestValidator);
+			this.deleteVisitorManagerInstance.addVisitor(this.authorizationManager);
+			this.deleteVisitorManagerInstance.addVisitor(this.requestProcessor);
+			this.deleteVisitorManagerInstance.addVisitor(this.responseBuilder);
 
-    }
-    return deleteVisitorManagerInstance;
-  }
+		}
+		return this.deleteVisitorManagerInstance;
+	}
 
-  public void cleanup() {
-  }
+	public void cleanup() {
+	}
 
 }

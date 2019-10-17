@@ -35,33 +35,33 @@ import com.fasterxml.jackson.dataformat.xml.util.StaxUtil;
 
 public class XmlFactoryNS extends XmlFactory {
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = -2270320614946626080L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2270320614946626080L;
 
-  @Override
-  protected XMLStreamWriter _createXmlWriter(OutputStream out) throws IOException {
-    XMLStreamWriter sw;
-    try {
-      sw = _xmlOutputFactory.createXMLStreamWriter(out, "UTF-8");
-      sw.setPrefix("atom", "www.atomuri.com");
-    } catch (XMLStreamException e) {
-      return StaxUtil.throwAsGenerationException(e, null);
-    }
-    return _initializeXmlWriter(sw);
-  }
+	@Override
+	protected XMLStreamWriter _createXmlWriter(OutputStream out) throws IOException {
+		XMLStreamWriter sw;
+		try {
+			sw = this._xmlOutputFactory.createXMLStreamWriter(out, "UTF-8");
+			sw.setPrefix("atom", "www.atomuri.com");
+		} catch (final XMLStreamException e) {
+			return StaxUtil.throwAsGenerationException(e, null);
+		}
+		return this._initializeXmlWriter(sw);
+	}
 
-  @Override
-  protected XMLStreamWriter _createXmlWriter(Writer w) throws IOException {
-    XMLStreamWriter sw;
-    try {
-      sw = _xmlOutputFactory.createXMLStreamWriter(w);
-      sw.setPrefix("atom", "www.atomuri.com");
-    } catch (XMLStreamException e) {
-      return StaxUtil.throwAsGenerationException(e, null);
-    }
-    return _initializeXmlWriter(sw);
-  }
+	@Override
+	protected XMLStreamWriter _createXmlWriter(Writer w) throws IOException {
+		XMLStreamWriter sw;
+		try {
+			sw = this._xmlOutputFactory.createXMLStreamWriter(w);
+			sw.setPrefix("atom", "www.atomuri.com");
+		} catch (final XMLStreamException e) {
+			return StaxUtil.throwAsGenerationException(e, null);
+		}
+		return this._initializeXmlWriter(sw);
+	}
 
 }

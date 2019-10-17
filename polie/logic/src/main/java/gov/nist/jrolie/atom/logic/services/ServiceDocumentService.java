@@ -28,6 +28,12 @@ import gov.nist.jrolie.model.JWorkspace;
 
 public interface ServiceDocumentService extends Service<JServiceDocument> {
 
-  void addWorkspace(JServiceDocument s, JWorkspace w);
+	/**
+	 * Adds workspace w to service document s
+	 *
+	 * @param s
+	 * @param w
+	 */
+	void addWorkspace(JServiceDocument s, JWorkspace w);
 
 }

@@ -34,43 +34,61 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
+import org.codehaus.stax2.XMLStreamProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ctc.wstx.stax.WstxOutputFactory;
+
 import gov.nist.jrolie.atom.logic.services.ServiceDocumentService;
 import gov.nist.jrolie.model.JServiceDocument;
-import gov.nist.jrolie.model.JWorkspace;
+import gov.nist.jrolie.model.impl.JServiceDocumentImpl;
 
 @Provider
 @Component
 @Produces({ "application/xml", "application/atom+xml;type=entry", "application/atom+xml" })
 public class JServiceDocumentWriter implements MessageBodyWriter<JServiceDocument> {
 
-  @Autowired
-  ServiceDocumentService ss;
+	@Autowired
+	ServiceDocumentService ss;
 
-  @Override
-  public long getSize(JServiceDocument arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
-    // TODO Auto-generated method stub
-    return 0;
-  }
+	@Override
+	public long getSize(JServiceDocument arg0, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
-  @Override
-  public boolean isWriteable(Class<?> type, Type generic, Annotation[] arg2, MediaType arg3) {
-    return JServiceDocument.class.equals(type.getInterfaces()[0]);
+	@Override
+	public boolean isWriteable(Class<?> type, Type generic, Annotation[] arg2, MediaType arg3) {
+		return JServiceDocument.class.equals(type.getInterfaces()[0]);
 
-  }
+	}
 
-  @Override
-  public void writeTo(JServiceDocument s, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4,
-      MultivaluedMap<String, Object> arg5, OutputStream out) throws IOException, WebApplicationException {
-    String message = "Hi there! I'm servdoc at: " + s.getPath() + " And here are my workspaces:\n";
-    for (JWorkspace w : s.getWorkspaces()) {
-      message += "Im workspace : " + w.getTitle() + " and here are my collections:" + w.getCollections() + "\n";
-    }
-    out.write(message.getBytes());
+	@Override
+	public void writeTo(JServiceDocument s, Class<?> arg1, Type arg2, Annotation[] arg3, MediaType arg4,
+			MultivaluedMap<String, Object> arg5, OutputStream out) throws IOException, WebApplicationException {
 
-  }
+		JAXBContext jaxbContext;
+		try {
+			jaxbContext = JAXBContext.newInstance(JServiceDocumentImpl.class);
+			final WstxOutputFactory wstx = new WstxOutputFactory();
+			wstx.setProperty(XMLStreamProperties.XSP_NAMESPACE_AWARE, true);
+			wstx.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
 
+			final XMLStreamWriter xmlStreamWriter = wstx.createXMLStreamWriter(out);
+			final Marshaller marshaller = jaxbContext.createMarshaller();
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			marshaller.marshal(s, xmlStreamWriter);
+		} catch (JAXBException | XMLStreamException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 }

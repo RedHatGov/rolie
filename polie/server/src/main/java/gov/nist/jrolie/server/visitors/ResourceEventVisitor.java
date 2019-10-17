@@ -38,12 +38,17 @@ import gov.nist.jrolie.atom.logic.MismatchedCategoriesException;
 import gov.nist.jrolie.atom.logic.services.EntryService;
 import gov.nist.jrolie.atom.logic.services.FeedService;
 import gov.nist.jrolie.atom.logic.services.ResourceService;
+import gov.nist.jrolie.atom.logic.services.ServiceDocumentService;
+import gov.nist.jrolie.model.JCategoryDocument;
 import gov.nist.jrolie.model.JEntry;
 import gov.nist.jrolie.model.JFeed;
 import gov.nist.jrolie.model.JResource;
+import gov.nist.jrolie.model.JServiceDocument;
+import gov.nist.jrolie.model.impl.JCategoryDocumentImpl;
+import gov.nist.jrolie.model.impl.JCategoryImpl;
 import gov.nist.jrolie.model.impl.JEntryImpl;
 import gov.nist.jrolie.model.impl.JFeedImpl;
-import gov.nist.jrolie.persistence.api.CacheContext;
+import gov.nist.jrolie.model.impl.JServiceDocumentImpl;
 import gov.nist.jrolie.persistence.api.exceptions.InvalidResourceTypeException;
 import gov.nist.jrolie.persistence.api.exceptions.ResourceAlreadyExistsException;
 import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
@@ -54,96 +59,102 @@ import gov.nist.jrolie.server.event.Put;
 import gov.nist.jrolie.server.servlet.config;
 
 /**
- * Primary driver of resource requests in POLIE, aka "Where the magic happens".
+ * Primary driver of resource requests in JROLIE, aka "Where the magic happens".
  * Consolidated in one visitor because the request type implies the valid
  * resource types.
- * 
+ *
  * @author sab3
  *
  */
 @Component
-public class ResourceEventVisitor implements RESTEventVisitor {
+public class ResourceEventVisitor implements RESTEventVisitor { //TODO: Transactional Consistency (annotations, etc)
 	private static final Logger log = LogManager.getLogger(ResourceEventVisitor.class);
-	private String context = System.getProperty("srvroot");
+	private final String context = System.getProperty("SERVER_ROOT");
+
+	@Autowired
+	private ResourceService resourceService;
+
+	@Autowired
+	private FeedService fs;
+
+	@Autowired
+	private EntryService es;
+
+	@Autowired
+	private ServiceDocumentService ss;
 	
 	@Autowired
-	ResourceService rs;
+	private ResourceService rs;
 
-	@Autowired
-	FeedService fs;
+	protected void setResourceService(ResourceService rs) {
+		this.resourceService = rs;
+	}
+	
+	protected void setServiceService(ServiceDocumentService ss) {
+		this.ss=ss;
+	}
 
-	@Autowired
-	EntryService es;
+	protected void setFs(FeedService fs) {
+		this.fs = fs;
+	}
 
-	@Autowired
-	CacheContext cc;
+	protected void setEs(EntryService es) {
+		this.es = es;
+	}
+
 	/**
 	 * When this visitor encounters a get request, the resource at the given IRI can
 	 * be loaded. There is no needed consideration at this point as to what the
 	 * resource is.
-	 * 
+	 *
 	 * It then places the Retrieved resource in the data map and returns.
-	 * 
-	 * DATA MAP CONTRACT: BEFORE: "IRI" is an absolute path to the resource. AFTER:
-	 * "resource" holds the APPResource at the IRI.
-	 * 
-	 * @param get
-	 *            The event type.
-	 * @param rb
-	 *            The passed response builder
-	 * @param data
-	 *            The passed data map
+	 *
+	 *
+	 * @param get  The event type.
+	 * @param rb   The passed response builder
+	 * @param data The passed data map
 	 * @returns Boolean value indicating whether or not execution should continue.
 	 */
 	@Override
 	public boolean visit(Get get, ResponseBuilder rb, Map<String, Object> data) {
-		log.debug("Processing GET request");
-		String path = get.getURIInfo().getPath();
-		log.debug(get.getURIInfo().getPath());
+
+		final String path = get.getURIInfo().getPath();
 		JResource resource;
+
+		// A GET request only triggers one operation: load the resource at the given
+		// path
 		try {
-			resource = rs.load(rs.pathToId(path));
-			log.debug("Loaded!" + resource.getPath());
-		} catch (ResourceNotFoundException e) {
+			resource = this.resourceService.load(this.resourceService.pathToId(path));
+		} catch (final ResourceNotFoundException e) {
 			rb.status(Status.NOT_FOUND);
-			rb.entity("Resource not found at database location: " + path);
+			rb.entity("Resource not found at location: " + path);
 			return false;
-		} catch (InvalidResourceTypeException e) {
+		} catch (final InvalidResourceTypeException e) {
 			rb.status(Status.METHOD_NOT_ALLOWED);
-			rb.entity("WRong resource tpye");
+			rb.entity("Wrong resource tpye");
 			return false;
-		} catch (InternalServerError e) {
+		} catch (final InternalServerError e) {
 			rb.status(Status.INTERNAL_SERVER_ERROR);
-			rb.entity("This shouldn't happen:\n" + e.getStackTrace());
+			rb.entity("Unexpected Error:\n" + e.getStackTrace());
 			return false;
 		}
-		data.put(RESOURCE_KEY, resource);
+		data.put(RESOURCE_KEY, resource); // Store the retrieved resource for processing by the next visitor
 		rb.status(Status.OK);
 		return true;
 	}
 
 	/**
 	 * When this visitor encounters a POST request, we can assume that the target is
-	 * a collection. The body of the request needs to be created and added to the
-	 * Collection as a member resource.
-	 * 
+	 * a feed. The body of the request needs to be created and added to the Feed as
+	 * a member resource.
+	 *
 	 * Header Considerations: "Location" is set to the location the resource was
 	 * created at.
-	 * 
-	 * 
-	 * DATA MAP CONTRACT: BEFORE: "IRI" is an absolute path to the collection that
-	 * the resource will be under. "resource" holds a valid APPResource to be posted
-	 * to a collection. AFTER: "CreatedResourceLocationIRI" holds the actual
-	 * location the resource was created at. NOTE: This MUST be set by the
-	 * createResource() method. "CreatedResource" holds the actual created
-	 * representation of the resource.
-	 * 
-	 * @param post
-	 *            The event type.
-	 * @param rb
-	 *            The passed response builder
-	 * @param data
-	 *            The passed data map
+	 *
+	 *
+	 * @param post The event type.
+	 * @param rb   The passed response builder
+	 * @param data The passed data map
 	 * @returns Boolean value indicating whether or not execution should continue.
 	 */
 	@Override
@@ -152,65 +163,76 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 		JEntry e = new JEntryImpl();
 		JFeed f = new JFeedImpl();
 
-		String path = post.getURIInfo().getPath();
+		final String path = post.getURIInfo().getPath();
 
+		// We first need to load the Feed we are targeting.
 		try {
-			f = fs.load(rs.pathToId(path));
-		} catch (ResourceNotFoundException e1) {
+			f = this.fs.load(this.resourceService.pathToId(path));
+		} catch (final ResourceNotFoundException e1) {
 			rb.status(Status.NOT_FOUND);
 			rb.entity("Resource not found at database location: " + e1.getResourceLocation());
 			return false;
-		} catch (InvalidResourceTypeException e1) {
+		} catch (final InvalidResourceTypeException e1) {
 			rb.status(Status.METHOD_NOT_ALLOWED);
 			rb.entity("The requested resource is not a valid feed to POST to.");
 			return false;
-		} catch (InternalServerError e1) {
+		} catch (final InternalServerError e1) {
 			rb.status(Status.INTERNAL_SERVER_ERROR);
-			rb.entity("This shouldn't happen:\n" + e1.getStackTrace());
+			rb.entity("Unexpected Error:\n" + e1.getStackTrace());
 			return false;
 		}
 
-		e = (JEntryImpl) data.get(RESOURCE_KEY);
+		e = (JEntryImpl) data.get(RESOURCE_KEY); // The resource that was generated by the validation visitor
+
+		// Modify the submitted entry according to server requirements
 		try {
-			e.setPath(config.ENTRY_PREFIX + e.getId());
-			es.setLink(e, "feed",context+f.getPath());
-			es.create(e);
-			rb.header("Location", context + e.getPath());
-		} catch (ResourceAlreadyExistsException e1) {
+			this.es.setLink(e, "feed", this.context + f.getPath());
+			e.setFeedID(f.getId());
+			this.es.create(e);
+			rb.header("Location", this.context + e.getPath());
+		} catch (final ResourceAlreadyExistsException e1) {
 			rb.status(Status.METHOD_NOT_ALLOWED);
 			rb.entity("This entry already exists");
 			return false;
-		} catch (InternalServerError e1) {
+		} catch (final InternalServerError e1) {
 			rb.status(Status.INTERNAL_SERVER_ERROR);
-			rb.entity("This shouldn't happen:\n" + e1.getStackTrace());
+			rb.entity("Unexpected Error:\n" + e1.getStackTrace());
 			return false;
 		}
 
+		// If enabled, archive the feed, then add the entry to the feed.
 		try {
-			fs.archive(f);
-			fs.addEntry(f, e);
-		} catch (InternalServerError | ResourceNotFoundException | InvalidResourceTypeException | ResourceAlreadyExistsException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		} catch (MismatchedCategoriesException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			if (System.getProperty("FEED_ARCHIVE_MODE").equals("FULL")) {
+				this.fs.archive(f); //TODO: Check order of operations for request consistency
+				//TODO:Change Archive to return updated feed, not save it to DB itself
+			}
+			this.fs.addEntry(f, e);
+		} catch (InternalServerError | ResourceNotFoundException | InvalidResourceTypeException
+				| ResourceAlreadyExistsException e2) {
+			rb.status(Status.INTERNAL_SERVER_ERROR);
+			rb.entity("Unexpected Error:\n" + e2.getStackTrace());
+			return false;
+		} catch (final MismatchedCategoriesException e1) {
+			rb.status(Status.INTERNAL_SERVER_ERROR);
+			rb.entity("This Entry does not have matching cateogries"); //TODO: Add the valid categories in the error message.
+			return false;
 		}
-		
 
+		// Complete the process by updating the feed with new date/other info
 		try {
-
-			fs.update(f);
-		} catch (ResourceNotFoundException e1) {
-			rb.status(Status.METHOD_NOT_ALLOWED);
+			this.fs.update(f);
+		} catch (final ResourceNotFoundException e1) {
+			rb.status(Status.NOT_FOUND);
 			rb.entity("This Feed doesnt exist");
 			return false;
-		} catch (InternalServerError e1) {
+		} catch (final InternalServerError e1) {
 			rb.status(Status.INTERNAL_SERVER_ERROR);
-			rb.entity("This shouldn't happen:\n" + e1.getStackTrace());
+			rb.entity("Unexpected Error:\n" + e1.getStackTrace());
 			return false;
 		}
 
+		// The entry, post modification, is passed onwards (to the response builder)
+		rb.status(Status.CREATED);
 		data.put(RESOURCE_KEY, e);
 		return true;
 	}
@@ -223,151 +245,126 @@ public class ResourceEventVisitor implements RESTEventVisitor {
 	 * Header Considerations: "Location" is set to the location the resource was
 	 * created at.
 	 * <p>
-	 * DATA MAP CONTRACT: BEFORE: "IRI" is an absolute path to the resource to be
-	 * updated "resource" holds a valid APPResource that will overwrite the target
-	 * AFTER: "UpdatedResource" holds the actual updated representation of the
-	 * resource.
-	 * 
-	 * @param put
-	 *            The event type.
-	 * @param rb
-	 *            The passed response builder
-	 * @param data
-	 *            The passed data map
+	 *
+	 * @param put  The event type.
+	 * @param rb   The passed response builder
+	 * @param data The passed data map
 	 * @returns Boolean value indicating whether or not execution should continue.
 	 */
 	@Override
 	public boolean visit(Put put, ResponseBuilder rb, Map<String, Object> data) {
-		// AtomEntry newEntry;
-		// AtomEntry oldEntry;
-		// AtomFeed feed = null;
-		// URI feedURI = put.getURIInfo().getAbsolutePath();
-		// URI entryURI = put.getURIInfo().getAbsolutePath();
-		//
-		// try {
-		// oldEntry = entryService.loadEntry(entryURI);
-		// } catch (ResourceNotFoundException e) {
-		// rb.status(Status.NOT_FOUND);
-		// rb.entity("Entry not found at database location: " +
-		// e.getResourceLocation());
-		// return false;
-		// } catch (InvalidResourceTypeException e) {
-		// rb.status(Status.METHOD_NOT_ALLOWED);
-		// rb.entity("The requested resource is not a valid entry to PUT to.");
-		// return false;
-		// }
-		//
-		// try {
-		// if (entryService.hasLink(oldEntry, "feed", "any") == null) {
-		// rb.status(Status.NOT_IMPLEMENTED);
-		// rb.entity("Target entry is either standalone or has been decoupled from its
-		// feed. "
-		// + "Standalone entry support is not implemented.");
-		// return false;
-		// }
-		// feedURI = new URI(entryService.hasLink(oldEntry, "feed", "any").getHref());
-		// feed = feedService.loadFeed(feedURI);
-		// } catch (ResourceNotFoundException e) {
-		// rb.status(Status.NOT_FOUND);
-		// rb.entity("Feed not found at database location: " + e.getResourceLocation());
-		// return false;
-		// } catch (InvalidResourceTypeException e) {
-		// rb.status(Status.METHOD_NOT_ALLOWED);
-		// rb.entity("The requested resource is not a valid feed to PUT to.");
-		// return false;
-		// } catch (URISyntaxException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		//
-		// newEntry = (AtomEntry) data.get(RESOURCE_KEY);
-		//
-		// try {
-		// newEntry = entryService.updateEntry(newEntry, entryURI);
-		// } catch (ResourceNotFoundException e) {
-		// rb.status(Status.NOT_FOUND);
-		// rb.entity("Entry not found at database location: " +
-		// e.getResourceLocation());
-		// return false;
-		// } catch (InvalidResourceTypeException e) {
-		// rb.status(Status.CONFLICT);
-		// rb.entity("The resource you are attempting to PUT to does not match the type
-		// of the body.");
-		// return false;
-		// }
-		// try {
-		// feed = feedService.updateEntryInFeed(newEntry, feed);
-		// } catch (MismatchedCategoriesException e) {
-		// rb.status(Status.EXPECTATION_FAILED);
-		// rb.entity("The entry you are trying to post has invalid categories for"
-		// + " this fixed cateory feed. Entry category:" +
-		// e.getChildCategory().toString());
-		// return false;
-		// } catch (ResourceNotFoundException e) {
-		// rb.status(Status.NOT_FOUND);
-		// rb.entity("Resource not found at database location: " +
-		// e.getResourceLocation());
-		// return false;
-		// } catch (InvalidResourceTypeException e) {
-		// rb.status(Status.METHOD_NOT_ALLOWED);
-		// rb.entity("Invalid resource while adding entry to feed.");
-		// return false;
-		// } catch (URISyntaxException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// } catch (EntryNotFoundException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// try {
-		// feedService.updateFeed(feed, feedURI);
-		// } catch (ResourceNotFoundException e) {
-		// rb.status(Status.NOT_FOUND);
-		// rb.entity("Resource not found at database location: " +
-		// e.getResourceLocation());
-		// return false;
-		// } catch (InvalidResourceTypeException e) {
-		// rb.status(Status.METHOD_NOT_ALLOWED);
-		// rb.entity("The feed is not a valid feed to update");
-		// return false;
-		// }
-		// // TODO:switch to app:edited from updated
-		// rb.status(Status.CREATED);
-		// rb = rb.header("Location", entryURI);
-		// rb = rb.header("Content-Location", entryURI);
-		// data.put(RESOURCE_KEY, newEntry);
-		// return true;
-		return false;
+
+		final String path = put.getURIInfo().getPath();
+
+		Object obj = data.get(RESOURCE_KEY); // The resource that was generated by the validation visitor
+		
+		if (obj instanceof JEntryImpl)
+		{
+			JEntry e = (JEntryImpl) obj;
+			e.setPath(config.ENTRY_PREFIX + this.rs.sanitize(e.getId()));
+			try {
+				es.update(e);
+			} catch (ResourceNotFoundException e1) {
+				rb.status(Status.NOT_FOUND);
+				rb.entity("This Entry doesn't exist");
+				return false;
+			} catch (InternalServerError e1) {
+				rb.status(Status.INTERNAL_SERVER_ERROR);
+				rb.entity("Unexpected Error:\n" + e1.getStackTrace());
+				return false;
+			}
+			rb.status(Status.CREATED);
+			data.put(RESOURCE_KEY, e);
+			return true;
+		}
+		/**
+		 * Should this process change the Entries in the feed? Does the PUT body need to have the entries in it?
+		 * There should probably be a way to just change the headers.
+		 */
+		if (obj instanceof JFeedImpl)
+		{
+			JFeed f = (JFeedImpl) obj;
+			f.setPath(config.FEED_PREFIX + this.rs.sanitize(f.getId()));
+			try {
+				fs.update(f);
+			} catch (ResourceNotFoundException e) {
+				rb.status(Status.NOT_FOUND);
+				rb.entity("This Feed doesn't exist");
+				return false;
+			} catch (InternalServerError e1) {
+				rb.status(Status.INTERNAL_SERVER_ERROR);
+				rb.entity("Unexpected Error:\n" + e1.getStackTrace());
+				return false;
+			}
+			rb.status(Status.CREATED);
+			data.put(RESOURCE_KEY, f);
+			return true;
+		}
+		if (obj instanceof JServiceDocumentImpl)
+		{
+			JServiceDocument s = (JServiceDocumentImpl) obj;
+			s.setPath(config.SERVICE_PREFIX + this.rs.sanitize(s.getId()));
+			try {
+				ss.update(s);
+			} catch (ResourceNotFoundException e) {
+				rb.status(Status.NOT_FOUND);
+				rb.entity("This Service Document doesn't exist");
+				return false;
+			} catch (InternalServerError e) {
+				rb.status(Status.INTERNAL_SERVER_ERROR);
+				rb.entity("Unexpected Error:\n" + e.getStackTrace());
+				return false;
+			}
+			rb.status(Status.CREATED);
+			data.put(RESOURCE_KEY, s);
+			return true;
+		}
+		if (obj instanceof JCategoryImpl)
+		{
+			JCategoryDocument e = (JCategoryDocumentImpl) obj;
+			rb.status(Status.NOT_IMPLEMENTED);
+			return false;
+		}
+		
+		// The entry, post modification, is passed onwards (to the response builder)
+		rb.status(Status.CREATED);
+		data.put(RESOURCE_KEY, obj);
+		return true;
 	}
 
 	/**
 	 * When this visitor encounters a DELETE request, the resource at the given IRI
 	 * will be deleted. There is no needed consideration at this point as to what
 	 * the resource is.
-	 * 
-	 * 
-	 * DATA MAP CONTRACT: BEFORE: "IRI" is an absolute path to the resource. AFTER:
-	 * NONE
-	 * 
-	 * @param delete
-	 *            The event type.
-	 * @param rb
-	 *            The passed response builder
-	 * @param data
-	 *            The passed data map
+	 *
+	 *
+	 * @param delete The event type.
+	 * @param rb     The passed response builder
+	 * @param data   The passed data map
 	 * @returns Boolean value indicating whether or not execution should continue.
 	 */
 	@Override
 	public boolean visit(Delete delete, ResponseBuilder rb, Map<String, Object> data) {
-		// try {
-		// resourceService.deleteResource(delete.getURIInfo().getAbsolutePath());
-		// } catch (ResourceNotFoundException e) {
-		// rb.status(Status.NOT_FOUND);
-		// rb.entity("Resource not found at database location: " +
-		// e.getResourceLocation());
-		// return false;
-		// }
-		// rb = rb.status(Status.OK);
+		final String path = delete.getURIInfo().getPath();
+		JResource resource;
+
+
+		// A DELETE request only triggers one operation: delete the resource at the given
+		// path
+		try {
+			//TODO: Fix Entry Removal - chain to feed
+			resource = this.resourceService.delete(this.resourceService.pathToId(path));
+		} catch (final ResourceNotFoundException e2) {
+			rb.status(Status.NOT_FOUND);
+			rb.entity("Resource not found at location: " + path);
+			return false;
+		} catch (final InternalServerError e1) {
+			rb.status(Status.INTERNAL_SERVER_ERROR);
+			rb.entity("Unexpected Error:\n" + e1.getStackTrace());
+			return false;
+		}
+		data.put(RESOURCE_KEY, resource); // Store the deleted resource for processing by the next visitor
+		rb.status(Status.OK);
 		return true;
 	}
 

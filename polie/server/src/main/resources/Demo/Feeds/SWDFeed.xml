@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xml:lang="en-US" 
+	xmlns="http://www.w3.org/2005/Atom" 
+	xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0">
+	<id>4840717e-SWIDFeed</id>
+	<title type="text">SWID Tag Feed</title>
+	<description> An example feed of SWID tags in ROLIE </description>
+	<author>
+		<name>John Doe</name>
+		<organization> NIST </organization>
+		<uri> www.nvd.nist.gov </uri>
+	</author>
+	<contributor>
+		<name>Jane Doe</name>
+	</contributor>
+	<generator uri="example.com" version="BETA">JROLIE </generator>
+	<rights> © 2019 John Doe </rights>
+	<category scheme="urn:ietf:params:rolie:category:information-type" term="software-descriptor" />
+	<link href="http://localhost:8080/polie-server/rolie/f/SWDFeed" rel="self" />
+	<link href="http://localhost:8080/polie-server/rolie/.well-known/servicedocument" rel="service" />
+</feed>

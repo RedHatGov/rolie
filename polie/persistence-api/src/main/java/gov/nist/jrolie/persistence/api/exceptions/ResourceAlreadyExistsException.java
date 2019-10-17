@@ -25,9 +25,9 @@ package gov.nist.jrolie.persistence.api.exceptions;
 
 public class ResourceAlreadyExistsException extends Exception {
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = -1018349656084050888L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1018349656084050888L;
 
 }

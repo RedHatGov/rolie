@@ -37,138 +37,133 @@ import gov.nist.jrolie.model.JCategory;
 
 /**
  * Implementation of JCategory
- * 
+ *
  * @author sab3
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class JCategoryImpl implements JCategory {
-  @XmlAttribute
-  URI base;
-  @XmlAttribute
-  String lang;
-  @XmlAttribute
-  String term;
-  @XmlAttribute
-  String label;
-  @XmlAttribute
-  URI scheme;
+	@XmlAttribute
+	URI base;
+	@XmlAttribute
+	String lang;
+	@XmlAttribute
+	String term;
+	@XmlAttribute
+	String label;
+	@XmlAttribute
+	URI scheme;
 
-  @XmlTransient // TODO Use entity adapter
-  ArrayList<JAttribute> extensions;
+	@XmlTransient // TODO Use entity adapter
+	ArrayList<JAttribute> extensions;
 
-  /**
-   * @return the base
-   */
-  @Override
-  public URI getBase() {
-    return base;
-  }
+	/**
+	 * @return the base
+	 */
+	@Override
+	public URI getBase() {
+		return this.base;
+	}
 
-  /**
-   * @return the lang
-   */
-  @Override
-  public String getLang() {
-    return lang;
-  }
+	/**
+	 * @return the lang
+	 */
+	@Override
+	public String getLang() {
+		return this.lang;
+	}
 
-  /**
-   * @return the term
-   */
-  @Override
-  public String getTerm() {
-    return term;
-  }
+	/**
+	 * @return the term
+	 */
+	@Override
+	public String getTerm() {
+		return this.term;
+	}
 
-  /**
-   * @return the label
-   */
-  @Override
-  public String getLabel() {
-    return label;
-  }
+	/**
+	 * @return the label
+	 */
+	@Override
+	public String getLabel() {
+		return this.label;
+	}
 
-  /**
-   * @return the scheme
-   */
-  @Override
-  public URI getScheme() {
-    return scheme;
-  }
+	/**
+	 * @return the scheme
+	 */
+	@Override
+	public URI getScheme() {
+		return this.scheme;
+	}
 
-  /**
-   * @param base
-   *          the base to set
-   */
-  @Override
-  public void setBase(URI base) {
-    this.base = base;
-  }
+	/**
+	 * @param base the base to set
+	 */
+	@Override
+	public void setBase(URI base) {
+		this.base = base;
+	}
 
-  /**
-   * @param lang
-   *          the lang to set
-   */
-  @Override
-  public void setLang(String lang) {
-    this.lang = lang;
-  }
+	/**
+	 * @param lang the lang to set
+	 */
+	@Override
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
 
-  /**
-   * @param term
-   *          the term to set
-   */
-  @Override
-  public void setTerm(String term) {
-    this.term = term;
-  }
+	/**
+	 * @param term the term to set
+	 */
+	@Override
+	public void setTerm(String term) {
+		this.term = term;
+	}
 
-  /**
-   * @param label
-   *          the label to set
-   */
-  @Override
-  public void setLabel(String label) {
-    this.label = label;
-  }
+	/**
+	 * @param label the label to set
+	 */
+	@Override
+	public void setLabel(String label) {
+		this.label = label;
+	}
 
-  /**
-   * @param scheme
-   *          the scheme to set
-   */
-  @Override
-  public void setScheme(URI scheme) {
-    this.scheme = scheme;
-  }
+	/**
+	 * @param scheme the scheme to set
+	 */
+	@Override
+	public void setScheme(URI scheme) {
+		this.scheme = scheme;
+	}
 
-  @Override
-  public ArrayList<JAttribute> getExtensions() {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	@Override
+	public ArrayList<JAttribute> getExtensions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  @Override
-  public void setExtensions(ArrayList<JAttribute> extensions) {
-    // TODO Auto-generated method stub
+	@Override
+	public void setExtensions(ArrayList<JAttribute> extensions) {
+		// TODO Auto-generated method stub
 
-  }
-  
-  public JCategory clone()
-  {
-		JCategory retval = new JCategoryImpl();
-		retval.setBase(base);
-		retval.setLabel(label);
-		retval.setTerm(term);
-		//retval.setExtensions(extensions);
-		retval.setLang(lang);
+	}
+
+	@Override
+	public JCategory clone() {
+		final JCategory retval = new JCategoryImpl();
+		retval.setBase(this.base);
+		retval.setLabel(this.label);
+		retval.setTerm(this.term);
+		// retval.setExtensions(extensions);
+		retval.setLang(this.lang);
 		try {
-			retval.setScheme(new URI(scheme.toString()));
-		} catch (URISyntaxException e) {
+			retval.setScheme(new URI(this.scheme.toString()));
+		} catch (final URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return retval;
-  }
+	}
 
 }

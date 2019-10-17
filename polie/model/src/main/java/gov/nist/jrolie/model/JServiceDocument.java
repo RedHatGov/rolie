@@ -27,8 +27,8 @@ import java.util.ArrayList;
 
 public interface JServiceDocument extends JResource {
 
-  ArrayList<JWorkspace> getWorkspaces();
+	ArrayList<JWorkspace> getWorkspaces();
 
-  void setWorkspaces(ArrayList<JWorkspace> workspaces);
+	void setWorkspaces(ArrayList<JWorkspace> workspaces);
 
 }

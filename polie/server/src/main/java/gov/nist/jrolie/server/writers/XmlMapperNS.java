@@ -28,9 +28,14 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 public class XmlMapperNS extends XmlMapper {
 
-  @Override
-  public XmlFactory getFactory() {
-    return (XmlFactory) _jsonFactory;
-  }
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 7759386513161877218L;
+
+	@Override
+	public XmlFactory getFactory() {
+		return (XmlFactory) this._jsonFactory;
+	}
 
 }

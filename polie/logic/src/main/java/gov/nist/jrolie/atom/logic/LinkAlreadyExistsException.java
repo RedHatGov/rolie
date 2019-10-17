@@ -25,9 +25,9 @@ package gov.nist.jrolie.atom.logic;
 
 public class LinkAlreadyExistsException extends Exception {
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = -1086103513206408242L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1086103513206408242L;
 
 }

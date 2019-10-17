@@ -30,52 +30,52 @@ import gov.nist.jrolie.model.impl.JEntryWrapper;
 
 public interface JFeed extends JResource {
 
-  ArrayList<JPerson> getAuthors();
+	ArrayList<JPerson> getAuthors();
 
-  ArrayList<JCategory> getCategorys();
+	ArrayList<JCategory> getCategorys();
 
-  ArrayList<JPerson> getContributors();
+	ArrayList<JPerson> getContributors();
 
-  ArrayList<JEntryWrapper> getEntries();
+	ArrayList<JEntryWrapper> getEntries();
 
-  JGenerator getGenerator();
+	JGenerator getGenerator();
 
-  URI getIcon();
+	URI getIcon();
 
-  ArrayList<JLink> getLinks();
+	ArrayList<JLink> getLinks();
 
-  URI getLogo();
+	URI getLogo();
 
-  JTextConstruct getRights();
+	JTextConstruct getRights();
 
-  JTextConstruct getSubtitle();
+	JTextConstruct getSubtitle();
 
-  JTextConstruct getTitle();
+	JTextConstruct getTitle();
 
-  JDate getUpdated();
+	JDate getUpdated();
 
-  void setAuthors(ArrayList<JPerson> authors);
+	void setAuthors(ArrayList<JPerson> authors);
 
-  void setEntries(ArrayList<JEntryWrapper> entries);
+	void setEntries(ArrayList<JEntryWrapper> entries);
 
-  void setTitle(JTextConstruct title);
+	void setTitle(JTextConstruct title);
 
-  void setCategorys(ArrayList<JCategory> categorys);
+	void setCategorys(ArrayList<JCategory> categorys);
 
-  void setContributors(ArrayList<JPerson> contributors);
+	void setContributors(ArrayList<JPerson> contributors);
 
-  void setGenerator(JGenerator generator);
+	void setGenerator(JGenerator generator);
 
-  void setIcon(URI uri);
+	void setIcon(URI uri);
 
-  void setLinks(ArrayList<JLink> links);
+	void setLinks(ArrayList<JLink> links);
 
-  void setLogo(URI uri);
+	void setLogo(URI uri);
 
-  void setRights(JTextConstruct rights);
+	void setRights(JTextConstruct rights);
 
-  void setSubtitle(JTextConstruct subtitle);
+	void setSubtitle(JTextConstruct subtitle);
 
-  void setUpdated(JDate date);
+	void setUpdated(JDate date);
 
 }

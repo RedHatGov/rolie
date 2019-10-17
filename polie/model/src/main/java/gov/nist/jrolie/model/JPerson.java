@@ -26,17 +26,17 @@ package gov.nist.jrolie.model;
 import java.net.URI;
 
 public interface JPerson extends JElement {
-  String getName();
+	String getName();
 
-  String getEmail();
+	String getEmail();
 
-  void setEmail(String email);
+	void setEmail(String email);
 
-  void setUri(URI uri);
+	void setUri(URI uri);
 
-  void setName(String name);
+	void setName(String name);
 
-  URI getUri();
-  
-JPerson clone();
+	URI getUri();
+
+	JPerson clone();
 }

@@ -27,12 +27,12 @@ import java.util.ArrayList;
 
 public interface JWorkspace extends JElement {
 
-  ArrayList<JCollection> getCollections();
+	ArrayList<JCollection> getCollections();
 
-  void setCollections(ArrayList<JCollection> collections);
+	void setCollections(ArrayList<JCollection> collections);
 
-  JTextConstruct getTitle();
+	String getTitle();
 
-  void setTitle(JTextConstruct title);
+	void setTitle(String title);
 
 }

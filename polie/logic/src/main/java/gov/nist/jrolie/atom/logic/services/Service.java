@@ -28,14 +28,69 @@ import gov.nist.jrolie.persistence.api.exceptions.InvalidResourceTypeException;
 import gov.nist.jrolie.persistence.api.exceptions.ResourceAlreadyExistsException;
 import gov.nist.jrolie.persistence.api.exceptions.ResourceNotFoundException;
 
+/**
+ *
+ * Provides a layer of functionality on top of the persistence context, and
+ * serves as the base interface for the other service classes.
+ *
+ * @author sab3
+ *
+ * @param <X> The class of object this service will be dealing with
+ */
 public interface Service<X> {
 
-  X load(String id) throws ResourceNotFoundException, InvalidResourceTypeException, InternalServerError;
+	/**
+	 * 
+	 * Creates a resource in the persistence context. The ID is the primary
+	 * identifier used in this process.
+	 * 
+	 * @param resource A resource of type X to create
+	 * @return The resource as it was created. This is fed upwards from the
+	 *         persistence context to make sure that the service layer is aware if
+	 *         any changes were made.
+	 * @throws ResourceAlreadyExistsException Thrown if a resource with the same ID
+	 *                                        already exists
+	 * @throws InternalServerError            Really shouldn't happen, but you know
+	 */
+	X create(X resource) throws ResourceAlreadyExistsException, InternalServerError;
 
-  X create(X resource) throws ResourceAlreadyExistsException, InternalServerError;
+	/**
+	 * 
+	 * Deletes the resource with ID id
+	 * 
+	 * @param id
+	 * @return The resource that was deleted, not often needed
+	 * @throws ResourceNotFoundException Thrown if there is no resource with ID id
+	 * @throws InternalServerError       Really shouldn't happen, but you know
+	 */
+	X delete(String id) throws ResourceNotFoundException, InternalServerError;
 
-  X update(X resource) throws ResourceNotFoundException, InternalServerError;
+	/**
+	 * 
+	 * Load the resource from the persistence context with the given ID
+	 * 
+	 * @param id
+	 * @return THe resource with ID id and type X
+	 * @throws ResourceNotFoundException    Thrown if no resource exists with ID id
+	 * @throws InvalidResourceTypeException Thrown if the loaded resource doesnt
+	 *                                      match expected type X
+	 * @throws InternalServerError          Really shouldn't happen, but you know
+	 */
+	X load(String id) throws ResourceNotFoundException, InvalidResourceTypeException, InternalServerError;
 
-  X delete(String path) throws ResourceNotFoundException, InternalServerError;
+	/**
+	 * 
+	 * Update a resource. This often includes functionality beyond simply saving the
+	 * resource again, such as updating date fields or executing archiving.
+	 * 
+	 * @param resource The resource to update
+	 * @return The resource as it was created. This is fed upwards from the
+	 *         persistence context to make sure that the service layer is aware if
+	 *         any changes were made.
+	 * @throws ResourceNotFoundException Thrown if this resource (with this ID)
+	 *                                   exists in the database
+	 * @throws InternalServerError       Really shouldn't happen, but you know
+	 */
+	X update(X resource) throws ResourceNotFoundException, InternalServerError;
 
 }

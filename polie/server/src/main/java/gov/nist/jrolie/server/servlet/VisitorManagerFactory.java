@@ -23,12 +23,21 @@
 
 package gov.nist.jrolie.server.servlet;
 
+/**
+ * Interface for the VisitorManagerFactory. Implementations should create one
+ * Visitor Mananger for each request type. Each Visitor Manager should be
+ * created with the visitors it is going to execute by this factory.
+ * 
+ * @author sab3
+ *
+ */
 public interface VisitorManagerFactory {
-  VisitorManager getGetVisitorManager();
 
-  VisitorManager getPostVisitorManager();
+	VisitorManager getGetVisitorManager();
 
-  VisitorManager getPutVisitorManager();
+	VisitorManager getPostVisitorManager();
 
-  VisitorManager getDeleteVisitorManager();
+	VisitorManager getPutVisitorManager();
+
+	VisitorManager getDeleteVisitorManager();
 }

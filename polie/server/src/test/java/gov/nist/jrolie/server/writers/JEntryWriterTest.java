@@ -35,7 +35,7 @@ import gov.nist.jrolie.model.impl.JTextConstructImpl;
 
 public class JEntryWriterTest {
 
-  @Test
+  
   public void test() throws WebApplicationException, IOException {
     JEntryWriter writer = new JEntryWriter();
     JEntry e = new JEntryImpl();

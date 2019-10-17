@@ -23,13 +23,11 @@
 
 package gov.nist.jrolie.server.writers;
 
-import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.XMLStreamException;
 
 import org.codehaus.stax2.XMLStreamWriter2;
 
 import com.ctc.wstx.api.WriterConfig;
-import com.ctc.wstx.sr.CompactNsContext;
 import com.ctc.wstx.stax.WstxOutputFactory;
 import com.ctc.wstx.sw.NonNsStreamWriter;
 import com.ctc.wstx.sw.RepairingNsStreamWriter;
@@ -38,25 +36,26 @@ import com.ctc.wstx.sw.XmlWriter;
 
 public class WstxOutputFactoryCustom extends WstxOutputFactory {
 
-  @Override
-  protected XMLStreamWriter2 createSW(String enc, WriterConfig cfg, XmlWriter xw) {
-    System.out.println("ASSUMING DIRECT CONTROL");
-    if (cfg.willSupportNamespaces()) {
-      if (cfg.automaticNamespacesEnabled()) {
-        RepairingNsStreamWriter rnsw = new RepairingNsStreamWriter(xw, enc, cfg);
-        return rnsw;
-      }
-      SimpleNsStreamWriter snsw = new SimpleNsStreamWriter(xw, enc, cfg);
-      try {
-        snsw.doSetPrefix("rolie", "urn:ietf:params:xml:ns:rolie-1.0");
-        snsw.setDefaultNamespace("http://www.w3.org/2005/Atom");
-      } catch (XMLStreamException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-      return snsw;
-    }
-    return new NonNsStreamWriter(xw, enc, cfg);
-  }
+	@Override
+	protected XMLStreamWriter2 createSW(String enc, WriterConfig cfg, XmlWriter xw) {
+		System.out.println("ASSUMING DIRECT CONTROL");
+		if (cfg.willSupportNamespaces()) {
+			if (cfg.automaticNamespacesEnabled()) {
+				final RepairingNsStreamWriter rnsw = new RepairingNsStreamWriter(xw, enc, cfg);
+				return rnsw;
+			}
+			final SimpleNsStreamWriter snsw = new SimpleNsStreamWriter(xw, enc, cfg);
+			try {
+				snsw.doSetPrefix("rolie", "urn:ietf:params:xml:ns:rolie-1.0");
+				snsw.doSetPrefix("atom", "http://www.w3.org/2005/Atom");
+				snsw.setDefaultNamespace("http://www.w3.org/2007/app");
+			} catch (final XMLStreamException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return snsw;
+		}
+		return new NonNsStreamWriter(xw, enc, cfg);
+	}
 
 }

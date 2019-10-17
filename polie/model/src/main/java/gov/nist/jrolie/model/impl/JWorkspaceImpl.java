@@ -28,71 +28,79 @@ import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+import gov.nist.jrolie.model.Constants;
 import gov.nist.jrolie.model.JAttribute;
 import gov.nist.jrolie.model.JCollection;
 import gov.nist.jrolie.model.JElement;
-import gov.nist.jrolie.model.JTextConstruct;
 import gov.nist.jrolie.model.JWorkspace;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class JWorkspaceImpl implements JWorkspace {
 
-  ArrayList<JCollection> collections;
-  JTextConstruct title;
-  ArrayList<JElement> extensions;
+	@XmlElement(type = JCollectionImpl.class, namespace = Constants.APP_NS, name = "collection")
+	ArrayList<JCollection> collections;
+	@XmlElement(namespace = Constants.ATOM_NS, name = "title")
+	String title;
+	@XmlTransient
+	ArrayList<JElement> extensions;
 
-  public ArrayList<JCollection> getCollections() {
-    return collections;
-  }
+	@Override
+	public ArrayList<JCollection> getCollections() {
+		return this.collections;
+	}
 
-  public JTextConstruct getTitle() {
-    return title;
-  }
+	@Override
+	public String getTitle() {
+		return this.title;
+	}
 
-  public void setTitle(JTextConstruct title) {
-    this.title = title;
-  }
+	@Override
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-  @Override
-  public void setCollections(ArrayList<JCollection> collections) {
-    this.collections = collections;
-  }
+	@Override
+	public void setCollections(ArrayList<JCollection> collections) {
+		this.collections = collections;
+	}
 
-  @Override
-  public String getLang() {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	@Override
+	public String getLang() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  @Override
-  public void setLang(String lang) {
-    // TODO Auto-generated method stub
+	@Override
+	public void setLang(String lang) {
+		// TODO Auto-generated method stub
 
-  }
+	}
 
-  @Override
-  public void setExtensions(ArrayList<JAttribute> extensions) {
-    // TODO Auto-generated method stub
+	@Override
+	public void setExtensions(ArrayList<JAttribute> extensions) {
+		// TODO Auto-generated method stub
 
-  }
+	}
 
-  @Override
-  public URI getBase() {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	@Override
+	public URI getBase() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  @Override
-  public void setBase(URI base) {
-    // TODO Auto-generated method stub
+	@Override
+	public void setBase(URI base) {
+		// TODO Auto-generated method stub
 
-  }
+	}
 
-  @Override
-  public ArrayList<JAttribute> getExtensions() {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	@Override
+	public ArrayList<JAttribute> getExtensions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

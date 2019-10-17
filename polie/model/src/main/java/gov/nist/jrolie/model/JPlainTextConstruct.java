@@ -25,5 +25,5 @@ package gov.nist.jrolie.model;
 
 public interface JPlainTextConstruct extends JTextConstruct {
 
-  String getValue();
+	String getValue();
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xml:lang="en-US" 
+	xmlns="http://www.w3.org/2005/Atom" 
+	xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0">
+	<id>c3ba-NSRLSWIDEntry</id>
+	<title>NSRL SWID Tag Example Exntry</title>
+	<summary>An example of a SWID Tag entry in ROLIE. This entry describes a SWID tag from the NSRL.</summary>
+	<author>
+		<name> Stephen Banghart </name>
+	</author>
+	<rolie:format ns="http://standards.iso.org/iso/19770/-2/2015/schema.xsd" tversion="1.0" />
+	<rolie:property name="urn:ietf:params:rolie:property:swd:id" value="gov.nist.nsrl.steam.linux.windows.291550.1678990.-2.demo20170424" />
+	<rolie:property name="urn:ietf:params:rolie:property:swd:swname" value="Brawlhalla" />
+	<content src="http://localhost:8080/polie-server/rolie/data/exampleSWID" type="application/xml" />
+</entry>

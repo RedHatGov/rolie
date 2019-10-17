@@ -25,26 +25,26 @@ package gov.nist.jrolie.persistence.api.exceptions;
 
 public class ResourceNotFoundException extends Exception {
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = -8791404101429752997L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8791404101429752997L;
 
-  /**
-   * initial serial version
-   */
+	/**
+	 * initial serial version
+	 */
 
-  public ResourceNotFoundException(String resourceLocation) {
-    this.resourceLocation = resourceLocation;
-  }
+	public ResourceNotFoundException(String resourceLocation) {
+		this.resourceLocation = resourceLocation;
+	}
 
-  private String resourceLocation;
+	private final String resourceLocation;
 
-  /**
-   * @return the resourceLocation
-   */
-  public String getResourceLocation() {
-    return resourceLocation;
-  }
+	/**
+	 * @return the resourceLocation
+	 */
+	public String getResourceLocation() {
+		return this.resourceLocation;
+	}
 
 }
