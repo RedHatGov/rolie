@@ -1,0 +1,188 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>gov.nist.secauto</groupId>
+	<artifactId>oss-maven</artifactId>
+	<version>11</version>
+
+	<packaging>pom</packaging>
+
+	<name>Build Root</name>
+	<description>A common build root for all NIST projects related to Security Automation.</description>
+	<url>https://github.com/usnistgov/oss-maven</url>
+
+	<issueManagement>
+		<url>https://github.com/usnistgov/oss-maven/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
+
+	<scm>
+		<url>https://github.com/usnistgov/oss-maven</url>
+		<connection>scm:git:https://github.com/usnistgov/oss-maven.git</connection>
+		<developerConnection>scm:git:https://github.com/usnistgov/oss-maven.git</developerConnection>
+		<tag>v11</tag>
+	</scm>
+
+	<distributionManagement>
+		<site>
+			<id>pages.nist.gov_oss-maven</id>
+			<url>https://pages.nist.gov/oss-maven/</url>
+		</site>
+	</distributionManagement>
+
+	<licenses>
+		<license>
+			<name>NIST License</name>
+			<url>https://www.nist.gov/director/licensing</url>
+			<distribution>repo</distribution>
+			<comments>Licensing NIST software</comments>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>david.waltermire@nist.gov</id>
+			<name>David Waltermire</name>
+			<email>david.waltermire@nist.gov</email>
+			<organization>National Institute of Standards and Technology</organization>
+			<roles>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<!-- <prerequisites> -->
+	<!-- <maven>3.0</maven> -->
+	<!-- </prerequisites> -->
+
+	<properties>
+		<!-- various encodings -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<version.scmprovider.gitexe>1.9.5</version.scmprovider.gitexe>
+		<version.plugin.release>2.5.3</version.plugin.release>
+		<version.plugin.site>3.7.1</version.plugin.site>
+		<version.plugin.maven-project-info-reports>3.0.0</version.plugin.maven-project-info-reports>
+
+		<version.mavenReflowSkin>1.4.2</version.mavenReflowSkin>
+		<version.maven-velocity>1.7</version.maven-velocity>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-scm</artifactId>
+				<version>2.10</version>
+			</extension>
+			<extension>
+				<groupId>org.apache.maven.scm</groupId>
+				<artifactId>maven-scm-manager-plexus</artifactId>
+				<version>1.9.5</version>
+			</extension>
+			<extension>
+				<groupId>org.apache.maven.scm</groupId>
+				<artifactId>maven-scm-provider-gitexe</artifactId>
+				<version>${version.scmprovider.gitexe}</version>
+			</extension>
+		</extensions>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>${version.plugin.release}</version>
+					<configuration>
+						<mavenExecutorId>forked-path</mavenExecutorId>
+						<useReleaseProfile>false</useReleaseProfile>
+						<tagNameFormat>v@{project.version}</tagNameFormat>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>${version.plugin.site}</version>
+					<configuration>
+						<scmBranch>gh-pages</scmBranch>
+						<!-- <templateDirectory>${project.basedir}/target/site-files/site</templateDirectory> -->
+						<!-- <template>site.vm</template> -->
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>io.github.devacfr.maven.skins</groupId>
+							<artifactId>reflow-velocity-tools</artifactId>
+							<version>${version.mavenReflowSkin}</version>
+						</dependency>
+						<!-- Reflow skin requires velocity 1.7 -->
+						<dependency>
+							<groupId>org.apache.velocity</groupId>
+							<artifactId>velocity</artifactId>
+							<version>${version.maven-velocity}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-project-info-reports-plugin</artifactId>
+					<version>${version.plugin.maven-project-info-reports}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${version.plugin.maven-project-info-reports}</version>
+				<reportSets>
+					<reportSet>
+						<id>default</id>
+						<reports>
+							<report>index</report>
+							<report>dependency-info</report>
+							<report>team</report>
+							<report>mailing-lists</report>
+							<report>scm</report>
+						</reports>
+					</reportSet>
+					<!-- <reportSet> -->
+					<!-- <id>developer</id> -->
+					<!-- <reports> -->
+					<!-- <report>dependencies</report> -->
+					<!-- <report>dependency-convergence</report> -->
+					<!-- <report>dependency-management</report> -->
+					<!-- <report>ci-management</report> -->
+					<!-- <report>issue-management</report> -->
+					<!-- <report>licenses</report> -->
+					<!-- </reports> -->
+					<!-- </reportSet> -->
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<modules>
+		<module>oss-build-support</module>
+		<module>oss-parent</module>
+		<module>reflow-maven-skin</module>
+	</modules>
+</project>

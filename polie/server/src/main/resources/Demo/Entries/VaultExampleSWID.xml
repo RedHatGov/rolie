@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xml:lang="en-US" 
+	xmlns="http://www.w3.org/2005/Atom" 
+	xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0">
+	<id>178a99625e17-TagVaultExampleSWID</id>
+	<title>Vault Enterprise Example SWID Tag</title>
+	<summary>An example swid tag entry that describes a Vault Enterprise 2015 swid tag</summary>
+	<author>
+		<name> Stephen Banghart </name>
+	</author>
+	<rolie:format ns="http://standards.iso.org/iso/19770/-2/2015/schema.xsd" tversion="1.0" />
+	<rolie:property name="urn:ietf:params:rolie:property:swd:id" value="iso-sid-app-vtas-enterprise-vault-v12-2-0" />
+	<rolie:property name="urn:ietf:params:rolie:property:swd:swname" value="Veritas Enterprise Vault" />
+	<content src="http://localhost:8080/polie-server/rolie/data/exampleSWID" type="application/xml" />
+</entry>
