@@ -6,8 +6,8 @@
 	<parent>
 		<groupId>gov.nist.secauto</groupId>
 		<artifactId>oss-parent</artifactId>
-		<version>10</version>
-		<relativePath>../oss-maven-10/oss-parent</relativePath>
+		<version>11</version>
+		<relativePath>../oss-maven-11/oss-parent</relativePath>
 	</parent>
 
 	<groupId>gov.nist.jrolie</groupId>

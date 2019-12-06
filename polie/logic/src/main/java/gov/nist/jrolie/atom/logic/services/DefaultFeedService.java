@@ -105,10 +105,9 @@ public class DefaultFeedService implements FeedService {
 		if (System.getProperty("STRICT_CATEGORY_MATCHING").equals("TRUE")) {
 			for (final JCategory c : f.getCategorys()) { // TODO: This throws null pointers in cases of malformed XML.
 				for (final JCategory ec : e.getCategorys()) {
-					if ((ec != null) && c.equals(ec)) {
-						continue;
+					if (!c.equals(ec) && ec == null) {
+						return false;
 					}
-					return false;
 				}
 			}
 		}
